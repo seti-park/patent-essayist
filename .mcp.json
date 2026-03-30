@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "stockflow": {
+      "command": "/home/user/mcp-stockflow/.venv/bin/python",
+      "args": ["/home/user/mcp-stockflow/stockflow.py"]
+    }
+  }
+}
