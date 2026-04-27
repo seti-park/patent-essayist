@@ -1,57 +1,57 @@
 ---
 name: patent-figure
-description: Clean up a patent-office figure image by removing the meta-info header band, tight-cropping to the actual drawing content, and adding a small white margin. Invoke when the user shares a patent figure (PNG/JPEG) and asks to crop it, remove the "U.S. Patent / Sheet N of M / publication number" header, tidy up a patent drawing, prepare a patent figure for embedding, or uses Korean phrasings like "특허 도면 정리/크롭/헤더 제거".
+description: Clean up patent-office figure images and (optionally) assemble multiple figures into a 5:2 publication header (3890x1556). Layer 1 — remove the meta-info header band, tight-crop, pad. Layer 2 — detect each "Fig. N" label, normalise figures by label height, compose horizontally, fit to canvas. Invoke when the user shares one or more patent figures (PNG/JPEG) and asks to crop, remove the "U.S. Patent / Sheet N of M / publication number" header, tidy a patent drawing, build a 5:2 essay header from several figures, or uses Korean phrasings like "특허 도면 정리/크롭/헤더 제거" or "특허 도면 헤더 만들기".
 ---
 
-# Patent Figure Cleanup
+# Patent Figure Cleanup + Header Assembly
 
-A 4-stage pure pipeline that turns a raw patent-office figure image into a
-content-only image suitable for slides, papers, and RAG corpora.
+Two-layer pipeline:
 
 ```
-load → orient → trim_header → tight_crop → pad → save
+Layer 1 (crop.py)        load -> orient -> trim_header -> tight_crop -> pad
+Layer 2 (assemble.py)    [layer1] -> find_label_bbox -> normalize_by_label
+                                  -> compose_horizontal -> fit_to_canvas
 ```
 
 Validated on real USPTO portrait + landscape sheets across multiple
 resolutions (1500–3500 px). Single default config handles them all; tune
-only on regression.
+only on regression. Layer 2 raises `LabelDetectionError` when a label
+cannot be found — there is no silent fallback.
 
 ## When to invoke
 
-The user supplies a patent figure image and wants any combination of:
-- the meta-info header line removed (e.g. `U.S. Patent  Date  Sheet 1 of 7  US 12,345,678 B2`)
-- excess whitespace trimmed
-- the drawing tight-cropped with a clean white margin
+The user supplies one or more patent figure images and wants either:
 
-Inputs may be PNG or JPEG. Both portrait and landscape (header rotated
-90° on left or right) are supported automatically.
+- **Layer 1 only** — clean a single image (header trim + tight crop + pad).
+  Phrasings: "crop this patent figure", "remove header", "특허 도면 정리".
+- **Layer 1 + 2** — produce a 5:2 publication header from 1–4 figures.
+  Phrasings: "build a header image from these figures", "essay header
+  만들어줘", "5:2 헤더 조립".
 
 ## How to run
 
-The skill ships with two files:
-- `crop.py` — pure stage functions (`load`, `orient`, `trim_header`, `tight_crop`, `pad`, `process`)
-- `crop_figure.py` — thin CLI wrapper
+The skill ships four files in this folder:
+
+| file | purpose |
+|---|---|
+| `crop.py`         | Layer 1 pure stages |
+| `assemble.py`     | Layer 2 pure stages |
+| `crop_figure.py`  | CLI: clean a single figure |
+| `build_header.py` | CLI: clean N figures + assemble header |
 
 ### Step 1 — make sure dependencies are present
-
-Only Pillow + numpy are required. If a project venv is available use it;
-otherwise install briefly into the active interpreter:
 
 ```bash
 python -c "import PIL, numpy" 2>/dev/null || pip install --quiet pillow numpy
 ```
 
-### Step 2 — run on a single image
+### Step 2 — Layer 1: clean a single figure
 
 ```bash
 python /path/to/.claude/skills/patent-figure/crop_figure.py <input> [<output>]
 ```
 
-If `<output>` is omitted, the result is written next to the input as
-`<stem>.cropped.png`. Output is always PNG (lossless) regardless of the
-input format.
-
-The script prints a short report:
+Output is always PNG (lossless) regardless of input format. Reports:
 ```
 input        : foo.png  shape=(2163, 1530)
 orientation  : portrait
@@ -59,15 +59,26 @@ header trim  : side=top  cut=259px  band=(223, 258)
 output       : foo.cropped.png  shape=(1933, 1275)
 ```
 
-### Step 3 — run on a folder
+### Step 3 — Layer 1 + 2: assemble a 5:2 header
 
 ```bash
-SKILL=/path/to/.claude/skills/patent-figure
-mkdir -p out
-for f in in/*.{png,jpg,jpeg,JPG,JPEG}; do
-  [ -e "$f" ] || continue
-  python "$SKILL/crop_figure.py" "$f" "out/$(basename "${f%.*}").png"
-done
+python /path/to/.claude/skills/patent-figure/build_header.py \
+    out_header.png  fig1.png  fig2.png  [fig3.png  [fig4.png]]
+```
+
+Each input is cleaned via Layer 1, then Layer 2 detects each "Fig. N"
+label, scales figures so all label heights match the median, composes them
+left-to-right with a 120 px gutter and centre alignment, and fits the
+strip onto the 3890×1556 canvas with 220 px side margin. Reports:
+```
+  cleaned  IMG_2362.png  -> shape=(1757, 1217)
+  cleaned  IMG_2363.png  -> shape=(1922, 1272)
+  cleaned  IMG_2364.png  -> shape=(1928, 1263)
+
+label heights      : [44, 44, 43]
+target label height: 44
+canvas             : 3890x1556
+output             : out_header.png
 ```
 
 ### Programmatic use
@@ -78,49 +89,90 @@ from pathlib import Path
 sys.path.insert(0, "/path/to/.claude/skills/patent-figure")
 
 from crop import CropConfig, load, process, save
+from assemble import AssembleConfig, build_header
 
+# Layer 1
 arr = load(Path("input.png"))
-out, report = process(arr, CropConfig())   # tweak CropConfig for edge cases
-save(out, Path("output.png"))
-print(report)   # orientation, side, cut_at, in/out shapes
+cleaned, _ = process(arr, CropConfig())
+
+# Layer 2 (single figure -> just label detection)
+from assemble import find_label_bbox
+bbox = find_label_bbox(cleaned, AssembleConfig(), source="input.png")
+
+# Layer 1 + 2 (multi-figure header)
+figs = [process(load(p), CropConfig())[0] for p in [Path("a.png"), Path("b.png")]]
+header, report = build_header(figs, AssembleConfig(),
+                              sources=["a.png", "b.png"])
+save(header, Path("header.png"))
 ```
 
-## Tunable parameters (`CropConfig`)
+## Failure policy
 
-All defaults work for USPTO sheets. Adjust only when a new layout misbehaves.
+`assemble.find_label_bbox` raises `LabelDetectionError` (subclass of
+`ValueError`) on any of these conditions, with a message that names the
+source image, the parameter values used, and the specific reason:
+
+- empty search region
+- no ink rows in the search region
+- no inked columns in the candidate band
+- no column cluster wide enough to be text
+- detected vspan or hspan outside the configured ranges
+
+When this happens, **do not retry with a fallback height** — investigate
+the failure (e.g. by inspecting the cleaned image around the label band)
+and either fix the input, adjust `AssembleConfig` for that layout, or
+reject the document. Silent fallbacks have caused aspect-ratio bugs to
+slip into published headers; that is the reason for the hard-fail rule.
+
+## Tunable parameters
+
+### `CropConfig` (Layer 1)
 
 | field | default | bump up when… | bump down when… |
 |---|---|---|---|
-| `ink_threshold` | 200 | grayscale watermark bleeds in | extremely faint scans miss text |
-| `max_header_fraction` | 0.18 | header occupies > 18% of the edge | aggressive crops eat into figure |
-| `min_gap_px` | 8 | header is multi-line and the gap is large | high-res scans need more sensitivity |
-| `pad_fraction` | 0.07 | want roomier slide layout (≤ 0.10) | want tighter inserts (≥ 0.05) |
-| `ink_row_frac` | 0.005 | dense figures cause false ink runs | sparse figures lose thin lines |
+| `ink_threshold` | 200 | grayscale watermark bleeds in | very faint scans miss text |
+| `max_header_fraction` | 0.18 | header > 18% of edge | aggressive crops eat figure |
+| `min_gap_px` | 8 | multi-line headers w/ wide gaps | high-res scans need sensitivity |
+| `pad_fraction` | 0.07 | want roomier slide layout (≤0.10) | tighter inserts (≥0.05) |
+| `min_ink_density` | 2 | speckled scans cause false ink rows | sparse figures lose thin lines |
+| `edge_shave_px` | 1 | thicker browser frames | every pixel of content matters |
 
-## Algorithm at a glance
+### `AssembleConfig` (Layer 2)
 
-1. **orient** — `PORTRAIT` if `h ≥ w`, else `LANDSCAPE`.
-2. **trim_header** — project ink density along the candidate edge(s):
-   - portrait → top only
-   - landscape → left, then right (first edge with a confirmed pattern wins)
-   The pattern is: *short ink band → sustained blank gap*. If no such
-   pattern is found within `max_header_fraction`, the trim is silently
-   skipped (`side=NONE`) — safe fallback.
-3. **tight_crop** — bounding box of all remaining ink pixels.
-4. **pad** — add a `pad_fraction × max(h, w)` white border on all sides.
+| field | default | meaning |
+|---|---|---|
+| `label_search_frac` | 0.30 | fraction of cleaned-image height scanned for the bottom label |
+| `label_row_gap_px` | 20 | initial row-grouping gap |
+| `label_refine_row_gap_px` | 8 | refinement gap; isolates the label from a section indicator like "b-b" sitting one line above |
+| `label_min_col_density` | 2 | min ink count per column inside the label band |
+| `label_max_inter_glyph_gap_px` | 50 | larger than a "Fig." → "1c" space; smaller → label gets split |
+| `label_min_text_cluster_px` | 50 | min cluster width; below → discarded as artifact |
+| `label_vspan_range` | (40, 200) | sanity range for label height in pixels |
+| `label_hspan_range` | (50, 600) | sanity range for label width |
+| `figure_gutter_px` | 120 | gap between figures in the strip |
+| `canvas_size_px` | (3890, 1556) | 5:2 publication canvas |
+| `canvas_side_pad_px` | 220 | minimum side margin on the canvas |
 
-## Known limits
+## Algorithm at a glance — Layer 2 label detection
 
-- Header expected on top (portrait) or short edges (landscape). 180°-rotated
-  pages with the meta-info on the bottom are NOT auto-handled — rotate the
-  image first.
-- All-image scans without an ink-based header layer (e.g., a watermark
-  embedded in the figure) need `ink_threshold` tuning.
-- Output is grayscale (PIL `L` mode). Convert to RGB downstream if needed.
+1. Scan the bottom `label_search_frac` of the cleaned image for inked rows.
+2. Group rows with gaps < `label_row_gap_px`. Pick the bottom-most group.
+3. Always re-segment that group with `label_refine_row_gap_px` and pick the
+   bottom-most sub-group. This handles two cases uniformly: figure body
+   merged into the label band, and a section indicator like "b-b" sitting
+   one line above the label.
+4. Inside the resulting band, build clusters of inked columns separated by
+   gaps ≥ `label_max_inter_glyph_gap_px`. Discard clusters narrower than
+   `label_min_text_cluster_px` — this is what kills single-column
+   scan-border artifacts even when those columns are ink-dense.
+5. Pick the widest remaining cluster as the text bbox.
+6. Sanity-check vspan and hspan against the configured ranges — raise on
+   any mismatch.
 
 ## Returning to the user
 
-After running, briefly report: orientation, trim side, pixels cut,
-in/out shapes. If the cropped image is small or the trim was skipped
-(`side=NONE`), flag it so the user can verify the image matches the
-expected patent layout before using it downstream.
+After Layer 1 alone, briefly report orientation, trim side, pixels cut,
+in/out shapes. After a header build, report per-figure label heights, the
+target label height used for normalisation, and the canvas size. If any
+detection raised, surface the full error message including the source
+image and params — never paper over it.

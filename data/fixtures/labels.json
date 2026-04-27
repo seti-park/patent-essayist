@@ -1,0 +1,91 @@
+{
+  "$schema_comment": "Regression fixture for figure.assemble.find_label_bbox. Each entry pins a known-good detection on a real cleaned figure (Layer 1 output). expected_vspan and expected_hspan are inclusive ranges measured at +-10% of the actual detection, with an absolute floor of +-5 px. expected_y_start_frac pins the vertical position of the bbox in the cleaned image so a successful detection on the wrong band is still flagged.",
+  "$measurement_run": "2026-04-27, default AssembleConfig, default CropConfig",
+  "fixtures": [
+    {
+      "path": "data/figures_real/cropped/IMG_2359.cropped.png",
+      "patent_label": "Fig. 1c",
+      "measured": {"vspan": 43, "hspan": 135, "y_start_frac": 0.916},
+      "expected_vspan_range": [38, 50],
+      "expected_hspan_range": [120, 160],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/IMG_2361.cropped.png",
+      "patent_label": "Fig. 3c",
+      "measured": {"vspan": 44, "hspan": 137, "y_start_frac": 0.916},
+      "expected_vspan_range": [38, 50],
+      "expected_hspan_range": [120, 160],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/IMG_2362.cropped.png",
+      "patent_label": "Fig. 4",
+      "measured": {"vspan": 44, "hspan": 111, "y_start_frac": 0.913},
+      "expected_vspan_range": [38, 50],
+      "expected_hspan_range": [95, 130],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/IMG_2363.cropped.png",
+      "patent_label": "Fig. 5c (or similar bottom subfigure)",
+      "measured": {"vspan": 44, "hspan": 136, "y_start_frac": 0.916},
+      "expected_vspan_range": [38, 50],
+      "expected_hspan_range": [120, 160],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/IMG_2364.cropped.png",
+      "patent_label": "Fig. 6c (or similar bottom subfigure)",
+      "measured": {"vspan": 43, "hspan": 136, "y_start_frac": 0.916},
+      "expected_vspan_range": [38, 50],
+      "expected_hspan_range": [120, 160],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/Safari-3.cropped.png",
+      "patent_label": "Fig. 2 (high-resolution Safari screenshot, ~1.62x scale of IMG_*)",
+      "measured": {"vspan": 70, "hspan": 181, "y_start_frac": 0.916},
+      "expected_vspan_range": [62, 80],
+      "expected_hspan_range": [160, 210],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/Safari-8.cropped.png",
+      "patent_label": "Fig. (high-resolution Safari screenshot)",
+      "measured": {"vspan": 71, "hspan": 180, "y_start_frac": 0.912},
+      "expected_vspan_range": [62, 80],
+      "expected_hspan_range": [160, 210],
+      "expected_y_start_frac_range": [0.85, 0.95]
+    },
+    {
+      "path": "data/figures_real/cropped/20260105217.cropped.png",
+      "patent_label": "FIG. 1 (landscape, larger label font than B2 patents)",
+      "measured": {"vspan": 72, "hspan": 245, "y_start_frac": 0.882},
+      "expected_vspan_range": [60, 85],
+      "expected_hspan_range": [220, 280],
+      "expected_y_start_frac_range": [0.83, 0.92]
+    }
+  ],
+  "consistency_groups": [
+    {
+      "comment": "Same-resolution patent B2 sheets must produce label heights within 5% of each other (same font, same source).",
+      "fixtures": [
+        "data/figures_real/cropped/IMG_2359.cropped.png",
+        "data/figures_real/cropped/IMG_2361.cropped.png",
+        "data/figures_real/cropped/IMG_2362.cropped.png",
+        "data/figures_real/cropped/IMG_2363.cropped.png",
+        "data/figures_real/cropped/IMG_2364.cropped.png"
+      ],
+      "max_relative_spread": 0.05
+    },
+    {
+      "comment": "High-resolution Safari screenshots of similar B2 sheets must agree.",
+      "fixtures": [
+        "data/figures_real/cropped/Safari-3.cropped.png",
+        "data/figures_real/cropped/Safari-8.cropped.png"
+      ],
+      "max_relative_spread": 0.05
+    }
+  ]
+}

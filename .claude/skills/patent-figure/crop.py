@@ -55,6 +55,15 @@ class CropConfig:
     min_gap_px: int = 8
     # White margin as a fraction of max(cropped_h, cropped_w). 0.07 ≈ 7%.
     pad_fraction: float = 0.07
+    # tight_crop defenses against scan/screenshot artifacts:
+    #   - rows/cols whose total ink count is below `min_ink_density` are
+    #     ignored when computing the bounding box (kills isolated specks).
+    #   - after the box is computed, `edge_shave_px` pixels are shaved off
+    #     each side. This is the only thing that defeats a *continuous*
+    #     1-pixel border line (e.g. a Safari screenshot frame), since such a
+    #     line has high density and survives the density filter.
+    min_ink_density: int = 2
+    edge_shave_px: int = 1
 
 
 @dataclass(frozen=True)
@@ -168,14 +177,28 @@ def trim_header(arr: np.ndarray, cfg: CropConfig
 
 
 def tight_crop(arr: np.ndarray, cfg: CropConfig) -> np.ndarray:
-    """Bounding-box crop around all inked pixels."""
+    """Bounding-box crop around inked pixels, with two artifact defenses.
+
+    1. Density filter — a row/column counts only if it has at least
+       `min_ink_density` inked pixels. Catches single-pixel noise.
+    2. Edge shave — after the bounding box is found, `edge_shave_px`
+       pixels are removed from each side. This is what actually defeats a
+       continuous 1-pixel border line (browser-screenshot frames), since
+       a full-length line has very high density and would otherwise be
+       indistinguishable from legitimate figure content.
+    """
     mask = _ink_mask(arr, cfg.ink_threshold)
-    if not mask.any():
+    rows = np.where(mask.sum(axis=1) >= cfg.min_ink_density)[0]
+    cols = np.where(mask.sum(axis=0) >= cfg.min_ink_density)[0]
+    if len(rows) == 0 or len(cols) == 0:
         return arr
-    rows = np.where(mask.any(axis=1))[0]
-    cols = np.where(mask.any(axis=0))[0]
     r0, r1 = rows[0], rows[-1] + 1
     c0, c1 = cols[0], cols[-1] + 1
+
+    s = cfg.edge_shave_px
+    if s > 0 and (r1 - r0) > 2 * s and (c1 - c0) > 2 * s:
+        r0, r1, c0, c1 = r0 + s, r1 - s, c0 + s, c1 - s
+
     return arr[r0:r1, c0:c1]
 
 
