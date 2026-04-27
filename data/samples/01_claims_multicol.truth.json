@@ -1,0 +1,11 @@
+{
+  "sample_id": "01_claims_multicol",
+  "title": "Adaptive Query Routing",
+  "pages_expected": 1,
+  "claims_count": 7,
+  "has_formulas": false,
+  "has_tables": false,
+  "has_figures": false,
+  "is_scanned": false,
+  "language": "en"
+}

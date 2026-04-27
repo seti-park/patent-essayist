@@ -1,0 +1,11 @@
+{
+  "sample_id": "04_drawings_refs",
+  "title": "System with Sensor/Actuator/Bus/Controller",
+  "pages_expected": 2,
+  "claims_count": 2,
+  "has_formulas": false,
+  "has_tables": false,
+  "has_figures": true,
+  "is_scanned": false,
+  "language": "en"
+}
