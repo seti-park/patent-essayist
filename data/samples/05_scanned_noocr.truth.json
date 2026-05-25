@@ -1,0 +1,11 @@
+{
+  "sample_id": "05_scanned_noocr",
+  "title": "Improvement in Electric Lamps (scanned)",
+  "pages_expected": 1,
+  "claims_count": 2,
+  "has_formulas": false,
+  "has_tables": false,
+  "has_figures": false,
+  "is_scanned": true,
+  "language": "en"
+}
