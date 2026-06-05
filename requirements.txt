@@ -1,0 +1,6 @@
+# Optional — only needed for the ONLINE (Claude-backed) evaluation path.
+# Without these, run_eval.py and improve_description.py run in OFFLINE mode
+# using a deterministic, description-driven heuristic.
+anthropic>=0.49
+# PyYAML is optional; SKILL.md frontmatter parses without it via a fallback.
+PyYAML>=6

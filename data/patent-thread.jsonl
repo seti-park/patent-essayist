@@ -1,0 +1,27 @@
+{"id": "p01", "prompt": "Make me an X thread on this battery patent for $TSLA", "should_trigger": true, "note": "explicit X thread"}
+{"id": "p02", "prompt": "$PENG 특허로 스레드 하나 빠르게 뽑아줘", "should_trigger": true, "note": "korean 스레드"}
+{"id": "p03", "prompt": "Quick take thread on Nvidia's new interconnect patent", "should_trigger": true, "note": "quick take + thread"}
+{"id": "p04", "prompt": "타래로 정리해줘 — 이 반도체 특허 핵심만", "should_trigger": true, "note": "korean 타래"}
+{"id": "p05", "prompt": "Write a lightweight patent post for X about this filing", "should_trigger": true, "note": "lightweight patent post"}
+{"id": "p06", "prompt": "Can you do a thread breaking down claim 1 of this patent?", "should_trigger": true, "note": "thread"}
+{"id": "p07", "prompt": "스레드 형식으로 이 특허 강점 알려줘 (보유 종목 확신용)", "should_trigger": true, "note": "Champion archetype"}
+{"id": "p08", "prompt": "Thread introducing a new ticker based on its core patent", "should_trigger": true, "note": "new-ticker intro"}
+{"id": "p09", "prompt": "X thread, expert voice, on this LiDAR patent — public + subscriber split", "should_trigger": true, "note": "two-branch"}
+{"id": "p10", "prompt": "특허 한 건으로 짧고 밀도 높은 트윗 타래 만들어줘", "should_trigger": true, "note": "트윗 타래"}
+{"id": "p11", "prompt": "Give me a fast take on $AMD's packaging patent as a thread", "should_trigger": true, "note": "as a thread"}
+{"id": "p12", "prompt": "Decode what this company actually does from its patent, as a thread", "should_trigger": true, "note": "Decode archetype"}
+{"id": "p13", "prompt": "Give investors a fast, dense multi-tweet rundown of this patent — expert tone", "should_trigger": true, "note": "thread without the word thread"}
+{"id": "p14", "prompt": "이 특허 핵심만 트위터에 연속 글로 짧게 올려줘", "should_trigger": true, "note": "thread phrased as 연속 글"}
+{"id": "n01", "prompt": "Write a long-form essay analyzing this patent portfolio", "should_trigger": false, "note": "NOT a long-form essay"}
+{"id": "n02", "prompt": "Put together a promo digest of this week's filings", "should_trigger": false, "note": "NOT a promo digest"}
+{"id": "n03", "prompt": "Fix the bug in my Python script that parses patent PDFs", "should_trigger": false, "note": "coding task"}
+{"id": "n04", "prompt": "Summarize this 10-K filing into bullet points", "should_trigger": false, "note": "summary, not a thread"}
+{"id": "n05", "prompt": "Draft a full deep-dive blog post on quantum dot displays", "should_trigger": false, "note": "long-form, not a thread"}
+{"id": "n06", "prompt": "Translate this patent abstract into Korean", "should_trigger": false, "note": "translation task"}
+{"id": "n07", "prompt": "What's the weather in Seoul today?", "should_trigger": false, "note": "unrelated"}
+{"id": "n08", "prompt": "Build me a React component for a pricing table", "should_trigger": false, "note": "unrelated coding"}
+{"id": "n09", "prompt": "Run a 6-pass editorial review of my essay", "should_trigger": false, "note": "out of scope: editorial"}
+{"id": "n10", "prompt": "이 특허에 대한 장문 에세이 작성해줘", "should_trigger": false, "note": "korean long-form essay"}
+{"id": "n11", "prompt": "Generate a marketing one-pager for investors", "should_trigger": false, "note": "promo-ish, not a thread"}
+{"id": "n12", "prompt": "Refactor this SQL query for performance", "should_trigger": false, "note": "unrelated coding"}
+{"id": "n13", "prompt": "Write a promo digest thread summarizing all our holdings this week", "should_trigger": false, "note": "has 'thread' but out of scope: promo digest"}
