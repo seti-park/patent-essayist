@@ -42,6 +42,7 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | claim-accuracy-paraphrase | 0 | 0 | 0 | 2 | 0 | 0 |
 | verbatim-normalization-artifact | 0 | 1 | 0 | 1 | 0 | 0 |
 | sources-format | 0 | 0 | 0 | 1 | 0 | 0 |
+| leaked-toolcall-tags | 0 | 1 | 0 | 1 | 0 | 0 |
 | redundancy-bloat | 0 | 0 | 0 | 1 | 0 | 0 |
 | spec-undercoverage | 0 | 1 | 0 | 0 | 0 | 0 |
 
@@ -57,6 +58,12 @@ Class-level signals (across essays):
 - **claim-accuracy-paraphrase** — 2 instances (essay 045 dry-run). Within-essay cluster, below
   the cross-essay threshold (3). Watch.
 - **spec-undercoverage** — 1 low instance. Watch.
+- **leaked-toolcall-tags** (NEW, Tesla rotor investor run 691) — a Phase-2 compose subagent emitted
+  trailing `</content>` / `</invoke>` tags after the Sources block; the strip pipeline did not catch
+  them and the gates ignore them, so they reached the deliverable (stripped by hand before archive).
+  1 instance. **Watch** — if a 2nd run shows it, promote a `reference-edit` to
+  `essay-en-composer/references/strip-pipeline.md` (drop trailing non-markdown XML/tool-call tags),
+  and consider a warn-level gate check for trailing non-content tags after `# Sources`.
 - **goal-3 / accessibility classes** (NEW, audience=investor run of 045) — `payoff-backloaded`,
   `long-sentence-mobile`, `fix-induced-paragraph-overlong`. These appeared ONLY at the investor
   altitude (the deep run produced goal-1/goal-2 findings instead), which validates the
