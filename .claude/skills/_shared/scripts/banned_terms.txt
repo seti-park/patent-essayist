@@ -1,0 +1,40 @@
+# banned_terms.txt -- provisional starter list for the patent-essay banned gate.
+#
+# PROVISIONAL: this is a small starter set seeded by hand. It is intended to be
+# REPLACED by the upstream anti-ai-writing canon once that lands. Edit freely.
+#
+# Format (one entry per line):
+#   - lines starting with '#'  -> comment, ignored
+#   - blank lines              -> ignored
+#   - lines starting with 're:' -> the remainder is a Python regex (case-insensitive)
+#   - everything else          -> a case-insensitive WHOLE-WORD literal
+#
+# Literals are matched on word boundaries, so "robust" will not match "robustly"
+# unless you add that form. Multi-word literals (e.g. "testament to") are matched
+# as a phrase with word boundaries at each end.
+
+# --- single-word AI-tell vocabulary ---
+delve
+leverage
+robust
+seamless
+underscore
+tapestry
+realm
+crucial
+pivotal
+unlock
+foster
+
+# --- multi-word literals ---
+testament to
+game-changer
+
+# --- figurative "navigate" (kept as a plain literal; conservative) ---
+navigate
+
+# --- regex patterns ---
+# "not just X, but Y" rhetorical construction
+re:not just .{1,40}, but
+# "it's worth noting" filler
+re:it'?s worth noting

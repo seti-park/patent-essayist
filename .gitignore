@@ -1,0 +1,16 @@
+# Runtime handoff artifacts are regenerated each pipeline run; keep the
+# directory structure (.gitkeep) but don't track generated stage outputs.
+handoff/**
+!handoff/
+!handoff/*/
+!handoff/**/.gitkeep
+
+# Pipeline inputs are provided per run; keep the dirs, ignore the payloads.
+input/**
+!input/
+!input/figures/
+!input/**/.gitkeep
+
+# Python
+__pycache__/
+*.pyc

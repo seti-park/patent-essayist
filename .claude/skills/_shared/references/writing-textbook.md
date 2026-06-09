@@ -1,8 +1,11 @@
 # Writing Textbook — English Patent-Essay Structure Rules
 
-> **Status: SCAFFOLD.** These are starter structural rules derived from established
-> argumentative/expository writing frameworks. Refine them with your own writing
-> textbook material. `essay-structure` reads this file to build the article outline.
+> **Status: SCAFFOLD + canon target.** Starter structural rules derived from established
+> argumentative/expository writing frameworks. Refine them with the user's writing-textbook
+> material. **Phase 1 (`thesis-architect`)** reads this file to shape the thesis and
+> argument spine; **Phase 2 (`essay-en-composer`)** turns that spine into the section
+> blueprint together with `x-article-format.md`. (There is no separate structure stage —
+> structure is part of Compose.)
 
 ## What a "patent essay" is here
 
@@ -34,17 +37,17 @@ with a point of view, grounded in the patent's claims and disclosure.
    - Return to the thesis; state the consequence if it holds. No "the future is bright"
      filler — a specific, falsifiable takeaway.
 
-## Structural rules (enforced by `essay-structure`)
+## Structural rules (Phase 1 thesis spine → Phase 2 blueprint)
 
 - One thesis, stated once up front and echoed once at the close.
 - Every body section must trace back to the thesis; cut sections that don't.
-- Claims must be anchored to specific patent content (claim #, figure, passage), not
-  vibes.
-- Target length: 600–1,100 words unless the orchestrator overrides.
-- Outline output format: a nested list with section headers + the sub-claim and the
-  specific patent evidence each section will use.
+- Claims must be anchored to specific patent content via the Phase-1 `[dddd]` Quotable
+  anchors and selected figures, not vibes.
+- Target length per `x-article-format.md` mode (essay vs wire) unless overridden.
+- The thesis spine Phase 1 produces is a nested list: section headers + the sub-claim and
+  the specific anchors/figures each section will use.
 
-## Anti-patterns to reject at the structure stage
+## Anti-patterns to reject at the design stage
 
 - Listicle structure ("5 ways this patent…") unless explicitly requested.
 - Section sprawl: more than 4 body sections usually means the thesis is unfocused.
