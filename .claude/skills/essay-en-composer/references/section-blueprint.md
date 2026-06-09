@@ -33,6 +33,19 @@ A section's `paragraph_anchors_used: []` and `external_facts_used: []` is valid 
 
 Closing section initially planned with `external_facts_used: []` for narrative framing. Mid-write self-catch found 3 patent ID claims in the closing chain. Three Quotable span anchors had to be added retroactively. v2 lesson: plan paragraph_anchors_used + external_facts_used at Step 3, not Step 4.
 
+## Accessible blueprint variant (audience = investor)
+
+When `audience=investor`, the section structure shifts to an accessible altitude. The 4-axis grounding underneath is unchanged — only what surfaces to the reader changes.
+
+- **Stake-first lead** — open with what it means before how it works (what the reader decides/gets), not a backward post-mortem.
+- **One compressed mechanism paragraph** — collapse the architecture/mechanism arc into a single vivid paragraph rather than a multi-section walkthrough.
+- **So-what carries the most space** — the implication/so-what section is the longest; mechanism is subordinate to it.
+- **Scannable `##` subheadings** — keep them (accessibility, not depth, is what they serve here).
+- **Word ceiling ~1100** — the body stays under ~1100 words (enforced by `gate_readability`).
+- **Closing restates the reader's stake** — the last section circles back to what the reader gets, not a thesis recap aimed at a domain expert.
+
+Per-section `paragraph_anchors_used` are still planned (for grounding + `thesis-trace.md`) but are NOT rendered inline in the investor body — the anchor↔claim traceability moves to `handoff/02-compose/thesis-trace.md`, where Phase 3 pass-3 verifies it.
+
 ## Closing directive (last section)
 
 For the last section, plan a `closing_directive` to pre-commit closing framing before drafting. Without it, the composer iterates the closing 3-4 times trying to land it.

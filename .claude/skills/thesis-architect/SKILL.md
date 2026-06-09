@@ -21,6 +21,10 @@ patent.md + figures/ + context research
 
 User supplies `patent.md` and a cleaned `figures/` directory (output of Layer 1 `patent-figures-clean`) and asks for thesis design, invention analysis, essay outline planning, or Phase 1 Design output. Entry point for Phase 1 — no upstream skill within Phase 1.
 
+## Audience input
+
+The process accepts an optional `audience` input: `deep` (default — current behavior, unchanged) or `investor` (accessible altitude). Audience can flip the thesis **frame**: an `investor` spine favors a forward-capability / market-opportunity hook (e.g. "to cover the planet for mobile, you need this architecture") over a backward post-mortem hook, and declares a `reader_stake` (what the investor reader decides or gets). The 4-axis grounding rigor and single-spine default are **unchanged** by audience — only the frame and what surfaces downstream shift.
+
 ## Process
 
 1. **Invention summary extraction** — read patent.md, write `invention-summary.md` per `references/invention-summary-schema.md`. Includes `**Quotable spans:**` `[xxxx]` blocks (verbatim, no paraphrase). Phase 2 reads these directly without re-touching patent.md.
@@ -30,8 +34,8 @@ User supplies `patent.md` and a cleaned `figures/` directory (output of Layer 1 
 5. **Q7 hook gate (hard)** — each surviving candidate must map to exactly one of 2 admitted hook patterns. Otherwise reject. See `references/hook-patterns.md`.
 6. **Adversarial defense** — surface the strongest objection per surviving candidate, draft mitigation. Context research's **layer-confusion findings** are priority inputs for Category 1 objections. See `references/adversarial-defense.md`.
 7. **SETI selects one** — single-spine default; multi-spine requires explicit override per `references/single-spine-default.md`.
-8. **Spine lock** — write `thesis-spine.md` with locked candidate's 4-axis anchors, Q7 pattern, adversarial defense, spine→section trace.
-9. **Figure mapping** — write `figure-selection.md` and `figure-rationale.md`. Each figure maps to a thesis point + caption_role. **Paired-figure relationships** (same-page / sub-figure / before-after sequence) reviewed explicitly — pull from `invention-summary.md` §"Figure relationships".
+8. **Spine lock** — write `thesis-spine.md` with locked candidate's 4-axis anchors, Q7 pattern, adversarial defense, spine→section trace. When `audience=investor`, also declare a `reader_stake` field (what the investor reader decides or gets). For `deep` the field may be omitted.
+9. **Figure mapping** — write `figure-selection.md` and `figure-rationale.md`. Each figure maps to a thesis point + caption_role. **Paired-figure relationships** (same-page / sub-figure / before-after sequence) reviewed explicitly — pull from `invention-summary.md` §"Figure relationships". **Audience-aware selection**: for `audience=investor`, select fewer figures by the test "does this help a non-expert understand" (higher-impact figures only), rather than full mechanism coverage. `deep` selection is unchanged.
 10. **Fact-check log seed** — write `fact-check-log.md` listing every external (non-patent) fact the spine relies on, with source URL.
 11. **Phase 2 handoff notes** — write `phase2-handoff-notes.md` capturing: (a) Phase 1 의 audience reframe 결정 (if any) (b) 인용 priority 매핑 (어느 Quotable span 이 essay 의 어느 section 에 우선 사용) (c) framing decision 의 trace (rejected candidates 의 핵심 사유) (d) Phase 2 가 우회해야 할 함정 (e) open questions for Phase 2 (SETI 결정 대기 항목).
 
@@ -85,7 +89,12 @@ Post:
 
 ## Single-spine declaration
 - [x] Single-spine (default)
+
+## Reader stake (audience = investor only)
+> What the investor reader gets: a read on whether this architecture is the one a planet-scale mobile network has to adopt — i.e. the decision the patent informs.
 ```
+
+The `## Reader stake` block appears only for `audience=investor` and is omitted for `deep`. The audience-reframe decision (forward-capability frame chosen over a backward post-mortem) is recorded in `phase2-handoff-notes.md` per Step 11.
 
 Full schema → `handoff-template/01-design/thesis-spine.md`.
 

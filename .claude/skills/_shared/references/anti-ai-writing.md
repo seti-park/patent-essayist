@@ -77,6 +77,10 @@ announcement-colon patterns ("The key insight:", "What surprised me was…").
 - Promotional / advertisement language; "challenges and future prospects" outline sections.
 - Generic positive conclusions ("a bright future", "continues to evolve").
 
+### Raise-then-disavow / manufactured insinuation
+
+Raising a suggestive idea and then disavowing it — "X, but that is a coincidence, not a plan" — lets the prose collect the reader's frisson while dodging the claim. To a skeptical reader it reads as manipulation: the writer wants credit for the implication without owning it. Either state the point plainly if it does real work, or cut it. (Real example: a same-name coincidence floated as color, then waved off — the insinuation lands anyway, which is the problem.)
+
 ### Hedging & filler (humanizer §§23–24, ai-check Signal C)
 
 - Filler phrases ("in order to" → "to", "due to the fact that" → "because", "at this point in

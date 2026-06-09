@@ -14,6 +14,11 @@ Each selected figure is assigned exactly one `caption_role`:
 3. **Orientation** — the figure situates the reader (context/overview).
 4. **Contrast** — the figure marks the gap vs the prior-art baseline.
 
+> **Investor-mode note (audience = investor):** captions are plain-language and
+> reference-number-free — no `FIG. N`, no `[xxxx]`, no part numbers. The role enum is
+> unchanged; only the caption surface changes (e.g. "Two routes from one dish, sharing
+> nothing." rather than "FIG. 5A: independent paths 170A/170B").
+
 ## figures_locked
 
 Once Phase 2 assigns roles and placements, the set is **locked** for the run: the figure

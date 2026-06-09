@@ -47,6 +47,21 @@ Genre-specific paragraph length (from `deliverable-voice-rules.md`):
 
 8+ sentence paragraphs in essay: high severity flag.
 
+## Sub-check 2D — Load-bearing audit
+
+Distinct from repetition (2A): this is **logical idleness**. Flag any sentence that does no logical work — atmospheric or connective filler that does not advance the argument. A sentence can be unique (no repetition) yet still earn no place if cutting it loses nothing the argument needs.
+
+Detection:
+- For each sentence, ask: if this were deleted, would the argument lose a step, a fact, an evidence layer, or a needed transition?
+- If the answer is "no" → flag as load-bearing failure (atmospheric/connective idle).
+
+Examples of idle prose:
+- Scene-setting that adds mood but no claim ("The timing here is worth sitting with for a moment.").
+- Connective filler that bridges nothing ("And so we arrive at the next piece.").
+- Restated framing that neither introduces nor advances ("This is, in many ways, the heart of it.").
+
+This check is **emphasized at investor altitude** (`audience=investor`), where the word ceiling makes every idle sentence a direct cost — but it applies across all audiences.
+
 ## Severity calibration per posture
 
 | Sub-check | aggressive | measured | conservative |
@@ -56,6 +71,8 @@ Genre-specific paragraph length (from `deliverable-voice-rules.md`):
 | 2B sentence ≥ 25% cuttable | medium | medium | high |
 | 2C paragraph ≥ 8 sentences | high | high | high |
 | 2C paragraph 150+ words single-idea | medium | medium | high |
+| 2D load-bearing failure (idle sentence) | medium | medium | high |
+| 2D load-bearing failure (investor altitude) | high | high | high |
 
 ## Output finding template
 

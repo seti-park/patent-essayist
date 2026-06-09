@@ -59,10 +59,22 @@ def _mask_quoted_spans(line: str) -> str:
     return "".join(out)
 
 
+def _strip_html_comments(text):
+    """Blank out HTML comment contents (keep newlines so line numbers hold).
+
+    HTML comments are non-published metadata (e.g. a provenance header), not
+    reader-facing prose, so punctuation inside them must not be gated.
+    """
+    return re.sub(r"<!--.*?-->",
+                  lambda m: re.sub(r"[^\n]", " ", m.group(0)),
+                  text, flags=re.DOTALL)
+
+
 def check(draft_text: str, context: dict) -> dict:
     findings = []
     in_fence = False
 
+    draft_text = _strip_html_comments(draft_text)
     for lineno, raw in enumerate(draft_text.splitlines(), start=1):
         if FENCE_RE.match(raw):
             in_fence = not in_fence

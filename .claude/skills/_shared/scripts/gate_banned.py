@@ -81,6 +81,10 @@ def check(draft_text: str, context: dict) -> dict:
 
     findings = []
     in_fence = False
+    # HTML comments are non-published metadata; blank them (keep newlines).
+    draft_text = re.sub(r"<!--.*?-->",
+                        lambda m: re.sub(r"[^\n]", " ", m.group(0)),
+                        draft_text, flags=re.DOTALL)
     for lineno, raw in enumerate(draft_text.splitlines(), start=1):
         if FENCE_RE.match(raw):
             in_fence = not in_fence

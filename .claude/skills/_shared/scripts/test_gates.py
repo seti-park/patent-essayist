@@ -52,6 +52,11 @@ class TestEmdash(unittest.TestCase):
         r = gate_emdash.check(draft, {})
         self.assertTrue(r["passed"], r["findings"])
 
+    def test_emdash_in_html_comment_ignored(self):
+        draft = "<!-- provenance — accepted output -->\nClean body sentence.\n"
+        r = gate_emdash.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+
     def test_endash_connector_warns(self):
         draft = "The result was good – we measured it twice.\n"
         r = gate_emdash.check(draft, {})

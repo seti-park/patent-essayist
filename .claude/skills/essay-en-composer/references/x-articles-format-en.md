@@ -145,6 +145,10 @@ When to use — thesis 가 binary observable future event include. "and what..."
 
 Final title pattern 은 editorial judgment.
 
+### Accessible format (audience = investor)
+
+When `audience=investor`, the format stays X Articles-native but reader-accessible: keep the `##` body subheadings and the `# Sources` block (5-label enum unchanged), but the body carries **no inline `[xxxx]` anchors and no reference numbers**. Patent attribution lives in `# Sources` under `## Patents`; the anchor↔claim trace lives in `handoff/02-compose/thesis-trace.md`, not in the reader-facing body.
+
 ### Heading conventions (body)
 
 본 영역은 본문 §section heading. §Sources heading 은 Section 1 의 platform spec 영역.

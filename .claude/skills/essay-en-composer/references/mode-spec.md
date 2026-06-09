@@ -13,6 +13,7 @@ tech-essay-en operates along two orthogonal dimensions, both selectable at invoc
 | **walkthrough** (default) | Section-by-section composition. SETI mid-session editorial intervention welcome. Catches at sentence or section level for voice, clarity, thesis alignment, audience perception. |
 | **strict-execution** | Pure prose expansion from Blueprint. No mid-session intervention. Plan ⊥ Execute strict reading. |
 | **pair** | Interactive at each sentence. SETI plus Claude step-by-step dialogue. |
+| **investor** | Accessible altitude. Stake-first; mechanism compressed to ~1 paragraph; so-what elevated. Body under ~1100 words; no inline `[xxxx]` or reference numbers in the body; plain-language figure captions. Keeps subheadings + `# Sources` block. Default posture: measured. |
 
 ### Dimension 2: Posture (mode spectrum)
 
@@ -31,6 +32,7 @@ When mode is not specified at invocation: **walkthrough + measured**.
 - Invocation specifies mode and posture → adopt both
 - Invocation specifies only mode → adopt mode and apply default posture (measured)
 - Invocation specifies neither → adopt walkthrough plus measured
+- If `audience=investor` → adopt the accessible blueprint variant + word ceiling (see `references/section-blueprint.md`); patent anchors are recorded in `thesis-trace.md`, not surfaced in the body.
 
 Confirm mode and posture in the opening response before Step 1.
 

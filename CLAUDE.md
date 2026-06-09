@@ -27,7 +27,7 @@ traceability matrix is in `_shared/references/scoring-rubric.md`:
 ## How to run
 
 ```
-/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire]
+/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire] [--audience deep|investor]
 ```
 
 Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and optional
@@ -41,6 +41,20 @@ Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and
 
 Individual phases can be run standalone: `/thesis-architect`, `/essay-en-composer`,
 `/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an internal Phase-2 helper).
+
+## Audience altitude (`--audience deep|investor`)
+
+A first-class dimension threaded through every phase. **`deep` (default)** is the
+patent-fidelity altitude (inline `[xxxx]` anchors + reference numbers, full mechanism
+walkthrough, ~2000+ words) — fully backward-compatible. **`investor`** is the accessible
+altitude for the investor/analyst reader: stake-first, mechanism compressed, body under a word
+ceiling with **no inline anchors / reference numbers**, but it **keeps** scannable subheadings,
+the `# Sources` block, and figures (plain captions). Audience shifts the P1 thesis frame
+(investor favors a forward-capability / market hook + a `reader_stake`), the P2 compose mode,
+the P3 reader profile, and activates the `gate_readability` gate (goal 3 enforced:
+`READAB-001` length ceiling, `READAB-002` no body anchors). Grounding rigor is unchanged —
+anchor↔claim traceability moves to `handoff/02-compose/thesis-trace.md` (verified by pass-3),
+it just does not surface to the reader. See `_shared/references/scoring-rubric.md`.
 
 ## Architecture
 
@@ -106,12 +120,13 @@ which references each phase loads:
 
 ## Deterministic gates
 
-`_shared/scripts/run_gates.py` runs six mechanical checks and returns pass/fail + `check_id`s:
+`_shared/scripts/run_gates.py` runs seven mechanical checks and returns pass/fail + `check_id`s:
 `gate_emdash`, `gate_anchors` (`[dddd]` 4-digit format + chain + figure refs), `gate_sources`
 (`# Sources` h1, 5-label enum, all-or-nothing subgrouping), `gate_banned` (anti-AI banned
 list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan selected figure —
-goal 2). Run `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
-`python meta/regression.py` for tests + fixtures.
+goal 2), and `gate_readability` (accessible-altitude contract — goal 3, `--audience investor`
+only; inert on `deep`). Run `python .claude/skills/_shared/scripts/test_gates.py` for the
+suite, or `python meta/regression.py` for tests + fixtures.
 
 ## Customization
 

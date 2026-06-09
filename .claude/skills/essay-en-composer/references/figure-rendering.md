@@ -66,6 +66,15 @@ Example: a header composite of three panels (baseline, intervention, result) get
 - Header figure captions: regular text after the `![](...)` embed
 - Annotate caption with `[^figure-entry-id]` footnote anchor where applicable
 
+## Investor mode (audience = investor)
+
+When `audience=investor`, figure handling shifts toward a non-expert reader.
+
+- **Captions use plain language** with NO reference numbers and NO `[xxxx]` anchors. Write what the figure means, not its panel labels.
+  - ✓ `*Two routes from one dish, sharing nothing.*`
+  - ✗ `*FIG. 5A: independent paths 170A/170B...*`
+- **Figure selection favors "does this help a non-expert understand"** — fewer, higher-impact figures rather than full mechanism coverage. A figure earns its place by clarifying the stake, not by completing the disclosure.
+
 ## Validated patterns
 
 - 368 Tesla cutting essay: header = composite image-plus-caption; body = 4 italic captions, default caption-only-italic mode

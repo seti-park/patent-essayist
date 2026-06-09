@@ -37,6 +37,18 @@ Industry-standard airbag ECUs typically respond within approximately ten millise
 
 External claims also appear in `handoff/01-design/fact-check-log.md` with `Fact ID` for traceability. Phase 3 Edit Pass 3 cross-checks the log against the essay.
 
+## Investor-mode surfacing (audience = investor)
+
+When `audience=investor`, inline `[xxxx]` anchors and reference numbers are **suppressed in the body** — the reader-facing prose carries none of them (e.g. "user terminal 112" becomes "your dish").
+
+The grounding rigor is unchanged underneath:
+
+- Every claim still traces to an invention-summary anchor. That trace is recorded in `handoff/02-compose/thesis-trace.md` (per-claim → `[xxxx]`), so Phase 3 Edit Pass 3 can verify it verbatim there rather than inline.
+- External (non-patent) sources still go in the `# Sources` block as usual.
+- The patent itself appears in `# Sources` under `## Patents` — there is no separate inline anchor block.
+
+`gate_readability` enforces zero inline `[xxxx]` in the investor body.
+
 ## What does NOT need citation
 
 - Lead/transition prose with no factual claim: "This week's announcement raises a question..."

@@ -81,6 +81,10 @@ Long paragraphs that are otherwise clean (no Pass 2 redundancy) may still need s
 
 ## Reader profile assumption
 
+The reader profile is **audience-conditional**.
+
+### Default profile (audience = deep)
+
 SETI's reader is Tesla investor or tech-industry analyst. Domain literacy: high on company narratives, medium on patent-claim mechanics, low on filing-process detail.
 
 This shapes Pass 5 judgment:
@@ -88,3 +92,14 @@ This shapes Pass 5 judgment:
 - Patent-claim mechanism detail can be moderately dense (reader has medium literacy and is paying attention).
 - Filing-process detail (continuation chains, prosecution history) needs unpacking.
 - Company-narrative friction needs zero unpacking (high literacy).
+
+### Investor profile (audience = investor)
+
+The reader is a C-level exec or VC analyst. Domain literacy: high on markets and business, low on patent mechanics, zero on filing process.
+
+This shapes Pass 5 judgment:
+
+- **Emphasize decision-relevance** — every section is judged by whether it moves the reader toward the decision the essay informs, not by mechanism completeness.
+- Apply the test: **"would a non-expert finish this? does each paragraph deliver reader value or just mechanism?"** A paragraph that is pure mechanism with no so-what is a high-severity stake failure here.
+- Patent-claim mechanism detail must be compressed and translated (low literacy); filing-process detail does not belong at all (zero literacy).
+- For investor drafts the **body has no inline `[xxxx]` anchors** — do not flag their absence, and do not verify grounding inline. Grounding is verified via `handoff/02-compose/thesis-trace.md` (Pass 3's job), not in Pass 5.
