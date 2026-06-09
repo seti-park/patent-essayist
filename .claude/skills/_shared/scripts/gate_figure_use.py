@@ -41,9 +41,48 @@ GATE_ID = "figure_use"
 FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)([A-Za-z]?)\b", re.IGNORECASE)
 
 
+SELECTED_HEADING_RE = re.compile(r"^#{1,6}\s+selected figures\b", re.IGNORECASE)
+ANY_HEADING_RE = re.compile(r"^#{1,6}\s+\S")
+
+
+HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+
+
 def _figure_tokens(text):
-    """Return the set of figure tokens mentioned in text (e.g. {'1A', '2'})."""
-    return {m.group(1) + m.group(2).upper() for m in FIG_RE.finditer(text or "")}
+    """Return the set of figure tokens mentioned in text (e.g. {'1A', '2'}).
+
+    HTML comments are stripped first: a figure named only inside a `<!-- ... -->`
+    annotation (e.g. "FIG. 1B ... NOT selected") is commentary, not a selection
+    or a reference, and must not be counted.
+    """
+    body = HTML_COMMENT_RE.sub("", text or "")
+    return {m.group(1) + m.group(2).upper() for m in FIG_RE.finditer(body)}
+
+
+def _selected_section(text):
+    """Return only the '## Selected figures' section of a figure-selection doc.
+
+    figure-selection.md lists the chosen figures under a 'Selected figures'
+    heading, then discusses dropped/paired figures in later sections. The
+    selected set must come from the Selected-figures section only -- otherwise a
+    figure merely mentioned as 'dropped' would be counted as selected and flagged
+    as an orphan. If no such heading exists (bare-list fixtures), return the whole
+    text for backward compatibility.
+    """
+    lines = (text or "").splitlines()
+    start = None
+    for i, line in enumerate(lines):
+        if SELECTED_HEADING_RE.match(line):
+            start = i + 1
+            break
+    if start is None:
+        return text or ""
+    end = len(lines)
+    for j in range(start, len(lines)):
+        if ANY_HEADING_RE.match(lines[j]):
+            end = j
+            break
+    return "\n".join(lines[start:end])
 
 
 def check(draft_text: str, context: dict) -> dict:
@@ -60,7 +99,7 @@ def check(draft_text: str, context: dict) -> dict:
         })
         return {"gate": GATE_ID, "passed": True, "findings": findings}
 
-    selected = _figure_tokens(selection_text)
+    selected = _figure_tokens(_selected_section(selection_text))
     used = _figure_tokens(draft_text)
 
     # FIGUSE-001: selected but never used (orphan).

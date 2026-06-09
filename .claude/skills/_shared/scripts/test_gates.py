@@ -208,6 +208,23 @@ class TestFigureUse(unittest.TestCase):
         self.assertFalse(r2["passed"])
         self.assertTrue(any("1B" in f["message"] for f in r2["findings"]))
 
+    def test_selected_section_scopes_selection(self):
+        # The selection doc lists chosen figs under "## Selected figures" and
+        # discusses dropped figs (incl. inside an HTML comment) afterwards.
+        sel = (
+            "# Figure Selection\n"
+            "## Selected figures\n"
+            "| FIG. 1A | header |\n"
+            "| FIG. 5A | body |\n"
+            "<!-- FIG. 1B reviewed but NOT selected -->\n"
+            "## Paired-figure relationships\n"
+            "| FIG. 1A + FIG. 1B | 1B dropped |\n"
+            "| FIG. 2 | not selected |\n"
+        )
+        draft = "We show FIG. 1A and FIG. 5A.\n"  # both selected used; 1B/2 must not count
+        r = gate_figure_use.check(draft, {"figure_selection_text": sel})
+        self.assertTrue(r["passed"], r["findings"])
+
     def test_subfigure_figref_index(self):
         draft = "Fig. 1A and Figure 5B appear.\n"
         ctx = {"invention_summary_text": "", "figures_index": ["1A", "5B"]}
