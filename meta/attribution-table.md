@@ -40,20 +40,25 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
 | claim-accuracy-paraphrase | 0 | 0 | 0 | 2 | 0 | 0 |
+| verbatim-normalization-artifact | 0 | 1 | 0 | 1 | 0 | 0 |
+| sources-format | 0 | 0 | 0 | 1 | 0 | 0 |
 | redundancy-bloat | 0 | 0 | 0 | 1 | 0 | 0 |
 | spec-undercoverage | 0 | 1 | 0 | 0 | 0 | 0 |
 
 Class-level signals (across essays):
-- **claim-accuracy-paraphrase** — 2 instances in essay 045 (both pass-3, compose). Within-essay
-  cluster, below the cross-essay recurrence threshold (3). Status: **watch** — if a 2nd essay
-  shows the same class, promote a `reference-edit` proposal tightening
-  `essay-en-composer/references/citation-format.md` (explicit "verify the source's stated
-  hierarchy/scope before paraphrasing a quantitative or ordering claim").
-- **spec-undercoverage** — 1 low instance (optional, non-spine). Watch.
+- **verbatim-normalization-artifact** (NEW, production run 045) — the patent.md carries `**NNN**`
+  bold reference-number markers glued to adjacent words (`**104**and` → "104and" after bold
+  strip), and the invention-summary captured such a span; quoting it verbatim tripped Pass-3.
+  Same family as the preserved "deterioriation" typo. 1 instance so far. **Watch** — if a 2nd
+  bold-marker patent shows it, promote a `reference-edit` to
+  `thesis-architect/references/quote-anchor-conventions.md`: when extracting a Quotable span,
+  normalize `**NNN**word` joins to `NNN word`, or flag spans containing such joins as
+  paraphrase-only so Phase 2 does not quote them verbatim.
+- **claim-accuracy-paraphrase** — 2 instances (essay 045 dry-run). Within-essay cluster, below
+  the cross-essay threshold (3). Watch.
+- **spec-undercoverage** — 1 low instance. Watch.
 
-Applied out-of-band during run 045 (gate-promotion lever, human-applied with tests, not via a
-ledger proposal — recorded here for the audit trail):
-- `gate_figure_use` + `gate_anchors`: sub-figure letter tokens (1A/1B/5B) — real patents use
-  them; commit 5c2249a / fed6acf.
+Applied out-of-band during run 045 (gate-promotion lever, human-applied with tests):
+- `gate_figure_use` + `gate_anchors`: sub-figure letter tokens (1A/1B/5B) — commits 5c2249a / fed6acf.
 - `gate_figure_use`: scope the selected set to the "## Selected figures" section + strip HTML
-  comments (a real figure-selection.md discusses dropped figures) — commit 5c2249a.
+  comments — commit 5c2249a.
