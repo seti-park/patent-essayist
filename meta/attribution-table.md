@@ -39,4 +39,21 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| _(none yet — first run will populate)_ | 0 | 0 | 0 | 0 | 0 | 0 |
+| claim-accuracy-paraphrase | 0 | 0 | 0 | 2 | 0 | 0 |
+| redundancy-bloat | 0 | 0 | 0 | 1 | 0 | 0 |
+| spec-undercoverage | 0 | 1 | 0 | 0 | 0 | 0 |
+
+Class-level signals (across essays):
+- **claim-accuracy-paraphrase** — 2 instances in essay 045 (both pass-3, compose). Within-essay
+  cluster, below the cross-essay recurrence threshold (3). Status: **watch** — if a 2nd essay
+  shows the same class, promote a `reference-edit` proposal tightening
+  `essay-en-composer/references/citation-format.md` (explicit "verify the source's stated
+  hierarchy/scope before paraphrasing a quantitative or ordering claim").
+- **spec-undercoverage** — 1 low instance (optional, non-spine). Watch.
+
+Applied out-of-band during run 045 (gate-promotion lever, human-applied with tests, not via a
+ledger proposal — recorded here for the audit trail):
+- `gate_figure_use` + `gate_anchors`: sub-figure letter tokens (1A/1B/5B) — real patents use
+  them; commit 5c2249a / fed6acf.
+- `gate_figure_use`: scope the selected set to the "## Selected figures" section + strip HTML
+  comments (a real figure-selection.md discusses dropped figures) — commit 5c2249a.
