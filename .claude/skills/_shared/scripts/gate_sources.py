@@ -1,33 +1,29 @@
 #!/usr/bin/env python3
 """Sources-block gate for the patent-essay pipeline.
 
-DRAFT FORMAT ASSUMPTIONS (see gate_emdash.py for the full shared list):
-  - A "Sources block" is a Markdown section whose header matches
-    ^#{1,6}\\s+Sources\\s*$ near the end of the document. The block runs from
-    that header to the next same-or-higher-level header or end of document.
+Aligned with the real X-Articles Sources spec (see
+essay-en-composer/references/x-articles-format-en.md §"Sources block structure"
+and editorial-review/references/pass-6-lead-conclusion-format.md §6C):
 
-IMPORTANT: this Sources-entry format is provisional; real upstream formats are
-TBD. The parser below is deliberately tolerant and heavily commented so it can
-be retargeted once the upstream canon lands.
+  - The block header is `# Sources` (h1). It must appear EXACTLY ONCE.
+  - Categories, when subgrouped, are `##` (h2) sub-headings inside the block.
+  - The category enum is EXACTLY these 5 labels:
+        Patents, Papers, Official statements, News & media, Technical specs
+  - Subgrouping is all-or-nothing: either every source sits under a `##`
+    category heading, or none do (flat list).
+  - Flat-vs-subgroup heuristic: 0-3 entries may be flat; 4+ entries (which the
+    spec expects to span 2+ categories) should be subgrouped (warn, not fail).
 
-Entry / category parsing (tolerant):
-  An "entry" is a top-level list item line (starting with '-', '*' or '1.').
-  An entry's category is taken from, in order of preference:
-    1. a bold lead-in  "**Category:**"  -> category = text before the colon
-    2. a leading       "- Category — ..."  (en/em dash or hyphen as separator)
-  The extracted category string is matched case-insensitively against
-  ALLOWED_CATEGORIES.
-
-Sub-group headings: a Markdown header *inside* the Sources block (deeper than
-the Sources header) is treated as a sub-group heading.
+The real format puts the category on the `##` sub-heading and lists bare entries
+beneath it (it does NOT put the category inline on each entry), so this gate
+parses sub-headings as the category source-of-truth.
 
 Checks:
-  SOURCES-001 (fail): no Sources block found.
-  SOURCES-002 (fail): an entry's category is not in ALLOWED_CATEGORIES.
-  SOURCES-003 (fail): a "Patent" entry lacks PATENT_CITATION_FIELDS
-                      comma/pipe-separated citation fields.
-  SOURCES-004 (warn): mixed subgrouping — some entries under a sub-group
-                      heading and some not (all-or-nothing expected).
+  SOURCES-001 (fail): `# Sources` block missing, or present more than once.
+  SOURCES-002 (fail): a `##` sub-group category not in the 5-label enum.
+  SOURCES-003 (fail): partial subgrouping -- some entries under a `##` category
+                      heading and some bare (all-or-nothing violated).
+  SOURCES-004 (warn): 4+ entries left as a flat list (should be subgrouped).
 """
 
 import argparse
@@ -38,136 +34,103 @@ import sys
 # Tunable constants
 # ---------------------------------------------------------------------------
 GATE_ID = "sources"
-ALLOWED_CATEGORIES = ["Patent", "Academic", "News/Media", "Official/Standards", "Other"]
-# Expected number of comma/pipe-separated citation fields in a Patent entry,
-# e.g. "US1234567B2 | Assignee | Title | Filed 2019 | Granted 2021 | [0042]".
-PATENT_CITATION_FIELDS = 6
+# The 5-label enum, verbatim (matched case-insensitively, canon casing kept).
+ALLOWED_CATEGORIES = [
+    "Patents",
+    "Papers",
+    "Official statements",
+    "News & media",
+    "Technical specs",
+]
+SUBGROUP_FLAT_MAX = 3  # 0-3 flat entries are fine
 
-SOURCES_HEADER_RE = re.compile(r"^(#{1,6})\s+Sources\s*$")
+SOURCES_HEADER_RE = re.compile(r"^#\s+Sources\s*$")      # exactly h1 "# Sources"
 ANY_HEADER_RE = re.compile(r"^(#{1,6})\s+(.*\S)\s*$")
 LIST_ITEM_RE = re.compile(r"^\s*(?:[-*]|\d+\.)\s+(.*)$")
-BOLD_LEADIN_RE = re.compile(r"^\*\*([^*]+?):\*\*")               # **Category:** ...
-DASH_LEADIN_RE = re.compile(r"^([^—–-]+?)\s*[—–-]\s+")            # Category — ...
 
-# Lowercased lookup so matching is case-insensitive but messages keep canon.
 _ALLOWED_LOWER = {c.lower(): c for c in ALLOWED_CATEGORIES}
 
 
-def _find_sources_block(lines):
-    """Return (header_level, start_idx, end_idx) for the Sources block.
-
-    start_idx/end_idx are line indices bounding the entries (header excluded).
-    Returns None if no Sources header found. If several, the last one wins
-    (Sources blocks live "near the end of the doc").
-    """
-    found = None
-    for i, line in enumerate(lines):
-        m = SOURCES_HEADER_RE.match(line)
-        if m:
-            found = (len(m.group(1)), i)
-    if not found:
-        return None
-    level, start = found
-    end = len(lines)
-    for j in range(start + 1, len(lines)):
-        hm = ANY_HEADER_RE.match(lines[j])
-        if hm and len(hm.group(1)) <= level:
-            end = j
-            break
-    return (level, start + 1, end)
-
-
-def _extract_category(entry_text):
-    """Return (category_or_None, raw_token) from a list-item body."""
-    bm = BOLD_LEADIN_RE.match(entry_text)
-    if bm:
-        return bm.group(1).strip(), bm.group(0)
-    dm = DASH_LEADIN_RE.match(entry_text)
-    if dm:
-        return dm.group(1).strip(), dm.group(0)
-    return None, ""
-
-
-def _count_citation_fields(entry_text):
-    """Count comma/pipe-separated fields in the entry body (after lead-in)."""
-    # Strip a bold or dash lead-in if present, count the remainder's fields.
-    body = entry_text
-    bm = BOLD_LEADIN_RE.match(body)
-    if bm:
-        body = body[bm.end():]
-    else:
-        dm = DASH_LEADIN_RE.match(body)
-        if dm:
-            body = body[dm.end():]
-    body = body.strip()
-    if not body:
-        return 0
-    parts = [p for p in re.split(r"[|,]", body) if p.strip()]
-    return len(parts)
+def _find_sources_headers(lines):
+    """Return list of line indices where a `# Sources` h1 header appears."""
+    return [i for i, line in enumerate(lines) if SOURCES_HEADER_RE.match(line)]
 
 
 def check(draft_text: str, context: dict) -> dict:
     findings = []
     lines = draft_text.splitlines()
 
-    block = _find_sources_block(lines)
-    if block is None:
+    headers = _find_sources_headers(lines)
+    if len(headers) == 0:
         findings.append({
             "check_id": "SOURCES-001",
             "severity": "fail",
-            "message": "no Sources block found",
+            "message": "no `# Sources` block found",
             "location": "(global)",
         })
         return {"gate": GATE_ID, "passed": False, "findings": findings}
+    if len(headers) > 1:
+        findings.append({
+            "check_id": "SOURCES-001",
+            "severity": "fail",
+            "message": "`# Sources` header appears %d times (expected exactly 1)" % len(headers),
+            "location": "lines %s" % ", ".join(str(h + 1) for h in headers),
+        })
+        # keep going against the last block for additional diagnostics
 
-    level, start, end = block
+    start = headers[-1] + 1
+    # Block runs until the next h1 (or EOF).
+    end = len(lines)
+    for j in range(start, len(lines)):
+        hm = ANY_HEADER_RE.match(lines[j])
+        if hm and len(hm.group(1)) == 1:
+            end = j
+            break
 
-    # Walk the block: track sub-group headings and entries, noting for each
-    # entry whether it falls under a sub-group heading.
-    current_subgroup = None
-    entries = []  # list of (lineno, body, under_subgroup_bool)
+    # Walk the block: track `##`+ category sub-headings; record, per entry,
+    # whether it falls under a category heading.
+    under_category = False
+    entries = []  # list of (lineno, body, under_category_bool)
     for idx in range(start, end):
         raw = lines[idx]
         hm = ANY_HEADER_RE.match(raw)
-        if hm and len(hm.group(1)) > level:
-            current_subgroup = hm.group(2)
+        if hm and len(hm.group(1)) >= 2:
+            label = hm.group(2).strip()
+            under_category = True
+            if label.lower() not in _ALLOWED_LOWER:
+                findings.append({
+                    "check_id": "SOURCES-002",
+                    "severity": "fail",
+                    "message": "Sources category %r not in 5-label enum %s"
+                               % (label, ALLOWED_CATEGORIES),
+                    "location": "line %d" % (idx + 1),
+                })
             continue
         lm = LIST_ITEM_RE.match(raw)
         if lm:
-            entries.append((idx + 1, lm.group(1).strip(), current_subgroup is not None))
+            entries.append((idx + 1, lm.group(1).strip(), under_category))
 
-    # SOURCES-002 / SOURCES-003
-    for lineno, body, _under in entries:
-        category, _tok = _extract_category(body)
-        if category is None or category.lower() not in _ALLOWED_LOWER:
-            shown = category if category else "(none)"
-            findings.append({
-                "check_id": "SOURCES-002",
-                "severity": "fail",
-                "message": "source category %r not in allowed set %s" % (shown, ALLOWED_CATEGORIES),
-                "location": "line %d" % lineno,
-            })
-            continue  # category unknown -> skip patent-field check for this entry
-        canon = _ALLOWED_LOWER[category.lower()]
-        if canon == "Patent":
-            n = _count_citation_fields(body)
-            if n != PATENT_CITATION_FIELDS:
-                findings.append({
-                    "check_id": "SOURCES-003",
-                    "severity": "fail",
-                    "message": "Patent entry has %d citation fields, expected %d" % (n, PATENT_CITATION_FIELDS),
-                    "location": "line %d" % lineno,
-                })
-
-    # SOURCES-004: all-or-nothing subgrouping
+    # SOURCES-003: all-or-nothing subgrouping.
     if entries:
         under = sum(1 for _l, _b, u in entries if u)
         if 0 < under < len(entries):
             findings.append({
+                "check_id": "SOURCES-003",
+                "severity": "fail",
+                "message": "partial subgrouping: %d of %d entries under a `##` category "
+                           "heading (all-or-nothing required)" % (under, len(entries)),
+                "location": "Sources block (lines %d-%d)" % (start, end),
+            })
+
+        # SOURCES-004: flat list that should be subgrouped (warn).
+        if under == 0 and len(entries) > SUBGROUP_FLAT_MAX:
+            findings.append({
                 "check_id": "SOURCES-004",
                 "severity": "warn",
-                "message": "mixed subgrouping: %d of %d entries under sub-group headings (expected all or none)" % (under, len(entries)),
-                "location": "Sources block (line %d-%d)" % (start, end),
+                "message": "%d entries left as a flat list; 4+ entries across 2+ "
+                           "categories should be subgrouped (verify category spread)"
+                           % len(entries),
+                "location": "Sources block (lines %d-%d)" % (start, end),
             })
 
     passed = not any(f["severity"] == "fail" for f in findings)

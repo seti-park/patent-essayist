@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Aggregator for the patent-essay deterministic validation gates.
 
-Runs all five gates against a draft and aggregates the results.
+Runs all six gates against a draft and aggregates the results.
 
 DRAFT FORMAT ASSUMPTIONS: see gate_emdash.py for the full shared list (Markdown
 draft; quoted text = double quotes or '>' blockquotes; [dddd] anchors; Figure N
@@ -14,7 +14,7 @@ Hard pass/fail rule:
 
 Usage:
   run_gates.py --draft DRAFT [--invention-summary FILE] [--figures FILE]
-               [--mode essay|wire] [--json]
+               [--figure-selection FILE] [--mode essay|wire] [--json]
 """
 
 import argparse
@@ -31,6 +31,7 @@ import gate_anchors
 import gate_sources
 import gate_banned
 import gate_structure
+import gate_figure_use
 
 GATES = [
     gate_emdash,
@@ -38,6 +39,7 @@ GATES = [
     gate_sources,
     gate_banned,
     gate_structure,
+    gate_figure_use,
 ]
 
 
@@ -59,6 +61,9 @@ def build_context(args):
             ctx["invention_summary_text"] = fh.read()
     if args.figures:
         ctx["figures_index"] = _parse_figures_file(args.figures)
+    if args.figure_selection:
+        with open(args.figure_selection, "r", encoding="utf-8") as fh:
+            ctx["figure_selection_text"] = fh.read()
     return ctx
 
 
@@ -108,6 +113,7 @@ def main(argv=None) -> int:
     p.add_argument("--draft", required=True, help="path to the draft Markdown file")
     p.add_argument("--invention-summary", help="path to invention-summary text file")
     p.add_argument("--figures", help="path to figures file (ints, line/comma separated)")
+    p.add_argument("--figure-selection", help="path to figure-selection.md (orphan-figure gate)")
     p.add_argument("--mode", choices=["essay", "wire"], default="essay",
                    help="reserved pass-through mode (default: essay)")
     p.add_argument("--json", action="store_true", help="emit JSON summary instead of text")

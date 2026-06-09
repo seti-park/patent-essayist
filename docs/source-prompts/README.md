@@ -1,24 +1,25 @@
 # Source prompts — original claude.ai assets (preserved)
 
-The patent-essay system was originally run as **four separate claude.ai Projects**, each
-with its own Instructions + Knowledge + skill. Those originals are the reference baseline
-for this Claude Code conversion. Preserve them here, verbatim, by phase:
+The patent-essay system was originally run as separate claude.ai Projects, each with its own
+Instructions + Knowledge + skill. The **five original skills are preserved here verbatim** as
+the reference baseline; their real bodies have been **ported into `.claude/skills/`**.
 
-| Dir | Original claude.ai Project | Ports into |
-|-----|----------------------------|-----------|
-| `01-design/`  | Phase 1 Design (voice-off)   | `.claude/skills/thesis-architect/` |
-| `02-compose/` | Phase 2 Compose (voice-on)   | `.claude/skills/essay-en-composer/` + `voice-canon-lookup/` |
-| `03-edit/`    | Phase 3 Edit (voice-fenced)  | `.claude/skills/editorial-review/` |
+| Dir | Original skill(s) | Ported into | Status |
+|-----|-------------------|-------------|--------|
+| `01-design/thesis-architect/`     | Phase 1 Design (voice-off)   | `.claude/skills/thesis-architect/` | ported |
+| `02-compose/essay-en-composer/`   | Phase 2 Compose (voice-on)   | `.claude/skills/essay-en-composer/` | ported |
+| `02-compose/voice-canon-lookup/`  | Phase 2 voice helper          | `.claude/skills/voice-canon-lookup/` | ported (incl. 33-entry canon) |
+| `03-edit/editorial-review/`       | Phase 3 Edit (voice-fenced)  | `.claude/skills/editorial-review/` | ported |
+| `04-promote/promo-composer/`      | Phase 4 Promote               | — | **preserved, not yet ported** |
 
-(Phase 4 Promote and Layer-1 figure cleaning are out of scope for this conversion.)
+Phase 4 Promote and Layer-1 figure cleaning are out of scope for this conversion. The
+`promo-composer` source is kept here so it can be ported later without re-supplying it.
 
-## How porting works
+## How the port works
 
-Each target skill's `SKILL.md` has a `<!-- PORTED PROMPT -->` marker showing exactly where
-to drop the original skill body. The Knowledge files map to `_shared/references/` canon
-(voice-profile, deliverable-voice-rules, anti-ai-writing, x-article-format, caption-roles,
-working-dialogue-voice, writing-textbook). Keep each stage's **output contract** intact so
-the on-disk hand-off keeps parsing.
-
-Drop the original Instruction + Knowledge text into the matching phase dir here as the
-canonical record; the live system reads from `.claude/skills/`, not from this folder.
+The live skills under `.claude/skills/` are the real ported bodies (SKILL.md + their own
+`references/`, and voice-canon-lookup's `voice-canon/` corpus). This folder is the canonical
+record of the originals — the live system reads from `.claude/skills/`, not from here. When
+porting `promo-composer`, copy its body into a new `.claude/skills/promo-composer/`, map any
+Project Knowledge it needs to `_shared/references/`, and keep its output contract
+(`handoff/04-promote/promotion-post.md`) intact.

@@ -1,59 +1,106 @@
 # Scoring Rubric — Phase 3 Edit + Quality Loop
 
-> **Status: SCAFFOLD.** Defines how Phase 3 (`editorial-review`) scores a draft and how the
-> orchestrator decides PASS/FAIL for the Compose↔Edit loop. Two layers: a **deterministic
-> gate** (mechanical, hard pass/fail) and a **qualitative editorial score** (0–100). Tune
-> weights, threshold, and the banned/structure constants to taste.
+Defines how the orchestrator decides PASS/FAIL for the Compose↔Edit loop. Two layers,
+by design:
+
+1. **Deterministic gates** (mechanical, hard pass/fail) — `_shared/scripts/run_gates.py`.
+2. **Qualitative editorial assessment** — `editorial-review`'s 6-pass review, expressed as a
+   **severity model** (`overall_assessment`), not an arbitrary 0–100 number. This mirrors the
+   real `editorial-review/references/feedback-format.md` so the loop and the editor speak the
+   same language.
+
+## North-star goals → checks (acceptance traceability matrix)
+
+The system exists to satisfy four goals. They are first-class acceptance criteria, and every
+gate/pass below is here because it defends one of them. The meta-loop (`pipeline-retro`) uses
+the **owner** column to attribute a recurring finding back to the stage/artifact that should
+have prevented it.
+
+| Goal | Deterministic gate | Editorial pass | Upstream owner (P1/P2 artifact) |
+|------|--------------------|----------------|---------------------------------|
+| **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans, 4-axis grounding, thesis-spine |
+| **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale, invention-summary Quotable spans |
+| **3. Easy for the reader to understand** | `gate_structure` (warn-only smells) | pass-5 reader-perspective | mode/posture audience calibration |
+| **4a. Well-structured** | `gate_structure` | pass-6 lead/conclusion + format | section-blueprint, x-articles-format-en, thesis arc |
+| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash` | pass-1 voice + anti-ai | voice-on drafting + anti-ai canon + strip-pipeline |
+
+When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
+artifact, so improvement proposals target the true root cause rather than the symptom.
 
 ## Layer 1 — Deterministic gates (hard, mechanical)
 
-Run `_shared/scripts/run_gates.py` over `handoff/02-compose/essay-draft.md`. It returns a
-machine pass/fail plus `check_id`s. **Any `fail`-severity finding fails the round outright**,
-regardless of the qualitative score:
+Run `run_gates.py` over `handoff/02-compose/essay-draft.md`, passing the Phase-1 hand-off so
+the chain/figure/orphan checks resolve. **Any `fail`-severity finding fails the round
+outright**, regardless of the editorial assessment. Warnings never fail the round; they feed
+the editorial passes and the revision actions.
 
-| Gate | Hard `check_id`s | Meaning |
-|------|------------------|---------|
-| `emdash`   | `EMDASH-001` | em-dash outside quotes |
-| `anchors`  | `ANCHOR-001`, `FIGREF-001` | `[dddd]` / figure ref doesn't resolve to the Phase-1 hand-off |
-| `sources`  | `SOURCES-001/002/003` | missing or malformed Sources block |
-| `banned`   | `BANNED-001` | banned AI-tell term/construction outside quotes |
-| `structure`| (`STRUCT-00x` are **warn** only) | heuristic structure smells |
+| Gate | Hard `check_id`s (fail) | Warn `check_id`s | Defends goal |
+|------|-------------------------|------------------|--------------|
+| `emdash`     | `EMDASH-001` | `EMDASH-002` | 4b |
+| `anchors`    | `ANCHOR-001`, `ANCHOR-002`, `FIGREF-001` | `ANCHOR-000`, `FIGREF-000` | 1, 2 |
+| `sources`    | `SOURCES-001/002/003` | `SOURCES-004` | 4a |
+| `banned`     | `BANNED-001` | — | 4b |
+| `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
+| `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
 
-Warnings do not fail the round; they feed the qualitative score and the revision actions.
+Invocation (orchestrator):
 
-## Layer 2 — Qualitative editorial score (0–100)
+```
+python _shared/scripts/run_gates.py \
+  --draft handoff/02-compose/essay-draft.md \
+  --invention-summary handoff/01-design/invention-summary.md \
+  --figures handoff/01-design/figures-index.txt \
+  --figure-selection handoff/01-design/figure-selection.md --json
+```
 
-The 6-pass review scores these dimensions:
+## Layer 2 — Editorial assessment (severity model)
 
-| # | Dimension | Weight | Full marks |
-|---|-----------|--------|-----------|
-| 1 | **Thesis adherence** | 25 | Every section traces to `thesis-spine.md`. |
-| 2 | **Grounding / anchor-chain** | 25 | All claims anchored to Phase-1 `[dddd]`/figures; nothing invented. |
-| 3 | **Verbatim fact-check** | 15 | `fact-check-log.md` claims match `input/patent.md` word-for-word. |
-| 4 | **Voice compliance** | 15 | Matches `deliverable-voice-rules.md` + `anti-ai-writing.md` (NOT voice-profile). |
-| 5 | **Structure / format** | 10 | Conforms to `x-article-format.md`. |
-| 6 | **So-what / close** | 10 | Specific, falsifiable takeaway. |
+`editorial-review` runs the 6 passes and emits one `overall_assessment` from this enum,
+computed from the worst-severity finding present (see `editorial-review/references/feedback-format.md`):
 
-Editorial score = weighted sum (max 100). The optional vendored `ai-check` may feed
-dimension 4 as a secondary cross-check; it is not the source of truth.
+| Has critical? | Has high? | Has medium? | `overall_assessment` |
+|---|---|---|---|
+| Yes | (any) | (any) | `revise-required` |
+| No  | Yes  | (any) | `revise-required` |
+| No  | No   | Yes   | `revise-recommended` |
+| No  | No   | No    | `pass` |
+
+`low` findings never change the assessment. The posture lens (aggressive / measured /
+conservative) can shift a finding's severity; `severity_under_default_posture` keeps that
+transparent.
+
+### Coverage sub-check (goal 2, pass-3)
+
+Beyond verbatim/paraphrase checks, pass-3 runs a **coverage sub-check**: walk the
+`invention-summary.md` 4-layer core mechanism and the high-priority Quotable spans, and
+confirm each core-mechanism layer is addressed somewhere in the draft. A core-mechanism layer
+or a spine-critical Quotable span left entirely uncovered is a `high` finding ("specification
+under-use"). This is the qualitative complement to the mechanical `gate_figure_use`: gates
+catch unused *figures*, the coverage sub-check catches unused *specification*.
 
 ## PASS / FAIL (orchestrator loop policy)
 
 ```
-PASS  ⇔  Layer-1 gates all pass
-         AND  editorial score >= threshold
+PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-001)
+         AND  editorial overall_assessment is acceptable per threshold
          AND  grounding hard-gate not breached
 ```
 
-- **Pass threshold: 85** (default; `--threshold` overrides).
-- **Grounding hard-gate:** dimension 2 < 18/25 is an automatic FAIL — never ship weak or
-  invented grounding, even if the total clears the threshold.
-- **Max revision iterations: 4** (`--max-iter`). If still failing after the cap, return the
-  best round with the remaining gap and the unaddressed revision actions.
+- **Threshold (default): `pass`.** The loop accepts only a clean `pass`. `--threshold` may
+  relax this to `revise-recommended` (accept medium-only findings) for faster turnaround; it
+  may never relax to `revise-required`.
+- **Grounding hard-gate:** any `high`/`critical` finding in pass-3 (claim adequacy / fact /
+  paraphrase) or any `gate_anchors` fail is an automatic FAIL even if you relaxed the
+  threshold — never ship weak or invented grounding (goal 1).
+- **Goal-2 hard-gate:** any `FIGUSE-001` (orphan figure) or pass-3 coverage `high` finding is
+  an automatic FAIL — figures and spec must actually be used.
+- **Max revision iterations: 4** (`--max-iter`). On FAIL, the orchestrator feeds the
+  `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
+  the cap, it returns the best round with the remaining findings and the score history.
 
-## Required Phase-3 output
+## Loop ↔ retro hand-off
 
-`editorial-review` writes `handoff/03-edit/edit-log.md` (YAML; schema in that skill),
-including `gates`, the six `passes`, `score`, `grounding_gate`, `verdict`, and
-`revision_actions` (only when FAIL). The orchestrator parses `verdict` + gate result to
-drive the loop and feeds `revision_actions` back into `essay-en-composer`.
+After the inner loop terminates (PASS or cap), the orchestrator hands the final `edit-log.md`
++ gate result + score history to `pipeline-retro`, which normalizes findings into
+`meta/findings-ledger.jsonl` keyed by the goal + owner from the matrix above. See the
+`pipeline-retro` skill for the propose-only meta-loop.

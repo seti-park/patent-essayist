@@ -11,6 +11,13 @@ input/**
 !input/figures/
 !input/**/.gitkeep
 
+# Per-run archives are generated each pipeline run; keep the dir, ignore payloads.
+# (meta/ — the findings ledger, attribution table, fixtures, proposals — IS tracked:
+# it is the system's persistent memory, not a per-run artifact.)
+runs/**
+!runs/
+!runs/.gitkeep
+
 # Python
 __pycache__/
 *.pyc

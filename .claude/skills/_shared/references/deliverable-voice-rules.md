@@ -9,11 +9,15 @@
 ## Hard rules (also enforced by gate scripts)
 
 - **No em-dash** (`—`) in body or title outside verbatim quotes. *(gate: `EMDASH-001`)*
-- **Citations resolve:** every `[dddd]` anchor and figure ref must exist in the Phase-1
-  hand-off. *(gates: `ANCHOR-001`, `FIGREF-001`)*
+- **Citations resolve + well-formed:** every `[dddd]` anchor is 4-digit zero-padded and
+  exists in the Phase-1 hand-off; every figure ref resolves. *(gates: `ANCHOR-001`,
+  `ANCHOR-002`, `FIGREF-001`)*
+- **No orphan figures:** every figure Phase 1 selected is actually used in the draft.
+  *(gate: `FIGUSE-001`)*
 - **No banned AI-tell terms/constructions** outside quotes. *(gate: `BANNED-001`; the list
   lives in `anti-ai-writing.md` → `scripts/banned_terms.txt`)*
-- **Sources block** present and well-formed. *(gates: `SOURCES-00x`)*
+- **Sources block** present exactly once as `# Sources` (h1), 5-label enum, all-or-nothing
+  `##` subgrouping. *(gates: `SOURCES-001/002/003`)*
 
 ## Soft rules (Phase-3 judgment + structure gate warnings)
 

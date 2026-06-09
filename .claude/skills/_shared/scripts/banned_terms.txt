@@ -1,40 +1,67 @@
-# banned_terms.txt -- provisional starter list for the patent-essay banned gate.
+# banned_terms.txt -- mechanical mirror of the patent-essay anti-AI banned list.
 #
-# PROVISIONAL: this is a small starter set seeded by hand. It is intended to be
-# REPLACED by the upstream anti-ai-writing canon once that lands. Edit freely.
+# AUTHORITATIVE SOURCE: _shared/references/anti-ai-writing.md (Pass 1 banned list).
+# This file is the deterministic, hard-fail SUBSET of that canon: every term here
+# is unambiguous enough to enforce mechanically without false positives. The
+# richer judgment list (copula avoidance, transition fingerprint, hedging, etc.)
+# lives in anti-ai-writing.md and is enforced by editorial Pass 1, not this gate.
+#
+# Keep this file in sync when the canon banned list changes. The meta-loop
+# (pipeline-retro) proposes additions here when a banned pattern recurs across
+# essays and is mechanically safe to promote.
 #
 # Format (one entry per line):
-#   - lines starting with '#'  -> comment, ignored
-#   - blank lines              -> ignored
-#   - lines starting with 're:' -> the remainder is a Python regex (case-insensitive)
-#   - everything else          -> a case-insensitive WHOLE-WORD literal
+#   - '#' lines            -> comment, ignored
+#   - blank lines          -> ignored
+#   - 're:' prefix         -> Python regex (case-insensitive)
+#   - everything else      -> case-insensitive WHOLE-WORD literal
 #
-# Literals are matched on word boundaries, so "robust" will not match "robustly"
-# unless you add that form. Multi-word literals (e.g. "testament to") are matched
-# as a phrase with word boundaries at each end.
+# Literals match on word boundaries: "enhance" will not match "enhancement".
 
-# --- single-word AI-tell vocabulary ---
+# --- SETI anti-ai banned words (Pass 1, authoritative) ---
 delve
-leverage
-robust
-seamless
-underscore
 tapestry
-realm
-crucial
+vibrant
 pivotal
-unlock
-foster
-
-# --- multi-word literals ---
-testament to
-game-changer
-
-# --- figurative "navigate" (kept as a plain literal; conservative) ---
+crucial
+fostering
+underscore
+meticulous
+intricate
+testament
+garner
+bolstered
+showcase
+enhance
+enduring
+valuable
+boasts
+renowned
+multifaceted
+leverage
 navigate
+resonate
+nestled
+groundbreaking
+interplay
 
-# --- regex patterns ---
-# "not just X, but Y" rhetorical construction
-re:not just .{1,40}, but
-# "it's worth noting" filler
+# NOTE: "landscape" (abstract sense) and sentence-initial "Additionally" are
+# banned in canon but context-dependent. "landscape" is left to editorial
+# judgment (geographic use is fine). Sentence-initial "Additionally" is the
+# regex below; mid-sentence "additionally" is left to editorial judgment.
+
+# --- sentence-initial Additionally (abstract connector) ---
+re:(?:^|[.!?]\s+)additionally\b
+
+# --- banned rhetorical patterns (Pass 1, high confidence) ---
+# not-just-X-but-Y / not-only-but negative parallelism
+re:not just .{1,40}?,? but
+re:not only .{1,60}? but
+# despite-the-challenges throat-clearing
+re:despite the challenges
+# copula avoidance (elaborate substitutes for is/are)
+re:\b(serves|stands) as a\b
+# section summaries / generic conclusions
+re:\b(in summary|to recap|in conclusion)\b
+# filler announcement
 re:it'?s worth noting

@@ -14,6 +14,8 @@ Context keys consumed:
   - figures_index (list[int], optional): the set of valid figure numbers.
 
 Checks:
+  ANCHOR-002 (fail): any bracketed-digit anchor that is not 4-digit zero-padded
+                     (e.g. [123], [12345]) -- Pass 6 6E format rule.
   ANCHOR-001 (fail): every [dddd] anchor in the draft must also appear in the
                      invention-summary anchor set.
   ANCHOR-000 (warn): emitted (and check skipped/passed) when no
@@ -32,6 +34,9 @@ import sys
 # ---------------------------------------------------------------------------
 GATE_ID = "anchors"
 ANCHOR_RE = re.compile(r"\[(\d{4})\]")                 # [0123]
+# Any bracketed pure-digit token, to catch malformed (non-4-digit) anchors like
+# [123] or [12345]. Markdown footnote refs ([^id]) are excluded by \d-only.
+ANCHOR_ANY_DIGITS_RE = re.compile(r"\[(\d+)\]")
 FIGREF_RE = re.compile(r"\bfig(?:ure|\.)?\s*(\d+)\b", re.IGNORECASE)  # Figure 3 / Fig. 3 / Fig 3
 
 
@@ -51,6 +56,19 @@ def _anchor_set(text):
 def check(draft_text: str, context: dict) -> dict:
     findings = []
     context = context or {}
+
+    # --- ANCHOR format (4-digit zero-padded) ---------------------------------
+    # Pass 6 6E: any `[XXX]` / `[XXXXX]` non-4-digit anchor is a hard fail.
+    for lineno, raw in enumerate(draft_text.splitlines(), start=1):
+        for m in ANCHOR_ANY_DIGITS_RE.finditer(raw):
+            if len(m.group(1)) != 4:
+                findings.append({
+                    "check_id": "ANCHOR-002",
+                    "severity": "fail",
+                    "message": "malformed citation anchor [%s] (must be 4-digit "
+                               "zero-padded, e.g. [0042])" % m.group(1),
+                    "location": "line %d" % lineno,
+                })
 
     # --- ANCHOR chain --------------------------------------------------------
     summary = context.get("invention_summary_text")

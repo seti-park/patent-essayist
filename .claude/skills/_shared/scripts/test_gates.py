@@ -20,6 +20,7 @@ import gate_anchors
 import gate_sources
 import gate_banned
 import gate_structure
+import gate_figure_use
 import run_gates
 
 
@@ -90,6 +91,20 @@ class TestAnchors(unittest.TestCase):
         r = gate_anchors.check(draft, ctx)
         self.assertTrue(r["passed"], r["findings"])
 
+    def test_malformed_anchor_fails(self):
+        draft = "See [123] and [12345] for detail.\n"
+        ctx = {"invention_summary_text": "[0001]"}
+        r = gate_anchors.check(draft, ctx)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "ANCHOR-002"))
+
+    def test_wellformed_anchor_no_format_finding(self):
+        draft = "See [0001].\n"
+        ctx = {"invention_summary_text": "[0001]"}
+        r = gate_anchors.check(draft, ctx)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "ANCHOR-002"))
+
 
 class TestSources(unittest.TestCase):
     def test_missing_block_fails(self):
@@ -98,51 +113,88 @@ class TestSources(unittest.TestCase):
         self.assertFalse(r["passed"])
         self.assertTrue(_has(r, "SOURCES-001"))
 
-    def test_valid_block_passes(self):
+    def test_duplicate_block_fails(self):
+        draft = "# Sources\n- a\n\n# Sources\n- b\n"
+        r = gate_sources.check(draft, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "SOURCES-001"))
+
+    def test_valid_flat_block_passes(self):
         draft = (
             "# Essay\n\nBody.\n\n"
-            "## Sources\n"
-            "- **Patent:** US1234567B2 | Acme | Rotor | Filed 2019 | Granted 2021 | [0042]\n"
-            "- **Academic:** Smith et al., J. Mech, 2020\n"
+            "# Sources\n"
+            "- US1234567B2, Acme, Rotor, priorited 2019-01-01, published 2021-01-01\n"
+            "- Smith, John (2020). Title. J. Mech.\n"
+        )
+        r = gate_sources.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_valid_subgrouped_block_passes(self):
+        draft = (
+            "# Sources\n"
+            "## Patents\n"
+            "- US1234567B2, Acme, Rotor\n"
+            "## Technical specs\n"
+            "- Bosch ECU spec sheet\n"
         )
         r = gate_sources.check(draft, {})
         self.assertTrue(r["passed"], r["findings"])
 
     def test_bad_category_fails(self):
         draft = (
-            "## Sources\n"
-            "- **Blog:** some random blog post\n"
+            "# Sources\n"
+            "## Industry data\n"
+            "- some figure\n"
         )
         r = gate_sources.check(draft, {})
         self.assertFalse(r["passed"])
         self.assertTrue(_has(r, "SOURCES-002"))
 
-    def test_patent_wrong_field_count_fails(self):
+    def test_partial_subgrouping_fails(self):
         draft = (
-            "## Sources\n"
-            "- **Patent:** US1234567B2 | Acme | Rotor\n"  # only 3 fields
+            "# Sources\n"
+            "- a bare top-level entry\n"
+            "## Patents\n"
+            "- US1, Acme, Rotor\n"
         )
         r = gate_sources.check(draft, {})
         self.assertFalse(r["passed"])
         self.assertTrue(_has(r, "SOURCES-003"))
 
-    def test_dash_leadin_category_parsed(self):
+    def test_large_flat_list_warns(self):
         draft = (
-            "## Sources\n"
-            "- Academic — Jones, Nature, 2021\n"
+            "# Sources\n"
+            "- one\n- two\n- three\n- four\n- five\n"
         )
         r = gate_sources.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SOURCES-004"))
+
+
+class TestFigureUse(unittest.TestCase):
+    SELECTION = "fig-01 maps to the lead. FIG. 2 anchors the mechanism. Figure 3 closes.\n"
+
+    def test_orphan_selected_figure_fails(self):
+        draft = "Figure 1 and Fig. 2 are discussed.\n"  # 3 selected but unused
+        r = gate_figure_use.check(draft, {"figure_selection_text": self.SELECTION})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "FIGUSE-001"))
+
+    def test_all_used_passes(self):
+        draft = "Figure 1, Fig. 2, and Figure 3 all appear.\n"
+        r = gate_figure_use.check(draft, {"figure_selection_text": self.SELECTION})
         self.assertTrue(r["passed"], r["findings"])
 
-    def test_mixed_subgrouping_warns(self):
-        draft = (
-            "## Sources\n"
-            "- **Academic:** Top-level entry\n"
-            "### Patents\n"
-            "- **Patent:** US1 | a | b | c | d | e\n"
-        )
-        r = gate_sources.check(draft, {})
-        self.assertTrue(_has(r, "SOURCES-004"))
+    def test_offplan_figure_warns(self):
+        draft = "Figure 1, Fig. 2, Figure 3, and Figure 9 appear.\n"
+        r = gate_figure_use.check(draft, {"figure_selection_text": self.SELECTION})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "FIGUSE-002"))
+
+    def test_no_selection_skips(self):
+        r = gate_figure_use.check("Figure 1.\n", {})
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "FIGUSE-000"))
 
 
 class TestBanned(unittest.TestCase):
@@ -188,13 +240,13 @@ class TestRunGatesEndToEnd(unittest.TestCase):
         "# Essay\n\n"
         "The rotor turns a shaft. The shaft drives a pump. This is described "
         "plainly. See [0001] for the mechanism and Figure 1 for the layout.\n\n"
-        "## Sources\n"
-        "- **Patent:** US1234567B2 | Acme | Rotor | Filed 2019 | Granted 2021 | [0001]\n"
-        "- **Academic:** Smith et al., J. Mech, 2020\n"
+        "# Sources\n"
+        "- US1234567B2, Acme, Rotor, priorited 2019-01-01, published 2021-01-01\n"
+        "- Smith, John (2020). Title. J. Mech.\n"
     )
     DIRTY = (
         "# Essay\n\n"
-        "We delve into the rotor — it is robust. See [9999] and Figure 9.\n"
+        "We delve into the rotor — it is fast. See [9999] and Figure 9.\n"
         # no Sources block
     )
 

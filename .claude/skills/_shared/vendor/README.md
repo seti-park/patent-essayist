@@ -3,21 +3,26 @@
 These skills are bundled (vendored) from upstream open-source projects. Each retains its
 own LICENSE.
 
-> **Source of truth is SETI's own canon, not these vendored skills.** AI-tell removal is
-> governed by `_shared/references/anti-ai-writing.md` (enforced mechanically by
-> `_shared/scripts/gate_banned.py`) and the voice canon. The vendored skills are at most an
-> **optional secondary cross-check**, kept here for reference and easy swapping.
+> **Absorbed, not run.** The well-researched content of both vendored skills has been
+> **absorbed into `_shared/references/anti-ai-writing.md`** (the AI-vocabulary list, copula
+> avoidance, transition-word fingerprint, hedging/filler, punctuation tells). They are kept
+> here **for reference only** and are **NOT invoked in the runtime loop**: a generic detector
+> fights SETI's own voice and causes drift. Naturalness (north-star goal 4b) is enforced by
+> SETI's canon — `anti-ai-writing.md` (judgment, editorial Pass 1) + `gate_banned.py` /
+> `gate_emdash.py` (mechanical) + voice-on drafting + strip-pipeline.
 
 | Dir | Upstream | License | Role now | Notes |
 |-----|----------|---------|----------|-------|
-| `ai-check/` | [harshaneel/humanize](https://github.com/harshaneel/humanize) (`ai-check`) | MIT | **Optional** secondary AI-tell scorer in Phase 3 (`editorial-review`), feeding voice dimension 4 as a cross-check. | Not the source of truth; the canon + gates are. |
-| `humanizer/` | [blader/humanizer](https://github.com/blader/humanizer) | MIT | **Demoted — not in the compose path.** | Kept for reference only; its rewrite passes can fight SETI's own voice, so Phase 2 strips via `anti-ai-writing.md`, not this skill. |
+| `ai-check/`  | [harshaneel/humanize](https://github.com/harshaneel/humanize) (`ai-check`) | MIT | **Reference only — absorbed.** Its 9 signals (esp. transition-word + punctuation fingerprint) live in `anti-ai-writing.md` Tier 2. | Not run in the loop. |
+| `humanizer/` | [blader/humanizer](https://github.com/blader/humanizer) | MIT | **Reference only — absorbed.** Its AI-vocabulary, copula-avoidance, hedging/filler lists live in `anti-ai-writing.md`. | Not run in the loop; rewrite passes fight SETI's voice. |
 
-## Updating
+## How the meta-loop keeps this current
 
-Re-pull the upstream `SKILL.md` (and any reference files) and copy it here, preserving the
-upstream `LICENSE`. Do not edit vendored files in place — adjust behavior via
-`_shared/references/` (canon) and `_shared/scripts/` (gates) instead, so updates stay clean.
+You don't re-pull these to update behavior. The `pipeline-retro` meta-loop watches for
+recurring AI tells in real essays and proposes additions to `anti-ai-writing.md` (and, when
+mechanically safe, to `banned_terms.txt`). To refresh from upstream for reference, re-copy the
+upstream `SKILL.md` + `LICENSE` here, then absorb any genuinely new signal into the canon by
+hand — never wire these back into the runtime path.
 
 ## Alternatives considered
 
