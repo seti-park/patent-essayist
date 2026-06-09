@@ -57,6 +57,14 @@ Class-level signals (across essays):
 - **claim-accuracy-paraphrase** — 2 instances (essay 045 dry-run). Within-essay cluster, below
   the cross-essay threshold (3). Watch.
 - **spec-undercoverage** — 1 low instance. Watch.
+- **goal-3 / accessibility classes** (NEW, audience=investor run of 045) — `payoff-backloaded`,
+  `long-sentence-mobile`, `fix-induced-paragraph-overlong`. These appeared ONLY at the investor
+  altitude (the deep run produced goal-1/goal-2 findings instead), which validates the
+  audience encoding: the investor reader profile (pass-5) + load-bearing audit (pass-2 2D) +
+  `gate_readability` genuinely shifted the loop's focus to reader-accessibility. All resolved
+  in 3 iterations; goal-3 hard-gate (READAB-001/002) cleared. `fix-induced-paragraph-overlong`
+  is a "a fix introduced a new finding" class worth watching — the loop caught its own side
+  effect, which is the loop working as intended.
 
 Applied out-of-band during run 045 (gate-promotion lever, human-applied with tests):
 - `gate_figure_use` + `gate_anchors`: sub-figure letter tokens (1A/1B/5B) — commits 5c2249a / fed6acf.
