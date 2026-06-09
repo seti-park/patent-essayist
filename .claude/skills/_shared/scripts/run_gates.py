@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Aggregator for the patent-essay deterministic validation gates.
 
-Runs all six gates against a draft and aggregates the results.
+Runs all seven gates against a draft and aggregates the results. The readability
+gate is audience-aware and inert unless --audience investor is passed.
 
 DRAFT FORMAT ASSUMPTIONS: see gate_emdash.py for the full shared list (Markdown
 draft; quoted text = double quotes or '>' blockquotes; [dddd] anchors; Figure N
@@ -14,7 +15,8 @@ Hard pass/fail rule:
 
 Usage:
   run_gates.py --draft DRAFT [--invention-summary FILE] [--figures FILE]
-               [--figure-selection FILE] [--mode essay|wire] [--json]
+               [--figure-selection FILE] [--mode essay|wire]
+               [--audience deep|investor] [--json]
 """
 
 import argparse
@@ -32,6 +34,7 @@ import gate_sources
 import gate_banned
 import gate_structure
 import gate_figure_use
+import gate_readability
 
 GATES = [
     gate_emdash,
@@ -40,6 +43,7 @@ GATES = [
     gate_banned,
     gate_structure,
     gate_figure_use,
+    gate_readability,
 ]
 
 
@@ -59,7 +63,7 @@ def _parse_figures_file(path):
 
 
 def build_context(args):
-    ctx = {"mode": args.mode}
+    ctx = {"mode": args.mode, "audience": args.audience}
     if args.invention_summary:
         with open(args.invention_summary, "r", encoding="utf-8") as fh:
             ctx["invention_summary_text"] = fh.read()
@@ -120,6 +124,9 @@ def main(argv=None) -> int:
     p.add_argument("--figure-selection", help="path to figure-selection.md (orphan-figure gate)")
     p.add_argument("--mode", choices=["essay", "wire"], default="essay",
                    help="reserved pass-through mode (default: essay)")
+    p.add_argument("--audience", choices=["deep", "investor"], default="deep",
+                   help="audience altitude; 'investor' activates the readability gate "
+                        "(default: deep)")
     p.add_argument("--json", action="store_true", help="emit JSON summary instead of text")
     args = p.parse_args(argv)
 

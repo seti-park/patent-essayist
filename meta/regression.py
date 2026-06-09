@@ -13,6 +13,7 @@ A proposal that breaks (1) or worsens any fixture in (2) must be rejected.
 
 Each fixture is a directory meta/fixtures/<name>/ containing:
   - expect.json     : {"gate_pass": true|false,
+                       "audience": "deep"|"investor",                       # optional (default deep)
                        "must_not_contain_check_ids": ["FIGUSE-001", ...],   # optional
                        "must_contain_check_ids": ["SOURCES-002", ...]}      # optional
   - draft.md        : the essay draft to run gates over
@@ -61,13 +62,13 @@ def _run_fixture(name):
     expect = json.loads(_load(os.path.join(fdir, "expect.json")))
     draft = _load(os.path.join(fdir, "draft.md"))
 
-    ctx = {"mode": "essay"}
+    ctx = {"mode": "essay", "audience": expect.get("audience", "deep")}
     inv = os.path.join(fdir, "invention-summary.md")
     if os.path.exists(inv):
         ctx["invention_summary_text"] = _load(inv)
     figs = os.path.join(fdir, "figures-index.txt")
     if os.path.exists(figs):
-        ctx["figures_index"] = [int(t) for t in _load(figs).split()]
+        ctx["figures_index"] = [t.upper() for t in _load(figs).split()]
     sel = os.path.join(fdir, "figure-selection.md")
     if os.path.exists(sel):
         ctx["figure_selection_text"] = _load(sel)

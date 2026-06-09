@@ -20,12 +20,34 @@ have prevented it.
 |------|--------------------|----------------|---------------------------------|
 | **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans, 4-axis grounding, thesis-spine |
 | **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale, invention-summary Quotable spans |
-| **3. Easy for the reader to understand** | `gate_structure` (warn-only smells) | pass-5 reader-perspective | mode/posture audience calibration |
+| **3. Easy for the reader to understand** | `gate_structure` (warn) + **`gate_readability` (enforced on `investor`)** | pass-5 reader-perspective (audience-conditional profile) | audience altitude + mode/posture calibration |
 | **4a. Well-structured** | `gate_structure` | pass-6 lead/conclusion + format | section-blueprint, x-articles-format-en, thesis arc |
 | **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash` | pass-1 voice + anti-ai | voice-on drafting + anti-ai canon + strip-pipeline |
 
 When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
 artifact, so improvement proposals target the true root cause rather than the symptom.
+
+## Audience altitude (`--audience deep|investor`)
+
+Audience is a first-class pipeline dimension that changes the deliverable's altitude, not just
+its surface. Two values:
+
+- **`deep` (default)** — the patent-fidelity altitude: inline `[xxxx]` anchors + reference
+  numbers on the surface, full mechanism walkthrough, ~2000+ words. Backward-compatible; all
+  existing behavior and gates are unchanged. `gate_readability` is inert.
+- **`investor`** — the accessible altitude for SETI's actual X readers (investors / analysts).
+  The accessible-format contract: **keep** scannable subheadings, the `# Sources` 5-label
+  block, and figures (plain captions, no reference numbers); **drop** inline `[xxxx]` /
+  reference numbers from the reader-facing body and compress to a stake-first, so-what-led
+  piece under the word ceiling. Grounding rigor is unchanged underneath — anchor↔claim
+  traceability moves to `handoff/02-compose/thesis-trace.md`, where editorial pass-3 verifies
+  it; it just does not surface to the reader. Audience can also flip the P1 thesis frame (an
+  `investor` spine favors a forward-capability / market hook, with a `reader_stake` field).
+
+This promotes **goal 3 from warn-only to enforced** for `investor`: `gate_readability`'s
+`READAB-001` (length ceiling) and `READAB-002` (no inline anchors in body) are hard fails, and
+pass-5 judges against the declared investor reader profile (see
+`editorial-review/references/pass-5-reader-perspective.md`).
 
 ## Layer 1 — Deterministic gates (hard, mechanical)
 
@@ -42,6 +64,7 @@ the editorial passes and the revision actions.
 | `banned`     | `BANNED-001` | — | 4b |
 | `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
 | `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
+| `readability`| `READAB-001` (length), `READAB-002` (inline anchor in body) — **`investor` audience only** | `READAB-000` (skipped on `deep`), `READAB-003` | 3 |
 
 Invocation (orchestrator):
 
@@ -94,6 +117,9 @@ PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-00
   threshold — never ship weak or invented grounding (goal 1).
 - **Goal-2 hard-gate:** any `FIGUSE-001` (orphan figure) or pass-3 coverage `high` finding is
   an automatic FAIL — figures and spec must actually be used.
+- **Goal-3 hard-gate (`investor` audience only):** any `READAB-001` (over the word ceiling) or
+  `READAB-002` (inline anchor on the reader-facing surface) is an automatic FAIL — the
+  accessible piece must stay finishable and free of patent-ese. Inert for `deep`.
 - **Max revision iterations: 4** (`--max-iter`). On FAIL, the orchestrator feeds the
   `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
   the cap, it returns the best round with the remaining findings and the score history.

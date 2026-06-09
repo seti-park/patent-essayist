@@ -21,6 +21,7 @@ import gate_sources
 import gate_banned
 import gate_structure
 import gate_figure_use
+import gate_readability
 import run_gates
 
 
@@ -272,6 +273,51 @@ class TestStructure(unittest.TestCase):
         draft = "Intro line.\n- a\n- b\n- c\n- d\n"
         r = gate_structure.check(draft, {})
         self.assertTrue(_has(r, "STRUCT-003"))
+
+
+class TestReadability(unittest.TestCase):
+    def test_deep_audience_skips(self):
+        draft = "We delve into [0001]. " * 200 + "\n# Sources\n- x\n"
+        r = gate_readability.check(draft, {"audience": "deep"})
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "READAB-000"))
+
+    def test_default_audience_skips(self):
+        # missing audience key defaults to deep -> skip
+        r = gate_readability.check("anything\n", {})
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "READAB-000"))
+
+    def test_investor_over_ceiling_fails(self):
+        body = "This is a short clear sentence about the dish. " * 300  # ~2700 words
+        draft = body + "\n\n# Sources\n- x\n"
+        r = gate_readability.check(draft, {"audience": "investor"})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "READAB-001"))
+
+    def test_investor_inline_anchor_fails(self):
+        draft = "The dish switches paths [0024] on its own.\n\n# Sources\n- x\n"
+        r = gate_readability.check(draft, {"audience": "investor"})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "READAB-002"))
+
+    def test_investor_clean_body_passes(self):
+        draft = (
+            "# Title\n\n## Lead\n\n"
+            "Your dish saves itself. When a route breaks, it jumps to another one "
+            "that shares nothing with the first. It does not have to know what failed.\n\n"
+            "# Sources\n"
+            "## Patents\n- US 12,647,863 B1, SpaceX, issued 2026-06-02.\n"
+        )
+        r = gate_readability.check(draft, {"audience": "investor"})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_anchor_in_sources_not_flagged(self):
+        # anchors after the # Sources header are not body -> not flagged
+        draft = "A clear plain body sentence.\n\n# Sources\n- ref [0001]\n"
+        r = gate_readability.check(draft, {"audience": "investor"})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "READAB-002"))
 
 
 class TestRunGatesEndToEnd(unittest.TestCase):

@@ -1,0 +1,2 @@
+{ "gate_pass": true, "audience": "investor",
+  "must_not_contain_check_ids": ["READAB-001", "READAB-002", "SOURCES-001", "FIGUSE-001"] }

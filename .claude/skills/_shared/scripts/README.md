@@ -20,6 +20,7 @@ See `_shared/references/scoring-rubric.md` for how the two combine into PASS/FAI
 | `gate_banned.py`     | Banned-terms / AI-tell phrase gate |
 | `gate_structure.py`  | Structural heuristics (all warn-only) |
 | `gate_figure_use.py` | Figure-use gate — orphan selected figure (north-star goal 2) |
+| `gate_readability.py`| Readability gate — accessible-altitude contract (goal 3, `--audience investor` only) |
 | `banned_terms.txt`   | Mechanical mirror of the anti-ai banned subset (see its header) |
 | `run_gates.py`       | Aggregator + CLI |
 | `test_gates.py`      | `unittest` suite (inline fixtures) |
@@ -61,8 +62,11 @@ python run_gates.py --draft DRAFT.md \
     [--invention-summary SUMMARY.md] \
     [--figures FIGS.txt] \
     [--figure-selection figure-selection.md] \
-    [--mode essay|wire] [--json]
+    [--mode essay|wire] [--audience deep|investor] [--json]
 ```
+
+`--audience investor` activates `gate_readability` (the accessible-altitude contract); on the
+default `deep` it is inert.
 
 - `--figures` file: one integer per line, or comma/space separated.
 - Exit code: `0` if no gate emits a `fail` finding, else `1`. **Warnings never fail the run.**
@@ -77,6 +81,7 @@ python gate_sources.py    DRAFT.md
 python gate_banned.py     DRAFT.md [--terms banned_terms.txt]
 python gate_structure.py  DRAFT.md
 python gate_figure_use.py DRAFT.md [--figure-selection figure-selection.md]
+python gate_readability.py DRAFT.md [--audience deep|investor]
 ```
 
 ## Checks at a glance
@@ -99,6 +104,10 @@ python gate_figure_use.py DRAFT.md [--figure-selection figure-selection.md]
 | FIGUSE-001   | fail | 2  | a **selected** figure is never referenced (orphan) |
 | FIGUSE-002   | warn | 2  | a referenced figure is not in figure-selection (off-plan) |
 | FIGUSE-000   | warn | 2  | no figure-selection provided; check skipped |
+| READAB-001   | fail | 3  | body over the word ceiling (`--audience investor` only) |
+| READAB-002   | fail | 3  | inline `[dddd]` anchor on the reader-facing surface (`investor` only) |
+| READAB-003   | warn | 3  | readability heuristics (long sentences, acronym density) |
+| READAB-000   | warn | 3  | audience is `deep`; readability gate skipped |
 
 ## Tunable constants
 
