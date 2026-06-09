@@ -31,6 +31,19 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `em-dash` | gate EMDASH-001 / pass-6 6E | 4b | compose | strip-pipeline.md | reference-edit |
 | `voice-canon-cadence-drift` | pass-1 1A | 4b | compose | voice-canon entry (weak/missing) | voice-canon-admission |
 | `voice-canon-structural-miss` | pass-1 1A | 4b | compose | voice-canon entry + section-blueprint | voice-canon-admission |
+| `leaked-toolcall-tags` | gate SOURCES-005 | 4a | compose | essay-en-composer/strip-pipeline.md | gate-promotion (done) |
+| `patent-attributed-number` | prepublish-verify red-team (source:red-team) | 1 | compose/edit | citation-format.md + editorial pass-3 | reference-edit |
+| `overbroad-negation` | prepublish-verify red-team (source:red-team) | 1 | compose | section-blueprint precision note | reference-edit |
+| `scope-conflation` | prepublish-verify red-team (source:red-team) | 1 | design/compose | thesis-spine fencing + section-blueprint | reference-edit |
+| `manufactured-insinuation` | prepublish-verify red-team (source:red-team) | 4b | edit | anti-ai-writing.md (raise-then-disavow) | reference-edit |
+| `source-unresolvable` | prepublish-verify source-resolution (source:fact-check) | 1 | design | thesis-architect fact-check-log / context-research.md | reference-edit |
+| `citation-title-truncation` | prepublish-verify source-resolution (source:fact-check) | 4a | design | fact-check-log full-title capture | reference-edit |
+
+**Verification-origin priority (U5):** rows whose Source signal is `prepublish-verify` (`source:"red-team"`
+or `"fact-check"`) were caught by an *independent* pre-publish reviewer — i.e. the inner loop's
+editorial + gates *systematically missed* them. `pipeline-retro` weights these higher: a 2nd
+recurrence (not the usual 3) fast-tracks a proposal, and the proposal targets the **stage that
+should have caught it** (editorial pass / compose reference / gate), never an essay-only patch.
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 
@@ -42,7 +55,7 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | claim-accuracy-paraphrase | 0 | 0 | 0 | 2 | 0 | 0 |
 | verbatim-normalization-artifact | 0 | 1 | 0 | 1 | 0 | 0 |
 | sources-format | 0 | 0 | 0 | 1 | 0 | 0 |
-| leaked-toolcall-tags | 0 | 1 | 0 | 1 | 0 | 0 |
+| leaked-toolcall-tags | 0 | 0 | 0 | 2 | 0 | 1 |
 | redundancy-bloat | 0 | 0 | 0 | 1 | 0 | 0 |
 | spec-undercoverage | 0 | 1 | 0 | 0 | 0 | 0 |
 
@@ -61,9 +74,11 @@ Class-level signals (across essays):
 - **leaked-toolcall-tags** (NEW, Tesla rotor investor run 691) — a Phase-2 compose subagent emitted
   trailing `</content>` / `</invoke>` tags after the Sources block; the strip pipeline did not catch
   them and the gates ignore them, so they reached the deliverable (stripped by hand before archive).
-  1 instance. **Watch** — if a 2nd run shows it, promote a `reference-edit` to
-  `essay-en-composer/references/strip-pipeline.md` (drop trailing non-markdown XML/tool-call tags),
-  and consider a warn-level gate check for trailing non-content tags after `# Sources`.
+  1 instance. **RESOLVED (gate-promotion)** — promoted to deterministic gate `SOURCES-005`
+  (`gate_sources.py`): any leaked tool-call / harness XML tag (`</content>`, `</invoke>`, etc.)
+  is now a hard gate fail anywhere in the draft, caught every round in the normal gate harness
+  (test: `test_gates.py::TestSources::test_leaked_toolcall_tag_fails`). The strip-pipeline
+  reference-edit remains a follow-up so Phase 2 stops emitting them at source.
 - **goal-3 / accessibility classes** (NEW, audience=investor run of 045) — `payoff-backloaded`,
   `long-sentence-mobile`, `fix-induced-paragraph-overlong`. These appeared ONLY at the investor
   altitude (the deep run produced goal-1/goal-2 findings instead), which validates the

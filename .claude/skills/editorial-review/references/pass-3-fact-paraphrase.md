@@ -17,13 +17,26 @@ Failure cases:
 - Quoted text differs from source verbatim_text — flag as paraphrase mutation (see 3C).
 - Paraphrase introduces a claim not in source — flag as fact introduction (high severity, may break Plan ⊥ Execute).
 
-### 3B — External fact verification
+### 3B — External fact candidate flagging (NOT live re-verification)
 
-For every external (non-patent) claim in the draft:
+> **Responsibility moved (publication-threshold reassignment).** The *authoritative live web
+> re-verification* of external claims now runs ONCE at the publication threshold, in the
+> independent `prepublish-verify` stage (see `external-fact-verification.md` line 47: "the final
+> trust check belongs at the publication threshold"). Editorial Pass-3 no longer web-searches
+> every external claim on every inner-loop round — that was per-round cost with no independence.
+> Pass-3's job here is the cheap, offline **flagging** of candidates the threshold stage will
+> resolve.
+
+For every external (non-patent) claim in the draft, **without web access**:
 
 1. Locate the claim in `handoff/01-design/fact-check-log.md` by Fact ID or context.
-2. Verify the `Source URL` is reachable and the claim is supported.
-3. Verify the essay's `# Sources` block lists the source.
+2. Confirm the claim is *registered* there and the essay's `# Sources` block lists the source.
+3. If a claim is **not** backed by a fact-check-log entry, or its registered tier is weak
+   (Tier 4-5 with no Tier 1-3 backing), flag it as a **verify-candidate** (medium) for the
+   threshold stage — do not attempt to web-resolve it here.
+
+Internal grounding (3A verbatim anchors, paraphrase mutation, 3C causality) is unchanged and
+still runs every round.
 
 Source authority hierarchy (from `references/external-fact-verification.md`):
 

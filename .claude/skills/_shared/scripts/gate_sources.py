@@ -24,6 +24,10 @@ Checks:
   SOURCES-003 (fail): partial subgrouping -- some entries under a `##` category
                       heading and some bare (all-or-nothing violated).
   SOURCES-004 (warn): 4+ entries left as a flat list (should be subgrouped).
+  SOURCES-005 (fail): a stray tool-call / non-markdown XML tag leaked into the
+                      deliverable (e.g. `</content>`, `</invoke>`, `<...>`).
+                      These are Phase-2 emission artifacts the strip pipeline
+                      missed and must never reach a published essay.
 """
 
 import argparse
@@ -48,6 +52,29 @@ SOURCES_HEADER_RE = re.compile(r"^#\s+Sources\s*$")      # exactly h1 "# Sources
 ANY_HEADER_RE = re.compile(r"^(#{1,6})\s+(.*\S)\s*$")
 LIST_ITEM_RE = re.compile(r"^\s*(?:[-*]|\d+\.)\s+(.*)$")
 
+# Leaked tool-call / harness XML tags that must never survive into a deliverable.
+# These are emission artifacts (a Phase-2 subagent's Write trailing its own
+# `</content>` / `</invoke>` wrapper, etc.) -- never legitimate essay prose.
+TOOLCALL_TAG_RE = re.compile(
+    r"</?\s*(?:content|invoke|function|parameter|antml:[\w-]+)\b[^>]*>",
+    re.IGNORECASE,
+)
+
+
+def _scan_toolcall_tags(lines):
+    """Return SOURCES-005 findings for any leaked tool-call / harness XML tag."""
+    findings = []
+    for idx, raw in enumerate(lines):
+        if TOOLCALL_TAG_RE.search(raw):
+            findings.append({
+                "check_id": "SOURCES-005",
+                "severity": "fail",
+                "message": "stray tool-call / non-markdown tag %r leaked into the "
+                           "deliverable (strip-pipeline artifact)" % raw.strip(),
+                "location": "line %d" % (idx + 1),
+            })
+    return findings
+
 _ALLOWED_LOWER = {c.lower(): c for c in ALLOWED_CATEGORIES}
 
 
@@ -59,6 +86,10 @@ def _find_sources_headers(lines):
 def check(draft_text: str, context: dict) -> dict:
     findings = []
     lines = draft_text.splitlines()
+
+    # SOURCES-005: leaked tool-call tags are a hard fail regardless of the rest
+    # of the block, and are reported even when no `# Sources` header exists.
+    findings.extend(_scan_toolcall_tags(lines))
 
     headers = _find_sources_headers(lines)
     if len(headers) == 0:

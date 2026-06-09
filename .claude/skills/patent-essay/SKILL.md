@@ -7,7 +7,7 @@ description: >
   draft clears the deterministic gates and the editorial assessment (or max iterations),
   then runs pipeline-retro to grow the system. Use when asked to turn a patent into a
   finished English essay end to end.
-argument-hint: "[patent path | text | number]  [--threshold pass|revise-recommended] [--max-iter N] [--mode essay|wire]"
+argument-hint: "[patent path | text | number]  [--threshold pass|revise-recommended] [--max-iter N] [--mode essay|wire] [--audience deep|investor] [--verify auto|off]"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, WebFetch, WebSearch
 ---
 
@@ -42,6 +42,9 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
   P1 thesis frame, P2 mode, P3 reader profile, and the `gate_readability` gate all shift with
   it. Grounding rigor is unchanged underneath (anchors live in `thesis-trace.md`). See
   `_shared/references/scoring-rubric.md` §"Audience altitude".
+- `--verify auto|off` — the independent pre-publish verification stage. **Default: `auto`** (runs
+  once after the inner loop passes, before archival — a true publication gate). `off` skips it
+  (backward-compatible / offline). See "Pre-publish verification" below.
 
 ## Pipeline
 
@@ -120,14 +123,49 @@ Stop on PASS, or at `max-iter`. On stop, promote the accepted draft to
 Each phase's heavy work runs in its own forked context; keep only the structured hand-off
 summaries in the main thread to stay within budget.
 
+## Pre-publish verification  (skill: `prepublish-verify`, independent — runs once after the inner loop)
+
+Skip this whole section if `--verify off`. Otherwise, once `essay-final.md` exists, invoke
+`prepublish-verify` **with the audience** — a fresh, independent reviewer (NOT the editor that
+just passed the draft). It runs two sub-checks **in parallel**:
+
+- **red-team** — adversarial close-read of `essay-final.md` against the **full** `input/patent.md`
+  + grounding (`thesis-trace.md`, `invention-summary.md`): invented/patent-attributed numbers,
+  mechanism misstatement, scope conflation, overclaim, insinuation, ungrounded load-bearing claims,
+  finishability.
+- **source-resolution** — **live web** resolution of every external body claim + every `# Sources`
+  entry (5-tier hierarchy + verification-status, reused from `external-fact-verification.md`).
+
+It writes `handoff/03-edit/verification-log.md` with its own `overall_assessment` (same
+severity→assessment table as the edit-log). It is **propose-only**. No web access → soft mode
+(red-team runs offline; source items become non-blocking warns; `web_access: offline` recorded).
+
+**Fold the result into the publish decision:**
+
+```
+PUBLISH-READY  ⇔  inner loop already PASS
+                  AND verification overall_assessment acceptable per --threshold
+                      (i.e. no critical/high; medium only if --threshold revise-recommended)
+```
+
+- **low findings** → the orchestrator applies the surgical fix directly (citation title, scoped
+  wording) or surfaces it; publish-ready stands.
+- **medium+ findings** → feed the verification findings to `essay-en-composer` in **revision mode**
+  (same revision-input contract as `edit-log.md` findings), re-run the gates + `editorial-review`,
+  re-promote `essay-final.md`, then **re-verify**. This is capped at **+1 verify-triggered round**
+  (shared with `--max-iter`). If it still does not clear, ship the best round and state the
+  remaining verification findings (same terminal behavior as the inner loop).
+
 ## Archive + meta-loop (after the inner loop)
 
 1. **Archive** the run to `runs/<essay-id>/` (append `-investor` to the id for the investor
    altitude so a deep and an investor run of the same patent archive side by side): copy
-   `edit-log.md`, the final `run_gates.py --json` output as `gate-result.json`, and write
-   `score-history.md`.
+   `edit-log.md`, the final `run_gates.py --json` output as `gate-result.json`, the
+   `verification-log.md` (when `--verify` ran; also on the terminal "shipped with findings" path),
+   and write `score-history.md` (include a "Pre-publish verification" section with the verify
+   `overall_assessment` + any applied surgical fixes).
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
-   run's `edit-log.md` + `gate-result.json`. It normalizes findings into
+   run's `edit-log.md` + `gate-result.json` + `verification-log.md`. It normalizes findings into
    `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a
    root-cause class recurs it writes an evidence-backed proposal to
    `meta/improvement-proposals/`. It **never** edits a skill — surface only the top proposal

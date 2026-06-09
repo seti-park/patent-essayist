@@ -30,6 +30,7 @@ Exit code 0 iff everything passes.
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -39,6 +40,59 @@ SCRIPTS = os.path.join(REPO, ".claude", "skills", "_shared", "scripts")
 FIXTURES = os.path.join(HERE, "fixtures")
 
 sys.path.insert(0, SCRIPTS)
+
+
+def _expected_assessment(severities):
+    """severity list -> overall_assessment, per the editorial severity model
+    (shared by editorial-review and prepublish-verify). Low/none never escalate."""
+    s = set(severities)
+    if "critical" in s or "high" in s:
+        return "revise-required"
+    if "medium" in s:
+        return "revise-recommended"
+    return "pass"
+
+
+def _check_verification_log(path):
+    """Validate the severity->assessment invariant on a verification-log.md.
+
+    Stdlib-only (the project is stdlib): pull the declared `overall_assessment`
+    and the per-finding `severity:` lines from the fenced YAML and confirm they
+    agree with the shared severity model. Returns True on pass.
+    """
+    text = _load(path)
+    decl = re.search(r"^\s*overall_assessment:\s*([a-z-]+)\s*$", text, re.MULTILINE)
+    if not decl:
+        print("  FAIL %s: no overall_assessment declared" % path)
+        return False
+    severities = re.findall(r"^\s*severity:\s*(critical|high|medium|low)\s*$",
+                            text, re.MULTILINE)
+    expected = _expected_assessment(severities)
+    got = decl.group(1)
+    if got != expected:
+        print("  FAIL %s: overall_assessment=%s but severities %s imply %s"
+              % (os.path.relpath(path, REPO), got, severities or "[]", expected))
+        return False
+    print("  ok   %s (assessment=%s)" % (os.path.relpath(path, REPO), got))
+    return True
+
+
+def _check_verification_logs():
+    """Run the invariant over the template + any fixture verification-log.md files."""
+    print("== verification-log consistency ==")
+    paths = []
+    tmpl = os.path.join(REPO, "handoff-template", "03-edit", "verification-log.md")
+    if os.path.exists(tmpl):
+        paths.append(tmpl)
+    if os.path.isdir(FIXTURES):
+        for d in sorted(os.listdir(FIXTURES)):
+            vlog = os.path.join(FIXTURES, d, "verification-log.md")
+            if os.path.exists(vlog):
+                paths.append(vlog)
+    if not paths:
+        print("  (no verification-log.md found)")
+        return True
+    return all(_check_verification_log(p) for p in paths)
 
 
 def _run_gate_tests():
@@ -114,6 +168,8 @@ def main(argv=None):
             print("  (no fixtures yet)")
         for name in names:
             all_ok = _run_fixture(name) and all_ok
+
+    all_ok = _check_verification_logs() and all_ok
 
     print("\nREGRESSION: %s" % ("PASS" if all_ok else "FAIL"))
     return 0 if all_ok else 1

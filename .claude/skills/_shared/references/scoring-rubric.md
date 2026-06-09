@@ -16,13 +16,20 @@ gate/pass below is here because it defends one of them. The meta-loop (`pipeline
 the **owner** column to attribute a recurring finding back to the stage/artifact that should
 have prevented it.
 
-| Goal | Deterministic gate | Editorial pass | Upstream owner (P1/P2 artifact) |
-|------|--------------------|----------------|---------------------------------|
-| **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans, 4-axis grounding, thesis-spine |
-| **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale, invention-summary Quotable spans |
-| **3. Easy for the reader to understand** | `gate_structure` (warn) + **`gate_readability` (enforced on `investor`)** | pass-5 reader-perspective (audience-conditional profile) | audience altitude + mode/posture calibration |
-| **4a. Well-structured** | `gate_structure` | pass-6 lead/conclusion + format | section-blueprint, x-articles-format-en, thesis arc |
-| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash` | pass-1 voice + anti-ai | voice-on drafting + anti-ai canon + strip-pipeline |
+| Goal | Deterministic gate | Editorial pass (per round) | Pre-publish verify (independent, once) | Upstream owner (P1/P2 artifact) |
+|------|--------------------|----------------|------------------------------|---------------------------------|
+| **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) | pass-3 claim-adequacy / paraphrase, pass-4 logic | **red-team-grounding / -mechanism / -overclaim** (invented numbers, mechanism fidelity, ungrounded claims) | invention-summary 4-layer + Quotable spans, 4-axis grounding, thesis-spine |
+| **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | — | figure-selection / figure-rationale, invention-summary Quotable spans |
+| **3. Easy for the reader to understand** | `gate_structure` (warn) + **`gate_readability` (enforced on `investor`)** | pass-5 reader-perspective (audience-conditional profile) | red-team finishability check (investor) | audience altitude + mode/posture calibration |
+| **4a. Well-structured** | `gate_structure` + **`gate_sources` SOURCES-005 (leaked tool-call tags)** | pass-6 lead/conclusion + format | **source-resolution** (live `# Sources` resolution, citation drift) | section-blueprint, x-articles-format-en, thesis arc |
+| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash` | pass-1 voice + anti-ai | **red-team-insinuation** (raise-then-disavow / manufactured drama) | voice-on drafting + anti-ai canon + strip-pipeline |
+
+The **Pre-publish verify** column is the independent publication-threshold stage
+(`prepublish-verify`): a fresh reviewer (not the editor that just passed the draft) runs a
+red-team close-read against the full patent + a **live** external source-resolution, once, before
+archival. It reuses this rubric's severity model and the
+`external-fact-verification.md` 5-tier hierarchy (the authoritative live external check lives here,
+not in the per-round editorial Pass-3, which now only flags candidates).
 
 When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
 artifact, so improvement proposals target the true root cause rather than the symptom.
@@ -124,9 +131,30 @@ PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-00
   `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
   the cap, it returns the best round with the remaining findings and the score history.
 
+## Pre-publish verification gate (`prepublish-verify`, after the inner loop, `--verify auto`)
+
+Once the inner loop PASSes, the independent verify stage runs once and its `overall_assessment`
+(same severity model) is folded into the publish decision:
+
+```
+PUBLISH-READY  ⇔  inner-loop PASS  AND  verify overall_assessment acceptable per threshold
+```
+
+- **low** verify findings → the orchestrator applies the surgical fix (citation title, scoped
+  wording) directly or surfaces it; publish-ready stands.
+- **medium+** verify findings → one more Compose↔Edit round (verify findings handed to the
+  composer via the same revision-input contract), re-gate + re-editorial, then **re-verify**.
+  Capped at **+1 verify-triggered round**; if still unclear, ship the best round with the
+  remaining verification findings stated (same terminal behavior as the inner loop).
+- `--verify off` skips the stage (backward-compatible / offline). No web → soft mode
+  (red-team offline; source-resolution items become non-blocking warns).
+
 ## Loop ↔ retro hand-off
 
-After the inner loop terminates (PASS or cap), the orchestrator hands the final `edit-log.md`
-+ gate result + score history to `pipeline-retro`, which normalizes findings into
-`meta/findings-ledger.jsonl` keyed by the goal + owner from the matrix above. See the
+After the inner loop terminates (PASS or cap) **and the verify gate runs**, the orchestrator
+hands the final `edit-log.md` + gate result + **`verification-log.md`** + score history to
+`pipeline-retro`, which normalizes findings into `meta/findings-ledger.jsonl` keyed by the goal +
+owner from the matrix above. **Verification-origin findings (`source:"red-team"|"fact-check"`)
+carry priority weight** — they are blind spots the inner loop missed, so a 2nd recurrence (not the
+usual 3) fast-tracks a proposal that strengthens the stage that should have caught it. See the
 `pipeline-retro` skill for the propose-only meta-loop.

@@ -1,6 +1,18 @@
 # External fact verification
 
-Referenced by editorial-review SKILL.md (Pass 3 sub-pass) and by essay-architect references/context-research.md (Step 1). Cross-skill shared SoT: both skills consult the 5-tier hierarchy below.
+Referenced by THREE consumers, all sharing the single 5-tier hierarchy + verification-status
+vocabulary below (this file is the SoT — do not fork the tables):
+
+- **thesis-architect** `references/context-research.md` (Step 1) — admits external sources to the fact pool.
+- **editorial-review** Pass-3 sub-pass 3B — **offline candidate flagging** only (per round).
+- **prepublish-verify** `references/source-resolution.md` — the **authoritative live web check**,
+  run ONCE at the publication threshold (sub-check B).
+
+> **Where the live check runs (reassigned).** This file's principle — *"the final trust check
+> belongs at the publication threshold"* (below) — is now realized literally: the live web
+> re-verification of every external claim + every `# Sources` entry happens in `prepublish-verify`
+> at the threshold, by an *independent* reviewer, not in editorial Pass-3 on every inner-loop
+> round. Editorial Pass-3 only flags candidates. The hierarchy and status tables below serve both.
 
 ## Scope
 
@@ -99,6 +111,6 @@ Fix: either find Tier 2 source (competitor's own filing, patent, or paper) or re
 
 ## Cross-skill relationship with essay-architect
 
-essay-architect Step 1 (Context research) consults this hierarchy when deciding which external sources to admit to the fact pool. editorial-review Pass 3 sub-pass 3.5 consults the same hierarchy when re-verifying admitted sources at the publication threshold.
+essay-architect Step 1 (Context research) consults this hierarchy when deciding which external sources to admit to the fact pool. editorial-review Pass-3 3B uses it to *flag* weak/unregistered external claims (offline). prepublish-verify's source-resolution uses it to *resolve* them live at the publication threshold.
 
-This is the intended cross-skill share: single SoT, two consumers at different pipeline stages. essay-architect's context-research.md carries a short summary pointing here; this file holds the full hierarchy + verification logic.
+This is the intended cross-skill share: single SoT, three consumers across the pipeline. The authoritative live trust check is concentrated at the threshold (prepublish-verify), where it belongs; the earlier stages admit and flag.

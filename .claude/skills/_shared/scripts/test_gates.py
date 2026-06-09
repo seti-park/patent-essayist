@@ -176,6 +176,34 @@ class TestSources(unittest.TestCase):
         self.assertTrue(r["passed"])  # warn only
         self.assertTrue(_has(r, "SOURCES-004"))
 
+    def test_leaked_toolcall_tag_fails(self):
+        draft = (
+            "# Essay\n\nBody.\n\n"
+            "# Sources\n"
+            "## Patents\n"
+            "- US1234567B2, Acme, Rotor\n"
+            "</content>\n"
+            "</invoke>\n"
+        )
+        r = gate_sources.check(draft, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "SOURCES-005"))
+
+    def test_leaked_tag_without_sources_still_fails(self):
+        # SOURCES-005 must fire even on the no-`# Sources` early-return path.
+        draft = "# Intro\n\nBody with a stray </invoke> tag.\n"
+        r = gate_sources.check(draft, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "SOURCES-005"))
+
+    def test_clean_block_has_no_toolcall_finding(self):
+        draft = (
+            "# Essay\n\nBody mentions a function and parameters in prose.\n\n"
+            "# Sources\n- US1, Acme, Rotor\n"
+        )
+        r = gate_sources.check(draft, {})
+        self.assertFalse(_has(r, "SOURCES-005"))
+
 
 class TestFigureUse(unittest.TestCase):
     SELECTION = "fig-01 maps to the lead. FIG. 2 anchors the mechanism. Figure 3 closes.\n"
