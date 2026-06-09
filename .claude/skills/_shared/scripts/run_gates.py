@@ -44,14 +44,18 @@ GATES = [
 
 
 def _parse_figures_file(path):
-    """One integer per line, or comma/space separated."""
+    """Figure tokens, one per line or comma/space separated.
+
+    Tokens may be plain numbers ("2") or sub-figures ("1A", "5B"). Returned as
+    uppercase strings; gate_anchors normalizes for comparison.
+    """
     with open(path, "r", encoding="utf-8") as fh:
         raw = fh.read()
-    nums = []
+    toks = []
     for tok in re.split(r"[,\s]+", raw.strip()):
         if tok:
-            nums.append(int(tok))
-    return nums
+            toks.append(tok.upper())
+    return toks
 
 
 def build_context(args):

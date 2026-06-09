@@ -196,6 +196,28 @@ class TestFigureUse(unittest.TestCase):
         self.assertTrue(r["passed"])
         self.assertTrue(_has(r, "FIGUSE-000"))
 
+    def test_subfigures_are_distinct(self):
+        sel = "fig-01A lead, fig-01B detail, fig-02 overview\n"
+        # 1A and 1B used, 2 used -> pass; treating 1A/1B as same would mask 1B
+        draft_ok = "See FIG. 1A and FIG. 1B, then Figure 2.\n"
+        r = gate_figure_use.check(draft_ok, {"figure_selection_text": sel})
+        self.assertTrue(r["passed"], r["findings"])
+        # drop 1B from the draft -> orphan on 1B specifically
+        draft_orphan = "See FIG. 1A, then Figure 2.\n"
+        r2 = gate_figure_use.check(draft_orphan, {"figure_selection_text": sel})
+        self.assertFalse(r2["passed"])
+        self.assertTrue(any("1B" in f["message"] for f in r2["findings"]))
+
+    def test_subfigure_figref_index(self):
+        draft = "Fig. 1A and Figure 5B appear.\n"
+        ctx = {"invention_summary_text": "", "figures_index": ["1A", "5B"]}
+        r = gate_anchors.check(draft, ctx)
+        self.assertTrue(r["passed"], r["findings"])
+        ctx_bad = {"invention_summary_text": "", "figures_index": ["1A"]}
+        r2 = gate_anchors.check(draft, ctx_bad)
+        self.assertFalse(r2["passed"])  # 5B not in index
+        self.assertTrue(_has(r2, "FIGREF-001"))
+
 
 class TestBanned(unittest.TestCase):
     def test_banned_hits_fail(self):

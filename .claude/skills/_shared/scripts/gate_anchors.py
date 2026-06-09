@@ -37,7 +37,9 @@ ANCHOR_RE = re.compile(r"\[(\d{4})\]")                 # [0123]
 # Any bracketed pure-digit token, to catch malformed (non-4-digit) anchors like
 # [123] or [12345]. Markdown footnote refs ([^id]) are excluded by \d-only.
 ANCHOR_ANY_DIGITS_RE = re.compile(r"\[(\d+)\]")
-FIGREF_RE = re.compile(r"\bfig(?:ure|\.)?\s*(\d+)\b", re.IGNORECASE)  # Figure 3 / Fig. 3 / Fig 3
+# Figure 3 / Fig. 3 / Fig 3, plus sub-figures Figure 1A / Fig. 5B. Identity is
+# number + optional uppercase letter (1A and 1B are distinct).
+FIGREF_RE = re.compile(r"\bfig(?:ure|\.)?\s*0*(\d+)([A-Za-z]?)\b", re.IGNORECASE)
 
 
 def _find_anchors(text):
@@ -100,15 +102,17 @@ def check(draft_text: str, context: dict) -> dict:
             "location": "(global)",
         })
     else:
-        valid = set(int(n) for n in figures_index)
+        # Normalize index entries to uppercase string tokens ("1A", "2") so int
+        # and string inputs both work and sub-figures compare correctly.
+        valid = {str(n).upper().lstrip("0") or "0" for n in figures_index}
         for lineno, raw in enumerate(draft_text.splitlines(), start=1):
             for m in FIGREF_RE.finditer(raw):
-                num = int(m.group(1))
-                if num not in valid:
+                tok = m.group(1) + m.group(2).upper()
+                if tok not in valid:
                     findings.append({
                         "check_id": "FIGREF-001",
                         "severity": "fail",
-                        "message": "figure reference 'Figure %d' not in figures_index" % num,
+                        "message": "figure reference 'Figure %s' not in figures_index" % tok,
                         "location": "line %d" % lineno,
                     })
 

@@ -35,13 +35,15 @@ import sys
 # Tunable constants
 # ---------------------------------------------------------------------------
 GATE_ID = "figure_use"
-# Matches "fig-07", "FIG. 7", "Figure 7", "Fig 7".
-FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)\b", re.IGNORECASE)
+# Matches "fig-07", "FIG. 7", "Figure 7", "Fig 7", and sub-figures with a letter
+# suffix: "fig-01A", "FIG. 1A", "Figure 5B". The identity is number+letter, so
+# 1A and 1B are distinct figures.
+FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)([A-Za-z]?)\b", re.IGNORECASE)
 
 
-def _figure_numbers(text):
-    """Return the set of figure numbers mentioned in text."""
-    return {int(m.group(1)) for m in FIG_RE.finditer(text or "")}
+def _figure_tokens(text):
+    """Return the set of figure tokens mentioned in text (e.g. {'1A', '2'})."""
+    return {m.group(1) + m.group(2).upper() for m in FIG_RE.finditer(text or "")}
 
 
 def check(draft_text: str, context: dict) -> dict:
@@ -58,24 +60,24 @@ def check(draft_text: str, context: dict) -> dict:
         })
         return {"gate": GATE_ID, "passed": True, "findings": findings}
 
-    selected = _figure_numbers(selection_text)
-    used = _figure_numbers(draft_text)
+    selected = _figure_tokens(selection_text)
+    used = _figure_tokens(draft_text)
 
     # FIGUSE-001: selected but never used (orphan).
-    for num in sorted(selected - used):
+    for tok in sorted(selected - used):
         findings.append({
             "check_id": "FIGUSE-001",
             "severity": "fail",
-            "message": "selected figure %d is never referenced in the draft (orphan)" % num,
+            "message": "selected figure %s is never referenced in the draft (orphan)" % tok,
             "location": "figure-selection",
         })
 
     # FIGUSE-002: used but not selected (off-plan figure).
-    for num in sorted(used - selected):
+    for tok in sorted(used - selected):
         findings.append({
             "check_id": "FIGUSE-002",
             "severity": "warn",
-            "message": "draft references figure %d, which is not in figure-selection" % num,
+            "message": "draft references figure %s, which is not in figure-selection" % tok,
             "location": "draft",
         })
 
