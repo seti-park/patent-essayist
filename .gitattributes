@@ -1,0 +1,6 @@
+# Runtime tree is LF. Keeps diffs clean and exact-string edits reliable.
+* text=auto eol=lf
+
+# docs/source-prompts/ is the frozen verbatim record of the original claude.ai
+# assets (see its README) — never normalize or convert it.
+docs/source-prompts/** -text
