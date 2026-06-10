@@ -173,3 +173,51 @@ entries:
     pattern_category: closing-binary-test
     source_essay: essay-spacex-tesla-convergence-en
     file: closing-binary-test-spacex-tesla-ecosystem-realized.md
+
+  - entry_id: development-mechanism-bind-tesla-steel-tax
+    pattern_category: development-mechanism-bind
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: development-mechanism-bind-tesla-steel-tax.md
+
+  - entry_id: development-mechanism-bind-tesla-designer-stuck
+    pattern_category: development-mechanism-bind
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: development-mechanism-bind-tesla-designer-stuck.md
+
+  - entry_id: development-objection-answer-tesla-keyed-filler
+    pattern_category: development-objection-answer
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: development-objection-answer-tesla-keyed-filler.md
+
+  - entry_id: development-curve-removal-tesla-no-better-point
+    pattern_category: development-curve-removal
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: development-curve-removal-tesla-no-better-point.md
+
+  - entry_id: inline-honest-caveat-tesla-no-disclosed-number
+    pattern_category: inline-honest-caveat
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: inline-honest-caveat-tesla-no-disclosed-number.md
+
+  - entry_id: inline-scope-fence-tesla-rare-earth-program
+    pattern_category: inline-scope-fence
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: inline-scope-fence-tesla-rare-earth-program.md
+
+  - entry_id: opening-stake-first-tesla-quiet-tax
+    pattern_category: opening-stake-first
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: opening-stake-first-tesla-quiet-tax.md
+
+  - entry_id: closing-watch-signal-tesla-moat-or-footnote
+    pattern_category: closing-watch-signal
+    source_essay: essay-691-tesla-rotor-investor
+    provenance: system-generated-seti-approved
+    file: closing-watch-signal-tesla-moat-or-footnote.md

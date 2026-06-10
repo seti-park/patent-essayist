@@ -1,6 +1,6 @@
 ---
 name: voice-canon-lookup
-description: "Lookup-only skill that serves SETI's voice canon (14 pattern categories, 33+ canonical example entries). Invoked by essay-en-composer when a section needs a concrete voice anchor (opening pattern, closing pattern, inline bold thesis anchor, Korean signature phrase). Returns the requested voice-canon entry's verbatim body so the composer can match cadence and structure. Use when the composer asks for a voice example, voice pattern reference, or canon lookup. NOT for: voice judgment (caller decides what to do with the example), essay drafting, editorial review, or category creation."
+description: "Lookup-only skill that serves SETI's voice canon (21 pattern categories, 41 canonical example entries — 33 published-human + 8 system-generated-seti-approved). Invoked by essay-en-composer when a section needs a concrete voice anchor (opening pattern, closing pattern, inline bold thesis anchor, Korean signature phrase). Returns the requested voice-canon entry's verbatim body so the composer can match cadence and structure. Use when the composer asks for a voice example, voice pattern reference, or canon lookup. NOT for: voice judgment (caller decides what to do with the example), essay drafting, editorial review, or category creation."
 ---
 
 # voice-canon-lookup
@@ -38,28 +38,38 @@ added_timestamp: <ISO 8601, optional>
 ...
 ```
 
-## Categories (14)
+## Categories (21)
 
 Full descriptions in `references/category-descriptions.md`.
 
-**Opening 계열** (5)
+**Opening 계열** (6)
 
 - `opening-news-event`
 - `opening-reader-experience`
 - `opening-industry-norm-reversal`
 - `opening-corporate-event`
 - `opening-visual-anomaly`
+- `opening-stake-first` — investor altitude (2026-06-10 admission)
 
-**Closing 계열** (4)
+**Development 계열** (3) — 본문 중반 anchor (2026-06-10 admission)
+
+- `development-mechanism-bind`
+- `development-objection-answer`
+- `development-curve-removal`
+
+**Closing 계열** (5)
 
 - `closing-aphoristic-landing`
 - `closing-open-question`
 - `closing-forward-watching-event`
 - `closing-binary-test`
+- `closing-watch-signal` — investor altitude (2026-06-10 admission)
 
-**Inline 계열** (1)
+**Inline 계열** (3)
 
 - `inline-bold-thesis-anchor`
+- `inline-honest-caveat` — 주장 경계 (2026-06-10 admission)
+- `inline-scope-fence` — 인접 주제 차단 (2026-06-10 admission)
 
 **Signature phrase 계열 — 한국어** (4)
 
@@ -89,6 +99,8 @@ entries:
     pattern_category: opening-news-event
     source_essay: <essay-id>
     file: opening-news-event-tesla-terafab.md
+    # provenance: 생략 시 published-human; 시스템 산출 발췌는
+    # provenance: system-generated-seti-approved 명시 (Admission policy 참조)
   - entry_id: ...
 ```
 
@@ -108,12 +120,12 @@ entries:
 ## References
 
 - `references/voice-profile.md` — full voice 정의 (정체성, beliefs, 핵심 voice 패턴, voice 의 3가지 핵심)
-- `references/category-descriptions.md` — 14 categories 의 정의 + 용례 + 적용 예시
+- `references/category-descriptions.md` — 21 categories 의 정의 + 용례 + 적용 예시
 
 ## Voice canon directory
 
 - `voice-canon/index.yaml` — entry metadata list
-- `voice-canon/<entry_id>.md` — individual entries (frontmatter + verbatim 단락 본문)
+- `voice-canon/<entry_id>.md` — 41 individual entries (frontmatter + verbatim 단락 본문; 33 published-human + 8 system-generated-seti-approved)
 
 ## Admission policy (2-tier provenance)
 

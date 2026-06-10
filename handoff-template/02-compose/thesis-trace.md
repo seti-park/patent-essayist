@@ -41,7 +41,7 @@
 ### 2-architecture — "What the Patent Actually Routes"
 - **Spine element carried**: Axis 1 claims anchor + mechanism
 - **arc_role**: development
-- **voice_canon_reference**: `inline-bold-thesis-anchor-etherloop-steady-state`, `development-mechanism-bind-tesla-steel-tax` <!-- 2nd id: pending canon admission (2026-06-10 proposal) -->
+- **voice_canon_reference**: `inline-bold-thesis-anchor-etherloop-steady-state`, `development-mechanism-bind-tesla-steel-tax`
 - **paragraph_anchors_used**: `[0016]`, `[0017]`
 - **external_facts_used**: []
 - **word_target / word_actual**: 150 / 146
@@ -49,7 +49,7 @@
 ### 3-baseline — "The Baseline the Number Hides"
 - **Spine element carried**: Axis 4 baseline-difference + adversarial mitigation (apples-to-apples)
 - **arc_role**: development
-- **voice_canon_reference**: `development-mechanism-bind-tesla-designer-stuck` <!-- pending canon admission (2026-06-10 proposal) -->
+- **voice_canon_reference**: `development-mechanism-bind-tesla-designer-stuck`
 - **paragraph_anchors_used**: `[0014]`, `[0024]`
 - **external_facts_used**: `bosch-ecu-10ms-2020`
 - **word_target / word_actual**: 115 / 120
@@ -57,7 +57,7 @@
 ### 4-implication — "What the Filing Date Reframes"
 - **Spine element carried**: Axis 3 effect anchor → strategic reframe (claim bounded)
 - **arc_role**: turn
-- **voice_canon_reference**: `development-curve-removal-tesla-no-better-point` <!-- pending canon admission (2026-06-10 proposal) -->
+- **voice_canon_reference**: `development-curve-removal-tesla-no-better-point`
 - **paragraph_anchors_used**: `[0029]`
 - **external_facts_used**: `tesla-rcm-filing-date`
 - **word_target / word_actual**: 120 / 118

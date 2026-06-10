@@ -66,7 +66,7 @@ it just does not surface to the reader. See `_shared/references/scoring-rubric.m
   patent-essay/        orchestrator: P1→P2→P3 inner loop → prepublish-verify → pipeline-retro (entry point)
   thesis-architect/    P1 Design  — patent → thesis + 4-axis grounding + figure plan (voice-off)
   essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
-  voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
+  voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 41 entries, 2-tier provenance)
   editorial-review/    P3 Edit    — 6-pass severity review (voice-fenced)
   prepublish-verify/   verify     — independent red-team + live source-resolution at the publish threshold
   pipeline-retro/      meta-loop  — findings → ledger → propose-only improvement proposals
@@ -102,8 +102,8 @@ which references each phase loads:
 
 - **Design (voice-off):** thesis-architect's own references only (invention-summary-schema,
   4-axis-grounding, hook-patterns, …) — no deliverable-voice canon.
-- **Compose (voice-on):** full voice stack — `voice-canon-lookup` (voice-profile + 33-entry
-  canon), `deliverable-voice-rules`, `anti-ai-writing`, the composer's `x-articles-format-en`,
+- **Compose (voice-on):** full voice stack — `voice-canon-lookup` (voice-profile + 41-entry
+  canon, 2-tier provenance), `deliverable-voice-rules`, `anti-ai-writing`, the composer's `x-articles-format-en`,
   `caption-roles`.
 - **Edit (voice-fenced):** `deliverable-voice-rules` + `anti-ai-writing` only — **not**
   voice-profile or caption-roles, to prevent editor voice drift. The meta-loop preserves this

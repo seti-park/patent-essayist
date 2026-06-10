@@ -1,6 +1,6 @@
 # Voice canon category descriptions
 
-Detailed definition + applicability for each of the 14 voice canon categories. Extracted from v1 voice-profile-seti SKILL.md.
+Detailed definition + applicability for each of the 21 voice canon categories (14 original published-human + 7 admitted 2026-06-10, provenance: system-generated-seti-approved). Extracted from v1 voice-profile-seti SKILL.md.
 
 ## Opening 계열 (5)
 
@@ -144,3 +144,67 @@ v1 운영 중 추가된 5 범주:
 - `closing-binary-test` — explicit falsifier anchor
 
 v2 에서는 모두 보존. 14 categories 전체가 active.
+
+## Development 계열 (3) — 2026-06-10 admission (provenance: system-generated-seti-approved)
+
+본문 중반(arc budget 의 development/turn 구간)을 받치는 카테고리. 원본 33-entry canon 은 글의
+가장자리(opening/closing)에 집중돼 있어 이 구간의 cadence 앵커가 없었다. 검증 통과 + SETI 승인
+에세이(`essay-691-tesla-rotor-investor`)에서 발췌.
+
+### `development-mechanism-bind`
+
+독자 인도형 메커니즘 진입 (*To see X, you have to see Y*) 또는 딜레마 압축 (대칭 2단문 + 업계 체념).
+물리/공학량은 평이어 결과로 번역.
+
+예시 entries: `development-mechanism-bind-tesla-steel-tax`, `development-mechanism-bind-tesla-designer-stuck`.
+
+용례: development 섹션의 진입 단락. baseline 대비를 서술형으로 수행할 때.
+
+### `development-objection-answer`
+
+steelman 반론 선제 제기 → 특허의 구체 메커니즘으로 응답 → *not X. It is Y.* 재정의 랜딩.
+
+예시 entries: `development-objection-answer-tesla-keyed-filler`.
+
+용례: adversarial-defense 의 mitigation 이 본문에 실리는 단락. 반론을 독자보다 먼저 말한다.
+
+### `development-curve-removal`
+
+점진 개선 vs 구조 제거의 aphoristic 대비 (*did not find a better point on that curve. It removed
+the curve.*). 본문 중반의 turn/reframe 압축.
+
+예시 entries: `development-curve-removal-tesla-no-better-point`.
+
+용례: arc 의 turn 노드. thesis 의 reframe 을 2단문으로 내려놓을 때.
+
+## Inline 계열 추가 (2) — 2026-06-10 admission
+
+### `inline-honest-caveat`
+
+주장 경계 명시 (*One honest caveat belongs here, because it bounds the claim*) → 근거의 정확한 한계
+→ *watch for, not assume* 랜딩. red-team-overclaim 이 지키는 정직성의 생성 단계 앵커.
+
+예시 entries: `inline-honest-caveat-tesla-no-disclosed-number`.
+
+### `inline-scope-fence`
+
+인접 프로그램/주제 차단 (*This patent is not that program*). red-team-scope 가 지키는 경계의 생성
+단계 앵커.
+
+예시 entries: `inline-scope-fence-tesla-rare-earth-program`.
+
+## Audience 변형 (2) — 2026-06-10 admission (audience: investor)
+
+### `opening-stake-first`
+
+보편 비용 프레임 → 피벗 단문 (*refuses to*) → 독자 스테이크 직접 선언. 뉴스 이벤트 없이 스테이크로
+여는 investor 리드.
+
+예시 entries: `opening-stake-first-tesla-quiet-tax`.
+
+### `closing-watch-signal`
+
+반증 가능한 관찰 신호 지정 → 이진 프레임 (*moat or footnote*) → 확정 사실 착지 + 리드 모티프 회수.
+investor 클로징.
+
+예시 entries: `closing-watch-signal-tesla-moat-or-footnote`.

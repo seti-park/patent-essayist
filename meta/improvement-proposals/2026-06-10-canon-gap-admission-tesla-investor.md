@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-10-canon-gap-admission-tesla-investor
 created: 2026-06-10T00:00:00Z
-status: proposed            # → applied per-entry upon SETI approval
+status: applied             # 2026-06-10 — all 8 entries approved by SETI and admitted
 lever: voice-canon-admission
 goal: "4b"
 root_cause_stage: compose
