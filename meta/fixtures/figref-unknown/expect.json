@@ -1,0 +1,1 @@
+{ "gate_pass": false, "must_contain_check_ids": ["FIGREF-001"], "must_not_contain_check_ids": ["FIGUSE-001"] }
