@@ -95,7 +95,8 @@ PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-00
 - **Goal-2 hard-gate:** any `FIGUSE-001` (orphan figure) or pass-3 coverage `high` finding is
   an automatic FAIL — figures and spec must actually be used.
 - **Max revision iterations: 4** (`--max-iter`). On FAIL, the orchestrator feeds the
-  `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
+  `findings` back into `essay-en-composer` (revision mode — contract in
+  `essay-en-composer/references/revision-mode.md`) and re-scores. If still failing at
   the cap, it returns the best round with the remaining findings and the score history.
 
 ## Loop ↔ retro hand-off
