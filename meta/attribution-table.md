@@ -39,4 +39,20 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| _(none yet — first run will populate)_ | 0 | 0 | 0 | 0 | 0 | 0 |
+| `claim-scope-misattribution` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `external-fact-universalization` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `fence-canon-verification-gap` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 2 | 0 | 0 | 0 | 0 |
+| `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `paraphrase-hedge-compression` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `revision-induced-band-break` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figure-token-regex-blindspot` † | 0 | 1 | 0 | 0 | 0 | 0 |
+
+Counts derived from the ledger as of run `2026-06-10-us12636684b1-deleted-dome` (first
+recorded run; all classes weak-signal `watch`, none at RECUR_THRESHOLD=3). 2-counts are
+same-instance carries or residues within that single essay, not cross-essay recurrence.
+† = new finding class with no row in the main table above; adding the missing rows is itself
+a small reference-edit proposal per this table's header (human decision).
