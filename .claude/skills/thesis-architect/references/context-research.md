@@ -68,7 +68,7 @@ Context research output 과 staged finding 들의 placeholder detection. TBD, [i
 
 ### Default selection
 
-- Time-constrained 또는 wire-style essays (strict-execution-mode): hard mode. 시간 제약 시 placeholder 의 silent passing 위험.
+- Time-constrained essays (strict-execution mode): hard mode. 시간 제약 시 placeholder 의 silent passing 위험.
 - Standard essays (walkthrough-mode): soft mode. SETI 의 mid-session catch 의 backup 가능.
 - Adversarial reader 또는 strategic essays (conservative posture): hard mode. Placeholder 의 factual gap 위험.
 

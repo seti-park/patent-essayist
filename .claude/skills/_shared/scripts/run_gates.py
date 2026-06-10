@@ -14,7 +14,7 @@ Hard pass/fail rule:
 
 Usage:
   run_gates.py --draft DRAFT [--invention-summary FILE] [--figures FILE]
-               [--figure-selection FILE] [--mode essay|wire] [--json]
+               [--figure-selection FILE] [--json]
 """
 
 import argparse
@@ -45,7 +45,7 @@ GATES = [
 
 
 def build_context(args):
-    ctx = {"mode": args.mode}
+    ctx = {}
     if args.invention_summary:
         with open(args.invention_summary, "r", encoding="utf-8") as fh:
             ctx["invention_summary_text"] = fh.read()
@@ -104,8 +104,6 @@ def main(argv=None) -> int:
     p.add_argument("--invention-summary", help="path to invention-summary text file")
     p.add_argument("--figures", help="path to figures file (ints, line/comma separated)")
     p.add_argument("--figure-selection", help="path to figure-selection.md (orphan-figure gate)")
-    p.add_argument("--mode", choices=["essay", "wire"], default="essay",
-                   help="reserved pass-through mode (default: essay)")
     p.add_argument("--json", action="store_true", help="emit JSON summary instead of text")
     args = p.parse_args(argv)
 

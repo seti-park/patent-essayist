@@ -56,7 +56,7 @@ def check(draft_text: str, context: dict) -> dict
 
 `context` keys consumed: `invention_summary_text` (str), `figures_index` (list[int]),
 `figure_selection_text` (str), plus optional `banned_terms_file` / `banned_patterns` for the
-banned gate, and a reserved `mode` pass-through.
+banned gate.
 
 ## Usage
 
@@ -65,7 +65,7 @@ python run_gates.py --draft DRAFT.md \
     [--invention-summary SUMMARY.md] \
     [--figures FIGS.txt] \
     [--figure-selection figure-selection.md] \
-    [--mode essay|wire] [--json]
+    [--json]
 ```
 
 - `--figures` file: one integer per line, or comma/space separated.
