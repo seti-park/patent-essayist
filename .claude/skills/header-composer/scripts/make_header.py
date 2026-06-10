@@ -270,7 +270,14 @@ def main(argv=None):
         sys.stderr.write("ERROR: unknown variant %r (use: %s)\n" % (variant, ", ".join(VARIANTS)))
         return 2
 
-    img = VARIANTS[variant](spec)
+    # Input problems (missing figure file, bad spec field) exit 2 with an
+    # actionable message, never a bare traceback — same policy as the gates.
+    try:
+        img = VARIANTS[variant](spec)
+    except (OSError, KeyError, ValueError, TypeError) as exc:
+        sys.stderr.write("ERROR: spec/asset problem (%s): %s\n"
+                         % (exc.__class__.__name__, exc))
+        return 2
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     img.convert("RGB").save(args.out)
     print("wrote %s (%dx%d, variant=%s)" % (args.out, W, H, variant))
