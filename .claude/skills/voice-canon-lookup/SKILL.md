@@ -79,7 +79,7 @@ Full descriptions in `references/category-descriptions.md`.
 3. **Category 의 정의 / 용례** 가 필요할 때
    → `references/category-descriptions.md` view
 
-> Note: Deliverable 본문의 mechanical 규칙 (em-dash, paragraph 길이, 인용-해석 동반 등) 은 Project Knowledge 의 `deliverable-voice-rules.md` 영역. Banned-pattern list 는 Project Knowledge 의 `anti-ai-writing.md`. 본 skill 영역 아님.
+> Note: Deliverable 본문의 mechanical 규칙 (em-dash, paragraph 길이, 인용-해석 동반 등) 은 `_shared/references/deliverable-voice-rules.md` 영역. Banned-pattern list 는 `_shared/references/anti-ai-writing.md`. 본 skill 영역 아님.
 
 ## Index format (`voice-canon/index.yaml`)
 
@@ -103,7 +103,7 @@ entries:
 - Essay drafting.
 - Editorial review (Phase 3 영역).
 - New category 정의 (단순 lookup, mutation 아님).
-- Banned-pattern detection (Knowledge file 영역).
+- Banned-pattern detection (`_shared/references/anti-ai-writing.md` + `gate_banned.py` 영역).
 
 ## References
 

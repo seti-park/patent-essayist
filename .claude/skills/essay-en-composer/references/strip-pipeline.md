@@ -1,6 +1,6 @@
 # Strip pipeline
 
-Referenced by tech-essay-en SKILL.md Step 7 (Emit draft + publication.md). Two-file output workflow with reproducible regex pipeline.
+Referenced by essay-en-composer SKILL.md Step 7 (emit draft + publication.md). Two-file output workflow with reproducible regex pipeline.
 
 ## Two-file design
 

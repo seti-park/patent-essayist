@@ -1,6 +1,6 @@
 # Section blueprint (Step 3 of compose)
 
-Adapted from v1 essay-architect Step 4. v2 input is `handoff/01-design/thesis-spine.md` (Markdown) instead of a Blueprint YAML. Output is the section structure the composer follows in Step 4.
+Adapted from the v1 design-phase skill (Step 4). v2 input is `handoff/01-design/thesis-spine.md` (Markdown) instead of a Blueprint YAML. Output is the section structure the composer follows in Step 4.
 
 ## Section structure
 
@@ -23,7 +23,7 @@ Each section the composer plans has:
 
 ## Patent-fact discipline
 
-Every patent-text claim in the essay must trace to a `[XXXX]` anchor that exists in `invention-summary.md` Quotable spans or Quote anchor table. Patent text never sourced from patent.md directly (it's not in Phase 2 Knowledge).
+Every patent-text claim in the essay must trace to a `[XXXX]` anchor that exists in `invention-summary.md` Quotable spans or Quote anchor table. Patent text never sourced from patent.md directly (Phase 2 does not read `input/patent.md`).
 
 Every external claim (industry baseline, corporate statement, prior product date) must trace to a `fact-check-log.md` Fact ID + appear in the essay's `# Sources` block.
 

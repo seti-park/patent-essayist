@@ -104,7 +104,7 @@ This proves the pass ran. Empty pass output without explicit `no findings` annot
 
 ```yaml
 review_id: 044-tesla-rcm-vindication-review-1
-draft_source: /mnt/user-data/outputs/044-022-essay-draft.md
+draft_source: handoff/02-compose/essay-draft.md
 review_timestamp: 2026-05-10T19:00:00Z
 posture_applied: measured
 overall_assessment: revise-required

@@ -19,14 +19,16 @@ handoff/01-design/{thesis-spine.md, invention-summary.md, figure-selection.md,
 
 ## When to invoke
 
-User has uploaded `handoff/01-design/*` files + `figures/` to the Phase 2 Compose Project and asks to draft, compose, or write the essay. Phase 1's Quotable spans are the only patent source — patent.md is NOT in Phase 2 Knowledge.
+`handoff/01-design/*` and `input/figures/` are present and the user (or the `patent-essay` orchestrator) asks to draft, compose, or write the essay. Phase 1's Quotable spans are the only patent source — this phase never reads `input/patent.md` (voice/grounding fencing).
 
 ## Modes (2 dimensions)
 
 Two orthogonal dimensions, both selectable at invocation. Default: walkthrough + measured.
 
-- **Mode category**: walkthrough (default) / strict-execution / pair — see `references/mode-spec.md`.
+- **Mode category**: walkthrough (default) / strict-execution / pair — see `references/mode-spec.md` — plus **revision** (loop rounds only), entered when the invocation supplies a Phase-3 edit-log + failing gate `check_id`s instead of asking for a fresh draft. See `references/revision-mode.md` for the trigger, scope rule, constraints, escalation, and output contract.
 - **Posture**: aggressive / measured (default) / conservative — see `references/mode-spec.md`.
+
+Orchestrated runs (`/patent-essay`) have no live human mid-session: round 1 runs **strict-execution + measured** unless the invocation says otherwise, and every subsequent loop round runs **revision** mode.
 
 ## Process (7 steps)
 
@@ -48,9 +50,9 @@ Composition stays within `thesis-spine.md` constraints. Fact introduction beyond
 - `handoff/01-design/invention-summary.md` exists with Quotable spans covering every paragraph anchor the spine references.
 - `handoff/01-design/figure-selection.md` + `figure-rationale.md` exist with every selected figure mapped to a thesis point.
 - `handoff/01-design/fact-check-log.md` exists (may be empty if thesis is entirely patent-anchored).
-- `figures/fig-NN.png` accessible via Project file uploads.
-- `voice-canon-lookup` skill installed in same Project.
-- Phase 2 Knowledge files loaded: `voice-profile.md`, `deliverable-voice-rules.md`, `anti-ai-writing.md`, `caption-roles.md`, `x-article-format.md`, `working-dialogue-voice.md`.
+- `input/figures/fig-NN.png` present (pre-cleaned).
+- `voice-canon-lookup` available as a sibling skill (`.claude/skills/voice-canon-lookup/`).
+- References loaded (full voice stack — Phase 2 is voice-on): `voice-canon-lookup/references/voice-profile.md`, `_shared/references/deliverable-voice-rules.md`, `_shared/references/anti-ai-writing.md`, `_shared/references/caption-roles.md`, `references/x-articles-format-en.md`, `_shared/references/working-dialogue-voice.md`.
 - Mode and posture confirmed in opening response.
 
 ## Post-conditions
@@ -108,6 +110,7 @@ Full schema → `handoff-template/02-compose/essay-draft.md`. Strip pipeline →
 ## References
 
 - `references/mode-spec.md` — mode + posture detail, mid-pipeline shifts, posture-by-mode scope rules.
+- `references/revision-mode.md` — loop-round revision contract (inputs, scope rule, escalation, version bump).
 - `references/section-blueprint.md` — per-section planning, closing directive, sources structure plan, mode hint.
 - `references/figure-rendering.md` — 4 caption_role types, header vs body rendering modes.
 - `references/citation-format.md` — `[XXXX]` patent paragraph citations + external attribution rules.

@@ -4,7 +4,7 @@ Referenced by editorial-review SKILL.md. Defines 3-tier posture and how it modul
 
 ## What posture is
 
-Each essay's Blueprint `mode_hint` field, or tech-essay-en invocation, names a posture. The posture sets the editorial-review's finding severity lens: the same prose passage produces different severity classifications under different postures.
+Each essay's section-blueprint `mode_hint` field, or the essay-en-composer invocation, names a posture. The posture sets the editorial-review's finding severity lens: the same prose passage produces different severity classifications under different postures.
 
 Posture is not a quality judgment. It is an essay-level intent declaration that scales reviewer sensitivity.
 

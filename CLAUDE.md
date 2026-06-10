@@ -7,7 +7,9 @@ until the draft clears the deterministic gates and the editorial assessment. Aft
 a second, slower **meta-loop** (`pipeline-retro`) proposes improvements to the system itself.
 
 This is a conversion of a system originally run as separate claude.ai Projects. The real
-skill bodies have been ported into `.claude/skills/`; the originals are preserved verbatim in
+skill bodies have been ported into `.claude/skills/` and adapted to this runtime (claude.ai
+Project-era assumptions replaced with repo paths; loop-round behavior defined in
+`essay-en-composer/references/revision-mode.md`); the originals are preserved verbatim in
 `docs/source-prompts/` as the reference baseline. The conversion adds: **automated stage
 hand-off**, **real deterministic gate scripts aligned to the editorial rules**, an
 **automatic inner quality loop**, and a **propose-only self-improvement meta-loop**.

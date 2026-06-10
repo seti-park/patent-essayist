@@ -90,7 +90,7 @@ If the source only supports correlation, the essay must either:
 
 - `invention-summary.md` Quotable spans and Quote anchor table — patent verbatim source-of-truth.
 - `fact-check-log.md` — external fact source-of-truth.
-- `patent.md` re-uploaded to Phase 3 Knowledge — fallback verification when invention-summary entry seems wrong.
+- `input/patent.md` read directly — fallback verification when invention-summary entry seems wrong.
 
 ## Pass 3's place in the pipeline
 

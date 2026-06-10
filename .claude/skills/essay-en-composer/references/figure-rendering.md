@@ -1,6 +1,6 @@
 # Figure rendering
 
-Referenced by tech-essay-en SKILL.md Step 6 (Place figures). Defines role-dependent rendering for each `figures_locked` entry.
+Referenced by essay-en-composer SKILL.md Step 4 (plan figures). Defines role-dependent rendering for each `figures_locked` entry.
 
 ## Placement categories
 
@@ -18,7 +18,7 @@ Blueprint `figures_locked` entries carry a `placement` field. Three placement ca
 | body-after-section-N | `caption-only-italic` | `*<caption_draft>*` (italic, no image embed) |
 | body-section-N-after-X | `caption-only-italic` | `*<caption_draft>*` (italic, no image embed) |
 
-Body figure default is **caption-only-italic**. Cleaned figure asset stays in `outputs/figures/` for X Articles upload at publication time.
+Body figure default is **caption-only-italic**. Cleaned figure asset stays in `input/figures/` for X Articles upload at publication time.
 
 Rationale: mobile readability plus body flow plus publication-time asset mapping clarity. Pattern validated on the 368 Tesla cutting essay (header = composite, body = 4 italic captions only) and the 050 Tesla CAM essay (header = FIG. 5 composite, body = 5 italic captions).
 

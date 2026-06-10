@@ -1,6 +1,6 @@
 # 4-axis thesis grounding (Step 4)
 
-Each thesis candidate must anchor on all 4 axes. Any missing anchor disqualifies the candidate. Source: v1 essay-architect thesis-design.md §"4-axis grounding", carried over verbatim with multi-spine A-style deprecate language dropped (single-spine is the v2 default).
+Each thesis candidate must anchor on all 4 axes. Any missing anchor disqualifies the candidate. Source: the v1 design-phase skill's thesis-design.md §"4-axis grounding", carried over verbatim with multi-spine A-style deprecate language dropped (single-spine is the v2 default).
 
 ## 원칙
 
