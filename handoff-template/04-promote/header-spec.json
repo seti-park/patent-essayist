@@ -1,0 +1,30 @@
+{
+  "_template": "handoff/04-promote/header-spec.json — written by header-composer (Phase 4-lite). The reproducibility contract: scripts/make_header.py renders the identical PNG from this spec. Schema by variant below; delete the _template/_comment keys in real specs.",
+  "_comment_editorial": "variant=editorial: kicker, badge, headline (list of lines; each line = list of {text, color: ink|accent} segments — at most ONE accent word in the whole headline), figure {file, caption, max [w,h], top}, strip (4-6 UPPERCASE tokens).",
+  "_comment_numbers": "variant=numbers: kicker, kicker_right, old_value, old_caption, new_value, new_caption (strip is replaced by the built-in staircase motif).",
+
+  "essay_id": "044-tesla-rcm-vindication",
+  "variant": "editorial",
+  "note": "one line: which variant was chosen over which, and why",
+
+  "kicker": "US 2026/0125022 A1 · TESLA, INC.",
+  "badge": "70 MS EARLIER",
+  "headline": [
+    [{"text": "The airbag", "color": "ink"}],
+    [{"text": "never ", "color": "accent"}, {"text": "waited", "color": "ink"}],
+    [{"text": "for the crash.", "color": "ink"}]
+  ],
+  "figure": {
+    "file": "input/figures/fig-01.png",
+    "caption": "FIG. 1 · THE PRE-IMPACT PATH",
+    "max": [860, 560],
+    "top": 96
+  },
+  "strip": ["VISION SENSOR", "PREDICTION", "AIRBAG ECU", "70 MS"],
+
+  "old_value": "10 ms",
+  "old_caption": "ACCELEROMETER REACTION",
+  "new_value": "70",
+  "new_caption": "MILLISECONDS OF WARNING",
+  "kicker_right": "PREDICTIVE RESTRAINT"
+}

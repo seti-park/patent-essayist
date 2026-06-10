@@ -1,0 +1,20 @@
+{
+  "essay_id": "001-google-quantum-control",
+  "variant": "editorial",
+  "note": "editorial over numbers: closing line sets cleanly in 3 Fraunces lines; owner picked V4 (2026-06-10)",
+
+  "kicker": "US 12,652,259 B1 · GOOGLE LLC",
+  "badge": "9 CURRENT LEVELS",
+  "headline": [
+    [{"text": "The qubit", "color": "ink"}],
+    [{"text": "never ", "color": "accent"}, {"text": "asked", "color": "ink"}],
+    [{"text": "for a waveform.", "color": "ink"}]
+  ],
+  "figure": {
+    "file": "input/figures/fig-01.jpg",
+    "caption": "FIG. 1 · NO DAC ANYWHERE IN IT",
+    "max": [860, 560],
+    "top": 96
+  },
+  "strip": ["DRIVERS", "SWITCH NETWORK", "QUBITS", "3 KELVIN", "< 2 ns"]
+}

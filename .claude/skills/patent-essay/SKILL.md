@@ -120,13 +120,22 @@ While the round is **FAIL** and `iterations < max-iter`:
 Stop on PASS, or at `max-iter`. On stop, promote the accepted draft to
 `handoff/03-edit/essay-final.md`.
 
+### Phase 4-lite — Header  (skill: `header-composer`, after PASS)
+
+Invoke `header-composer` on the accepted essay. It reads `essay-final.md` + the Phase-1
+header figure, writes `handoff/04-promote/header-spec.json`, and renders
+`handoff/04-promote/header.png` (5:2) with the deterministic house design system
+(`header-composer/scripts/make_header.py`). Promo post text stays out of scope
+(unported `promo-composer`).
+
 Each phase's heavy work runs in its own forked context; keep only the structured hand-off
 summaries in the main thread to stay within budget.
 
 ## Archive + meta-loop (after the inner loop)
 
 1. **Archive** the run to `runs/<essay-id>/`: copy `edit-log.md`, the final
-   `run_gates.py --json` output as `gate-result.json`, and write `score-history.md`.
+   `run_gates.py --json` output as `gate-result.json`, and write `score-history.md`; copy
+   `essay-final.md` and the Phase-4 header (`header/` ← `header-spec.json` + PNGs).
    `runs/` is **tracked** — after the meta-loop (step 2) finishes, commit
    `runs/<essay-id>/` together with the `meta/` updates (one commit per essay run) so the
    archive and ledger survive the ephemeral container; they are the evidence chain behind
@@ -140,7 +149,8 @@ summaries in the main thread to stay within budget.
 
 ## Output
 
-- The **final essay** (`handoff/03-edit/essay-final.md`, clean prose).
+- The **final essay** (`handoff/03-edit/essay-final.md`, clean prose) and the **header**
+  (`handoff/04-promote/header.png`, 5:2).
 - A **SCORE HISTORY** table: iteration → `overall_assessment` → gate result (failing
   `check_id`s) → PASS/FAIL → one-line note.
 - One line on any new `pipeline-retro` proposal awaiting human review.

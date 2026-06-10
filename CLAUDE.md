@@ -39,7 +39,9 @@ specification md + a `figures/` directory of drawings; the orchestrator extracts
 accepted as-is. The orchestrator runs all three phases plus the loop, archives the run to
 `runs/<essay-id>/` (committed — the archive is the meta-loop's evidence chain), runs the
 meta-loop, and returns the final essay
-(`handoff/03-edit/essay-final.md`) plus a score history. Optional outer backstop:
+(`handoff/03-edit/essay-final.md`) plus a score history, then renders the 5:2 X-Article
+header (`header-composer`, Phase 4-lite) to `handoff/04-promote/header.png`. Optional
+outer backstop:
 
 ```
 /goal the patent-essay SCORE HISTORY shows a final draft that passes all gates with overall_assessment == pass
@@ -57,6 +59,9 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
   essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
   voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
   editorial-review/    P3 Edit    — 6-pass severity review (voice-fenced)
+  header-composer/     P4-lite Promote — essay → header-spec.json → deterministic 5:2 header
+                       (scripts/make_header.py + vendored OFL fonts + design-system.md;
+                        the repo's only non-stdlib dep, Pillow, lives here — never in gates)
   pipeline-retro/      meta-loop  — findings → ledger → propose-only improvement proposals
   _shared/
     references/        shared canon: deliverable-voice-rules · anti-ai-writing (vendored absorbed) ·

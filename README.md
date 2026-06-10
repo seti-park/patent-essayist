@@ -20,7 +20,9 @@ Claude Code:
 /patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4]
 ```
 
-The final essay lands at `handoff/03-edit/essay-final.md` with a score history; the run is
+The final essay lands at `handoff/03-edit/essay-final.md` with a score history, and the
+5:2 X-Article header at `handoff/04-promote/header.png` (deterministic house design
+system — `header-composer` skill, requires `pip install pillow`); the run is
 archived under `runs/<essay-id>/` and the meta-loop (`pipeline-retro`) may leave an
 improvement proposal in `meta/improvement-proposals/` for human review.
 
