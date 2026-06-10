@@ -9,10 +9,12 @@ Full architecture, voice-fencing rules, and loop policy: **[CLAUDE.md](CLAUDE.md
 
 ## Run
 
-Place inputs under `input/` — `patent.md` (the specification) plus figures as either a
-**zip archive** (e.g. `input/figures.zip`; the orchestrator extracts and normalizes names
-to `fig-NN.png`) or pre-normalized `figures/fig-NN.png`, and optional `essay-context.md` —
-then in Claude Code:
+The standard input is **one zip archive** — attach it in chat (or drop it under
+`input/`) — containing the patent specification markdown plus a `figures/` directory of
+drawings. The orchestrator extracts it to `input/patent.md` +
+`input/figures/fig-NN.<ext>` before Phase 1; the already-decomposed form (`patent.md`,
+`figures/fig-NN.png`, optional `essay-context.md` under `input/`) works as-is. Then in
+Claude Code:
 
 ```
 /patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4]

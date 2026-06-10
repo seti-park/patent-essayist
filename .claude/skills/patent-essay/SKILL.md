@@ -23,14 +23,23 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
 
 ## Inputs (provided per run)
 
+The standard input is **one zip archive** — attached in chat or any `*.zip` under
+`input/` — containing the patent specification markdown plus a `figures/` directory of
+drawings.
+
+**Pre-step before Phase 1 (input normalization):**
+1. Extract the zip.
+2. Specification md → `input/patent.md`. If the archive holds several `.md` files, pick
+   the one that reads as the specification (claims/abstract/paragraph numbering) and say
+   which was chosen in one line.
+3. Drawings (a `figures/` directory, or loose image files) → `input/figures/`, renamed
+   `fig-NN.<ext>` in figure-number order (keep non-png extensions — the pipeline keys on
+   the number). Note the original→normalized name mapping in one line of the run log.
+
+The decomposed form is also accepted as-is (pre-step skipped):
+
 - `input/patent.md` — the English patent specification (or whatever path `$ARGUMENTS` names).
-- Figures, either form:
-  - `input/figures/fig-NN.png` — pre-cleaned figures, already normalized; or
-  - **a zip archive** (e.g. `input/figures.zip`, or any `*.zip` under `input/`) — the
-    standard input form. **Pre-step before Phase 1:** extract it into `input/figures/`,
-    rename the images to `fig-NN.<ext>` in figure-number order (keep the original
-    extension if not png — the pipeline keys on the number), and note the
-    original→normalized filename mapping in one line of the run log.
+- `input/figures/fig-NN.png` — pre-normalized figures.
 - `input/essay-context.md` — optional extra framing/context for the run; consumed by
   `thesis-architect` Step 2 (context research) and Step 3 (candidate framing).
 
