@@ -12,11 +12,14 @@ reference, gate, or canon. Before a human applies it, run this to confirm nothin
 A proposal that breaks (1) or worsens any fixture in (2) must be rejected.
 
 Each fixture is a directory meta/fixtures/<name>/ containing:
-  - expect.json     : {"gate_pass": true|false,
+  - expect.json     : {"gate_pass": true|false,                             # optional (needs draft.md)
+                       "tcard_pass": true|false,                            # optional (needs thesis-spine.md;
+                                                                            #  runs check_thesis_card.py)
                        "audience": "deep"|"investor",                       # optional (default deep)
                        "must_not_contain_check_ids": ["FIGUSE-001", ...],   # optional
                        "must_contain_check_ids": ["SOURCES-002", ...]}      # optional
-  - draft.md        : the essay draft to run gates over
+  - draft.md        : the essay draft to run gates over (optional for
+                      thesis-card-only fixtures)
   - invention-summary.md   (optional context)
   - figures-index.txt      (optional, ints one per line)
   - figure-selection.md    (optional)
@@ -109,12 +112,12 @@ def _load(path):
 
 
 def _run_fixture(name):
-    """Run gates over one fixture; compare to expect.json. Return True on pass."""
+    """Run gates (and/or the thesis-card check) over one fixture; compare to
+    expect.json. Return True on pass."""
     import run_gates  # imported here so a broken edit surfaces as a clear failure
 
     fdir = os.path.join(FIXTURES, name)
     expect = json.loads(_load(os.path.join(fdir, "expect.json")))
-    draft = _load(os.path.join(fdir, "draft.md"))
 
     ctx = {"mode": "essay", "audience": expect.get("audience", "deep")}
     inv = os.path.join(fdir, "invention-summary.md")
@@ -133,13 +136,26 @@ def _run_fixture(name):
     if os.path.exists(trace):
         ctx["thesis_trace_text"] = _load(trace)
 
-    overall, results = run_gates.run_all(draft, ctx)
-    seen = {f["check_id"] for r in results for f in r["findings"]}
-
+    seen = set()
     ok = True
-    if "gate_pass" in expect and overall != expect["gate_pass"]:
-        print("  FAIL %s: gate_pass expected %s, got %s" % (name, expect["gate_pass"], overall))
-        ok = False
+
+    draft_path = os.path.join(fdir, "draft.md")
+    if os.path.exists(draft_path):
+        overall, results = run_gates.run_all(_load(draft_path), ctx)
+        seen |= {f["check_id"] for r in results for f in r["findings"]}
+        if "gate_pass" in expect and overall != expect["gate_pass"]:
+            print("  FAIL %s: gate_pass expected %s, got %s" % (name, expect["gate_pass"], overall))
+            ok = False
+
+    # thesis-card check (P1 pre-compose, standalone): opt in via expect.tcard_pass.
+    if "tcard_pass" in expect:
+        import check_thesis_card
+        tres = check_thesis_card.check(ctx.get("thesis_spine_text", ""))
+        seen |= {f["check_id"] for f in tres["findings"]}
+        if tres["passed"] != expect["tcard_pass"]:
+            print("  FAIL %s: tcard_pass expected %s, got %s"
+                  % (name, expect["tcard_pass"], tres["passed"]))
+            ok = False
     for cid in expect.get("must_not_contain_check_ids", []):
         if cid in seen:
             print("  FAIL %s: regressed -- %s present (must not contain)" % (name, cid))

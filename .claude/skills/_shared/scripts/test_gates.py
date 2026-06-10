@@ -23,6 +23,7 @@ import gate_structure
 import gate_figure_use
 import gate_readability
 import gate_arc
+import check_thesis_card
 import run_gates
 
 
@@ -470,6 +471,136 @@ class TestRunGatesEndToEnd(unittest.TestCase):
         finally:
             for p in (clean_path, dirty_path, summary, figs):
                 os.unlink(p)
+
+
+
+
+# ---------------------------------------------------------------------------
+# check_thesis_card (P1 pre-compose; standalone, NOT in run_gates GATES)
+# ---------------------------------------------------------------------------
+_SPINE_CLEAN = """# Thesis Spine
+
+## Selected thesis
+> Tesla's rotor patent refuses the steel-tax compromise the whole industry accepts.
+
+## 4-axis grounding
+
+### Axis 1 -- Claims anchor
+> Claim 1 -- "one or more non-magnetic fillers disposed in the second cavity"
+
+### Axis 2 -- Problem anchor
+> [0044] "steel ribs cause magnetic flux to short-circuit"
+
+### Axis 3 -- Effect anchor
+> [0043] "non-magnetic fillers reduce magnetic leakage"
+
+### Axis 4 -- Baseline-difference anchor
+> Industry IPM practice treats the steel bridge as an unavoidable tradeoff (~15% leakage).
+
+## Consensus evidence (strawman filter)
+- **Consensus**: the rotor bridge leakage tax is treated as unavoidable.
+- **Citations**:
+  - IEEE 2023 -- "flux barriers inevitably leak through bridges" -- https://ieee.example/flux (2023)
+  - JMAG note -- "bridge thickness is a strength-vs-leakage compromise" -- https://jmag.example/note (2022)
+- **Overturn**: the patent removes the steel bridge entirely.
+
+## Adversarial defense
+**Strongest objection**: this is just the rare-earth-free program.
+**Mitigation**: scope-fenced in the body.
+**Residual risk**: Acknowledged -- no quantitative numbers; Acceptance: a teardown quantifying the delta.
+
+## Arc budget
+- lead: 10%
+- development: 55%
+- turn: 25% (once)
+- closing: 10%
+
+## Spine -> section trace
+| Section | Spine element | Anchors |
+|---|---|---|
+| 1-lead | hook | (framing) |
+| 2-development | mechanism | [0044] |
+| 3-turn | reframe | [0043] |
+| 4-closing | recap | (framing) |
+"""
+
+
+class TestThesisCard(unittest.TestCase):
+    def test_clean_spine_passes(self):
+        r = check_thesis_card.check(_SPINE_CLEAN)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertEqual(r["findings"], [])
+
+    def test_empty_spine_skips(self):
+        r = check_thesis_card.check("")
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "TCARD-000"))
+
+    def test_legacy_spine_warns_consensus_absent(self):
+        legacy = _SPINE_CLEAN.replace("## Consensus evidence (strawman filter)", "## Notes")
+        r = check_thesis_card.check(legacy)
+        self.assertTrue(_has(r, "TCARD-000"))
+        self.assertFalse(_has(r, "TCARD-003"))
+
+    def test_missing_thesis_fails(self):
+        r = check_thesis_card.check(_SPINE_CLEAN.replace("## Selected thesis", "## Something"))
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "TCARD-001"))
+
+    def test_unanchored_axis_fails(self):
+        broken = _SPINE_CLEAN.replace('[0044] "steel ribs cause magnetic flux to short-circuit"',
+                                      "steel ribs leak, trust me")
+        r = check_thesis_card.check(broken)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "TCARD-002"))
+
+    def test_zero_citations_fails(self):
+        no_urls = _SPINE_CLEAN.replace("https://ieee.example/flux", "ieee article") \
+                              .replace("https://jmag.example/note", "jmag note")
+        r = check_thesis_card.check(no_urls)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "TCARD-003"))
+
+    def test_one_citation_warns(self):
+        one = _SPINE_CLEAN.replace("https://jmag.example/note", "jmag note")
+        r = check_thesis_card.check(one)
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "TCARD-004"))
+
+    def test_no_falsifiability_warns(self):
+        r = check_thesis_card.check(_SPINE_CLEAN.replace(
+            "**Residual risk**: Acknowledged -- no quantitative numbers; Acceptance: a teardown quantifying the delta.", ""))
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "TCARD-005"))
+
+    def test_missing_arc_budget_fails(self):
+        r = check_thesis_card.check(_SPINE_CLEAN.replace("## Arc budget", "## Arc notes"))
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "TCARD-006"))
+
+    def test_bad_budget_sum_fails(self):
+        r = check_thesis_card.check(_SPINE_CLEAN.replace("- development: 55%", "- development: 20%"))
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "TCARD-006"))
+
+    def test_uncovered_role_warns(self):
+        r = check_thesis_card.check(_SPINE_CLEAN.replace("| 3-turn | reframe | [0043] |", ""))
+        self.assertTrue(_has(r, "TCARD-007"))
+
+    def test_comment_placeholders_do_not_satisfy(self):
+        # template guidance lives in HTML comments; it must not count as content
+        hollow = """# Thesis Spine
+
+## Selected thesis
+<!-- One-line spine goes here -->
+
+## Arc budget
+<!-- - lead: 10% -->
+"""
+        r = check_thesis_card.check(hollow)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "TCARD-001"))
+        self.assertTrue(_has(r, "TCARD-006"))
 
 
 def _run():

@@ -1,0 +1,4 @@
+{
+  "tcard_pass": false,
+  "must_contain_check_ids": ["TCARD-003"]
+}

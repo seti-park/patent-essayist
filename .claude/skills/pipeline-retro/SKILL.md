@@ -37,7 +37,7 @@ regression check (`meta/regression.py`). This is the primary anti-drift safeguar
 
 ## Process
 
-1. **Collect** — read the run's `handoff/03-edit/edit-log.md` and `runs/<id>/gate-result.json`.
+1. **Collect** — read the run's `handoff/03-edit/edit-log.md` and `runs/<id>/gate-result.json`. Also collect any `--thesis-gate` checkpoint rejections (candidate + SETI's reason, from the orchestrator / `runs/<id>/thesis-candidates.md`) — they normalize as `thesis-quality` findings keyed to `thesis-architect`.
    Normalize each finding (and each failing gate `check_id`) into a ledger record per
    `references/ledger-schema.md`. Append to `meta/findings-ledger.jsonl`. Empty-pass "no
    findings" entries are recorded too (they prove coverage and prevent false recurrence gaps).

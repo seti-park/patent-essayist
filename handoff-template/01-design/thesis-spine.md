@@ -43,6 +43,21 @@
      EXTERNAL baseline — patent novelty alone does not satisfy this axis. -->
 > Bosch airbag baseline ~10ms accelerometer latency vs claimed ~70ms vision-path lead (industry-baseline-comparison)
 
+## Consensus evidence (통념 실재 검증)
+
+<!-- The 통념 this thesis overturns must be REAL. check_thesis_card.py enforces:
+     0 external citations => TCARD-003 hard fail (a 통념 nobody holds is a strawman,
+     and overturning it is not a thesis); 1 citation => TCARD-004 warn; >=2 clean.
+     Citations come from Step 2 context research (search-log.md) and are seeded
+     into fact-check-log.md so prepublish-verify re-resolves them live.
+     (portfolio 확장 예약: 교차-특허 주장은 >=2 특허 네임스페이스 인용 — 추후) -->
+
+- **통념 (one sentence)**: Pre-impact airbag deployment decisions are treated as an accelerometer-domain problem; vision systems are for avoidance, not restraint timing.
+- **Citations (≥1 hard, ≥2 clean)**:
+  - SAE technical brief — "restraint deployment remains anchored to inertial sensing" — https://www.sae.org/example-restraint-sensing (2023)
+  - Automotive News analysis — "camera inputs inform braking, not airbag firing decisions" — https://www.autonews.com/example-adas-restraint (2024)
+- **전복 (one sentence)**: Claim 1's vision-path limitation `[0016]` puts the camera directly in the deployment decision, ~70ms `[0024]` ahead of the inertial baseline.
+
 ## Q7 hook pattern (hard gate)
 
 <!-- Exactly ONE of the 2 admitted patterns must be checked, with its anchor.
@@ -102,13 +117,13 @@
      planned by the composer (section-blueprint.md). Each section also carries an
      `arc_role` (from the Arc budget above) in thesis-trace.md, which gate_arc
      reads to map sections to budgeted roles. -->
-| Section | Spine element carried | Primary anchors |
-|---|---|---|
-| 1-lead | Hook — corporate-narrative-friction (announcement vs filing) | (framing; no patent claim) |
-| 2-architecture | Axis 1 claims anchor + mechanism | `[0016]`, `[0017]` |
-| 3-baseline | Axis 4 baseline-difference + adversarial mitigation | `[0014]`, `[0024]` |
-| 4-implication | Axis 3 effect anchor → strategic reframe | `[0024]`, `[0029]` |
-| 5-closing | Thesis recap + forward pointer | (framing) |
+| Section | Arc role | Spine element carried | Primary anchors |
+|---|---|---|---|
+| 1-lead | lead | Hook — corporate-narrative-friction (announcement vs filing) | (framing; no patent claim) |
+| 2-architecture | development | Axis 1 claims anchor + mechanism | `[0016]`, `[0017]` |
+| 3-baseline | development | Axis 4 baseline-difference + adversarial mitigation | `[0014]`, `[0024]` |
+| 4-implication | turn (reversal) | Axis 3 effect anchor → strategic reframe | `[0024]`, `[0029]` |
+| 5-closing | closing | Thesis recap + forward pointer | (framing) |
 
 <!--
   > Revision note — triggered by [step N] [date]: [what changed and why]

@@ -29,7 +29,7 @@ traceability matrix is in `_shared/references/scoring-rubric.md`:
 ## How to run
 
 ```
-/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire] [--audience deep|investor] [--verify auto|off]
+/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire] [--audience deep|investor] [--verify auto|off] [--thesis-gate ask|auto]
 ```
 
 Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and optional
@@ -116,6 +116,16 @@ which references each phase loads:
 
 ## Loop control (two tiers + a publish gate)
 
+- **P1 thesis loop (pre-compose, `--thesis-gate`, default `ask`):** thesis quality is the one
+  thing no later gate defends, and a weak thesis discovered after a full run is the most
+  expensive failure. P1 decomposes "interesting" into checkable parts: every candidate declares
+  the **통념 it overturns + the 전복** and must prove the 통념 is *real* (external citations —
+  the strawman filter, `check_thesis_card.py` `TCARD-*`: ≥1 hard, <2 warn); card-gate survivors
+  face a 3-vector pre-selection red-team (strawman / triviality / scope-overreach) and a
+  **pairwise tournament** (relative judgment only, no scores); the winner surfaces as a 1-minute
+  **thesis card** for SETI approval before any prose exists (`ask`) or auto-proceeds (`auto`).
+  0 survivors → regenerate candidates (max 2 P1 rounds). Checkpoint rejections feed the ledger
+  as `thesis-quality` findings.
 - **Inner loop (orchestrator, auto):** deterministic gates (hard pass/fail) + editorial
   **severity model** (`overall_assessment`: pass / revise-recommended / revise-required),
   threshold (default `pass`), grounding + goal-2 hard-gates, max iterations (default 4). On
@@ -142,7 +152,10 @@ list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan select
 goal 2), `gate_readability` (accessible-altitude contract — goal 3, `--audience investor`
 only; inert on `deep`), and `gate_arc` (per-section length/structure conformance against the
 spine's `## Arc budget` — goal 3/4a, warn-only/promotable; inert unless `--thesis-spine` carries
-an arc budget). All proxy checks are **elimination filters, never optimization targets**
+an arc budget). Separately, `check_thesis_card.py` (`TCARD-*`) runs **standalone at P1 time** (pre-compose, not
+in `run_gates.py` — it must fire before any prose exists): thesis-card completeness, 4-axis
+anchoring, consensus-citation floor, falsifiability, arc-budget sanity. All proxy checks are
+**elimination filters, never optimization targets**
 (anti-Goodhart — see `scoring-rubric.md` "Measurement discipline"). Run
 `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or `python meta/regression.py`
 for tests + fixtures.

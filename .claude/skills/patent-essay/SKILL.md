@@ -45,6 +45,11 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
 - `--verify auto|off` — the independent pre-publish verification stage. **Default: `auto`** (runs
   once after the inner loop passes, before archival — a true publication gate). `off` skips it
   (backward-compatible / offline). See "Pre-publish verification" below.
+- `--thesis-gate ask|auto` — the pre-compose thesis checkpoint. **Default: `ask`**: after P1
+  locks the spine and `check_thesis_card.py` passes, surface the winning **thesis card** to the
+  user for a ~1-minute approval before any prose is composed (the cheapest point to kill a weak
+  thesis — the most expensive failure mode is discovering a boring thesis after a full run).
+  `auto` keeps the previous fully-automatic selection; the card gate still applies.
 
 ## Pipeline
 
@@ -60,10 +65,25 @@ figure-rationale, fact-check-log, search-log, phase2-handoff-notes). Also write 
 hook and declares a `reader_stake`; figure-selection picks fewer figures by "helps a
 non-expert understand" (see `thesis-architect/references/hook-patterns.md`).
 
-**Thesis selection (auto):** read `thesis-candidates.md` and auto-pick the recommended /
-single-spine candidate. Surface the candidate list in one short line so the user can
-override; if `$ARGUMENTS` names a specific thesis, use that. Confirm the choice is locked in
-`thesis-spine.md`.
+**Thesis card gate (deterministic):** after the spine is locked, run
+`python .claude/skills/_shared/scripts/check_thesis_card.py --thesis-spine handoff/01-design/thesis-spine.md`.
+On FAIL (TCARD-001/002/003/006), feed the findings back to `thesis-architect` for a redesign
+(combined with P1's own candidate-regeneration loop: **max 2 P1 rounds total**). TCARD-000 on a
+fresh run means the spine skipped the `## Consensus evidence` schema — treat it as
+fail-equivalent and redesign; on a legacy/manual spine it is tolerated as a warn.
+
+**Thesis selection (`--thesis-gate`):**
+- **`ask` (default):** surface the winning candidate as a compact **thesis card** — thesis
+  one-liner / 통념 + its citations / 전복 / falsifiable stake (from Residual risk) / tournament
+  rationale (from `thesis-candidates.md` `## Selection rationale`) — and ask the user:
+  ① approve & compose, ② pick another candidate (list them), ③ redesign with free-form
+  instructions. On rejection, record the reason (it feeds `meta/findings-ledger.jsonl` keyed to
+  `thesis-architect` — the thesis-quality finding class) and re-run P1 with the instructions.
+- **`auto`:** auto-pick the recommended / single-spine candidate (previous behavior). Surface
+  the candidate list in one short line so the user can override; if `$ARGUMENTS` names a
+  specific thesis, use that. The card gate above still applies.
+
+Confirm the choice is locked in `thesis-spine.md`.
 
 ### Phase 2 — Compose  (skill: `essay-en-composer`, voice-on)
 Invoke `essay-en-composer` **with the audience**. It reads `handoff/01-design/` (it does
@@ -181,6 +201,10 @@ PUBLISH-READY  ⇔  inner loop already PASS
      material (admission policy in `voice-canon-lookup/SKILL.md`), and the trace's
      `voice_canon_reference`s are the usage data the canon drift watch reads. (Both were being
      lost with gitignored `handoff/` before this.)
+   - **Thesis card material.** Also copy `handoff/01-design/thesis-spine.md` and
+     `thesis-candidates.md` into the run archive: approved cards + checkpoint-rejected
+     candidates (with reasons) are the golden thesis-card dataset — the P1 analogue of the
+     golden set.
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
    run's `edit-log.md` + `gate-result.json` + `verification-log.md`. It normalizes findings into
    `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a

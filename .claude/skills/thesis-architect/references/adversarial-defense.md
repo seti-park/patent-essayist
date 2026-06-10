@@ -123,3 +123,25 @@ Mitigation 으로 "§3 에서 baseline 비교 명시" 라고 적었지만 essay 
 "Residual risk: none" 으로 명시했지만 실제로는 acknowledged 영역 (e.g., baseline 시점 가정).
 
 **판정**: Reader 가 가정을 보지 못함 → essay 의 trustworthiness 손상. Acknowledged 로 격상 + essay 본문에 1-line 가정 명시 의무.
+
+## Pre-selection red-team (3 attack vectors — Step 6, before Step 7 selection)
+
+기존 4 objection categories 가 *선택된 thesis 의 본문 방어*를 설계한다면, 이 3 벡터는
+**선택 전에 후보 자체를 죽이는** 공격이다. card-gate (Step 4.5) 를 통과한 모든 후보에
+적용한다. 하나라도 못 버티면 후보 kill — 단, 후보당 **revise-and-retry 1회** 허용
+(공격을 반영해 통념/전복/범위를 고쳐 재시도). 결과는 후보별로 `thesis-candidates.md`
+의 `### Red-team survival` 에 survived/killed + 사유로 기록한다.
+
+1. **Strawman consensus** — 그 통념을 *실제로 믿는 사람이 있는가*? Consensus evidence
+   의 인용이 통념을 정말 자기 언어로 진술하는가, 아니면 인접 주제일 뿐인가? 아무도
+   믿지 않는 통념의 전복은 thesis 가 아니다. (기계 측: `check_thesis_card.py`
+   TCARD-003/004 — 인용 0건 fail / 1건 warn. 이 벡터는 인용의 *내용 적합성*을 본다.)
+2. **Triviality reduction** — 특허 물증이 지루한 설명으로도 환원되는가? (통상적 개량,
+   비용 절감, 방어적 출원, 법무 관행.) 환원 가능하면 전복이 아니라 과대 해석이다.
+   살아남으려면 지루한 설명을 *배제하는* 앵커가 있어야 한다.
+3. **Scope overreach** — 전복 주장이 앵커가 실제 지지하는 범위를 넘는가? (예측 lead 를
+   센서 latency 로, 출원을 양산 결정으로 바꿔 말하는 류.) 본문의 scope-fence 로 막을 수
+   있는 수준인지, thesis 자체가 과장인지 구분한다.
+
+생존자 2+ 이면 Step 7 쌍대 토너먼트로, 1 이면 토너먼트 생략(사유 기록), 0 이면 Step 3
+복귀 (P1 내부 루프, 최대 2회).

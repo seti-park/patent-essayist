@@ -11,6 +11,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 
 | Finding class (pattern_tag) | Source signal | Goal | Owner stage | Owner artifact | Default lever |
 |---|---|---|---|---|---|
+| `thesis-quality` | `--thesis-gate` checkpoint rejection / verify red-team-overclaim on the 전복 | 1 | design | thesis-architect adversarial-defense (red-team vectors) / thesis-spine consensus-evidence | reference-edit (new attack vector or card item) |
 | `anchor-missing` | gate ANCHOR-001 / pass-3 | 1 | design | thesis-architect invention-summary / quote-anchor-conventions | reference-edit |
 | `anchor-malformed` | gate ANCHOR-002 | 1 | compose | essay-en-composer/citation-format.md | reference-edit |
 | `paraphrase-accidental-drift` | pass-3 3C | 1 | compose | essay-en-composer/citation-format.md | reference-edit |

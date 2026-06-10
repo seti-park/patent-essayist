@@ -23,6 +23,7 @@ have prevented it.
 | **3. Easy for the reader to understand** | `gate_structure` (warn) + **`gate_readability` (enforced on `investor`)** | pass-5 reader-perspective (audience-conditional profile) | red-team finishability check (investor) | audience altitude + mode/posture calibration |
 | **4a. Well-structured** | `gate_structure` + **`gate_sources` SOURCES-005 (leaked tool-call tags)** | pass-6 lead/conclusion + format | **source-resolution** (live `# Sources` resolution, citation drift) | section-blueprint, x-articles-format-en, thesis arc |
 | **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash` | pass-1 voice + anti-ai | **red-team-insinuation** (raise-then-disavow / manufactured drama) | voice-on drafting + anti-ai canon + strip-pipeline |
+| **1/4a. Thesis quality (pre-compose)** | `check_thesis_card.py` `TCARD-*` (standalone, P1 time — NOT in run_gates: it must fire *before* compose) | — (upstream of the rounds) | red-team-overclaim re-tests the 전복 at publish | thesis-spine `## Consensus evidence` + candidates card-gate / red-team / tournament |
 
 The **Pre-publish verify** column is the independent publication-threshold stage
 (`prepublish-verify`): a fresh reviewer (not the editor that just passed the draft) runs a
@@ -91,6 +92,12 @@ python _shared/scripts/run_gates.py \
 ```
 
 ## Measurement discipline (anti-Goodhart)
+
+The P1 thesis loop follows the same discipline: `TCARD-*` checks are elimination filters
+(citation count is a floor, never a target to maximize), and the candidate tournament is
+**relative judgment only** ("which of the two overturns a better-evidenced 통념 more
+decisively") — no absolute thesis scores exist anywhere in the pipeline. The final authority
+on "is this thesis worth composing" is the human at the `--thesis-gate` checkpoint.
 
 A first-class boundary on every layer above. **Statistical and structural proxies — sentence-length
 variance, per-role word-share deviation (`gate_arc`), bold density (`STRUCT-002`), acronym density
