@@ -22,6 +22,7 @@ import gate_banned
 import gate_structure
 import gate_figure_use
 import gate_readability
+import gate_arc
 import run_gates
 
 
@@ -351,6 +352,76 @@ class TestReadability(unittest.TestCase):
         r = gate_readability.check(draft, {"audience": "investor"})
         self.assertTrue(r["passed"], r["findings"])
         self.assertFalse(_has(r, "READAB-002"))
+
+
+class TestArc(unittest.TestCase):
+    SPINE = ("## Arc budget\n"
+             "- lead: 10%\n- development: 60%\n- turn: 20% (once)\n- closing: 10%\n")
+    TRACE4 = ("### 1-lead\n- arc_role: lead\n"
+              "### 2-dev\n- arc_role: development\n"
+              "### 3-turn\n- arc_role: turn\n"
+              "### 4-closing\n- arc_role: closing\n")
+
+    @staticmethod
+    def _w(n):
+        return " ".join(["lorem"] * n)
+
+    def _draft(self, *section_words):
+        # First block is the lead (before any `##`); the rest are `##` sections.
+        parts = [self._w(section_words[0])]
+        for i, n in enumerate(section_words[1:], start=1):
+            parts.append("## Section %d\n%s" % (i, self._w(n)))
+        return "\n\n".join(parts) + "\n\n# Sources\n- x\n"
+
+    def test_no_budget_skips(self):
+        draft = self._draft(10, 60, 20, 10)
+        r = gate_arc.check(draft, {"thesis_spine_text": "# Spine\n\n## Selected thesis\nfoo\n"})
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "ARC-000"))
+
+    def test_missing_context_skips(self):
+        r = gate_arc.check(self._draft(10, 60, 20, 10), {})
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "ARC-000"))
+
+    def test_clean_budget_passes(self):
+        draft = self._draft(10, 60, 20, 10)
+        r = gate_arc.check(draft, {"thesis_spine_text": self.SPINE,
+                                   "thesis_trace_text": self.TRACE4})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "ARC-001"))
+        self.assertFalse(_has(r, "ARC-002"))
+        self.assertFalse(_has(r, "ARC-003"))
+
+    def test_budget_deviation_warns(self):
+        draft = self._draft(40, 30, 20, 10)  # lead 40% vs 10% budget
+        r = gate_arc.check(draft, {"thesis_spine_text": self.SPINE,
+                                   "thesis_trace_text": self.TRACE4})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "ARC-001"))
+
+    def test_once_violation_warns(self):
+        # turn appears twice -> violates the `once` marker.
+        trace5 = ("### 1\n- arc_role: lead\n### 2\n- arc_role: development\n"
+                  "### 3\n- arc_role: turn\n### 4\n- arc_role: turn\n"
+                  "### 5\n- arc_role: closing\n")
+        draft = self._draft(10, 50, 10, 10, 10)
+        r = gate_arc.check(draft, {"thesis_spine_text": self.SPINE,
+                                   "thesis_trace_text": trace5})
+        self.assertTrue(_has(r, "ARC-003"))
+
+    def test_mapping_incomplete_warns(self):
+        trace_bad = ("### 1\n- arc_role: lead\n### 2\n- arc_role: context\n"
+                     "### 3\n- arc_role: development\n### 4\n- arc_role: closing\n")
+        draft = self._draft(10, 20, 60, 10)
+        r = gate_arc.check(draft, {"thesis_spine_text": self.SPINE,
+                                   "thesis_trace_text": trace_bad})
+        self.assertTrue(_has(r, "ARC-002"))  # 'context' not in budget; 'turn' unmapped
+
+    def test_malformed_budget_sum_warns(self):
+        spine = "## Arc budget\n- lead: 10%\n- development: 50%\n- closing: 10%\n"  # sums 70
+        r = gate_arc.check(self._draft(10, 50, 40), {"thesis_spine_text": spine})
+        self.assertTrue(_has(r, "ARC-004"))
 
 
 class TestRunGatesEndToEnd(unittest.TestCase):

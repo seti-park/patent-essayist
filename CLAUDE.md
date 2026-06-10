@@ -134,14 +134,18 @@ which references each phase loads:
 
 ## Deterministic gates
 
-`_shared/scripts/run_gates.py` runs seven mechanical checks and returns pass/fail + `check_id`s:
+`_shared/scripts/run_gates.py` runs eight mechanical checks and returns pass/fail + `check_id`s:
 `gate_emdash`, `gate_anchors` (`[dddd]` 4-digit format + chain + figure refs), `gate_sources`
 (`# Sources` h1, 5-label enum, all-or-nothing subgrouping, **plus `SOURCES-005`: leaked
 tool-call / harness XML tags are a hard fail**), `gate_banned` (anti-AI banned
 list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan selected figure —
-goal 2), and `gate_readability` (accessible-altitude contract — goal 3, `--audience investor`
-only; inert on `deep`). Run `python .claude/skills/_shared/scripts/test_gates.py` for the
-suite, or `python meta/regression.py` for tests + fixtures.
+goal 2), `gate_readability` (accessible-altitude contract — goal 3, `--audience investor`
+only; inert on `deep`), and `gate_arc` (per-section length/structure conformance against the
+spine's `## Arc budget` — goal 3/4a, warn-only/promotable; inert unless `--thesis-spine` carries
+an arc budget). All proxy checks are **elimination filters, never optimization targets**
+(anti-Goodhart — see `scoring-rubric.md` "Measurement discipline"). Run
+`python .claude/skills/_shared/scripts/test_gates.py` for the suite, or `python meta/regression.py`
+for tests + fixtures.
 
 ## Customization
 

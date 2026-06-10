@@ -72,6 +72,11 @@ the editorial passes and the revision actions.
 | `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
 | `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
 | `readability`| `READAB-001` (length), `READAB-002` (inline anchor in body) — **`investor` audience only** | `READAB-000` (skipped on `deep`), `READAB-003` | 3 |
+| `arc`        | (none yet — all warn; promotable) | `ARC-000` (skipped without a spine arc budget), `ARC-001` (per-role share ±15%), `ARC-002` (mapping), `ARC-003` (`once`), `ARC-004` (sum) | 3, 4a |
+
+`sources` also hard-fails `SOURCES-005` (leaked tool-call / harness XML tags). The `arc` gate is
+spine-aware: it self-skips (`ARC-000`) unless `--thesis-spine` carries a `## Arc budget`, so it is
+harmless to register unconditionally (same pattern as `readability`).
 
 Invocation (orchestrator):
 
@@ -80,8 +85,30 @@ python _shared/scripts/run_gates.py \
   --draft handoff/02-compose/essay-draft.md \
   --invention-summary handoff/01-design/invention-summary.md \
   --figures handoff/01-design/figures-index.txt \
-  --figure-selection handoff/01-design/figure-selection.md --json
+  --figure-selection handoff/01-design/figure-selection.md \
+  --thesis-spine handoff/01-design/thesis-spine.md \
+  --thesis-trace handoff/02-compose/thesis-trace.md --json
 ```
+
+## Measurement discipline (anti-Goodhart)
+
+A first-class boundary on every layer above. **Statistical and structural proxies — sentence-length
+variance, per-role word-share deviation (`gate_arc`), bold density (`STRUCT-002`), acronym density
+(`READAB-003`), and the like — are elimination FILTERS only (pass/fail tolerance bands), never
+scores to maximize.** The moment a proxy becomes an optimization *target*, the metric improves while
+the writing gets worse (Goodhart's law): prose contorts to hit a variance number or a share
+percentage instead of reading well.
+
+Consequences, enforced by design:
+- Gates emit **pass/fail/warn** findings, not a score. There is no aggregate "quality number" to
+  climb. The composer fixes the *named* finding; it does not tune toward a metric.
+- This mirrors why `editorial-review` emits **evidence-pointing YAML, not auto-fix** — the human
+  judgment stays in the loop; the machine only flags what falls outside a band.
+- `gate_arc`'s ±15% share band and `once`/mapping checks verify the draft *conforms to the arc the
+  spine declared*; they never reward being *closer* to a target, and the arc itself is declared
+  per-essay (never a forced global shape).
+- Any new heuristic added via the meta-loop inherits this rule: a proxy may gate (filter out) but
+  may not grade (rank/optimize).
 
 ## Layer 2 — Editorial assessment (severity model)
 

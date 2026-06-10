@@ -22,6 +22,9 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `spec-undercoverage` | pass-3 coverage sub-check | 2 | design | invention-summary 4-layer / phase2-handoff-notes citation priority | reference-edit |
 | `sources-enum-violation` | gate SOURCES-002 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit (or gate-promotion) |
 | `sources-subgroup-violation` | gate SOURCES-003 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit |
+| `arc-budget-deviation` | gate ARC-001 | 3,4a | compose | section-blueprint.md word_target distribution (vs spine arc budget) | reference-edit (gate-promotion if recurring) |
+| `arc-mapping-incomplete` | gate ARC-002 | 4a | design/compose | thesis-spine `## Arc budget` ↔ thesis-trace `arc_role` sync | reference-edit |
+| `arc-once-violation` | gate ARC-003 | 4a | design | thesis-spine arc budget (`once` marker vs the essay's real shape) | reference-edit |
 | `lead-conclusion-weak` | pass-6 6A/6B | 4a | design/compose | thesis-spine arc / section-blueprint closing_directive | reference-edit |
 | `section-thesis-misalignment` | pass-4 | 4a | design | thesis-spine spine→section trace | reference-edit |
 | `reader-engagement-break` | pass-5 | 3 | compose | mode-spec posture / section-blueprint | rubric-tuning (posture) |

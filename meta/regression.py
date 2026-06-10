@@ -126,6 +126,12 @@ def _run_fixture(name):
     sel = os.path.join(fdir, "figure-selection.md")
     if os.path.exists(sel):
         ctx["figure_selection_text"] = _load(sel)
+    spine = os.path.join(fdir, "thesis-spine.md")
+    if os.path.exists(spine):
+        ctx["thesis_spine_text"] = _load(spine)
+    trace = os.path.join(fdir, "thesis-trace.md")
+    if os.path.exists(trace):
+        ctx["thesis_trace_text"] = _load(trace)
 
     overall, results = run_gates.run_all(draft, ctx)
     seen = {f["check_id"] for r in results for f in r["findings"]}

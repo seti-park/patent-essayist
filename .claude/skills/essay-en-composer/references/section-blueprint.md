@@ -15,7 +15,13 @@ For the locked single spine in `thesis-spine.md`:
 Each section the composer plans has:
 
 - `section_id` — kebab-case, unique (e.g. `1-lead`, `2-architecture`, `4-closing`).
-- `word_target` — integer. Composer writes within ±20%.
+- `arc_role` — the section's role from the spine's `## Arc budget` (e.g. `lead`,
+  `development`, `turn`, `closing`). Recorded in `thesis-trace.md`; `gate_arc` maps
+  sections to budgeted roles by this field. Every section must carry one.
+- `word_target` — integer, **DERIVED from the spine arc budget**: the role's budget
+  share × the total body length (do NOT re-decide length here — Phase 1 already
+  allocated it; this step only distributes a role's share across its sections).
+  Composer writes within ±20%; `gate_arc` checks the realized per-role share to ±15%.
 - `voice_canon_reference` — list of `voice-canon-lookup` entry_ids (at least 1).
 - `paragraph_anchors_used` — list of `[XXXX]` patent paragraph anchors this section will cite, drawn from `invention-summary.md` Quotable spans + Quote anchor table.
 - `external_facts_used` — list of `fact-check-log.md` Fact IDs this section will cite. Empty if section is purely patent-anchored.

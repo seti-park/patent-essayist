@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Aggregator for the patent-essay deterministic validation gates.
 
-Runs all seven gates against a draft and aggregates the results. The readability
-gate is audience-aware and inert unless --audience investor is passed.
+Runs all eight gates against a draft and aggregates the results. The readability
+gate is audience-aware (inert unless --audience investor); the arc gate is
+spine-aware (inert unless --thesis-spine carries a `## Arc budget`).
 
 DRAFT FORMAT ASSUMPTIONS: see gate_emdash.py for the full shared list (Markdown
 draft; quoted text = double quotes or '>' blockquotes; [dddd] anchors; Figure N
@@ -35,6 +36,7 @@ import gate_banned
 import gate_structure
 import gate_figure_use
 import gate_readability
+import gate_arc
 
 GATES = [
     gate_emdash,
@@ -44,6 +46,7 @@ GATES = [
     gate_structure,
     gate_figure_use,
     gate_readability,
+    gate_arc,
 ]
 
 
@@ -72,6 +75,12 @@ def build_context(args):
     if args.figure_selection:
         with open(args.figure_selection, "r", encoding="utf-8") as fh:
             ctx["figure_selection_text"] = fh.read()
+    if args.thesis_spine:
+        with open(args.thesis_spine, "r", encoding="utf-8") as fh:
+            ctx["thesis_spine_text"] = fh.read()
+    if args.thesis_trace:
+        with open(args.thesis_trace, "r", encoding="utf-8") as fh:
+            ctx["thesis_trace_text"] = fh.read()
     return ctx
 
 
@@ -122,6 +131,8 @@ def main(argv=None) -> int:
     p.add_argument("--invention-summary", help="path to invention-summary text file")
     p.add_argument("--figures", help="path to figures file (ints, line/comma separated)")
     p.add_argument("--figure-selection", help="path to figure-selection.md (orphan-figure gate)")
+    p.add_argument("--thesis-spine", help="path to thesis-spine.md (arc-budget gate)")
+    p.add_argument("--thesis-trace", help="path to thesis-trace.md (arc-role mapping)")
     p.add_argument("--mode", choices=["essay", "wire"], default="essay",
                    help="reserved pass-through mode (default: essay)")
     p.add_argument("--audience", choices=["deep", "investor"], default="deep",

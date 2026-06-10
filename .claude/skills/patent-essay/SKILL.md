@@ -89,8 +89,14 @@ python .claude/skills/_shared/scripts/run_gates.py \
   --invention-summary handoff/01-design/invention-summary.md \
   --figures handoff/01-design/figures-index.txt \
   --figure-selection handoff/01-design/figure-selection.md \
+  --thesis-spine handoff/01-design/thesis-spine.md \
+  --thesis-trace handoff/02-compose/thesis-trace.md \
   --mode <essay|wire> --audience <deep|investor> --json
 ```
+
+Passing `--thesis-spine` + `--thesis-trace` activates `gate_arc` (per-section length/structure
+conformance against the spine's `## Arc budget`). It self-skips (`ARC-000`) if the spine carries
+no arc budget, so older runs are unaffected.
 
 Any gate **fail** (exit code 1) — including `FIGUSE-001` (orphan figure), and on `investor`
 the readability `READAB-001/002` — is a hard fail regardless of the edit-log.
@@ -164,6 +170,12 @@ PUBLISH-READY  ⇔  inner loop already PASS
    `verification-log.md` (when `--verify` ran; also on the terminal "shipped with findings" path),
    and write `score-history.md` (include a "Pre-publish verification" section with the verify
    `overall_assessment` + any applied surgical fixes).
+   - **Iteration snapshots (golden-set material).** For each revision round N, also copy the
+     pre-revision and post-revision drafts to `runs/<essay-id>/iterations/iter-N-pre.md` and
+     `iter-N-post.md` (the essay bodies live in gitignored `handoff/` and are otherwise
+     overwritten each round). These before/after pairs — together with the `edit-log.md` finding
+     that drove each change — are the raw material for `meta/golden-set/` (judge calibration,
+     planned). Cheap to capture; do it on every run going forward. See `meta/golden-set/README.md`.
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
    run's `edit-log.md` + `gate-result.json` + `verification-log.md`. It normalizes findings into
    `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a

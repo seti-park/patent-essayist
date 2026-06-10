@@ -69,11 +69,39 @@
 - [x] Single-spine (default)
 - [ ] Multi-spine (override — record SETI authorization)
 
+## Arc budget
+
+<!-- The length+structure DECISION, made once here in Phase 1 (not improvised at
+     compose time). Declare THIS essay's arc as a list of roles, each with its
+     share (%) of the body; shares sum to ~100. Mark a role `(once)` if it must
+     appear in exactly one section (e.g. a single turn/reversal). The roles are
+     declared per-essay — pick from the recommended set or name your own; do NOT
+     force a fixed shape (a forced "reversal" the essay doesn't have is Goodhart).
+
+     Recommended roles: lead, context, development, turn (reversal), implication,
+     closing. Phase 2 derives each section's word_target from these shares ×
+     the total budget (investor total ≈ the gate_readability ~1100 ceiling; deep
+     total = the planned body length). Phase 3's `gate_arc` checks the draft's
+     actual per-role word share against this declaration (±15%, warn) plus the
+     `once` and mapping rules — a deterministic conformance FILTER, never a score
+     to maximize. -->
+
+| Role | Budget % | once? |
+|---|---|---|
+| lead | 10 | |
+| development | 55 | |
+| turn (reversal) | 25 | once |
+| closing | 10 | |
+
+<!-- gate_arc also accepts a bullet form: `- lead: 10%`, `- turn: 25% (once)`. -->
+
 ## Spine → section trace
 
 <!-- The contract Phase 2 follows: every supporting point lands in exactly one
      section; no section advances claims outside the spine. Section ids are
-     planned by the composer (section-blueprint.md). -->
+     planned by the composer (section-blueprint.md). Each section also carries an
+     `arc_role` (from the Arc budget above) in thesis-trace.md, which gate_arc
+     reads to map sections to budgeted roles. -->
 | Section | Spine element carried | Primary anchors |
 |---|---|---|
 | 1-lead | Hook — corporate-narrative-friction (announcement vs filing) | (framing; no patent claim) |
