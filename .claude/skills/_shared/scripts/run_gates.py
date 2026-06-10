@@ -14,7 +14,7 @@ Hard pass/fail rule:
 
 Usage:
   run_gates.py --draft DRAFT [--invention-summary FILE] [--figures FILE]
-               [--figure-selection FILE] [--mode essay|wire] [--json]
+               [--figure-selection FILE] [--json]
 """
 
 import argparse
@@ -26,6 +26,7 @@ import sys
 # Allow running both as a script and as a module.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import gate_common
 import gate_emdash
 import gate_anchors
 import gate_sources
@@ -43,24 +44,13 @@ GATES = [
 ]
 
 
-def _parse_figures_file(path):
-    """One integer per line, or comma/space separated."""
-    with open(path, "r", encoding="utf-8") as fh:
-        raw = fh.read()
-    nums = []
-    for tok in re.split(r"[,\s]+", raw.strip()):
-        if tok:
-            nums.append(int(tok))
-    return nums
-
-
 def build_context(args):
-    ctx = {"mode": args.mode}
+    ctx = {}
     if args.invention_summary:
         with open(args.invention_summary, "r", encoding="utf-8") as fh:
             ctx["invention_summary_text"] = fh.read()
     if args.figures:
-        ctx["figures_index"] = _parse_figures_file(args.figures)
+        ctx["figures_index"] = gate_common.parse_figures_file(args.figures)
     if args.figure_selection:
         with open(args.figure_selection, "r", encoding="utf-8") as fh:
             ctx["figure_selection_text"] = fh.read()
@@ -114,15 +104,25 @@ def main(argv=None) -> int:
     p.add_argument("--invention-summary", help="path to invention-summary text file")
     p.add_argument("--figures", help="path to figures file (ints, line/comma separated)")
     p.add_argument("--figure-selection", help="path to figure-selection.md (orphan-figure gate)")
-    p.add_argument("--mode", choices=["essay", "wire"], default="essay",
-                   help="reserved pass-through mode (default: essay)")
     p.add_argument("--json", action="store_true", help="emit JSON summary instead of text")
     args = p.parse_args(argv)
 
-    with open(args.draft, "r", encoding="utf-8") as fh:
-        draft_text = fh.read()
+    # Input/config problems (unreadable file, malformed figures list) exit 2
+    # with an actionable message — never a bare traceback: these files are
+    # written by the orchestrator each run and format drift is the expected
+    # failure mode.
+    try:
+        with open(args.draft, "r", encoding="utf-8") as fh:
+            draft_text = fh.read()
+        context = build_context(args)
+    except (OSError, ValueError) as exc:
+        msg = "input error: %s" % exc
+        if args.json:
+            print(json.dumps({"passed": False, "error": msg, "gates": []}, indent=2))
+        else:
+            print("ERROR: %s" % msg, file=sys.stderr)
+        return 2
 
-    context = build_context(args)
     overall, results = run_all(draft_text, context)
 
     if args.json:

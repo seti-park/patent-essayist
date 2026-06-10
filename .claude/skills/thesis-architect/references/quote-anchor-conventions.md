@@ -102,7 +102,7 @@ Phase 2 cites patent paragraphs with `[XXXX]` inline. The text Phase 2 quotes mu
 1. A `**Quotable spans:**` entry's verbatim text, OR
 2. A `Quote anchor table` row's verbatim_text field.
 
-If Phase 2 needs to cite a paragraph NOT in either source, Phase 2 returns to Phase 1 for extraction. Phase 2 never re-extracts directly from patent.md (patent.md isn't in Phase 2 Knowledge).
+If Phase 2 needs to cite a paragraph NOT in either source, Phase 2 returns to Phase 1 for extraction. Phase 2 never re-extracts directly from patent.md (Phase 2 does not read `input/patent.md` — fencing).
 
 ## Edge cases
 

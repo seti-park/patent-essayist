@@ -1,13 +1,18 @@
 # Execution Boundary (Plan ⊥ Execute)
 
-Referenced by tech-essay-en SKILL.md. Defines exactly what tech-essay-en can and cannot do.
+Referenced by essay-en-composer SKILL.md. Defines exactly what the composer can and cannot do.
+
+Vocabulary (kept from v1 for brevity): **facts_locked** = `invention-summary.md` Quotable
+spans + `fact-check-log.md` admitted externals — the only facts output may use. The
+**blueprint** = the internal section blueprint the composer builds in SKILL Step 3
+(`section-blueprint.md`); the spine itself lives in `handoff/01-design/thesis-spine.md`.
 
 ## Allowed actions
 
 | Action | Note |
 |--------|------|
 | Use any fact in facts_locked | Primary source of factual content |
-| Cite paragraph from quote_anchor_table | If patent-reader output is accessible |
+| Cite paragraph from the Quote anchor table | `invention-summary.md` §Quote anchor table |
 | Apply voice_canon_reference pattern | Anchor prose on referenced examples |
 | Compose lead, transitions, conclusion | Interstitial prose between facts |
 | Add interpretive prose between facts | Stitch facts into narrative |
@@ -37,9 +42,9 @@ This means a blueprint gap is detected. Action:
 2. Identify the gap specifically: "Section 3 needs fact about <X>, but facts_locked has only <Y>"
 3. Return to user with specific gap
 4. User decides:
-   - Revise blueprint (return to essay-architect)
+   - Revise the blueprint (redo SKILL Step 3; spine-level gaps return to Phase 1 `thesis-architect`)
    - Abandon current attempt
-   - Add admission round to fill gap
+   - Re-open Phase 1 to admit the missing fact (invention-summary span or `fact-check-log.md` entry)
 
 Never improvise to work around a gap. This is the central discipline of the plan-execute split.
 
@@ -53,14 +58,14 @@ The cost is rigidity. The benefit is family-level reproducibility — the same b
 
 ## Internal reasoning vs output
 
-tech-essay-en's internal reasoning is not bound. Claude can think about facts outside `facts_locked`. But output cannot reference them.
+The composer's internal reasoning is not bound. Claude can think about facts outside `facts_locked`. But output cannot reference them.
 
 This distinction matters: avoid using "I know X is also true" reasoning to introduce X into the draft. Even if X is correct, X is not in `facts_locked`, so X cannot enter the output.
 
 ## Quick reference
 
 Before composing each sentence:
-- Is this a factual claim? → Cite [^fact-id] from facts_locked
+- Is this a factual claim? → Cite it from facts_locked (inline `[XXXX]` patent anchor, or external attribution per `citation-format.md`)
 - Is the fact in facts_locked? → If no, stop. Gap detected.
 - Is this transition/interpretation prose? → No citation needed, but no new facts either
 - Am I matching the voice_canon_reference? → If drifting, re-read canon entries
@@ -86,13 +91,13 @@ Composition reveals need for a fact not in `facts_locked`.
 
 Referenced canon examples don't fit the section.
 
-→ Stop. Return to essay-architect for revision (additional or different canon reference).
+→ Stop. Revise the blueprint's voice plan (redo SKILL Step 3 with an additional or different canon reference via `voice-canon-lookup`).
 
 ### FM3. Word target unachievable
 
 Section cannot expand without padding, or cannot fit within ±20% without omitting required content.
 
-→ Stop. Return for blueprint revision (adjust `word_target` or restructure section).
+→ Stop. Revise the blueprint (adjust `word_target` or restructure the section in SKILL Step 3).
 
 ### FM4. Annotation overhead
 
@@ -104,4 +109,4 @@ Inline citations make prose feel academic.
 
 User selected strict-execution but Blueprint coverage is incomplete. Or user selected conservative posture but a thesis-altering catch emerges.
 
-→ Surface the mismatch. Propose mode or posture shift per `mode-spec.md` mid-pipeline shift rules. SETI decides: shift mid-pipeline, abandon attempt, or return to essay-architect for blueprint revision.
+→ Surface the mismatch. Propose mode or posture shift per `mode-spec.md` mid-pipeline shift rules. SETI decides: shift mid-pipeline, abandon attempt, or redo the section blueprint (Step 3); spine-level mismatches return to Phase 1 `thesis-architect`. In orchestrated loop rounds, revision mode follows its own scope rules (`revision-mode.md`).

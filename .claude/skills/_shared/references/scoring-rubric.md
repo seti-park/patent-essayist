@@ -39,14 +39,14 @@ the editorial passes and the revision actions.
 | `emdash`     | `EMDASH-001` | `EMDASH-002` | 4b |
 | `anchors`    | `ANCHOR-001`, `ANCHOR-002`, `FIGREF-001` | `ANCHOR-000`, `FIGREF-000` | 1, 2 |
 | `sources`    | `SOURCES-001/002/003` | `SOURCES-004` | 4a |
-| `banned`     | `BANNED-001` | — | 4b |
+| `banned`     | `BANNED-001`, `BANNED-002` (config error) | — | 4b |
 | `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
 | `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
 
-Invocation (orchestrator):
+Invocation (orchestrator, from the repo root):
 
 ```
-python _shared/scripts/run_gates.py \
+python .claude/skills/_shared/scripts/run_gates.py \
   --draft handoff/02-compose/essay-draft.md \
   --invention-summary handoff/01-design/invention-summary.md \
   --figures handoff/01-design/figures-index.txt \
@@ -95,7 +95,8 @@ PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-00
 - **Goal-2 hard-gate:** any `FIGUSE-001` (orphan figure) or pass-3 coverage `high` finding is
   an automatic FAIL — figures and spec must actually be used.
 - **Max revision iterations: 4** (`--max-iter`). On FAIL, the orchestrator feeds the
-  `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
+  `findings` back into `essay-en-composer` (revision mode — contract in
+  `essay-en-composer/references/revision-mode.md`) and re-scores. If still failing at
   the cap, it returns the best round with the remaining findings and the score history.
 
 ## Loop ↔ retro hand-off

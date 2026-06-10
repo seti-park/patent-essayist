@@ -17,12 +17,17 @@ tunable constant). See that file's header for its format:
 
 Checks:
   BANNED-001 (fail): each banned literal/regex hit outside quoted text.
+  BANNED-002 (fail): a malformed ``re:`` line in banned_terms.txt (config
+                     error — reported as a finding instead of crashing, since
+                     the file is hand-extended via meta-loop proposals).
 """
 
 import argparse
 import os
 import re
 import sys
+
+import gate_common
 
 # ---------------------------------------------------------------------------
 # Tunable constants
@@ -34,63 +39,72 @@ FENCE_RE = re.compile(r"^\s*(```|~~~)")
 
 
 def load_banned_terms(path=BANNED_TERMS_FILE):
-    """Load (label, compiled_regex) pairs from the data file.
+    """Load the data file; return (patterns, errors).
 
-    Literals are compiled to whole-word, case-insensitive regexes. Regex
-    entries (``re:`` prefix) are compiled case-insensitive as written.
+    ``patterns`` is a list of (label, compiled_regex) pairs. Literals are
+    compiled to whole-word, case-insensitive regexes; ``re:`` entries are
+    compiled case-insensitive as written. A malformed ``re:`` line lands in
+    ``errors`` (file + line + reason) instead of crashing the gate; check()
+    turns each error into a fail-severity BANNED-002 finding.
     """
-    patterns = []
+    patterns, errors = [], []
     with open(path, "r", encoding="utf-8") as fh:
-        for raw in fh:
+        for lineno, raw in enumerate(fh, start=1):
             line = raw.strip()
             if not line or line.startswith("#"):
                 continue
             if line.startswith("re:"):
                 expr = line[3:].strip()
-                patterns.append((expr, re.compile(expr, re.IGNORECASE)))
+                try:
+                    patterns.append((expr, re.compile(expr, re.IGNORECASE)))
+                except re.error as exc:
+                    errors.append("%s line %d: invalid regex %r (%s)"
+                                  % (path, lineno, expr, exc))
             else:
                 # Whole-word / whole-phrase literal. \b at each end; internal
                 # whitespace/hyphen kept literally via re.escape.
                 lit = re.compile(r"\b" + re.escape(line) + r"\b", re.IGNORECASE)
                 patterns.append((line, lit))
-    return patterns
-
-
-def _mask_quoted_spans(line):
-    """Blank out double-quoted span contents (keep the quote chars)."""
-    out = []
-    in_quote = False
-    for ch in line:
-        if ch == '"':
-            out.append(ch)
-            in_quote = not in_quote
-        elif in_quote:
-            out.append(" ")
-        else:
-            out.append(ch)
-    return "".join(out)
+    return patterns, errors
 
 
 def check(draft_text: str, context: dict) -> dict:
     context = context or {}
     # Allow caller to inject a custom terms file path or preloaded patterns.
     patterns = context.get("banned_patterns")
+    errors = []
     if patterns is None:
         path = context.get("banned_terms_file", BANNED_TERMS_FILE)
-        patterns = load_banned_terms(path)
+        patterns, errors = load_banned_terms(path)
 
     findings = []
+    for msg in errors:
+        findings.append({
+            "check_id": "BANNED-002",
+            "severity": "fail",
+            "message": "banned-terms config error: %s" % msg,
+            "location": "(config)",
+        })
+
     in_fence = False
+    # Shared with gate_emdash (gate_common.QuoteMasker): the two gates must
+    # agree on what counts as quoted text.
+    masker = gate_common.QuoteMasker()
     for lineno, raw in enumerate(draft_text.splitlines(), start=1):
         if FENCE_RE.match(raw):
             in_fence = not in_fence
+            masker.reset()
             continue
         if in_fence:
             continue
+        if not raw.strip():
+            masker.reset()
+            continue
         # Blockquote = fully quoted -> skip entirely.
         if raw.lstrip().startswith(">"):
+            masker.reset()
             continue
-        scan = _mask_quoted_spans(raw)
+        scan = masker.mask(raw)
         for label, rx in patterns:
             for m in rx.finditer(scan):
                 col = m.start() + 1

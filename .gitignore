@@ -11,12 +11,9 @@ input/**
 !input/figures/
 !input/**/.gitkeep
 
-# Per-run archives are generated each pipeline run; keep the dir, ignore payloads.
-# (meta/ — the findings ledger, attribution table, fixtures, proposals — IS tracked:
-# it is the system's persistent memory, not a per-run artifact.)
-runs/**
-!runs/
-!runs/.gitkeep
+# Per-run archives under runs/ ARE tracked (committed after each essay run): in the
+# ephemeral Claude Code container they are the evidence chain behind the meta-loop's
+# findings ledger and improvement proposals. (meta/ is tracked for the same reason.)
 
 # Python
 __pycache__/

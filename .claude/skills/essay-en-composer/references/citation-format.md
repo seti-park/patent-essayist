@@ -14,7 +14,7 @@ Tesla's claim of pre-impact deployment derives from the vision sensor's predicti
 
 - Format: `[XXXX]` (4-digit zero-padded paragraph identifier in square brackets).
 - Source-of-truth: `handoff/01-design/invention-summary.md` — specifically the `**Quotable spans:**` blocks and the `Quote anchor table`.
-- Phase 2 never re-extracts from patent.md (patent.md isn't in Phase 2 Knowledge).
+- Phase 2 never re-extracts from patent.md (Phase 2 does not read `input/patent.md`).
 - Quoted text must match the verbatim text in the invention-summary source — Phase 3 Edit Pass 3 verifies this by string match.
 
 ### External (non-patent) sources → entries in `# Sources` block

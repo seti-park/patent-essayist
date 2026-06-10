@@ -7,7 +7,9 @@ until the draft clears the deterministic gates and the editorial assessment. Aft
 a second, slower **meta-loop** (`pipeline-retro`) proposes improvements to the system itself.
 
 This is a conversion of a system originally run as separate claude.ai Projects. The real
-skill bodies have been ported into `.claude/skills/`; the originals are preserved verbatim in
+skill bodies have been ported into `.claude/skills/` and adapted to this runtime (claude.ai
+Project-era assumptions replaced with repo paths; loop-round behavior defined in
+`essay-en-composer/references/revision-mode.md`); the originals are preserved verbatim in
 `docs/source-prompts/` as the reference baseline. The conversion adds: **automated stage
 hand-off**, **real deterministic gate scripts aligned to the editorial rules**, an
 **automatic inner quality loop**, and a **propose-only self-improvement meta-loop**.
@@ -27,13 +29,19 @@ traceability matrix is in `_shared/references/scoring-rubric.md`:
 ## How to run
 
 ```
-/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire]
+/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4]
 ```
 
-Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and optional
-`essay-context.md`. The orchestrator runs all three phases plus the loop, archives the run to
-`runs/<essay-id>/`, runs the meta-loop, and returns the final essay
-(`handoff/03-edit/essay-final.md`) plus a score history. Optional outer backstop:
+The standard input is **one zip archive** (chat upload or under `input/`) holding the
+specification md + a `figures/` directory of drawings; the orchestrator extracts it to
+`input/patent.md` + `input/figures/fig-NN.<ext>` before Phase 1. The decomposed form
+(`patent.md`, `figures/fig-NN.png`, optional `essay-context.md` under `input/`) is
+accepted as-is. The orchestrator runs all three phases plus the loop, archives the run to
+`runs/<essay-id>/` (committed — the archive is the meta-loop's evidence chain), runs the
+meta-loop, and returns the final essay
+(`handoff/03-edit/essay-final.md`) plus a score history, then renders the 5:2 X-Article
+header (`header-composer`, Phase 4-lite) to `handoff/04-promote/header.png`. Optional
+outer backstop:
 
 ```
 /goal the patent-essay SCORE HISTORY shows a final draft that passes all gates with overall_assessment == pass
@@ -51,6 +59,9 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
   essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
   voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
   editorial-review/    P3 Edit    — 6-pass severity review (voice-fenced)
+  header-composer/     P4-lite Promote — essay → header-spec.json → deterministic 5:2 header
+                       (scripts/make_header.py + vendored OFL fonts + design-system.md;
+                        the repo's only non-stdlib dep, Pillow, lives here — never in gates)
   pipeline-retro/      meta-loop  — findings → ledger → propose-only improvement proposals
   _shared/
     references/        shared canon: deliverable-voice-rules · anti-ai-writing (vendored absorbed) ·

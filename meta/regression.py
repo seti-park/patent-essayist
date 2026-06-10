@@ -61,7 +61,7 @@ def _run_fixture(name):
     expect = json.loads(_load(os.path.join(fdir, "expect.json")))
     draft = _load(os.path.join(fdir, "draft.md"))
 
-    ctx = {"mode": "essay"}
+    ctx = {}
     inv = os.path.join(fdir, "invention-summary.md")
     if os.path.exists(inv):
         ctx["invention_summary_text"] = _load(inv)

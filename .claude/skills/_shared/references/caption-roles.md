@@ -1,11 +1,12 @@
 # Caption Roles (figure planning — Phase 2 only)
 
-> **Status: SCAFFOLD + canon target.** The roles a figure caption can play and the
-> figure-locking rule. Loaded **only** by Phase 2 (`essay-en-composer` /
-> `voice-canon-lookup`). Phase 3 (Edit) does **not** load this file (fencing). Replace with
-> the user's canon; keep the 4-role enum.
+> **Status: starter rules in effect; grown incrementally.** The roles a figure caption can
+> play and the figure-locking rule. Loaded **only** by Phase 2 (`essay-en-composer` /
+> `voice-canon-lookup`). Phase 3 (Edit) does **not** load this file (fencing). Growth
+> policy: refinements are admitted per essay via `pipeline-retro` proposals; keep the
+> 4-role enum names stable (the composer and templates key on them).
 
-## The 4 caption roles (starter — port the canon)
+## The 4 caption roles
 
 Each selected figure is assigned exactly one `caption_role`:
 
@@ -20,5 +21,5 @@ Once Phase 2 assigns roles and placements, the set is **locked** for the run: th
 list, their roles, and their positions don't change during revision unless a Phase-3
 finding explicitly calls for it. Record this in `handoff/02-compose/figures-rationale.md`.
 
-<!-- PORT: drop the user's caption-roles canon here. Keep the role names if the gates or
-     composer key on them. -->
+<!-- Grown per essay via pipeline-retro proposals. Keep the role names stable — the
+     composer and templates key on them. -->

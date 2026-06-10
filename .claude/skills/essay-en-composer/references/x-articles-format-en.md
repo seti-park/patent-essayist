@@ -1,16 +1,16 @@
 # X Articles format (English)
 
-X Articles platform conventions for English essays. Referenced by tech-essay-en SKILL.md.
+X Articles platform conventions for English essays. Referenced by essay-en-composer SKILL.md.
 
 본 파일은 두 차원으로 구성. Section 1 은 X Articles platform 전반의 spec (SETI authoritative — tech-essay-ko-pub 도 동일 적용 의무). Section 2 는 영문 essay 의 editorial convention (BP 6건 분석 기반).
 
-X Articles 는 X platform 의 long-form publication format. tech-essay-en (영문 essay) 과 tech-essay-ko-pub (한글 essay) 의 발행 산출물이 본 platform 의 영역. patent-wire 와 patent-promo 는 X post format 영역 — X Articles 가 아니므로 본 spec 적용 안 됨 (각 skill 의 자체 format 영역).
+X Articles 는 X platform 의 long-form publication format. essay-en-composer (영문 essay) 의 발행 산출물이 본 platform 의 영역 (v1 의 한글 essay skill tech-essay-ko-pub 은 v2 에서 drop). patent-wire 와 patent-promo 는 X post format 영역 — X Articles 가 아니므로 본 spec 적용 안 됨 (각 skill 의 자체 format 영역).
 
 ---
 
 ## Section 1 — X Articles platform spec
 
-본 section 의 모든 rule 은 X Articles platform 의 발행 constraint 와 정합 의무. tech-essay-en / tech-essay-ko-pub 의 발행 작업 시 본 spec cover 영역.
+본 section 의 모든 rule 은 X Articles platform 의 발행 constraint 와 정합 의무. essay-en-composer 의 발행 작업 시 본 spec cover 영역.
 
 ### Markdown rendering
 
@@ -155,7 +155,7 @@ Final title pattern 은 editorial judgment.
 
 **Numbering**. `§N` prefix 없음. Heading 은 descriptive title 만.
 
-tech-essay-en 의 Blueprint 가 internally `section_id` (예: `1-lead`, `2-architecture`) 사용. `publication.md` 에서는 `## <descriptive title>` 의 numeric prefix 없는 form.
+essay-en-composer 의 section blueprint 가 internally `section_id` (예: `1-lead`, `2-architecture`) 사용. `publication.md` 에서는 `## <descriptive title>` 의 numeric prefix 없는 form.
 
 **Title style**. Short noun phrase 또는 short clause, 2-6 words typical. Three sub-pattern.
 

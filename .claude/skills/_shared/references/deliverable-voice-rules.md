@@ -1,10 +1,12 @@
 # Deliverable Voice Rules (checkable — Phase 2 author, Phase 3 judge)
 
-> **Status: SCAFFOLD + canon target.** The *checkable* rules for the published essay's
-> voice. Loaded by Phase 2 (to write) and Phase 3 (to judge — this is the voice file the
-> editor is allowed to see, since it is rules not persona). Several rules here are also
-> enforced mechanically by `_shared/scripts/` so they survive every revision. Replace the
-> starter rules with the user's canon; keep the IDs so the gate scripts stay aligned.
+> **Status: starter rules in effect; grown incrementally.** The *checkable* rules for the
+> published essay's voice. Loaded by Phase 2 (to write) and Phase 3 (to judge — this is the
+> voice file the editor is allowed to see, since it is rules not persona). Several rules
+> here are also enforced mechanically by `_shared/scripts/` so they survive every revision.
+> Growth policy (SETI's choice): after each finished essay, rules worth keeping are added
+> here via `pipeline-retro` reference-edit proposals — no big-bang canon replacement. Keep
+> rule wording concrete (machine-checkable where possible) and keep the gate IDs aligned.
 
 ## Hard rules (also enforced by gate scripts)
 
@@ -26,5 +28,5 @@
 - Active voice by default; concrete nouns/verbs over nominalizations.
 - One idea per sentence; vary sentence length deliberately.
 
-<!-- PORT: drop the user's deliverable-voice-rules canon here. Keep any rule that must be
-     machine-checked expressed concretely so it can be wired to a gate script. -->
+<!-- Grown per essay via pipeline-retro proposals (reference-edit lever). Keep any rule
+     that must be machine-checked expressed concretely so it can be wired to a gate. -->
