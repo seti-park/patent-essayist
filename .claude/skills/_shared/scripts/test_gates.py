@@ -9,6 +9,7 @@ Exits nonzero if any test fails.
 """
 
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -233,6 +234,46 @@ class TestStructure(unittest.TestCase):
         draft = "Intro line.\n- a\n- b\n- c\n- d\n"
         r = gate_structure.check(draft, {})
         self.assertTrue(_has(r, "STRUCT-003"))
+
+
+class TestBannedListSync(unittest.TestCase):
+    """banned_terms.txt is the mechanical mirror of the anti-ai-writing.md Tier-1
+    banned-words list (both files document the sync duty in their headers). This
+    test fails when the word lists drift apart, so the mirror can't rot silently.
+    Rhetorical patterns (prose bullets vs `re:` lines) are not comparable
+    mechanically and stay a judgment-level sync."""
+
+    CANON_PATH = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "..", "references", "anti-ai-writing.md")
+
+    def _canon_words(self):
+        with open(self.CANON_PATH, "r", encoding="utf-8") as fh:
+            canon = fh.read()
+        m = re.search(r"### Banned words.*?```\n(.*?)```", canon, re.S)
+        self.assertIsNotNone(
+            m, "Banned-words code block not found under '### Banned words' "
+               "in anti-ai-writing.md")
+        return {w.strip() for w in re.split(r"[,\s]+", m.group(1)) if w.strip()}
+
+    def _terms_file_literals(self):
+        lits = set()
+        with open(gate_banned.BANNED_TERMS_FILE, "r", encoding="utf-8") as fh:
+            for raw in fh:
+                line = raw.strip()
+                if not line or line.startswith("#") or line.startswith("re:"):
+                    continue
+                lits.add(line)
+        return lits
+
+    def test_canon_words_match_terms_file(self):
+        canon = self._canon_words()
+        terms = self._terms_file_literals()
+        self.assertEqual(
+            canon, terms,
+            "anti-ai-writing.md Tier-1 words and banned_terms.txt literals have "
+            "drifted apart.\n  only in canon: %s\n  only in terms file: %s"
+            % (sorted(canon - terms), sorted(terms - canon)))
 
 
 class TestRunGatesEndToEnd(unittest.TestCase):
