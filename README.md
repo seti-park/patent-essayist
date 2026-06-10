@@ -9,8 +9,10 @@ Full architecture, voice-fencing rules, and loop policy: **[CLAUDE.md](CLAUDE.md
 
 ## Run
 
-Place inputs under `input/` (`patent.md`, `figures/fig-NN.png`, optional
-`essay-context.md`), then in Claude Code:
+Place inputs under `input/` — `patent.md` (the specification) plus figures as either a
+**zip archive** (e.g. `input/figures.zip`; the orchestrator extracts and normalizes names
+to `fig-NN.png`) or pre-normalized `figures/fig-NN.png`, and optional `essay-context.md` —
+then in Claude Code:
 
 ```
 /patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4]
@@ -45,6 +47,14 @@ dependencies to install.
 
 ## Status
 
-Pre-first-production-run: gates, loop contracts, and regression fixtures are in place;
-three `_shared/references/` voice files are still scaffolds awaiting the owner's canon
-(see `docs/audit/2026-06-10-repo-audit.md` for the full audit and task plan).
+Pre-first-production-run: gates, loop contracts, and regression fixtures are in place.
+The three `_shared/references/` voice files carry starter rules and grow incrementally —
+after each finished essay, good rules/exemplars are admitted via `pipeline-retro`
+proposals (see `docs/audit/2026-06-10-repo-audit.md` for the full audit and task plan).
+
+## Rights
+
+© seti-park. All rights reserved — personal system; the voice canon
+(`.claude/skills/voice-canon-lookup/voice-canon/`) and essays are personal IP, and no
+open-source license is granted for this repository. Vendored third-party skills under
+`.claude/skills/_shared/vendor/` retain their own MIT licenses.

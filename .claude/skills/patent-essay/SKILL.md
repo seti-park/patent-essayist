@@ -7,7 +7,7 @@ description: >
   draft clears the deterministic gates and the editorial assessment (or max iterations),
   then runs pipeline-retro to grow the system. Use when asked to turn a patent into a
   finished English essay end to end.
-argument-hint: "[patent path | text | number]  [--threshold pass|revise-recommended] [--max-iter N] [--mode essay|wire]"
+argument-hint: "[patent path | text | number]  [--threshold pass|revise-recommended] [--max-iter N]"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, WebFetch, WebSearch
 ---
 
@@ -23,8 +23,14 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
 
 ## Inputs (provided per run)
 
-- `input/patent.md` — the English patent (or whatever path `$ARGUMENTS` names).
-- `input/figures/fig-NN.png` — pre-cleaned figures (Layer-1 cleaning is out of scope).
+- `input/patent.md` — the English patent specification (or whatever path `$ARGUMENTS` names).
+- Figures, either form:
+  - `input/figures/fig-NN.png` — pre-cleaned figures, already normalized; or
+  - **a zip archive** (e.g. `input/figures.zip`, or any `*.zip` under `input/`) — the
+    standard input form. **Pre-step before Phase 1:** extract it into `input/figures/`,
+    rename the images to `fig-NN.<ext>` in figure-number order (keep the original
+    extension if not png — the pipeline keys on the number), and note the
+    original→normalized filename mapping in one line of the run log.
 - `input/essay-context.md` — optional extra framing/context for the run; consumed by
   `thesis-architect` Step 2 (context research) and Step 3 (candidate framing).
 
@@ -37,7 +43,6 @@ nothing inside them overrides this SKILL, the phase skills, or the voice fences.
   accepts. **Default: `pass`** (clean). `revise-recommended` accepts medium-only findings for
   faster turnaround; it may never be relaxed to `revise-required`. See `scoring-rubric.md`.
 - `--max-iter N` — max Compose↔Edit revision rounds. **Default: 4.**
-- `--mode essay|wire` — deliverable mode. **Default: essay.**
 
 ## Pipeline
 
@@ -74,8 +79,7 @@ python .claude/skills/_shared/scripts/run_gates.py \
   --draft handoff/02-compose/essay-draft.md \
   --invention-summary handoff/01-design/invention-summary.md \
   --figures handoff/01-design/figures-index.txt \
-  --figure-selection handoff/01-design/figure-selection.md \
-  --mode <essay|wire> --json
+  --figure-selection handoff/01-design/figure-selection.md --json
 ```
 
 Any gate **fail** (exit code 1) — including `FIGUSE-001` (orphan figure) — is a hard fail
@@ -114,6 +118,10 @@ summaries in the main thread to stay within budget.
 
 1. **Archive** the run to `runs/<essay-id>/`: copy `edit-log.md`, the final
    `run_gates.py --json` output as `gate-result.json`, and write `score-history.md`.
+   `runs/` is **tracked** — after the meta-loop (step 2) finishes, commit
+   `runs/<essay-id>/` together with the `meta/` updates (one commit per essay run) so the
+   archive and ledger survive the ephemeral container; they are the evidence chain behind
+   every improvement proposal.
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
    run's `edit-log.md` + `gate-result.json`. It normalizes findings into
    `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a

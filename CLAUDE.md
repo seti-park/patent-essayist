@@ -29,12 +29,15 @@ traceability matrix is in `_shared/references/scoring-rubric.md`:
 ## How to run
 
 ```
-/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire]
+/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4]
 ```
 
-Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and optional
+Inputs live under `input/`: `patent.md` (the specification), figures as either
+`figures/fig-NN.png` or a **zip archive** (e.g. `input/figures.zip` — the orchestrator
+extracts and normalizes names to `fig-NN.png` before Phase 1), and optional
 `essay-context.md`. The orchestrator runs all three phases plus the loop, archives the run to
-`runs/<essay-id>/`, runs the meta-loop, and returns the final essay
+`runs/<essay-id>/` (committed — the archive is the meta-loop's evidence chain), runs the
+meta-loop, and returns the final essay
 (`handoff/03-edit/essay-final.md`) plus a score history. Optional outer backstop:
 
 ```

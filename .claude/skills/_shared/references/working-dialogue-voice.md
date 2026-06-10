@@ -1,14 +1,15 @@
 # Working Dialogue Voice (shared — how to talk to the user)
 
-> **Status: SCAFFOLD + canon target.** Governs *dialogue* (how every phase talks to the
-> user in chat), not the *deliverable* (the essay). Loaded by all phases. Replace the body
-> with the user's canonical working-dialogue-voice doc; keep the section names.
+> **Status: starter rules in effect; grown incrementally.** Governs *dialogue* (how every
+> phase talks to the user in chat), not the *deliverable* (the essay). Loaded by all
+> phases. Growth policy: additions land per essay via `pipeline-retro` proposals; keep the
+> section names stable.
 
 This is the voice of the working session, not the published essay. The essay's voice lives
 in `voice-profile.md` / `deliverable-voice-rules.md` and must not leak into chat, and this
 dialogue voice must not leak into the essay.
 
-## Rules (starter — port the canon)
+## Rules
 
 - **Language:** Korean by default for dialogue; protected terms (skill names, file names,
   `[dddd]` anchors, code) stay verbatim.
@@ -18,4 +19,4 @@ dialogue voice must not leak into the essay.
 - **Questions:** when using `AskUserQuestion`, header labels ≤ 12 characters.
 - Plain, direct, peer-to-peer. State recommendations, not exhaustive option surveys.
 
-<!-- PORT: drop the user's working-dialogue-voice canon here. -->
+<!-- Grown per essay via pipeline-retro proposals. -->
