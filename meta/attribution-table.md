@@ -39,4 +39,10 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| _(none yet — first run will populate)_ | 0 | 0 | 0 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 0 | 0 | 1 | 0 | 0 |
+| `paraphrase-accidental-drift` | 0 | 0 | 0 | 1 | 0 | 0 |
+| `claim-adequacy-overreach` *(new class — routing row proposed)* | 0 | 0 | 0 | 2 | 0 | 0 |
+| `reader-engagement-break` | 0 | 0 | 0 | 1 | 0 | 0 |
+| `sources-entry-fidelity` *(new class — routing row proposed)* | 0 | 0 | 0 | 1 | 0 | 0 |
+| `figure-gate-context-mismatch` *(new class — routing row proposed)* | 0 | 0 | 1 | 0 | 0 | 0 |
+| `figure-subletter-parse-gap` *(new class — routing row proposed)* | 0 | 0 | 1 | 0 | 0 | 0 |
