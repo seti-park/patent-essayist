@@ -14,6 +14,7 @@ See `_shared/references/scoring-rubric.md` for how the two combine into PASS/FAI
 
 | File                 | Purpose |
 |----------------------|---------|
+| `gate_common.py`     | Shared helpers: quote masking (emdash+banned must agree) + figures-file parser |
 | `gate_emdash.py`     | Em-dash / en-dash usage gate |
 | `gate_anchors.py`    | `[dddd]` format + anchor-chain + figure-reference gate |
 | `gate_sources.py`    | `# Sources` block structure gate (5-label enum) |
@@ -27,9 +28,12 @@ See `_shared/references/scoring-rubric.md` for how the two combine into PASS/FAI
 ## Format assumptions
 
 - **Draft** is Markdown.
-- **Quoted text** = anything inside double quotes `"..."` OR a Markdown blockquote line
-  starting with `>`. Em-dashes and banned terms inside quoted text are allowed (verbatim
-  source quotes). Fenced code blocks are also exempt.
+- **Quoted text** = anything inside double quotes (straight `"..."` or typographic
+  `“...”`) OR a Markdown blockquote line starting with `>`. A quoted span may wrap a
+  line boundary; the masking state resets at paragraph boundaries (blank lines, fences,
+  blockquotes) so an unbalanced quote can never hide more than one paragraph. Em-dashes
+  and banned terms inside quoted text are allowed (verbatim source quotes). Fenced code
+  blocks are also exempt.
 - **Citation anchors** = inline tokens `[dddd]`, 4-digit zero-padded, e.g. `[0123]`.
 - **Figure refs** = `Figure N` / `Fig. N` / `Fig N` / `fig-NN` (case-insensitive), N int.
 - **Sources block** = exactly one `# Sources` (h1) header; categories, when subgrouped, are
@@ -65,8 +69,11 @@ python run_gates.py --draft DRAFT.md \
 ```
 
 - `--figures` file: one integer per line, or comma/space separated.
-- Exit code: `0` if no gate emits a `fail` finding, else `1`. **Warnings never fail the run.**
-- `--json` emits `{"passed": bool, "gates": [...per-gate dicts...]}`.
+- Exit code: `0` if no gate emits a `fail` finding; `1` on gate failure; `2` on an
+  input/config error (unreadable file, malformed figures list) with an actionable
+  message instead of a traceback. **Warnings never fail the run.**
+- `--json` emits `{"passed": bool, "gates": [...per-gate dicts...]}` (input errors emit
+  `{"passed": false, "error": "...", "gates": []}`).
 
 Standalone:
 
@@ -95,6 +102,7 @@ python gate_figure_use.py DRAFT.md [--figure-selection figure-selection.md]
 | SOURCES-003  | fail | 4a | partial subgrouping (all-or-nothing violated) |
 | SOURCES-004  | warn | 4a | 4+ entries left flat (should be subgrouped) |
 | BANNED-001   | fail | 4b | banned literal/regex hit outside quoted text |
+| BANNED-002   | fail | —  | malformed `re:` line in `banned_terms.txt` (config error, reported not crashed) |
 | STRUCT-001..004 | warn | 3, 4a | long paragraph / bold / bullet overuse / rule-of-three |
 | FIGUSE-001   | fail | 2  | a **selected** figure is never referenced (orphan) |
 | FIGUSE-002   | warn | 2  | a referenced figure is not in figure-selection (off-plan) |

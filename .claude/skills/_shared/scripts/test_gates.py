@@ -236,6 +236,70 @@ class TestStructure(unittest.TestCase):
         self.assertTrue(_has(r, "STRUCT-003"))
 
 
+class TestQuoteMaskingEdgeCases(unittest.TestCase):
+    """Shared QuoteMasker behavior: curly quotes + paragraph-scoped wrap state."""
+
+    def test_emdash_in_quote_wrapping_lines_passes(self):
+        draft = 'He said "the rotor\nspins — fast" today.\n'
+        r = gate_emdash.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_emdash_after_wrapped_quote_closes_fails(self):
+        draft = 'He said "the rotor\nspins fast" today — emphatically.\n'
+        r = gate_emdash.check(draft, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "EMDASH-001"))
+
+    def test_unbalanced_quote_masks_only_its_paragraph(self):
+        draft = 'An "unbalanced quote here\n\nNext paragraph — with a dash.\n'
+        r = gate_emdash.check(draft, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "EMDASH-001"))
+
+    def test_curly_quoted_emdash_passes(self):
+        draft = "He said “the rotor spins — fast” today.\n"
+        r = gate_emdash.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_curly_quoted_banned_term_ignored(self):
+        draft = "The inventor said “we delve into novel territory” here.\n"
+        r = gate_banned.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+
+
+class TestMalformedInputs(unittest.TestCase):
+    """Malformed orchestrator-written inputs must produce actionable failures,
+    never bare tracebacks."""
+
+    def _write(self, text, suffix):
+        fh = tempfile.NamedTemporaryFile("w", suffix=suffix, delete=False,
+                                         encoding="utf-8")
+        fh.write(text)
+        fh.close()
+        return fh.name
+
+    def test_malformed_figures_file_exits_2(self):
+        figs = self._write("fig-01\n2\n", ".txt")
+        draft = self._write("# t\n\nBody.\n\n# Sources\n- a\n", ".md")
+        try:
+            rc = run_gates.main(["--draft", draft, "--figures", figs])
+            self.assertEqual(rc, 2)
+        finally:
+            os.unlink(figs)
+            os.unlink(draft)
+
+    def test_malformed_banned_regex_is_fail_finding(self):
+        terms = self._write("delve\nre:([unclosed\n", ".txt")
+        try:
+            r = gate_banned.check("We delve here.\n", {"banned_terms_file": terms})
+            self.assertFalse(r["passed"])
+            self.assertTrue(_has(r, "BANNED-002"))
+            # valid entries before/after the bad line still load and match
+            self.assertTrue(_has(r, "BANNED-001"))
+        finally:
+            os.unlink(terms)
+
+
 class TestBannedListSync(unittest.TestCase):
     """banned_terms.txt is the mechanical mirror of the anti-ai-writing.md Tier-1
     banned-words list (both files document the sync duty in their headers). This

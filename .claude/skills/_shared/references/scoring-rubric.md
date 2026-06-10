@@ -39,14 +39,14 @@ the editorial passes and the revision actions.
 | `emdash`     | `EMDASH-001` | `EMDASH-002` | 4b |
 | `anchors`    | `ANCHOR-001`, `ANCHOR-002`, `FIGREF-001` | `ANCHOR-000`, `FIGREF-000` | 1, 2 |
 | `sources`    | `SOURCES-001/002/003` | `SOURCES-004` | 4a |
-| `banned`     | `BANNED-001` | — | 4b |
+| `banned`     | `BANNED-001`, `BANNED-002` (config error) | — | 4b |
 | `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
 | `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
 
-Invocation (orchestrator):
+Invocation (orchestrator, from the repo root):
 
 ```
-python _shared/scripts/run_gates.py \
+python .claude/skills/_shared/scripts/run_gates.py \
   --draft handoff/02-compose/essay-draft.md \
   --invention-summary handoff/01-design/invention-summary.md \
   --figures handoff/01-design/figures-index.txt \

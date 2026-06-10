@@ -29,6 +29,8 @@ import argparse
 import re
 import sys
 
+import gate_common
+
 # ---------------------------------------------------------------------------
 # Tunable constants
 # ---------------------------------------------------------------------------
@@ -116,17 +118,6 @@ def check(draft_text: str, context: dict) -> dict:
     return {"gate": GATE_ID, "passed": passed, "findings": findings}
 
 
-def _parse_figures_file(path):
-    """Parse a figures file: one integer per line, or comma-separated."""
-    with open(path, "r", encoding="utf-8") as fh:
-        raw = fh.read()
-    nums = []
-    for tok in re.split(r"[,\s]+", raw.strip()):
-        if tok:
-            nums.append(int(tok))
-    return nums
-
-
 def _report(result):
     status = "PASS" if result["passed"] else "FAIL"
     print("[%s] gate=%s" % (status, result["gate"]))
@@ -148,11 +139,15 @@ def main(argv=None) -> int:
         text = fh.read()
 
     ctx = {}
-    if args.invention_summary:
-        with open(args.invention_summary, "r", encoding="utf-8") as fh:
-            ctx["invention_summary_text"] = fh.read()
-    if args.figures:
-        ctx["figures_index"] = _parse_figures_file(args.figures)
+    try:
+        if args.invention_summary:
+            with open(args.invention_summary, "r", encoding="utf-8") as fh:
+                ctx["invention_summary_text"] = fh.read()
+        if args.figures:
+            ctx["figures_index"] = gate_common.parse_figures_file(args.figures)
+    except (OSError, ValueError) as exc:
+        print("ERROR: input error: %s" % exc, file=sys.stderr)
+        return 2
 
     result = check(text, ctx)
     _report(result)

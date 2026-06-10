@@ -19,7 +19,9 @@ beneath it (it does NOT put the category inline on each entry), so this gate
 parses sub-headings as the category source-of-truth.
 
 Checks:
-  SOURCES-001 (fail): `# Sources` block missing, or present more than once.
+  SOURCES-001 (fail): `# Sources` block missing, or present more than once
+                      (on duplicates, the remaining checks run against the
+                      LAST block for additional diagnostics).
   SOURCES-002 (fail): a `##` sub-group category not in the 5-label enum.
   SOURCES-003 (fail): partial subgrouping -- some entries under a `##` category
                       heading and some bare (all-or-nothing violated).
@@ -119,7 +121,7 @@ def check(draft_text: str, context: dict) -> dict:
                 "severity": "fail",
                 "message": "partial subgrouping: %d of %d entries under a `##` category "
                            "heading (all-or-nothing required)" % (under, len(entries)),
-                "location": "Sources block (lines %d-%d)" % (start, end),
+                "location": "Sources block (lines %d-%d)" % (start + 1, end),
             })
 
         # SOURCES-004: flat list that should be subgrouped (warn).
@@ -130,7 +132,7 @@ def check(draft_text: str, context: dict) -> dict:
                 "message": "%d entries left as a flat list; 4+ entries across 2+ "
                            "categories should be subgrouped (verify category spread)"
                            % len(entries),
-                "location": "Sources block (lines %d-%d)" % (start, end),
+                "location": "Sources block (lines %d-%d)" % (start + 1, end),
             })
 
     passed = not any(f["severity"] == "fail" for f in findings)
