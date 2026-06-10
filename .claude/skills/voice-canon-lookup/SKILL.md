@@ -113,4 +113,24 @@ entries:
 ## Voice canon directory
 
 - `voice-canon/index.yaml` — entry metadata list
-- `voice-canon/<entry_id>.md` — 33 individual entries (frontmatter + verbatim 단락 본문)
+- `voice-canon/<entry_id>.md` — individual entries (frontmatter + verbatim 단락 본문)
+
+## Admission policy (2-tier provenance)
+
+The canon's value is that it anchors "human-like" to an **exogenous human signal**. Two
+provenance tiers, recorded per entry in `index.yaml`:
+
+- **`published-human`** (default; all original 33 entries) — verbatim from SETI's actually
+  published essays/interviews. The ground-truth tier. These entries are **never displaced** by
+  system-generated ones.
+- **`system-generated-seti-approved`** — excerpted from a pipeline-produced essay. Admission
+  requires BOTH: (1) the essay cleared the full loop (gates + editorial + pre-publish verify) —
+  *necessary*, and (2) **SETI explicitly approved the specific passage** as "this is my voice" —
+  *sufficient*. A gate-pass alone NEVER admits an entry (filters are one-directional: they prove
+  absence of tells, not presence of voice). Primary use: filling categories the human canon
+  does not cover (e.g. development/mechanism sections, investor-altitude variants).
+
+**Drift guard.** Self-referential canon risks echo-chamber drift (the system imitating its own
+output). The meta-loop watches the correlation between the share of system-originated anchors
+used in a run and that run's pass-1 voice findings; a rising trend flags the system-originated
+entries for re-review (see `meta/attribution-table.md`).

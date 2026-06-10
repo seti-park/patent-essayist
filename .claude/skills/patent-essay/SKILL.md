@@ -176,6 +176,11 @@ PUBLISH-READY  ⇔  inner loop already PASS
      overwritten each round). These before/after pairs — together with the `edit-log.md` finding
      that drove each change — are the raw material for `meta/golden-set/` (judge calibration,
      planned). Cheap to capture; do it on every run going forward. See `meta/golden-set/README.md`.
+   - **Final essay + thesis-trace.** Also copy `essay-final.md` and
+     `handoff/02-compose/thesis-trace.md` into the run archive: the final body is canon-harvest
+     material (admission policy in `voice-canon-lookup/SKILL.md`), and the trace's
+     `voice_canon_reference`s are the usage data the canon drift watch reads. (Both were being
+     lost with gitignored `handoff/` before this.)
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
    run's `edit-log.md` + `gate-result.json` + `verification-log.md`. It normalizes findings into
    `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a

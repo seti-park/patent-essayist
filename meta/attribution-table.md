@@ -48,6 +48,13 @@ editorial + gates *systematically missed* them. `pipeline-retro` weights these h
 recurrence (not the usual 3) fast-tracks a proposal, and the proposal targets the **stage that
 should have caught it** (editorial pass / compose reference / gate), never an essay-only patch.
 
+**Canon drift watch (2-tier provenance):** the canon now admits `system-generated-seti-approved`
+entries (see `voice-canon-lookup/SKILL.md` "Admission policy"). Echo-chamber risk: the system
+imitating its own output. Per run, `pipeline-retro` notes the share of system-originated anchors
+in `thesis-trace.md` `voice_canon_reference`s; if pass-1 voice findings trend UP as that share
+rises across essays, flag the system-originated entries for SETI re-review (demote, don't
+auto-delete). Human (`published-human`) entries are never displaced.
+
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 
 `pipeline-retro` keeps a running count per class here so a human can see system health at a

@@ -1,5 +1,10 @@
 # voice-canon/ index
 # 각 entry 의 metadata. 본문은 해당 .md 파일 참조.
+#
+# provenance (2-tier, SKILL.md "Admission policy"):
+#   - 생략 시 기본값 = published-human (원본 33개; SETI 발행 에세이/인터뷰 verbatim)
+#   - system-generated-seti-approved = 파이프라인 산출 에세이에서 발췌.
+#     full-loop 통과(필요) + SETI 단락 승인(충분) 후에만 admit. 인간 엔트리 대체 금지.
 
 entries:
   - entry_id: opening-news-event-tesla-terafab
