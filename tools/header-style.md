@@ -92,11 +92,17 @@ Per-essay slots: `--ticker` (`$TSLA`), `--title` (keyword/hook),
 (one PNG for the board), `--out`. The title autosizes and the whole left
 stack reflows so it never collides with the series row.
 
-Assets:
-- `tools/assets/gyeongtae.svg` — vector master (620x1040 viewBox). Edit this
-  to evolve the character; it scales loss-free to video formats (16:9 YouTube,
-  9:16 Shorts) for future motion use.
-- `tools/assets/gyeongtae.png` — 2x transparent render for quick compositing.
+Assets (two editions, `--style comic|flat`, **comic is the default**):
+- `tools/assets/gyeongtae-comic.svg` — comic/manhwa edition: chibi
+  proportions, big amber eyes, blush, open smile, cel shading + hatching,
+  lens highlights, curled ringed tail. The series face.
+- `tools/assets/gyeongtae.svg` — flat editorial edition (kept for
+  minimal/diagrammatic contexts).
+- `tools/assets/gyeongtae-comic.png`, `gyeongtae.png` — 2x transparent
+  renders for quick compositing.
+Both editions share rig anchors (feet bottom ~926, pointer tip ~(24,336) in
+the 620x1040 viewBox), so the compositor and any future video scenes can swap
+them freely. Vector masters scale loss-free to 16:9 / 9:16 for video.
 
 Character tokens reuse the brand palette: tabby `#8C7B6B` / stripes `#6E5F52`,
 ink outlines, accent-red tie and pointer tip, ear/nose pink `#E8B4A8`/`#D98E80`.

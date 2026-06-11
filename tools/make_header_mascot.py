@@ -30,8 +30,12 @@ from make_header import (ACCENT, DECOR, F_MONO, F_MONO_B, INK, INK_SOFT,
                          PAPER, H, W, crop_drawing, decorate, fit_title,
                          wrap_to_width)
 
-ASSET = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                     "assets", "gyeongtae.svg")
+ASSETS = {
+    "comic": os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          "assets", "gyeongtae-comic.svg"),
+    "flat": os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "assets", "gyeongtae.svg"),
+}
 
 TEXT_X, TEXT_W = 130, 1230
 BASELINE = 1086
@@ -71,10 +75,10 @@ def paste_board_figure(canvas, path):
     canvas.paste(ImageChops.multiply(region, fig.convert("RGB")), (x, y))
 
 
-def paste_mascot(canvas):
+def paste_mascot(canvas, style):
     import cairosvg
     k = CAT_H / 1040
-    png = cairosvg.svg2png(url=ASSET, output_width=int(620 * k),
+    png = cairosvg.svg2png(url=ASSETS[style], output_width=int(620 * k),
                            output_height=CAT_H)
     cat = Image.open(io.BytesIO(png)).convert("RGBA")
     feet_bottom = int(926 * k)       # paw ellipse bottom in svg coords
@@ -134,6 +138,8 @@ def main():
                     help="patent figure PNG for the whiteboard")
     ap.add_argument("--subtitle", default="")
     ap.add_argument("--series", default="SETI . PATENT ESSAYIST")
+    ap.add_argument("--style", choices=["comic", "flat"], default="comic",
+                    help="mascot edition (default: comic)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -142,7 +148,7 @@ def main():
     decorate(d)
     draw_easel(canvas, d)
     paste_board_figure(canvas, args.figure)
-    paste_mascot(canvas)
+    paste_mascot(canvas, args.style)
     d = ImageDraw.Draw(canvas)
     text_block(d, args.ticker, args.title, args.subtitle, args.patent,
                args.series)
