@@ -76,3 +76,28 @@ Relation to the older plain composites: `figure-attachment-policy.md` still
 governs *promo* attachments (original sheets, no wide composite); this branded
 template is the essay-article visual header only, replacing the undecorated
 5:2 composites built for the first two runs.
+
+## Mascot edition (series primary) — tools/make_header_mascot.py
+
+The franchise header. Right side: **Gyeongtae** (경태), the studio's
+anthropomorphized cat analyst (round glasses after the eye markings that named
+him; navy sweater vest, white shirt, accent-red tie; wooden pointer; a rolled
+patent in the other paw), presenting an easel whiteboard that carries the
+essay's representative figure (band-stripped, multiply-printed on the white
+board face). Left side: ticker chip + keyword title + optional subtitle +
+patent-number line + series tag.
+
+Per-essay slots: `--ticker` (`$TSLA`), `--title` (keyword/hook),
+`--subtitle` (optional), `--patent` (number + GRANTED/PENDING), `--figure`
+(one PNG for the board), `--out`. The title autosizes and the whole left
+stack reflows so it never collides with the series row.
+
+Assets:
+- `tools/assets/gyeongtae.svg` — vector master (620x1040 viewBox). Edit this
+  to evolve the character; it scales loss-free to video formats (16:9 YouTube,
+  9:16 Shorts) for future motion use.
+- `tools/assets/gyeongtae.png` — 2x transparent render for quick compositing.
+
+Character tokens reuse the brand palette: tabby `#8C7B6B` / stripes `#6E5F52`,
+ink outlines, accent-red tie and pointer tip, ear/nose pink `#E8B4A8`/`#D98E80`.
+The plain figure-panel template above remains available for figure-only covers.
