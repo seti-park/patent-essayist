@@ -39,45 +39,57 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` † | 0 | 0 | 4 | 0 | 0 | 0 |
-| `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
-| `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
-| `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 0 | 5 | 0 | 0 | 0 |
+| `external-fact-universalization` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `fence-canon-verification-gap` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `sources-entry-template-drift` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `claim-scope-misattribution` † | 0 | 0 | 3 | 0 | 0 | 0 |
+| `paraphrase-hedge-compression` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
-| `redundancy-bloat` | 0 | 5 | 0 | 0 | 0 | 0 |
-| `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
-| `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `banned-pattern-recurring` | 0 | 2 | 0 | 0 | 0 | 0 |
+| `quote-notation-gap` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `legal-posture-language-slip` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `claim-anchor-mechanism-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `title-conclusion-stance-mismatch` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `caption-voice-rule-bypass` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `gate-selection-scope-overharvest` † | 0 | 0 | 0 | 1 | 0 | 1 |
 
-Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
-recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
-all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
-the triggering finding ids and is the append-only audit reference).
+Counts derived from the ledger as of run `tesla-washer-pump-two-wire-moat` (third recorded
+run). A class with a proposal on file shows all its records under `proposed` (the proposal
+file under `meta/improvement-proposals/` lists the triggering finding ids and is the
+append-only audit reference).
 
-Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
-grounding hard-gate breach both runs — most damaging class in the system),
-`mobile-paragraph-wall` (medium walls both runs, gate-invisible to sentence-counting
-STRUCT-001), `external-fact-universalization`, `fence-canon-verification-gap` (escalated
-low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
-`redundancy-bloat`, `revision-induced-band-break`, `paraphrase-hedge-compression`, and
-`figure-token-regex-blindspot` (latent; avoided by trap-3 convention both runs — counted as
-recurring mitigation cost, not failure).
+Cross-essay recurrence (present in 3/3 essays): `claim-scope-misattribution` (HIGH in two of
+three runs, grounding hard-gate breach class, one loop iteration cost per run — still the most
+damaging class in the system; run 3 added the spec-to-claims direction, EL-01),
+`mobile-paragraph-wall` (5th record), `external-fact-universalization` (4th),
+`fence-canon-verification-gap` (4th; the interrogative-🤔-host fix field-tested again in run-3
+round 2), `paraphrase-hedge-compression` (3rd — threshold reached run 3), `redundancy-bloat`
+(6th). 2/3 essays: `sources-entry-template-drift` (but 4 records, two of them in run 3 where
+the EL-03 fix itself introduced R2-01 — template root cause confirmed), `quote-notation-gap`,
+`banned-pattern-recurring` (now two distinct density clusters: contrast pairs, triads).
 
 RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
-`fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
-low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
-awareness, two intensifier tics — no single mechanical rule covers them and the class has
-never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
-`meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
+`fence-canon-verification-gap`, `mobile-paragraph-wall` (2026-06-11 proposals,
+recommended-apply, still pending human application — patches applied remains 0, so run-3
+recurrence of these classes is expected, not evidence of an ineffective patch);
+newly at/over threshold in run 3: `sources-entry-template-drift` and
+`paraphrase-hedge-compression` (new recommended-apply proposals 2026-06-12) and
+`claim-scope-misattribution` (promotion proposal 2026-06-12 lifts the 2026-06-11 lock-map
+proposal from watch to recommended-apply). `redundancy-bloat` remains deliberately HELD at
+`watch` (six low-severity records, heterogeneous sub-mechanisms, never cost a loop
+iteration). One run-3 gate defect, `gate-selection-scope-overharvest` (FIGUSE-001 false fail
+on the template-schema Not-selected table), was fixed mid-run by the orchestrator (commit
+a980562, tests + regression pass) — recorded as `resolved` with 1 patch applied; a watch
+proposal adds the missing `meta/fixtures/` lock. 9 proposals on file as of 2026-06-12; see
+`meta/improvement-proposals/2026-06-1*.md`. Do not hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
-a small reference-edit proposal per this table's header (human decision, still pending from
-run 1).
+a small reference-edit proposal per this table's header (human decision, still pending since
+run 1; four more † classes added in run 3).
