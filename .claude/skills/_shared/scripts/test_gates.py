@@ -196,6 +196,35 @@ class TestFigureUse(unittest.TestCase):
         self.assertTrue(r["passed"])
         self.assertTrue(_has(r, "FIGUSE-000"))
 
+    # Template-schema selection: only "## Selected figures" counts as selected;
+    # NOT-selected figures listed elsewhere in the file must not become orphans.
+    TEMPLATE_SELECTION = (
+        "# Figure Selection\n\n"
+        "## Selected figures\n\n"
+        "| Figure | File |\n|---|---|\n"
+        "| FIG. 1 | fig-01.png |\n"
+        "| FIG. 3 | fig-03.png |\n\n"
+        "## Not selected\n\n"
+        "| FIG. 4 | restates the claim |\n"
+        "| FIG. 5 | boilerplate |\n\n"
+        "## Header / body assignment\n\n"
+        "- Header: FIG. 1\n- Body: FIG. 3\n"
+    )
+
+    def test_template_selection_scopes_to_selected_section(self):
+        draft = "Figure 1 opens; FIG. 3 carries the mechanism.\n"
+        r = gate_figure_use.check(
+            draft, {"figure_selection_text": self.TEMPLATE_SELECTION})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "FIGUSE-001"))
+
+    def test_template_selection_still_fails_real_orphan(self):
+        draft = "Figure 1 opens, but the mechanism figure never appears.\n"
+        r = gate_figure_use.check(
+            draft, {"figure_selection_text": self.TEMPLATE_SELECTION})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "FIGUSE-001"))
+
 
 class TestBanned(unittest.TestCase):
     def test_banned_hits_fail(self):

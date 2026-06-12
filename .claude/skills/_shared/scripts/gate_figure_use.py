@@ -15,8 +15,12 @@ AVAILABLE figures); this gate checks refs against the set of SELECTED figures an
 checks for orphans in the other direction.
 
 Context keys consumed:
-  - figure_selection_text (str, optional): text of figure-selection.md. The
-    figure numbers found here form the "selected" set.
+  - figure_selection_text (str, optional): text of figure-selection.md. If the
+    file contains a "## Selected figures" section (the handoff-template schema),
+    only figure numbers inside that section form the "selected" set -- the
+    template also records NOT-selected figures (rejection table, paired-figure
+    relationships) and those must not count as selected. Without that heading,
+    the whole text is scanned (legacy/free-form selections).
 
 Figure numbers are parsed from any of: "fig-07", "FIG. 7", "Figure 7", "Fig 7"
 (case-insensitive), N an integer.
@@ -37,11 +41,25 @@ import sys
 GATE_ID = "figure_use"
 # Matches "fig-07", "FIG. 7", "Figure 7", "Fig 7".
 FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)\b", re.IGNORECASE)
+# The handoff-template section that holds ONLY the selected figures.
+SELECTED_HEADING_RE = re.compile(
+    r"^\s{0,3}#{2,6}\s*selected figures\s*$", re.IGNORECASE | re.MULTILINE)
+ANY_HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s", re.MULTILINE)
 
 
 def _figure_numbers(text):
     """Return the set of figure numbers mentioned in text."""
     return {int(m.group(1)) for m in FIG_RE.finditer(text or "")}
+
+
+def _selected_section(selection_text):
+    """Return the '## Selected figures' section body, or None if absent."""
+    m = SELECTED_HEADING_RE.search(selection_text or "")
+    if not m:
+        return None
+    body_start = m.end()
+    nxt = ANY_HEADING_RE.search(selection_text, body_start)
+    return selection_text[body_start:nxt.start() if nxt else len(selection_text)]
 
 
 def check(draft_text: str, context: dict) -> dict:
@@ -58,7 +76,8 @@ def check(draft_text: str, context: dict) -> dict:
         })
         return {"gate": GATE_ID, "passed": True, "findings": findings}
 
-    selected = _figure_numbers(selection_text)
+    section = _selected_section(selection_text)
+    selected = _figure_numbers(section if section is not None else selection_text)
     used = _figure_numbers(draft_text)
 
     # FIGUSE-001: selected but never used (orphan).
