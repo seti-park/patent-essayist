@@ -39,4 +39,45 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| _(none yet — first run will populate)_ | 0 | 0 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
+| `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
+| `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
+| `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 5 | 0 | 0 | 0 | 0 |
+| `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `legal-posture-language-slip` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+
+Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
+recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
+all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
+the triggering finding ids and is the append-only audit reference).
+
+Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
+grounding hard-gate breach both runs — most damaging class in the system),
+`mobile-paragraph-wall` (medium walls both runs, gate-invisible to sentence-counting
+STRUCT-001), `external-fact-universalization`, `fence-canon-verification-gap` (escalated
+low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
+`redundancy-bloat`, `revision-induced-band-break`, `paraphrase-hedge-compression`, and
+`figure-token-regex-blindspot` (latent; avoided by trap-3 convention both runs — counted as
+recurring mitigation cost, not failure).
+
+RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
+`fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
+recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
+low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
+awareness, two intensifier tics — no single mechanical rule covers them and the class has
+never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
+`meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
+† = new finding class with no row in the main table above; adding the missing rows is itself
+a small reference-edit proposal per this table's header (human decision, still pending from
+run 1).
