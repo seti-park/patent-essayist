@@ -107,3 +107,16 @@ them freely. Vector masters scale loss-free to 16:9 / 9:16 for video.
 Character tokens reuse the brand palette: tabby `#8C7B6B` / stripes `#6E5F52`,
 ink outlines, accent-red tie and pointer tip, ear/nose pink `#E8B4A8`/`#D98E80`.
 The plain figure-panel template above remains available for figure-only covers.
+
+## Investor edition — tools/make_header_investor.py
+
+Variant for investor-targeted digests. Left: dual ticker chips (`--tickers
+"$TSLA,$SPCX"`, accent-red + ink-navy), title, patent line (append
+`. INVESTOR EDITION`), monochrome company logo strip (tools/assets/logos/,
+simple-icons CC0, rendered ink for editorial reference), series tag. Right:
+the whiteboard becomes an analyst slide: the patent figure on the left half
+(`--figure`, e.g. the insert cross-section), red marker arrows to a gigacast
+underbody sketch (tinted front/rear casting zones) and a rocket with an
+accent "?" beneath labels "gigacasting" / "aerospace", mirroring the
+digest's "Cars, Rockets, or Robots" section. Mascot and all base tokens
+shared with the mascot edition.
