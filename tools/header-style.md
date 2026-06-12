@@ -77,7 +77,7 @@ governs *promo* attachments (original sheets, no wide composite); this branded
 template is the essay-article visual header only, replacing the undecorated
 5:2 composites built for the first two runs.
 
-## Mascot edition (series primary) — tools/make_header_mascot.py
+## Mascot edition (optional) — tools/make_header_mascot.py
 
 The franchise header. Right side: **Gyeongtae** (경태), the studio's
 anthropomorphized cat analyst (round glasses after the eye markings that named
@@ -108,15 +108,17 @@ Character tokens reuse the brand palette: tabby `#8C7B6B` / stripes `#6E5F52`,
 ink outlines, accent-red tie and pointer tip, ear/nose pink `#E8B4A8`/`#D98E80`.
 The plain figure-panel template above remains available for figure-only covers.
 
-## Investor edition — tools/make_header_investor.py
+## Investor edition (series default for investor digests) — tools/make_header_investor.py
 
-Variant for investor-targeted digests. Left: dual ticker chips (`--tickers
-"$TSLA,$SPCX"`, accent-red + ink-navy), title, patent line (append
-`. INVESTOR EDITION`), monochrome company logo strip (tools/assets/logos/,
-simple-icons CC0, rendered ink for editorial reference), series tag. Right:
-the whiteboard becomes an analyst slide: the patent figure on the left half
-(`--figure`, e.g. the insert cross-section), red marker arrows to a gigacast
-underbody sketch (tinted front/rear casting zones) and a rocket with an
-accent "?" beneath labels "gigacasting" / "aerospace", mirroring the
-digest's "Cars, Rockets, or Robots" section. Mascot and all base tokens
-shared with the mascot edition.
+Left: dual ticker chips (`--tickers "$TSLA,$SPCX"`, accent-red + ink-navy),
+title, patent line (append `. INVESTOR EDITION`), monochrome company logo
+strip (tools/assets/logos/, simple-icons CC0, rendered ink for editorial
+reference), series tag. Right: a pure patent-figure panel (band-stripped,
+multiply-printed on the paper, same treatment as the base template); pass
+`--figure` once or twice, and the layout auto-picks row vs column by which
+gives the drawings more area (landscape pairs stack as before/after, portrait
+pairs sit side by side). 2026-06-12 brand decision (SETI): the right panel
+carries patent drawings, not the mascot. The brand lives in the paper
+background, the type, and the tokens; the drawings are the highest-quality
+asset the series owns and are fully reproducible. The mascot editions above
+remain available for secondary/video uses.

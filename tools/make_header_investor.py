@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Investor-edition 5:2 header: dual ticker chips, company logo strip, and a
-whiteboard "analyst slide" (patent figure -> gigacast underbody -> rocket + ?)
-presented by Gyeongtae. Companion to make_header_mascot.py; same brand tokens.
+"""Investor-edition 5:2 header: dual ticker chips + company logo strip on the
+left, patent figure panel on the right (band-stripped, multiply-printed on the
+paper, same treatment as make_header.py). No mascot: the brand is carried by
+the paper background, type, and tokens.
 
   python tools/make_header_investor.py \
       --title "Print It or Keep It Hard" \
       --patent "US 2026/0158546 A1 . PENDING . INVESTOR EDITION" \
-      --figure input/figures/fig-02C.png \
+      --figure input/figures/fig-02A.png --figure input/figures/fig-02B.png \
       --out runs/<essay-id>/header-investor.png
 
 Logos: tools/assets/logos/*.svg (simple-icons, CC0), rendered monochrome ink,
@@ -14,7 +15,6 @@ editorial reference to the companies discussed.
 """
 import argparse
 import io
-import math
 import os
 import sys
 
@@ -22,80 +22,46 @@ from PIL import Image, ImageDraw, ImageFont
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_header import (ACCENT, F_MONO, F_MONO_B, INK, INK_SOFT, PAPER,
-                         H, W, decorate, fit_title)
-from make_header_mascot import TEXT_X, TEXT_W, draw_easel, paste_mascot
+                         H, W, crop_drawing, decorate, fit_title)
 
 LOGO_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "assets", "logos")
-CAST_TINT = (240, 213, 206)
 NAVY_CHIP = (44, 53, 67)
+TEXT_X, TEXT_W = 130, 1230
+FIG_ZONE = (1460, 120, 2870, 1080)
 
 
-def arrow(d, p0, p1):
-    d.line([p0, p1], fill=ACCENT, width=10)
-    ang = math.atan2(p1[1] - p0[1], p1[0] - p0[0])
-    for da in (2.6, -2.6):
-        d.line([p1, (p1[0] - 26 * math.cos(ang + da),
-                     p1[1] - 26 * math.sin(ang + da))], fill=ACCENT, width=10)
-
-
-def draw_underbody(d, x, y, w, h):
-    """Top-view skateboard platform; front/rear casting zones tinted."""
-    for wx in (x + 26, x + w - 82):
-        for wy in (y - 16, y + h - 10):
-            d.rounded_rectangle((wx, wy, wx + 56, wy + 26), radius=10, fill=INK)
-    d.rounded_rectangle((x, y, x + w, y + h), radius=34, fill=(255, 255, 255),
-                        outline=INK, width=6)
-    d.rounded_rectangle((x + 10, y + 10, x + int(w * 0.30), y + h - 10),
-                        radius=22, fill=CAST_TINT, outline=ACCENT, width=4)
-    d.rounded_rectangle((x + int(w * 0.70), y + 10, x + w - 10, y + h - 10),
-                        radius=22, fill=CAST_TINT, outline=ACCENT, width=4)
-    for i in range(1, 4):
-        lx = x + int(w * 0.30) + int(w * 0.40) * i // 4
-        d.line((lx, y + 18, lx, y + h - 18), fill=(180, 170, 148), width=4)
-
-
-def draw_rocket(d, x, y, h):
-    w = int(h * 0.40)
-    cx = x + w // 2
-    nose = int(h * 0.30)
-    body_bot = y + int(h * 0.82)
-    pts = [(x, y + nose), (cx, y), (x + w, y + nose), (x + w, body_bot),
-           (x, body_bot)]
-    d.polygon(pts, fill=(255, 255, 255))
-    d.line(pts + [pts[0]], fill=INK, width=6, joint="curve")
-    d.polygon([(x, y + nose), (cx, y), (x + w, y + nose)], fill=CAST_TINT)
-    d.line([(x, y + nose), (cx, y), (x + w, y + nose)], fill=INK, width=6,
-           joint="curve")
-    for fx, dx in ((x, -int(w * 0.45)), (x + w, int(w * 0.45))):
-        d.polygon([(fx, body_bot), (fx + dx, y + h), (fx, y + int(h * 0.6))],
-                  fill=INK)
-    d.ellipse((cx - 14, y + nose + 18, cx + 14, y + nose + 46), fill=PAPER,
-              outline=INK, width=5)
-
-
-def board_slide(canvas, d, figure):
+def paste_panel(canvas, paths):
+    """Figures multiply-printed in FIG_ZONE; picks row vs column layout by
+    whichever gives the figures more area (landscape pairs stack, portrait
+    pairs sit side by side)."""
     from PIL import ImageChops
-    from make_header import crop_drawing
-    x0, y0, x1, y1 = 1566, 200, 2010, 830     # left half of the board face
-    fig = crop_drawing(figure)
-    k = min((x1 - x0) / fig.width, (y1 - y0) / fig.height)
-    fig = fig.resize((int(fig.width * k), int(fig.height * k)), Image.LANCZOS)
-    fx = x0 + (x1 - x0 - fig.width) // 2
-    fy = y0 + (y1 - y0 - fig.height) // 2
-    region = canvas.crop((fx, fy, fx + fig.width, fy + fig.height))
-    canvas.paste(ImageChops.multiply(region, fig.convert("RGB")), (fx, fy))
-    ub_x, ub_y, ub_w, ub_h = 2078, 268, 300, 124
-    draw_underbody(d, ub_x, ub_y, ub_w, ub_h)
-    draw_rocket(d, 2160, 500, 190)
-    f_q = ImageFont.truetype(F_MONO_B, 84)
-    d.text((2280, 540), "?", font=f_q, fill=ACCENT)
-    arrow(d, (2008, 430), (2066, 340))
-    arrow(d, (2008, 520), (2138, 570))
-    f_lab = ImageFont.truetype(F_MONO, 30)
-    d.text((ub_x + 62, ub_y + ub_h + 26), "gigacasting", font=f_lab,
-           fill=INK_SOFT)
-    d.text((2138, 716), "aerospace", font=f_lab, fill=INK_SOFT)
+    x0, y0, x1, y1 = FIG_ZONE
+    zw, zh = x1 - x0, y1 - y0
+    gap = 56
+    figs = [crop_drawing(p) for p in paths]
+    aspects = [f.width / f.height for f in figs]
+    n = len(figs)
+    h_row = min(zh, (zw - gap * (n - 1)) / sum(aspects))
+    w_col = min(zw, (zh - gap * (n - 1)) / sum(1 / a for a in aspects))
+    if h_row * h_row * sum(aspects) >= w_col * w_col * sum(1 / a for a in aspects):
+        scaled = [f.resize((int(h_row * a), int(h_row)), Image.LANCZOS)
+                  for f, a in zip(figs, aspects)]
+        x = x0 + (zw - sum(f.width for f in scaled) - gap * (n - 1)) // 2
+        for f in scaled:
+            y = y0 + (zh - f.height) // 2
+            region = canvas.crop((x, y, x + f.width, y + f.height))
+            canvas.paste(ImageChops.multiply(region, f.convert("RGB")), (x, y))
+            x += f.width + gap
+    else:
+        scaled = [f.resize((int(w_col), int(w_col / a)), Image.LANCZOS)
+                  for f, a in zip(figs, aspects)]
+        y = y0 + (zh - sum(f.height for f in scaled) - gap * (n - 1)) // 2
+        for f in scaled:
+            x = x0 + (zw - f.width) // 2
+            region = canvas.crop((x, y, x + f.width, y + f.height))
+            canvas.paste(ImageChops.multiply(region, f.convert("RGB")), (x, y))
+            y += f.height + gap
 
 
 def logo_strip(canvas, d, y):
@@ -140,19 +106,16 @@ def main():
     ap.add_argument("--tickers", default="$TSLA,$SPCX")
     ap.add_argument("--title", required=True)
     ap.add_argument("--patent", required=True)
-    ap.add_argument("--figure", required=True,
-                    help="patent figure for the board (left panel)")
+    ap.add_argument("--figure", action="append", required=True,
+                    help="patent figure PNG; repeat to place side by side")
     ap.add_argument("--series", default="SETI . PATENT ESSAYIST")
-    ap.add_argument("--style", choices=["comic", "flat"], default="comic")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
     canvas = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(canvas)
     decorate(d)
-    draw_easel(canvas, d)
-    board_slide(canvas, d, args.figure)
-    paste_mascot(canvas, args.style)
+    paste_panel(canvas, args.figure)
     d = ImageDraw.Draw(canvas)
     text_block(canvas, d, args.tickers.split(","), args.title, args.patent,
                args.series)
