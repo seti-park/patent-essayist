@@ -11,7 +11,7 @@
 
 This is well-drafted, genuinely technical, partly-granted IP. It is **not** a durable competitive moat for any single operating company, and the company that filed it has already proven the point: $415M went in, and the outcome was an acqui-hire in which investors roughly recouped principal with no upside.
 
-The patent fences a *mechanism* (turn recorded human demonstrations into agent training data). The real moats in agentic AI sit one layer away from anything a patent can hold: the proprietary data flywheel, the post-training craft, and the people. All three have left the building, dispersing to **Amazon** (a 2024 acqui-hire plus a non-exclusive license) and to **Anthropic** (talent in 2024, and, on present evidence, the patent family itself in 2025). No single party holds an exclusive lock. On top of that, the architecture the patent protects, pixel-level visual UI automation driven by recorded demonstrations, is the exact approach the market began retreating from in 2025 and 2026 in favor of API-first agents.
+The patent fences a *mechanism* (turn recorded human demonstrations into agent training data). The real moats in agentic AI sit one layer away from anything a patent can hold: the proprietary data flywheel, the post-training craft, and the people. All three have left the building, dispersing to **Amazon** (a 2024 acqui-hire plus a non-exclusive license) and to **Anthropic** (talent in 2024, and, on present evidence, the patent family itself in 2025). No single party holds an exclusive lock. On top of that, the architecture the patent protects, pixel-level visual UI automation driven by recorded demonstrations, is the exact approach the market began retreating from in 2025 and 2026 in favor of API-first agents, even as the same demonstration-to-action idea keeps thriving in robotics, where there is no API to bypass and which this patent does not cover.
 
 Treat this portfolio as a **defensive and cross-licensing asset inside a larger lab**, not as the foundation of a standalone franchise.
 
@@ -120,6 +120,7 @@ The patent is built end to end on **visual, demonstration-based UI automation**:
 - **Pixel agents are fragile.** Public research and benchmarks document the core problems: UI grounding is a bottleneck, errors accumulate over long action chains (a single misplaced click can derail a workflow), and an operation that is one API call becomes dozens of brittle GUI steps. Reported reliability sits around 58% on WebArena and about 87% on WebVoyager for visual agents, while tool and API agents clear 80% on harder benchmarks such as GAIA.
 - **A major player exited the approach.** Google **shut down Project Mariner on May 4, 2026**, folding visual browsing into Gemini and routing its commerce roadmap through **structured data and API calls rather than screenshot interpretation**. Coverage framed it bluntly as the end of the visual web-agent era, with the industry pivoting to **API-first** agents for reliability and lower compute cost.
 - **The research frontier is hybrid.** Newer work (for example, hybrid-action computer-use models) combines GUI actions with programmatic and API actions, treating pure pixel control as a fallback rather than the primary path.
+- **The demonstration-to-action paradigm is alive, but mostly where there is no API.** The bet on learning to act from human demonstrations is now most visible in robotics: Tesla trains FSD and the Optimus robot end to end from human driving, teleoperation, and first-person video, sharing one perception-to-action architecture. In March 2026 Musk pushed the same idea back into software with the Tesla and xAI project "Macrohard," nicknamed "Digital Optimus," which pairs Grok as a high-level planner with an agent that watches a real-time screen-video stream and drives the mouse and keyboard. Two reads for this patent. First, a physical robot has no API for folding a shirt, so vision-to-action is the only path and the paradigm is durable there; software has APIs, so the digital version is the one being routed around. Second, Digital Optimus is pitched as moving past the static-screenshot, click-look-think loop to continuous video, which targets the exact part of this patent's approach (interface snapshots, [00374]) most exposed to being leapfrogged.
 
 A patent that fences a paradigm the market is leaving is a depreciating asset. The early priority date helps, but the scope that matters most (broad visual record-and-replay automation) is aimed at an approach being designed around at the architecture level, not just the claim level.
 
@@ -127,7 +128,7 @@ A patent that fences a paradigm the market is leaving is a depreciating asset. T
 
 ## 8. Competitive context
 
-Every major lab now ships an agent stack, and they arrived largely in parallel rather than by building on Adept: OpenAI's Operator and Computer-Using Agent, Anthropic's computer use plus the Model Context Protocol and managed agents, Google's Gemini-absorbed agent work, Amazon's Nova Act, and Microsoft's offerings. Independent convergence by this many players is itself evidence that the core ideas were not uniquely held. The strongest current differentiation in the category is coming from tool and API integration, reliability engineering, and distribution, not from owning the visual record-and-replay mechanism this patent describes.
+Every major lab now ships an agent stack, and they arrived largely in parallel rather than by building on Adept: OpenAI's Operator and Computer-Using Agent, Anthropic's computer use plus the Model Context Protocol and managed agents, Google's Gemini-absorbed agent work, Amazon's Nova Act, Microsoft's offerings, and, from the hardware side, Tesla and xAI's screen-watching "Digital Optimus." The deeper idea the patent rests on, learning to act from human demonstrations, is itself a decades-old robotics paradigm (imitation learning and behavior cloning), not an Adept invention. Independent convergence this broad is the opposite of an exclusive position. The strongest current differentiation in the category is coming from tool and API integration, reliability engineering, and distribution, not from owning the visual record-and-replay mechanism this patent describes.
 
 ---
 
@@ -145,12 +146,19 @@ Every major lab now ships an agent stack, and they arrived largely in parallel r
 
 ---
 
+## Speculative thread (not load-bearing)
+
+One question is worth flagging without overclaiming: did Adept's lineage actually improve a frontier model, and if so, whose? Any contribution most plausibly lands in **agentic and computer-use ability** (tool use, multi-step execution, screen perception turned into action), not in a model's conversational grasp of intent and context, which comes from pretraining and post-training craft rather than from a UI-demonstration recorder. The likelier transmission path is **people, not the patent**: Adept's leadership went to Amazon, and co-founder and CTO Niki Parmar went to Anthropic. This thread rests on two unverified layers, first that Anthropic owns or uses the IP at all, and second that any specific model behavior traces to it, so it should carry no weight in a valuation. The part that does survive is the central finding restated: if Adept's work sharpened anyone's agents, that gain went to the acquirer of the team and data, not to the company or its patents. The advantage left with the people.
+
+---
+
 ## Confidence and caveats
 
 - Technical reading of the patent: **high** (primary source, paragraph-level citations).
 - Funding and acqui-hire facts: **high** (multiple reputable outlets).
 - Anthropic assignment of the patent family: **medium** (consistent secondary sources and corroborated talent flow, but no primary record retrieved; verify at USPTO).
 - Paradigm-shift claim: **medium to high** (a dated, concrete shutdown plus benchmark and research evidence).
+- Adept-to-frontier-model capability contribution: **low / speculative** (flagged above as non-load-bearing; rests on two unverified layers).
 
 This memo reads the patent and the public record. It is not legal advice and is not a validity or infringement opinion; a claim chart and an attorney's freedom-to-operate review are the next step if the asset matters to a deal.
 
@@ -167,3 +175,4 @@ This memo reads the patent and the public record. It is not legal advice and is 
 - Niki Parmar and other Adept staff to Anthropic: [OfficeChai](https://officechai.com/ai/ctos-of-companies-including-instagram-workday-you-com-and-adept-have-joined-anthropic-as-members-of-technical-staff/).
 - Project Mariner shutdown and API-first pivot (May 2026): [Digital Trends](https://www.digitaltrends.com/computing/google-pulls-the-plug-on-project-mariner-the-ai-agent-that-browsed-the-web-like-a-human/), [Android Headlines](https://www.androidheadlines.com/2026/05/google-shuts-down-project-mariner-ai-agent.html).
 - Pixel vs API/tool agent reliability and hybrid action: [AIMultiple](https://aimultiple.com/computer-use-agents), [UltraCUA (arXiv 2510.17790)](https://arxiv.org/pdf/2510.17790), [OpenAI Computer-Using Agent](https://openai.com/index/computer-using-agent/).
+- Vision-to-action from demonstration (robotics and the Tesla and xAI "Digital Optimus" / "Macrohard"): [CNBC](https://www.cnbc.com/2026/03/11/musk-unveils-joint-tesla-xai-project-macrohard.html), [eWeek](https://www.eweek.com/news/elon-musk-macrohard-ai-software-companies/), [Jim Fan on Optimus imitation learning](https://x.com/DrJimFan/status/1705982525825503282), [Tesla Optimus learning by watching](https://theroboticlife.com/tesla-optimus-gen-3-learning/).
