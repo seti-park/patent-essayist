@@ -22,6 +22,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `spec-undercoverage` | pass-3 coverage sub-check | 2 | design | invention-summary 4-layer / phase2-handoff-notes citation priority | reference-edit |
 | `sources-enum-violation` | gate SOURCES-002 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit (or gate-promotion) |
 | `sources-subgroup-violation` | gate SOURCES-003 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit |
+| `sources-entry-template-drift` | pass-6 6D (author form / bibliographic template; gate-invisible) | 4a | compose | x-articles-format-en.md (Sources per-item citation format) | reference-edit |
 | `lead-conclusion-weak` | pass-6 6A/6B | 4a | design/compose | thesis-spine arc / section-blueprint closing_directive | reference-edit |
 | `section-thesis-misalignment` | pass-4 | 4a | design | thesis-spine spine→section trace | reference-edit |
 | `reader-engagement-break` | pass-5 | 3 | compose | mode-spec posture / section-blueprint | rubric-tuning (posture) |
@@ -47,8 +48,9 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `redundancy-bloat` | 0 | 5 | 0 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `sources-entry-template-drift` | 0 | 0 | 3 | 0 | 0 | 0 |
+| `banned-pattern-recurring` | 0 | 1 | 0 | 1 | 0 | 0 |
+| `reader-engagement-break` | 0 | 0 | 0 | 2 | 0 | 0 |
 | `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -57,10 +59,12 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
-recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
-all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
-the triggering finding ids and is the append-only audit reference).
+Counts derived from the ledger as of run `045-sandisk-hbf-flash-training` (third recorded run;
+a single clean run — iter-1 revise-recommended → iter-2 pass — with both mediums resolved
+in-loop, so it adds mostly resolved/empty-pass records and one newly-threshold class). A class
+with a proposal on file shows all its records under `proposed` (the proposal file under
+`meta/improvement-proposals/` lists the triggering finding ids and is the append-only audit
+reference). Records resolved inside the inner loop are counted under `resolved`.
 
 Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
 grounding hard-gate breach both runs — most damaging class in the system),
@@ -73,11 +77,23 @@ recurring mitigation cost, not failure).
 
 RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
 `fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
-low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
-awareness, two intensifier tics — no single mechanical rule covers them and the class has
-never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
-`meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
+recommended-apply); `sources-entry-template-drift` (newly reached at run 045: 2 watch from
+run 2 + run-045's Pass-6D "Hu, et al." → "Hu, Edward J., et al." correction → proposal on
+file `meta/improvement-proposals/2026-06-17-sources-author-form-rule.md`, recommended-apply,
+confidence medium — root cause is x-articles-format-en.md line 58 itself stating the wrong
+"First, et al." form; gate-invisible, corrected by Pass 6 in 2 of the last 3 essays); and
+`redundancy-bloat` (deliberately HELD at `watch`: all five records low-severity, heterogeneous
+sub-mechanisms — anchor doubling, caption echo, layering awareness, two intensifier tics — no
+single mechanical rule covers them and the class has never cost a loop iteration). Below
+threshold and HELD at `watch`: `reader-engagement-break` (2 records, both run 045, both
+resolved in-loop — the §4 means-plus-function gloss medium + a low secondary-jargon variant;
+adjoins run-2 `jargon-gloss-gap` at 1, both gloss-at-first-use of the most load-bearing term;
+watch the combined gloss-discipline class) and `banned-pattern-recurring` (2: run-1 contrast-
+pair cluster + run-045 semicolon-joined-clauses, both judged defensible, resolved). 6 proposals
+on file as of 2026-06-17 (5 from 2026-06-11 + this run's `2026-06-17-sources-author-form-rule`).
+Do not hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
-run 1).
+run 1). `sources-entry-template-drift` lost its † at run 045 — a mapping row was added under
+the `sources-*` block (citation author-form, 6D), per this table header's allowance to add a
+row when a new finding class reaches the table.
