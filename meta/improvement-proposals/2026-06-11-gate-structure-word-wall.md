@@ -6,14 +6,27 @@ lever: gate-promotion
 goal: "3"
 root_cause_stage: compose
 root_cause_artifact: _shared/scripts/gate_structure.py (STRUCT-001 counts sentences, not words) + essay-en-composer/references/section-blueprint.md (no word-length band)
-recurrence_count: 4
+recurrence_count: 6
 confidence: high
 triggering_findings:
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 2, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 2, pattern_tag: mobile-paragraph-wall
+  - essay_id: US20260161968A1, iter: 0, pattern_tag: mobile-paragraph-wall
+  - essay_id: US20260161968A1, iter: 1, pattern_tag: mobile-paragraph-wall
 ---
+
+> **Update 2026-06-17 (run 3, US20260161968A1).** Exact recurrence, now **3 of 3 essays**.
+> Run 3's iter-0 had the *worst* wall count yet — **four** over-long body paragraphs
+> (~182w, ~170w, ~168w, ~153w), all again gate-invisible to STRUCT-001 (sentence count) and
+> all again costing an editorial split round before clearing to `pass`. The promotion this
+> proposal already recommends (STRUCT-005 word warn) would have surfaced every one of them at
+> compose time. The strengthening evidence raises `recurrence_count` to 6 and the cross-essay
+> rate to 3/3; the proposed diff is unchanged. (Note: run 3's splits did NOT trigger the
+> adjacent `revision-induced-band-break` under-run — the new paragraphs stayed inside the 3–7
+> sentence band — so the deliberately-unbundled companion `section-blueprint.md` word-band
+> reference-edit still sits at 2 records / 2 essays, not yet at the bar.)
 
 ## Problem
 
