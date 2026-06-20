@@ -39,7 +39,7 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 0 | 6 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
@@ -56,27 +56,41 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `placeholder-source-url` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
-recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
-all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
-the triggering finding ids and is the append-only audit reference).
+Counts derived from the ledger as of run `sandisk-hbf-moat` (third recorded run; cross-run
+recurrence measured over 3 essays). A class with a proposal on file shows all its records under
+`proposed` (the proposal file under `meta/improvement-proposals/` lists the triggering finding
+ids and is the append-only audit reference).
 
-Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
-grounding hard-gate breach both runs — most damaging class in the system),
-`mobile-paragraph-wall` (medium walls both runs, gate-invisible to sentence-counting
-STRUCT-001), `external-fact-universalization`, `fence-canon-verification-gap` (escalated
-low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
+Cross-essay recurrence: `mobile-paragraph-wall` is now present in **3/3 essays** (6 records;
+the run-3 §4 wall at 166w is the largest single wall on record, and run 3 produced it while
+passing all six gates with zero findings — the strongest demonstration yet that STRUCT-001
+sentence-counting is blind to word-walls). Present in 2/2 of the first two essays (run 3 was a
+single-spine investor essay with no new instances of these):
+`claim-scope-misattribution` (HIGH + grounding hard-gate breach both of the first two runs —
+most damaging class in the system; not exercised by run 3, whose 14/14 quotes and per-claim
+scope were clean in both rounds), `external-fact-universalization`, `fence-canon-verification-gap`
+(escalated low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
 `redundancy-bloat`, `revision-induced-band-break`, `paraphrase-hedge-compression`, and
-`figure-token-regex-blindspot` (latent; avoided by trap-3 convention both runs — counted as
-recurring mitigation cost, not failure).
+`figure-token-regex-blindspot` (latent; avoided by trap-3 convention — counted as recurring
+mitigation cost, not failure; run 3's figures carried no lettered-panel sole references).
+
+New this run: `placeholder-source-url` (run-3 round-1 MEDIUM, single occurrence → `watch`):
+two `example.org/PLACEHOLDER-*` external Source URLs shipped unfilled, drove the round-1
+revise-recommended, gate-invisible (gate_sources checks the enum/subgrouping, not URL realness).
+Assessed and held DISTINCT from `external-fact-universalization` (scope over-claim of an
+admitted fact) — it is a publication-readiness gap, not a scope gap — so it does NOT reinforce
+the `external-fact-scope-discipline` proposal. Single occurrence, no proposal yet.
 
 RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
 `fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
+recommended-apply; `mobile-paragraph-wall` now 6 records / 3 essays after run 3 strengthened
+its proposal) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
 low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
 awareness, two intensifier tics — no single mechanical rule covers them and the class has
-never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
+never cost a loop iteration). 5 proposals on file as of 2026-06-11 (no new proposal from run 3;
+the gate-structure word-wall proposal was strengthened in place); see
 `meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from

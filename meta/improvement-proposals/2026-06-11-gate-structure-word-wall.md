@@ -6,21 +6,23 @@ lever: gate-promotion
 goal: "3"
 root_cause_stage: compose
 root_cause_artifact: _shared/scripts/gate_structure.py (STRUCT-001 counts sentences, not words) + essay-en-composer/references/section-blueprint.md (no word-length band)
-recurrence_count: 4
+recurrence_count: 6
 confidence: high
 triggering_findings:
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 2, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 2, pattern_tag: mobile-paragraph-wall
+  - essay_id: sandisk-hbf-moat, iter: 1, pattern_tag: mobile-paragraph-wall
+  - essay_id: sandisk-hbf-moat, iter: 2, pattern_tag: mobile-paragraph-wall
 ---
 
 ## Problem
 
-Mobile wall-of-text paragraphs recur in **2 of 2 essays** at `medium` severity (goal 3,
-reader understanding), and are structurally invisible to the gate that exists to catch them:
-`STRUCT-001` counts **sentences** (max 8), so a 4–6-sentence paragraph of long sentences
-sails through while rendering as >8 mobile lines.
+Mobile wall-of-text paragraphs recur in **3 of 3 essays** at `medium`-then-`low` severity
+(goal 3, reader understanding), and are structurally invisible to the gate that exists to
+catch them: `STRUCT-001` counts **sentences** (max 8), so a 4–6-sentence paragraph of long
+sentences sails through while rendering as >8 mobile lines.
 
 - Run 1, iter 1 (medium): three walls — 124w, 120w, 115w (words/12 > 8-line heuristic);
   the run-1 editor already recommended "a word-count warn heuristic (~>110w per paragraph)
@@ -30,8 +32,18 @@ sails through while rendering as >8 mobile lines.
   cost revision work.
 - Run 2, iter 2 (low): three retained 96w+ paragraphs needed explicit editorial
   adjudication (114w / 99w / 111w stands accepted with recorded reasons).
+- Run 3 (`sandisk-hbf-moat`), iter 1 (low): one 166w §4 wall — the largest single wall on
+  record — gate-invisible, cost a revision-round split (113w / 31w / 135w).
+- Run 3, iter 2 (low): two retained edge paragraphs at ~11 mobile lines — §3 P1 131w,
+  §4 P3 135w — both 4–5 sentences, both STRUCT-001-invisible, both >110w.
 
-Record count 4 ≥ RECUR_THRESHOLD(3), cross-essay 2/2, mechanically checkable with zero
+Run 3 is the strongest confirmation yet: it cleared **all six deterministic gates with zero
+findings in both rounds** and still produced a 166w wall — i.e. the only thing standing
+between the draft and a mobile wall was the editor's manual word arithmetic, exactly the work
+STRUCT-005 would automate. Of the eight ≥110w paragraphs cited across the three runs, STRUCT-005
+would have warned on all eight at compose time; STRUCT-001 saw none of them.
+
+Record count 6 ≥ RECUR_THRESHOLD(3), cross-essay 3/3, mechanically checkable with zero
 hard-fail risk (`gate_structure` is warn-only by design) → `recommended-apply`.
 
 ## Proposed change (exact diff)
@@ -136,4 +148,6 @@ sync (one cell):
   STRUCT-005 since warns don't affect `gate_pass`); `figure-orphan` fixture must still fail
   on `FIGUSE-001` only.
 - Success criterion for the next run: zero pass-5 `medium` wall findings; walls surface as
-  STRUCT-005 warns at compose time instead of costing an editorial round.
+  STRUCT-005 warns at compose time instead of costing an editorial round. Run 3 makes this
+  concrete: a STRUCT-005 warn on the 166w §4 draft paragraph (and on the round-2 131w / 135w
+  residuals) would have moved that arithmetic out of the editorial loop entirely.
