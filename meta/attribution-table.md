@@ -37,47 +37,63 @@ to re-exposing `voice-profile.md` in Phase 3.
 `pipeline-retro` keeps a running count per class here so a human can see system health at a
 glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit the counts.
 
-| pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
-|---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` † | 0 | 0 | 4 | 0 | 0 | 0 |
-| `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
-| `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
-| `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
-| `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
-| `redundancy-bloat` | 0 | 5 | 0 | 0 | 0 | 0 |
-| `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
-| `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `legal-posture-language-slip` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
-| `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| pattern_tag | total records | essays | worst severity | proposal status | patches applied |
+|---|---|---|---|---|---|
+| `mobile-paragraph-wall` † | 8 | 3 | high | recommended-apply (`gate-structure-word-wall`) | 0 |
+| `redundancy-bloat` | 7 | 3 | low | none — HELD at watch (heterogeneous) | 0 |
+| `figure-token-regex-blindspot` † | 3 | 3 | warn (fired×3 in run 3) | recommended-apply (`figure-token-panel-suffix`) | 0 |
+| `external-fact-universalization` † (+`uncited-external-claim`) | 3 (+2) | 3 | high | recommended-apply (`external-fact-scope-discipline`) | 0 |
+| `banned-pattern-recurring` | 3 | 2 | low | none — HELD at watch (heterogeneous) | 0 |
+| `fence-canon-verification-gap` † | 3 | 2 | medium | recommended-apply (`emoji-host-fence-decidable`) | 0 |
+| `revision-induced-band-break` † | 3 | 3 | low | watch (`paragraph-length-joint-spec`, HELD) | 0 |
+| `claim-scope-misattribution` † | 2 | 2 | high | watch (`claim-scope-lock-map`) | 0 |
+| `uncited-external-claim` † | 2 | 1 | high | rolled into `external-fact-scope-discipline` | 0 |
+| `correlation-causation-drift` | 2 | 1 | medium | none (dependency of `uncited-external-claim`) | 0 |
+| `paraphrase-hedge-compression` † | 2 | 2 | low | none (watch) | 0 |
+| `sources-entry-template-drift` † | 2 | 1 | medium | none (watch) | 0 |
+| `quote-notation-gap` † | 1 | 1 | low | none (watch) | 0 |
+| `source-pointer-style-drift` † | 1 | 1 | low | none (watch) | 0 |
+| `figure-panel-context-bleed` † | 1 | 1 | medium | none (watch) | 0 |
+| `legal-posture-language-slip` † | 1 | 1 | low | none (watch) | 0 |
+| `jargon-gloss-gap` † | 1 | 1 | medium | none (watch) | 0 |
+| `fact-introduced-beyond-spans` | 1 | 1 | low | none (watch) | 0 |
+| `quoted-title-emdash-policy-gap` † | 1 | 1 | low | none (watch) | 0 |
+| `loose-anchor-attribution` † | 1 | 1 | low | none (watch) | 0 |
+| `date-precision-rounding` † | 1 | 1 | low | none (watch) | 0 |
 
-Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
-recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
-all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
-the triggering finding ids and is the append-only audit reference).
+Counts derived from the ledger as of run `2026-06-20-us12430274b2-processor-on-nand-moat`
+(third recorded run). `total records` counts substantive findings (severity ≠ none); each
+class's proposal file under `meta/improvement-proposals/` lists the triggering finding ids and
+is the append-only audit reference. `patches applied` is **0 for every class** — the system is
+still propose-only; nothing has been applied by a human, so no CASCADE_CAP clock has started.
+Do not hand-edit the counts.
 
-Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
-grounding hard-gate breach both runs — most damaging class in the system),
-`mobile-paragraph-wall` (medium walls both runs, gate-invisible to sentence-counting
-STRUCT-001), `external-fact-universalization`, `fence-canon-verification-gap` (escalated
-low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
-`redundancy-bloat`, `revision-induced-band-break`, `paraphrase-hedge-compression`, and
-`figure-token-regex-blindspot` (latent; avoided by trap-3 convention both runs — counted as
-recurring mitigation cost, not failure).
+Cross-essay recurrence (present in 3/3 essays): `mobile-paragraph-wall` (now the strongest
+class — 8 records, reached **high** in run 3 via the §2 8-sentence paragraph, and shown
+**revision-induced** when the §4 re-ground created a 150w wall; gate-invisible to
+sentence-counting STRUCT-001), `redundancy-bloat`, `revision-induced-band-break` (now 3/3),
+and `figure-token-regex-blindspot` (run 3 **fired the failure** — three spurious FIGUSE-001
+from de-selection-prose mentions — a NEW variant beyond runs 1–2's lettered panels).
+Present in 2/3: `claim-scope-misattribution` (did NOT recur in run 3 — the run-3 §4 high was an
+*uncited external claim*, not a claim-scope misattribution; the two-independent-claims
+statement verified byte-accurate), `external-fact-universalization` (run 3 added the strongest
+sub-mechanism, the *unlogged* `uncited-external-claim` high), `fence-canon-verification-gap`
+(did NOT recur in run 3 — the single 🤔 sat on an earned open-question close; the proposed
+interrogative-host fix appears to hold pre-application), `banned-pattern-recurring`
+(heterogeneous: contrast-pair density run 1, semicolon-join density run 3),
+`paraphrase-hedge-compression`.
 
-RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
-`fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
-low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
-awareness, two intensifier tics — no single mechanical rule covers them and the class has
-never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
-`meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
-† = new finding class with no row in the main table above; adding the missing rows is itself
-a small reference-edit proposal per this table's header (human decision, still pending from
-run 1).
+RECUR_THRESHOLD=3 reached by record count, with proposals **recommended-apply**:
+`mobile-paragraph-wall`, `figure-token-regex-blindspot`, `external-fact-universalization`
+(via the rolled-in `uncited-external-claim`), and the pre-existing `fence-canon-verification-gap`.
+Reached 3 but deliberately **HELD at `watch`**: `redundancy-bloat` (7 records, all low,
+heterogeneous sub-mechanisms — no single mechanical rule covers them, never cost a loop
+iteration); `banned-pattern-recurring` (3 records, all low, heterogeneous — contrast-pair vs
+semicolon density, same posture as redundancy-bloat); `revision-induced-band-break` (3 records,
+all low, every instance an *accepted deliberate trade-off* that never gated a loop — diff on
+record in `paragraph-length-joint-spec`, the companion to the word-wall gate). 7 proposals on
+file as of 2026-06-20 (6 from 2026-06-11 + 1 new `2026-06-20-paragraph-length-joint-spec.md`);
+4 are `recommended-apply`, 3 are `watch`.
+† = new finding class with no row in the main routing table above; adding the missing rows
+(now ~20 classes) is itself a pending small reference-edit proposal per this table's header
+(human decision, carried from run 1).

@@ -1,19 +1,32 @@
 ---
 proposal_id: 2026-06-11-gate-structure-word-wall
 created: 2026-06-11T16:30:00Z
+updated: 2026-06-20T17:40:00Z
 status: recommended-apply
 lever: gate-promotion
 goal: "3"
 root_cause_stage: compose
 root_cause_artifact: _shared/scripts/gate_structure.py (STRUCT-001 counts sentences, not words) + essay-en-composer/references/section-blueprint.md (no word-length band)
-recurrence_count: 4
+recurrence_count: 8
 confidence: high
 triggering_findings:
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 2, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 2, pattern_tag: mobile-paragraph-wall
+  - essay_id: 2026-06-20-us12430274b2-processor-on-nand-moat, iter: 1, pattern_tag: mobile-paragraph-wall
+  - essay_id: 2026-06-20-us12430274b2-processor-on-nand-moat, iter: 1, pattern_tag: mobile-paragraph-wall
+  - essay_id: 2026-06-20-us12430274b2-processor-on-nand-moat, iter: 2, pattern_tag: mobile-paragraph-wall
+  - essay_id: 2026-06-20-us12430274b2-processor-on-nand-moat, iter: 3, pattern_tag: mobile-paragraph-wall
 ---
+
+> **2026-06-20 refresh (run `274-processor-on-nand-moat`).** Strongest class in the
+> ledger: now **8 records across 3/3 essays**, and run 3 escalated it to **high** for
+> the first time (the §2 P9 8-sentence/~130w paragraph, a Pass-2C absolute-rule hit that
+> co-fires the word-wall heuristic). Run 3 also showed the class is **revision-induced**:
+> fixing the round-1 Pass-3B high by re-grounding §4 landed 150 words in one paragraph
+> (round-2 sole medium), i.e. a revision *created* a new wall a compose-time STRUCT-005
+> word warn would also have caught. Already `recommended-apply`; this run only hardens it.
 
 ## Problem
 
@@ -30,9 +43,21 @@ sails through while rendering as >8 mobile lines.
   cost revision work.
 - Run 2, iter 2 (low): three retained 96w+ paragraphs needed explicit editorial
   adjudication (114w / 99w / 111w stands accepted with recorded reasons).
+- **Run 3, iter 1 (HIGH + medium):** §2 P9 ran to 8 sentences / ~130w (Pass-2C absolute
+  rule, the first **high** of this class — and 130w also trips the proposed ~110w word
+  heuristic); plus ~11 body paragraphs over the ~8-line mobile heuristic (Pass-5C medium),
+  the worst at ~179w and ~166w, all gate-invisible to STRUCT-001.
+- **Run 3, iter 2 (medium, revision-induced):** the round-1 Pass-3B fix (re-grounding §4 on
+  the two independent claims) landed 150 words in one paragraph — the round-2 sole medium and
+  the lone thing standing between the draft and PASS. A compose-time STRUCT-005 warn would
+  have flagged it at 150w > 110w, before it cost the round-2 review and the round-3 split.
+- **Run 3, iter 3 (resolved):** cleared by the round-2-prescribed split.
 
-Record count 4 ≥ RECUR_THRESHOLD(3), cross-essay 2/2, mechanically checkable with zero
-hard-fail risk (`gate_structure` is warn-only by design) → `recommended-apply`.
+Record count is now **8 ≥ RECUR_THRESHOLD(3)**, cross-essay **3/3**, severity now reaches
+**high**, mechanically checkable with zero hard-fail risk (`gate_structure` is warn-only by
+design) → `recommended-apply`. Run 3 adds two new arguments: the class can be **high**
+(so a compose-time warn has real value, not just polish), and it can be **revision-induced**
+(so the warn must run on every Compose pass, including revisions — which it does).
 
 ## Proposed change (exact diff)
 
@@ -113,8 +138,8 @@ sync (one cell):
 ## Why this lever
 
 - The defect is purely mechanical (word arithmetic) and the editor has now performed the
-  identical arithmetic by hand in four review rounds; that is exactly what gate promotion is
-  for. The run-1 editorial recommendation named this promotion verbatim.
+  identical arithmetic by hand in **seven** review rounds across three essays; that is exactly
+  what gate promotion is for. The run-1 editorial recommendation named this promotion verbatim.
 - Zero false-positive *blast radius*: `gate_structure` is warn-only by design, so STRUCT-005
   can never fail a round; it feeds pass-5 exactly where the manual arithmetic feeds today.
   Note: run 2's accepted final retains three adjudicated 96–114w paragraphs; STRUCT-005
@@ -122,9 +147,11 @@ sync (one cell):
   which already recorded those stands as accepted).
 - A companion `reference-edit` (a paragraph word band in `section-blueprint.md`, jointly
   specified with the deliverable-voice 3–7-sentence band) is deliberately NOT bundled here
-  (one lever per proposal); it is the natural follow-up if `revision-induced-band-break`
-  (currently 2 records, 2/2 essays) reaches the bar — splits that satisfy the mobile ceiling
-  by breaking the sentence band.
+  (one lever per proposal); it is the natural follow-up to `revision-induced-band-break`,
+  which **as of run 3 has reached 3 records / 3 essays** and now has its own proposal
+  (`2026-06-20-paragraph-length-joint-spec.md`, filed `watch`) — splits that satisfy the
+  mobile ceiling by breaking the sentence band. The two are complementary: STRUCT-005 warns
+  on walls; the joint-spec keeps the fix for a wall from creating a band underrun.
 
 ## Regression expectation
 
@@ -134,6 +161,7 @@ sync (one cell):
   with **no STRUCT-005 finding** (its paragraphs are short — verify; if any fixture
   paragraph exceeds 110 words the fixture's `must_not_contain_check_ids` should not list
   STRUCT-005 since warns don't affect `gate_pass`); `figure-orphan` fixture must still fail
-  on `FIGUSE-001` only.
+  on `FIGUSE-001` only. **Confirmed green at the pre-application baseline 2026-06-20**
+  (`REGRESSION: PASS`, 32/32 gate tests, both fixtures ok).
 - Success criterion for the next run: zero pass-5 `medium` wall findings; walls surface as
   STRUCT-005 warns at compose time instead of costing an editorial round.
