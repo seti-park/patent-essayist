@@ -162,11 +162,12 @@ Three backends, one contract:
 
 ## How to generate a header — `header.py` (CLI)
 
-The composer assembles the full-bleed illustration + dot grid + feathered scrim
-panel + eyebrow chip + dominant title block + clear sans subtitle (thesis) into
-the 5:2 PNG, and **asserts the output is exactly 5:2** before returning the path.
-The text block is top-anchored and headline-first; no brand tag is drawn unless
-`series=` is passed.
+The composer assembles the full-bleed illustration + feathered scrim panel +
+eyebrow chip + dominant title block + clear sans subtitle (thesis) into the 5:2
+PNG, and **asserts the output is exactly 5:2** before returning the path. The
+text block is top-anchored and headline-first; no brand tag is drawn unless
+`series=` is passed, and the faint dot grid is **off by default** (it reads as
+noise over the soft field) — opt in with `grid_overlay=True` / `--grid`.
 
 ```python
 from tools.headerkit.header import build_header

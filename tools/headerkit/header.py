@@ -72,7 +72,7 @@ def build_header(
     keywords=None,
     out: str,
     size=(W, H),
-    grid_overlay: bool = True,
+    grid_overlay: bool = False,
 ) -> str:
     """Compose a 5:2 bright/soft essay header and save it to ``out``.
 
@@ -104,7 +104,7 @@ def build_header(
     illo = svg_to_image(svg, zone_w, height)
     paste_illustration(img, illo, box=(width - zone_w, 0, width, height))
 
-    # --- faint engineering dot grid (soft texture) ---
+    # --- optional faint dot grid (off by default; reads as noise over the soft field) ---
     if grid_overlay:
         dot_grid(d, theme, grid)
 
@@ -142,7 +142,7 @@ def main(argv=None):
                     choices=["procedural", "llm", "image-api"])
     ap.add_argument("--keywords", default="",
                     help="comma-separated concept anchors (else auto from title+thesis)")
-    ap.add_argument("--no-grid", action="store_true", help="drop the dot-grid texture")
+    ap.add_argument("--grid", action="store_true", help="add the faint dot-grid texture (off by default)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
 
@@ -150,7 +150,7 @@ def main(argv=None):
     out = build_header(
         title=args.title, thesis=args.thesis, badge=args.badge, series=args.series,
         theme_name=args.theme_name, backend=args.backend, keywords=keywords,
-        out=args.out, grid_overlay=not args.no_grid,
+        out=args.out, grid_overlay=args.grid,
     )
     from PIL import Image
     print(out, Image.open(out).size)
