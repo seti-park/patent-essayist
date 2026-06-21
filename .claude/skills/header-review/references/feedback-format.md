@@ -140,7 +140,7 @@ findings:
 
   - pass: legibility
     finding: "no findings"
-    scoped_to: "ink (#2E3A46) over scrim panel reads cleanly; title wrapped to 2 lines at ~150px"
+    scoped_to: "ink (#1B232E) over scrim panel reads cleanly; title wrapped to 2 lines at ~180px"
 
   - pass: content-coherence
     location: illustration center glyph

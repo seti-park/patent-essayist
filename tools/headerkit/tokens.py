@@ -37,7 +37,7 @@ THEMES = {
         name="aurora",
         bg_top=(253, 246, 239),      # #FDF6EF soft peach-cream  (BRIGHT)
         bg_bottom=(238, 243, 248),   # #EEF3F8 soft sky          (SOFT)
-        ink="#2E3A46", ink_soft="#6B7682",
+        ink="#1B232E", ink_soft="#5A6573",
         accent="#F2A98C",            # soft coral
         accent2="#9FC2DD",           # soft sky
         accent3="#BfDcC8",           # soft mint
@@ -53,10 +53,12 @@ DEFAULT_THEME = "aurora"
 # ---------------------------------------------------------------------------
 FONT_DIR = "/usr/share/fonts/truetype/liberation"
 F_TITLE = f"{FONT_DIR}/LiberationSans-Bold.ttf"
+F_SANS = f"{FONT_DIR}/LiberationSans-Regular.ttf"   # clear subtitle (read at a glance)
 F_MONO = f"{FONT_DIR}/LiberationMono-Regular.ttf"
 F_MONO_B = f"{FONT_DIR}/LiberationMono-Bold.ttf"
-TITLE_MAX, TITLE_MIN = 188, 104    # autosize bounds
-EYEBROW, META = 46, 42             # mono sizes
+TITLE_MAX, TITLE_MIN = 208, 124    # autosize bounds (headline-dominant)
+EYEBROW, META = 46, 42             # mono sizes (eyebrow chip / small meta)
+SUBTITLE = 56                      # clear sans subtitle size
 
 
 # ---------------------------------------------------------------------------

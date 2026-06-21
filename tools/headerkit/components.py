@@ -9,8 +9,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 from .tokens import (
     W, H, Theme, Grid,
-    F_TITLE, F_MONO, F_MONO_B,
-    TITLE_MAX, TITLE_MIN, EYEBROW, META,
+    F_TITLE, F_SANS, F_MONO, F_MONO_B,
+    TITLE_MAX, TITLE_MIN, EYEBROW, META, SUBTITLE,
     hex_to_rgb,
 )
 
@@ -207,9 +207,24 @@ def title_block(d, text, theme, grid, *, top, max_lines=3) -> int:
 # meta line + series tag
 # ---------------------------------------------------------------------------
 def meta_line(d, xy, text, theme) -> None:
-    """Mono ink_soft secondary line (subtitle / one-line thesis)."""
+    """Mono ink_soft secondary line (small meta)."""
     font = _font(F_MONO, META)
     d.text(xy, text, font=font, fill=hex_to_rgb(theme.ink_soft))
+
+
+def subtitle_block(d, text, theme, grid, *, top, max_lines=2) -> int:
+    """Clear sans-serif subtitle/thesis under the title, in ink_soft, sized so the
+    key sentence reads at a glance. Wraps to grid.text_w. Returns bottom y."""
+    if not text:
+        return int(top)
+    font = _font(F_SANS, SUBTITLE)
+    fill = hex_to_rgb(theme.ink_soft)
+    line_h = int(_line_h(font) * 1.12)
+    y = int(top)
+    for line in wrap_to_width(d, text, font, grid.text_w)[:max_lines]:
+        d.text((grid.text_x, y), line, font=font, fill=fill)
+        y += line_h
+    return y
 
 
 def series_tag(d, xy, text, theme, *, default="SETI . PATENT ESSAYIST") -> None:

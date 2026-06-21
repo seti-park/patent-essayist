@@ -81,18 +81,21 @@ or size.
 |---|---|---|
 | `bg_top` | `#FDF6EF` soft peach-cream | gradient field top (bright) |
 | `bg_bottom` | `#EEF3F8` soft sky | gradient field bottom (soft) |
-| `ink` | `#2E3A46` soft navy | title ink (the only dark token) |
-| `ink_soft` | `#6B7682` | meta / subtitle ink |
+| `ink` | `#1B232E` near-black navy | title ink — high contrast for at-a-glance reading (the only dark token) |
+| `ink_soft` | `#5A6573` | subtitle / meta ink |
 | `accent` | `#F2A98C` soft coral | primary accent |
 | `accent2` | `#9FC2DD` soft sky | secondary accent |
 | `accent3` | `#BFDCC8` soft mint | tertiary accent |
 | `scrim` | `rgba(251,248,243,200)` | light panel behind text (legibility) |
 | `grid` | `#ECE6DC` | faint dot grid |
 
-**Type scale:** Liberation fonts (`/usr/share/fonts/truetype/liberation`);
-title autosizes `TITLE_MAX=188 → TITLE_MIN=104`, mono eyebrow/meta at 46/42.
-**Layout:** `Grid` — 130px margin, a 1500px left text column, and a scrim box
-behind it.
+**Type scale:** Liberation fonts (`/usr/share/fonts/truetype/liberation`); the
+headline is dominant — title autosizes `TITLE_MAX=208 → TITLE_MIN=124` (bold),
+the subtitle is a clear sans (`F_SANS`, `SUBTITLE=56`) so the key sentence reads
+at a glance, mono eyebrow chip at 46.
+**Layout:** `Grid` — 130px margin, a left text column, and a scrim box behind it.
+The header carries **no brand tag by default** (the author's handle carries the
+brand on X); pass `series=` / `--series` to opt the tag back in.
 
 ### Bright/soft, made testable
 
@@ -105,7 +108,7 @@ behind it.
 from tools.headerkit import THEMES, is_soft, brightness
 assert is_soft(THEMES["aurora"])
 brightness("#FDF6EF")   # ~246  (bright)
-brightness("#2E3A46")   # ~56   (the dark title ink)
+brightness("#1B232E")   # ~34   (the dark title ink — high contrast)
 ```
 
 Both the tests and the `header-review` skill assert this band, so a new theme
@@ -159,9 +162,11 @@ Three backends, one contract:
 
 ## How to generate a header — `header.py` (CLI)
 
-The composer assembles the full-bleed illustration + dot grid + scrim panel +
-eyebrow chip + title block + meta(thesis) + series tag into the 5:2 PNG, and
-**asserts the output is exactly 5:2** before returning the path.
+The composer assembles the full-bleed illustration + dot grid + feathered scrim
+panel + eyebrow chip + dominant title block + clear sans subtitle (thesis) into
+the 5:2 PNG, and **asserts the output is exactly 5:2** before returning the path.
+The text block is top-anchored and headline-first; no brand tag is drawn unless
+`series=` is passed.
 
 ```python
 from tools.headerkit.header import build_header
@@ -170,7 +175,7 @@ build_header(
     title="How Tesla Vision Vindicated the Rotational Crash Model",
     thesis="Vision-fusion cuts airbag-deploy latency below the accelerometer baseline",
     badge="US 11,123,456 B2 . GRANTED",
-    series="SETI . PATENT ESSAYIST",
+    # series="SETI . PATENT ESSAYIST",  # optional; off by default (no brand watermark)
     theme_name="aurora",
     backend="procedural",
     keywords=["vision", "fusion", "timeline", "airbag", "milliseconds"],

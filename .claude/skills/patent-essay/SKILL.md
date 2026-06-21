@@ -117,7 +117,8 @@ python -m tools.headerkit.header \
   --out runs/<essay-id>/header.png
 ```
 
-Backends: `procedural` (deterministic, default), `llm` (a bespoke per-essay SVG authored
+The header carries **no brand tag** — the X author handle carries the brand (pass
+`--series` only if a tag is wanted). Backends: `procedural` (deterministic, default), `llm` (a bespoke per-essay SVG authored
 from the thesis via the `LLM_SVG_PROVIDER` hook), `image-api` (credential-gated raster
 seam — needs `HEADERKIT_IMAGE_API_KEY`). Then **review** it: invoke `header-review` on
 `runs/<essay-id>/header.png` + the title/thesis. Passes 1 & 5 delegate to

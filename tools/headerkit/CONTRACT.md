@@ -234,4 +234,14 @@ Severity model: pass / revise-recommended / revise-required (match scoring-rubri
 - [x] Validation — rendered runs/sample-essay/header.png (3000x1200, 5:2), visual + gate + review pass
 - [x] Bug fixes during integration: gate_header repo-root depth (../../.. -> ../../../..)
       + test-file bypass exemption (regression-tested)
-- [ ] Commit + push
+- [x] Commit + push
+
+### Revision r2 — viral-X lessons (see docs/lessons/header-viral-lessons.md)
+
+Token/composition values below evolved from the original spec (signatures unchanged):
+- `ink` #2E3A46 -> **#1B232E** (near-black; high-contrast headline read at a glance);
+  `ink_soft` #6B7682 -> **#5A6573**.
+- Type: `TITLE_MAX,MIN` 188/104 -> **208/124** (headline-dominant); added **`F_SANS`**
+  + **`SUBTITLE=56`** and a `subtitle_block` component (clear sans subtitle, not mono).
+- Composition: text top-anchored, headline-first; **brand/series tag OFF by default**
+  (`build_header(series="")`), opt back in via `series=` / `--series`.

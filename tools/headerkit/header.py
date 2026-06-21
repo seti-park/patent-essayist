@@ -23,14 +23,12 @@ from __future__ import annotations
 import argparse
 import re
 
-from PIL import ImageFont
-
 from .tokens import (
-    W, H, THEMES, DEFAULT_THEME, Grid, F_MONO, META,
+    W, H, THEMES, DEFAULT_THEME, Grid,
 )
 from .components import (
     canvas, dot_grid, scrim_panel,
-    eyebrow_chip, title_block, meta_line, series_tag, wrap_to_width,
+    eyebrow_chip, title_block, subtitle_block, series_tag,
 )
 from .render import svg_to_image, paste_illustration
 from .illustration import IllustrationSpec, generate_illustration_svg, VIEW_W, VIEW_H
@@ -68,7 +66,7 @@ def build_header(
     title: str,
     thesis: str = "",
     badge: str = "",
-    series: str = DEFAULT_SERIES,
+    series: str = "",
     theme_name: str = "aurora",
     backend: str = "procedural",
     keywords=None,
@@ -113,26 +111,17 @@ def build_header(
     # --- soft feathered scrim wash (melts into the art; softens the seam) ---
     scrim_panel(img, theme, grid.scrim_box, feather=scrim_feather)
 
-    # --- text stack ---
-    # Bottom block (series tag + one-line thesis) is anchored from the bottom up,
-    # so a tall title can never collide with it.
-    line_step = int(META * 1.35)
-    y_series = height - grid.margin - 44
-    mono = ImageFont.truetype(F_MONO, META)
-    thesis_lines = wrap_to_width(d, thesis, mono, grid.text_w)[:2] if thesis else []
-    thesis_top = y_series - 30 - len(thesis_lines) * line_step
-
-    # Top block: eyebrow chip + hook title (<=2 lines, the series convention).
-    y = grid.margin + 36
+    # --- text stack: top-anchored, headline-dominant, no brand watermark ---
+    # Viral X covers read at a glance: a big bold high-contrast headline up top,
+    # a clear subtitle under it, and NO brand tag on the image (the author's
+    # handle carries the brand). Series tag renders only when explicitly asked.
+    y = grid.margin + 40
     if badge:
-        y = eyebrow_chip(d, (grid.text_x, y), badge, theme) + 52
-    title_block(d, title, theme, grid, top=y, max_lines=2)
-
-    yy = thesis_top
-    for line in thesis_lines:
-        meta_line(d, (grid.text_x, yy), line, theme)
-        yy += line_step
-    series_tag(d, (grid.text_x, y_series), series, theme)
+        y = eyebrow_chip(d, (grid.text_x, y), badge, theme) + 56
+    y = title_block(d, title, theme, grid, top=y, max_lines=2) + 30
+    subtitle_block(d, thesis, theme, grid, top=y, max_lines=2)
+    if series:
+        series_tag(d, (grid.text_x, height - grid.margin - 44), series, theme)
 
     ratio = width / height
     if abs(ratio - 2.5) > 1e-6:
@@ -146,7 +135,8 @@ def main(argv=None):
     ap.add_argument("--title", required=True, help="essay hook title (short)")
     ap.add_argument("--thesis", default="", help="one-line thesis / subtitle")
     ap.add_argument("--badge", default="", help="e.g. 'US 2026/0125022 A1 . PENDING'")
-    ap.add_argument("--series", default=DEFAULT_SERIES)
+    ap.add_argument("--series", default="",
+                    help="brand tag on the image (default off; the author handle carries the brand)")
     ap.add_argument("--theme", default=DEFAULT_THEME, dest="theme_name")
     ap.add_argument("--backend", default="procedural",
                     choices=["procedural", "llm", "image-api"])

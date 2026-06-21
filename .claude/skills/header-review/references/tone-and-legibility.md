@@ -50,14 +50,14 @@ RGBA **scrim panel** (`tokens.GRID.scrim_box`, `components.scrim_panel`) behind
 the text column exactly so dark text stays legible over the bright illustration.
 Check that this is working:
 
-- **Ink-vs-background contrast in the text column.** `ink` (#2E3A46,
+- **Ink-vs-background contrast in the text column.** `ink` (#1B232E,
   brightness ~56) over the scrim (light, ~248) is high contrast — good. If the
   illustration bled a dark form *under* the title and the scrim didn't fully
   cover it, contrast drops → `high` (title is the one thing that must read).
 - **Title not colliding with a busy region.** The title block lives in the left
   column (`GRID.text_x`, `text_w=1500`); the illustration zone is to its right.
   If a glyph crowds into the text column, flag `medium`.
-- **Autosize sanity.** `fit_title` shrinks `TITLE_MAX=188 → TITLE_MIN=104` and
+- **Autosize sanity.** `fit_title` shrinks `TITLE_MAX=208 → TITLE_MIN=124` and
   clamps to `max_lines`. A very long title clamped to the floor and still
   wrapping to a dense wall is hard to read → `medium`; a title truncated/clipped
   is `high`.
