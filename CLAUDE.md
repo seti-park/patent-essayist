@@ -40,7 +40,9 @@ Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and
 ```
 
 Individual phases can be run standalone: `/thesis-architect`, `/essay-en-composer`,
-`/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an internal Phase-2 helper).
+`/editorial-review`, `/header-review`, `/pipeline-retro` (`/voice-canon-lookup` is an internal
+Phase-2 helper). The header is composed by the HeaderKit library
+(`python -m tools.headerkit.header …`) and reviewed by `/header-review`.
 
 ## Architecture
 
@@ -51,6 +53,7 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
   essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
   voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
   editorial-review/    P3 Edit    — 6-pass severity review (voice-fenced)
+  header-review/       P4 Header  — 5-pass design review of the essay header (gate-fenced)
   pipeline-retro/      meta-loop  — findings → ledger → propose-only improvement proposals
   _shared/
     references/        shared canon: deliverable-voice-rules · anti-ai-writing (vendored absorbed) ·
@@ -63,7 +66,13 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
                        anti-ai-writing.md, NOT run in the loop — see vendor/README.md
 handoff/          01-design 02-compose 03-edit       runtime stage artifacts (gitignored)
 handoff-template/ 01-design 02-compose 03-edit       full-schema templates the skills reference
-runs/    <essay-id>/  edit-log.md · gate-result.json · score-history.md   (per-run archive)
+runs/    <essay-id>/  edit-log.md · gate-result.json · score-history.md ·
+                      header.png · header-review.md                     (per-run archive)
+tools/
+  headerkit/          P4 Header DESIGN SYSTEM (one component library; see headerkit/README.md):
+                      tokens (aurora bright/soft 5:2 theme) · components · render · illustration
+                      engine (procedural/llm/image-api backends) · header.py composer + CLI.
+                      All header UI routes through here — no bypassing (gate_header enforces it).
 meta/
   findings-ledger.jsonl      append-only normalized findings (keyed by goal + owner artifact)
   attribution-table.md       finding-class → goal + owner stage/artifact + lever (retro's brain)
@@ -112,6 +121,14 @@ which references each phase loads:
 list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan selected figure —
 goal 2). Run `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
 `python meta/regression.py` for tests + fixtures.
+
+The **header design system** has its own standalone gate, `_shared/scripts/gate_header.py`
+(not part of `run_gates.py` — it inspects rendered headers + source, not essay drafts):
+`gate_header_ratio` (every `runs/**/header*.png` is exactly 5:2), `gate_header_bypass` (no
+raster primitive outside the headerkit draw modules), `gate_header_tokens` (header source
+imports palette from `tokens`, no raw hex). Suite: `python
+.claude/skills/_shared/scripts/test_gate_header.py`; headerkit unit tests: `python -m pytest
+tools/headerkit/tests/`.
 
 ## Customization
 

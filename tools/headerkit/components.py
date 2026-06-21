@@ -124,16 +124,39 @@ def dot_grid(d, theme, grid) -> None:
 # ---------------------------------------------------------------------------
 # scrim panel
 # ---------------------------------------------------------------------------
-def scrim_panel(canvas, theme, box) -> None:
-    """Composite the soft RGBA scrim rounded panel onto `canvas` so dark text
-    stays legible over a bright illustration."""
+def scrim_panel(canvas, theme, box, *, feather=0) -> None:
+    """Composite the soft RGBA scrim panel onto `canvas` so dark text stays
+    legible over a bright illustration.
+
+    feather == 0 : a rounded card (the standalone-panel default).
+    feather >  0 : a flush wash whose right edge fades to transparent over the
+                   last `feather` px, so the panel melts into the illustration
+                   instead of reading as a hard-edged card. Anchor the box flush
+                   to the canvas edges for a seamless soft wash."""
     x0, y0, x1, y1 = box
     w = max(int(x1 - x0), 1)
     h = max(int(y1 - y0), 1)
-    panel = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    pd = ImageDraw.Draw(panel)
-    radius = min(w, h) // 12 or 1
-    pd.rounded_rectangle((0, 0, w - 1, h - 1), radius=radius, fill=tuple(theme.scrim))
+    r, g, b = theme.scrim[0], theme.scrim[1], theme.scrim[2]
+    a = theme.scrim[3]
+    if feather and feather > 0:
+        panel = Image.new("RGBA", (w, h), (r, g, b, 255))
+        ramp = Image.new("L", (w, 1))
+        px = ramp.load()
+        f = min(int(feather), w)
+        solid = w - f
+        for x in range(w):
+            if x < solid:
+                px[x, 0] = a
+            else:
+                i = x - solid
+                px[x, 0] = int(a * (1 - i / max(f - 1, 1)))
+        panel.putalpha(ramp.resize((w, h)))
+    else:
+        panel = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        pd = ImageDraw.Draw(panel)
+        radius = min(w, h) // 12 or 1
+        pd.rounded_rectangle((0, 0, w - 1, h - 1), radius=radius,
+                             fill=(r, g, b, a))
     base = canvas.convert("RGBA")
     base.alpha_composite(panel, dest=(int(x0), int(y0)))
     canvas.paste(base.convert("RGB"))

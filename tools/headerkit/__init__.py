@@ -19,6 +19,10 @@ from .components import (
     wrap_to_width, fit_title,
 )
 from .render import svg_to_image, paste_illustration
+from .illustration import (
+    IllustrationSpec, generate_illustration_svg, render_illustration,
+)
+from .header import build_header
 
 __all__ = [
     # tokens
@@ -34,4 +38,8 @@ __all__ = [
     "wrap_to_width", "fit_title",
     # render
     "svg_to_image", "paste_illustration",
+    # illustration engine
+    "IllustrationSpec", "generate_illustration_svg", "render_illustration",
+    # composer
+    "build_header",
 ]

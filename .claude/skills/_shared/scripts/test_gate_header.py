@@ -184,6 +184,30 @@ class TestEndToEnd(_RepoFixture):
         self.assertEqual(rc_dirty, 1)
 
 
+class RegressionTests(unittest.TestCase):
+    """Guards for two integration bugs fixed during wiring."""
+
+    def test_default_repo_root_resolves_to_repo(self):
+        # _repo_root() must land on the real repo (containing tools/headerkit),
+        # not one level short at .claude/. Regression: ../../.. -> ../../../..
+        root = gate_header._repo_root({})
+        self.assertTrue(
+            os.path.isdir(os.path.join(root, "tools", "headerkit")),
+            "default repo_root %r does not contain tools/headerkit" % root,
+        )
+
+    def test_test_files_exempt_from_bypass(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        # A test file that uses raster primitives must NOT trip the bypass check.
+        _write(tmp.name, "tools/headerkit/tests/test_x.py",
+               "from PIL import Image, ImageDraw\n"
+               "img = Image.new('RGB', (5, 2))\nImageDraw.Draw(img)\n")
+        result = gate_header.check(None, {"repo_root": tmp.name})
+        self.assertTrue(result["passed"])
+        self.assertFalse(_has(result, "HEADER-BYPASS-001"))
+
+
 def _run():
     loader = unittest.TestLoader()
     suite = loader.loadTestsFromModule(sys.modules[__name__])

@@ -87,7 +87,15 @@ def _repo_root(context):
     if root:
         return os.path.abspath(root)
     here = os.path.dirname(os.path.abspath(__file__))
-    return os.path.abspath(os.path.join(here, "..", "..", ".."))
+    return os.path.abspath(os.path.join(here, "..", "..", "..", ".."))
+
+
+def _is_test_file(rel):
+    """Test files legitimately use raster primitives / hex for fixtures and
+    assertions; they are not production header sources, so they are exempt from
+    the bypass and token checks."""
+    parts = rel.replace("\\", "/").split("/")
+    return os.path.basename(rel).startswith("test_") or "tests" in parts
 
 
 def _iter_py_files(root):
@@ -184,7 +192,7 @@ def _check_bypass(root):
     findings = []
     seen_any = False
     for rel, ap in _iter_py_files(root):
-        if rel in DRAW_ALLOWLIST:
+        if rel in DRAW_ALLOWLIST or _is_test_file(rel):
             continue
         try:
             with open(ap, "r", encoding="utf-8") as fh:
@@ -232,7 +240,7 @@ def _check_tokens(root):
         # This gate file and the review/test files are not header sources.
         if rel.endswith(os.path.join("scripts", "gate_header.py")):
             continue
-        if rel.endswith("test_gate_header.py"):
+        if _is_test_file(rel):
             continue
         try:
             with open(ap, "r", encoding="utf-8") as fh:

@@ -228,8 +228,10 @@ Severity model: pass / revise-recommended / revise-required (match scoring-rubri
 - [x] Discard old header scripts + style doc
 - [x] Freeze contract
 - [x] Agent A — tokens + components + render + test_library (18/18 green)
-- [ ] Agent B — illustration engine + grammar + test_illustration
-- [ ] Agent C — header-review skill + gate_header + README
-- [ ] Integrator — header.py composer + pipeline wiring + reconcile
-- [ ] Validation — render real PNGs, visual + gate + review
+- [x] Agent B — illustration engine + grammar + test_illustration (19/19 green)
+- [x] Agent C — header-review skill + gate_header + README (gate tests green)
+- [x] Integrator — header.py composer + scrim feather + pipeline wiring (P4) + reconcile
+- [x] Validation — rendered runs/sample-essay/header.png (3000x1200, 5:2), visual + gate + review pass
+- [x] Bug fixes during integration: gate_header repo-root depth (../../.. -> ../../../..)
+      + test-file bypass exemption (regression-tested)
 - [ ] Commit + push

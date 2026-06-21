@@ -101,10 +101,36 @@ Stop on PASS, or at `max-iter`. On stop, promote the accepted draft to
 Each phase's heavy work runs in its own forked context; keep only the structured hand-off
 summaries in the main thread to stay within budget.
 
+## Phase 4 — Header  (library: `tools/headerkit`, review: `header-review`)
+
+Once the essay clears the loop, compose its **5:2 bright/soft header** (the X Articles
+cover) through the HeaderKit design system — never hand-draw a header. Pull the hook
+**title** + one-line **thesis** from `handoff/03-edit/essay-final.md` (or
+`publication.md`) and the patent number/status for the badge:
+
+```
+python -m tools.headerkit.header \
+  --title "<hook title>" --thesis "<one-line thesis>" \
+  --badge "US ... . GRANTED|PENDING" \
+  --keywords "<3-6 concept anchors from the essay>" \
+  --backend procedural \
+  --out runs/<essay-id>/header.png
+```
+
+Backends: `procedural` (deterministic, default), `llm` (a bespoke per-essay SVG authored
+from the thesis via the `LLM_SVG_PROVIDER` hook), `image-api` (credential-gated raster
+seam — needs `HEADERKIT_IMAGE_API_KEY`). Then **review** it: invoke `header-review` on
+`runs/<essay-id>/header.png` + the title/thesis. Passes 1 & 5 delegate to
+`_shared/scripts/gate_header.py` (5:2 + no-bypass + tokens, hard); passes 2-4 judge
+bright/soft tone, legibility, and whether the illustration + title imply the thesis. On
+`revise-required` / `revise-recommended`, re-run `build_header` with a different
+illustration spec (keywords/theme/title) — do not edit pixels by hand.
+
 ## Archive + meta-loop (after the inner loop)
 
 1. **Archive** the run to `runs/<essay-id>/`: copy `edit-log.md`, the final
-   `run_gates.py --json` output as `gate-result.json`, and write `score-history.md`.
+   `run_gates.py --json` output as `gate-result.json`, the **`header.png` + `header-review.md`**
+   from Phase 4, and write `score-history.md`.
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
    run's `edit-log.md` + `gate-result.json`. It normalizes findings into
    `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a
@@ -115,6 +141,8 @@ summaries in the main thread to stay within budget.
 ## Output
 
 - The **final essay** (`handoff/03-edit/essay-final.md`, clean prose).
+- The **header image** (`runs/<essay-id>/header.png`, 5:2 bright/soft cover) + its
+  `header-review.md` assessment.
 - A **SCORE HISTORY** table: iteration → `overall_assessment` → gate result (failing
   `check_id`s) → PASS/FAIL → one-line note.
 - One line on any new `pipeline-retro` proposal awaiting human review.
