@@ -31,7 +31,7 @@ from .components import (
     eyebrow_chip, title_block, subtitle_block, series_tag,
 )
 from .render import svg_to_image, paste_illustration
-from .illustration import IllustrationSpec, generate_illustration_svg, VIEW_W, VIEW_H
+from .illustration import IllustrationSpec, generate_illustration_svg
 
 DEFAULT_SERIES = "SETI . PATENT ESSAYIST"
 
@@ -71,28 +71,44 @@ def build_header(
     backend: str = "procedural",
     keywords=None,
     out: str,
-    size=(W, H),
+    scale: float = 2.0,
+    size=None,
     grid_overlay: bool = False,
 ) -> str:
     """Compose a 5:2 bright/soft essay header and save it to ``out``.
 
+    Rendered at ``scale``x the 3000x1200 reference (default 2x = 6000x2400) so
+    the text stays crisp when the image is zoomed; the illustration is vector
+    (SVG) and rasterizes sharp at any size. Pass ``size`` to override the pixel
+    dimensions directly (must be 5:2); otherwise size = (W, H) * scale.
+
     Layers (bottom -> top): base soft gradient, AI illustration in the right
-    zone (native 1500x1200, no distortion), a faint dot grid, a soft scrim panel
-    over the left text column, then the eyebrow chip, title, one-line thesis, and
-    series tag. Asserts the output is exactly 5:2. Returns ``out``.
+    half (vector, no distortion), optional dot grid (off by default), a feathered
+    soft scrim over the left text column, then the eyebrow chip, dominant title,
+    clear subtitle, and (only if requested) a series tag. Asserts the output is
+    exactly 5:2. Returns ``out``.
     """
     theme = THEMES.get(theme_name, THEMES[DEFAULT_THEME])
-    width, height = size
-    # Composition grid: text column kept narrow enough to sit over the solid part
-    # of the feathered scrim; scrim anchored flush to the left/top/bottom edges.
-    scrim_right = int(width * 0.60)
-    grid = Grid(margin=130, text_x=130, text_w=1320,
-                scrim_box=(0, 0, scrim_right, height))
-    scrim_feather = int(width * 0.11)
+    if size is not None:
+        width, height = size
+        scale = width / float(W)
+    else:
+        width, height = int(round(W * scale)), int(round(H * scale))
 
-    img, d = canvas(theme, size)
+    def s(v):
+        return int(round(v * scale))
 
-    # --- AI illustration: native aspect into the right zone (no stretching) ---
+    # Geometry scales with the canvas so the design is identical at any resolution.
+    # Text column sits over the solid part of the feathered scrim; scrim is flush
+    # to the left/top/bottom edges and fades out on the right into the art.
+    grid = Grid(margin=s(130), text_x=s(130), text_w=s(1320),
+                scrim_box=(0, 0, s(1800), height))
+    scrim_feather = s(330)
+
+    img, d = canvas(theme, (width, height))
+
+    # --- AI illustration: right half of the canvas (5:2 -> half-width is 1.25:1,
+    #     matching the 1500x1200 viewBox, so no distortion). Vector -> crisp. ---
     spec = IllustrationSpec(
         title=title,
         thesis=thesis,
@@ -100,7 +116,7 @@ def build_header(
         theme_name=theme_name,
     )
     svg = generate_illustration_svg(spec, backend=backend)
-    zone_w = min(VIEW_W, width)               # illustration zone width
+    zone_w = width // 2
     illo = svg_to_image(svg, zone_w, height)
     paste_illustration(img, illo, box=(width - zone_w, 0, width, height))
 
@@ -115,13 +131,13 @@ def build_header(
     # Viral X covers read at a glance: a big bold high-contrast headline up top,
     # a clear subtitle under it, and NO brand tag on the image (the author's
     # handle carries the brand). Series tag renders only when explicitly asked.
-    y = grid.margin + 40
+    y = grid.margin + s(40)
     if badge:
-        y = eyebrow_chip(d, (grid.text_x, y), badge, theme) + 56
-    y = title_block(d, title, theme, grid, top=y, max_lines=2) + 30
-    subtitle_block(d, thesis, theme, grid, top=y, max_lines=2)
+        y = eyebrow_chip(d, (grid.text_x, y), badge, theme, scale=scale) + s(56)
+    y = title_block(d, title, theme, grid, top=y, max_lines=2, scale=scale) + s(30)
+    subtitle_block(d, thesis, theme, grid, top=y, max_lines=2, scale=scale)
     if series:
-        series_tag(d, (grid.text_x, height - grid.margin - 44), series, theme)
+        series_tag(d, (grid.text_x, height - grid.margin - s(44)), series, theme, scale=scale)
 
     ratio = width / height
     if abs(ratio - 2.5) > 1e-6:
@@ -143,6 +159,9 @@ def main(argv=None):
     ap.add_argument("--keywords", default="",
                     help="comma-separated concept anchors (else auto from title+thesis)")
     ap.add_argument("--grid", action="store_true", help="add the faint dot-grid texture (off by default)")
+    ap.add_argument("--scale", type=float, default=2.0,
+                    help="render scale over the 3000x1200 reference (default 2.0 = 6000x2400; "
+                         "raise for crisper zoom)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args(argv)
 
@@ -150,7 +169,7 @@ def main(argv=None):
     out = build_header(
         title=args.title, thesis=args.thesis, badge=args.badge, series=args.series,
         theme_name=args.theme_name, backend=args.backend, keywords=keywords,
-        out=args.out, grid_overlay=args.grid,
+        out=args.out, scale=args.scale, grid_overlay=args.grid,
     )
     from PIL import Image
     print(out, Image.open(out).size)

@@ -39,7 +39,7 @@ After the integrator's `header.py` composes `runs/<essay-id>/header.png` at the 
 
 ## Five passes (locked order)
 
-1. **Format** — file present, 5:2 ratio, canonical 3000x1200. **Delegates to `gate_header_ratio`** (`HEADER-RATIO-001`). A non-5:2 or unopenable PNG is `revise-required`. See `references/format-and-bypass.md`.
+1. **Format** — file present, 5:2 ratio, high-resolution master (default 6000x2400, scalable). **Delegates to `gate_header_ratio`** (`HEADER-RATIO-001`). A non-5:2 or unopenable PNG is `revise-required`. See `references/format-and-bypass.md`.
 2. **Bright/soft tone** — the palette stays in the bright/soft band: every `bg_*`/`accent*` token brightness >= 150 and `ink` is the only dark token (the `is_soft(theme)` definition, CONTRACT.md section 1). Visually: airy, no hard black, no harsh edges, no photoreal. Read the rendered image for harsh contrast the token check can't see (e.g. an illustration form that landed too dark). See `references/tone-and-legibility.md`.
 3. **Legibility** — the title (theme `ink`) reads cleanly over the scrim panel and illustration. Sufficient ink-vs-background contrast in the text column; title not colliding with a busy illustration region; autosize didn't clamp the title into an unreadable wall. See `references/tone-and-legibility.md`.
 4. **Content coherence** — *does illustration + title together imply the thesis?* The north-star: "implicating the contents of the essay when combined with the title." Check that the illustration's conceptual glyphs/forms are abstracted from the essay's actual concepts (not generic decoration), and that title + image point at the same idea rather than two different ones. See `references/content-coherence.md`.
@@ -87,7 +87,7 @@ findings:
 
   - pass: format
     finding: "no findings"
-    scoped_to: "gate_header_ratio: 3000x1200, ratio 2.5 exact"
+    scoped_to: "gate_header_ratio: 6000x2400, ratio 2.5 exact"
 ```
 
 Feedback gets written to `runs/<essay-id>/header-review.md`. A human applies findings by re-running `build_header`.

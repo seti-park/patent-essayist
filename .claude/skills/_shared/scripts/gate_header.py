@@ -42,7 +42,7 @@ GATE_ID = "header"
 # Tunable constants
 # ---------------------------------------------------------------------------
 RATIO_EXPECTED = 5.0 / 2.0       # 2.5 exactly (CONTRACT.md section 1)
-RATIO_EPS = 1e-6                 # tiny epsilon; canonical render is integer 3000x1200
+RATIO_EPS = 1e-6                 # tiny epsilon; renders are integer 5:2 (e.g. 6000x2400)
 
 # Repo roots scanned for python source (relative to repo root).
 SCAN_DIRS = ("tools", os.path.join(".claude", "skills"))

@@ -69,7 +69,7 @@ findings:
 - Glyph crowding the text column; title clamped to floor into a dense wall (pass 3).
 - Illustration is generic decoration with no concept glyph; glyph weakly tied to
   a keyword (pass 4).
-- 5:2 but well below the canonical 3000x1200 raster (pass 1).
+- 5:2 but well below a high-res master, e.g. under ~3000px wide (pass 1).
 
 ### low (polish)
 
@@ -104,7 +104,7 @@ delegated passes, put the gate confirmation in `scoped_to`:
 ```yaml
 - pass: format
   finding: "no findings"
-  scoped_to: "gate_header_ratio PASS — runs/044/header.png is 3000x1200, ratio 2.5"
+  scoped_to: "gate_header_ratio PASS — runs/044/header.png is 6000x2400, ratio 2.5"
 
 - pass: bright-soft-tone
   finding: "no findings"
@@ -127,7 +127,7 @@ overall_assessment: revise-recommended
 findings:
   - pass: format
     finding: "no findings"
-    scoped_to: "gate_header_ratio PASS — 3000x1200, ratio 2.5"
+    scoped_to: "gate_header_ratio PASS — 6000x2400, ratio 2.5"
 
   - pass: bright-soft-tone
     location: illustration right third

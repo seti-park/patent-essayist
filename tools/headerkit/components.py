@@ -165,13 +165,14 @@ def scrim_panel(canvas, theme, box, *, feather=0) -> None:
 # ---------------------------------------------------------------------------
 # eyebrow chip
 # ---------------------------------------------------------------------------
-def eyebrow_chip(d, xy, text, theme, *, fill=None) -> int:
+def eyebrow_chip(d, xy, text, theme, *, fill=None, scale=1.0) -> int:
     """Small rounded mono-caps chip (patent no. / status). Returns chip bottom y."""
     x, y = xy
-    font = _font(F_MONO_B, EYEBROW)
+    size = max(int(round(EYEBROW * scale)), 1)
+    font = _font(F_MONO_B, size)
     label = text.upper()
-    pad_x = EYEBROW // 2
-    pad_y = EYEBROW // 4
+    pad_x = size // 2
+    pad_y = size // 4
     tw = _text_w(d, label, font)
     th = _line_h(font)
     chip_fill = hex_to_rgb(fill) if fill is not None else hex_to_rgb(theme.accent)
@@ -187,12 +188,14 @@ def eyebrow_chip(d, xy, text, theme, *, fill=None) -> int:
 # ---------------------------------------------------------------------------
 # title block
 # ---------------------------------------------------------------------------
-def title_block(d, text, theme, grid, *, top, max_lines=3) -> int:
+def title_block(d, text, theme, grid, *, top, max_lines=3, scale=1.0) -> int:
     """Autosized (TITLE_MAX->TITLE_MIN), wrapped title in theme.ink.
     Draws at grid.text_x, wraps to grid.text_w. Returns bottom y."""
     font, lines = fit_title(
         d, text, grid.text_w,
-        max_lines=max_lines, start=TITLE_MAX, floor=TITLE_MIN,
+        max_lines=max_lines,
+        start=max(int(round(TITLE_MAX * scale)), 1),
+        floor=max(int(round(TITLE_MIN * scale)), 1),
     )
     ink = hex_to_rgb(theme.ink)
     line_h = int(_line_h(font) * 1.06)
@@ -212,12 +215,12 @@ def meta_line(d, xy, text, theme) -> None:
     d.text(xy, text, font=font, fill=hex_to_rgb(theme.ink_soft))
 
 
-def subtitle_block(d, text, theme, grid, *, top, max_lines=2) -> int:
+def subtitle_block(d, text, theme, grid, *, top, max_lines=2, scale=1.0) -> int:
     """Clear sans-serif subtitle/thesis under the title, in ink_soft, sized so the
     key sentence reads at a glance. Wraps to grid.text_w. Returns bottom y."""
     if not text:
         return int(top)
-    font = _font(F_SANS, SUBTITLE)
+    font = _font(F_SANS, max(int(round(SUBTITLE * scale)), 1))
     fill = hex_to_rgb(theme.ink_soft)
     line_h = int(_line_h(font) * 1.12)
     y = int(top)
@@ -227,9 +230,9 @@ def subtitle_block(d, text, theme, grid, *, top, max_lines=2) -> int:
     return y
 
 
-def series_tag(d, xy, text, theme, *, default="SETI . PATENT ESSAYIST") -> None:
+def series_tag(d, xy, text, theme, *, default="SETI . PATENT ESSAYIST", scale=1.0) -> None:
     """Letterspaced mono-caps series tag in ink_soft."""
     label = (text or default).upper()
     spaced = " ".join(list(label))
-    font = _font(F_MONO_B, META)
+    font = _font(F_MONO_B, max(int(round(META * scale)), 1))
     d.text(xy, spaced, font=font, fill=hex_to_rgb(theme.ink_soft))

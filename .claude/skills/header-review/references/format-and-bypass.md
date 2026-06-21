@@ -25,10 +25,10 @@ Delegates to **`gate_header_ratio`** (`check_id` `HEADER-RATIO-001` / note
 | `HEADER-RATIO-000` (note) | n/a (`pass`) | no header PNG present yet — record as `"no findings"` with the note in `scoped_to` |
 | no findings | `pass` | every header PNG is exactly 5:2 |
 
-Also confirm by inspection: the file is the canonical **3000x1200** raster (the
+Also confirm by inspection: the file is a high-resolution **5:2** master (default **6000x2400**, the
 contract's X-Articles cover size), not just any 5:2. A 5:2 image at a tiny size
 is technically in-ratio but below deliverable resolution — flag as `medium` if
-the dimensions are far below 3000x1200.
+the dimensions are far below a high-res master (e.g. under ~3000px wide).
 
 ## Pass 5 — No-bypass
 
@@ -58,7 +58,7 @@ rule). Put the gate's confirmation in `scoped_to`:
 ```yaml
 - pass: format
   finding: "no findings"
-  scoped_to: "gate_header_ratio PASS — runs/044/header.png is 3000x1200, ratio 2.5"
+  scoped_to: "gate_header_ratio PASS — runs/044/header.png is 6000x2400, ratio 2.5"
 
 - pass: no-bypass
   finding: "no findings"

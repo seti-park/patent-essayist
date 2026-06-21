@@ -7,7 +7,8 @@ module outside `tools/headerkit/` may draw a header primitive directly**
 (enforced by the `gate_header` lint gate).
 
 > **Deliverable:** a **5:2**, **bright + soft** header image (canonical
-> **3000 x 1200 PNG**, the X-Articles cover size) whose AI-generated illustration
+> high-resolution **5:2 PNG**, default **6000 x 2400** — an X-Articles cover
+> master that stays crisp when zoomed) whose AI-generated illustration
 > and title **together imply the essay's content**.
 
 The frozen interface for everything below is `tools/headerkit/CONTRACT.md`. This
@@ -236,7 +237,7 @@ visual sibling of `editorial-review`. It runs on a generated `header.png` plus
 the essay's title + thesis and emits structured YAML findings (NOT auto-fix).
 Five passes:
 
-1. **Format** — 5:2 + 3000x1200 + present (delegates to `gate_header_ratio`).
+1. **Format** — 5:2 + high-res master (default 6000x2400) + present (delegates to `gate_header_ratio`).
 2. **Bright/soft tone** — palette in the soft band (`is_soft`), no harsh contrast.
 3. **Legibility** — title reads cleanly over the scrim / illustration.
 4. **Content coherence** — do illustration + title together imply the thesis?
