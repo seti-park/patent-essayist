@@ -196,6 +196,25 @@ python -m tools.headerkit.header \
     --out runs/044-tesla-rcm/header.png
 ```
 
+### Art layer: generated SVG *or* a supplied raster
+
+The art zone (right half) can come from two sources:
+
+- the **generated illustration** (`backend=procedural|llm|image-api`) — on-brand,
+  reproducible, vector-crisp; or
+- a **supplied / AI-generated raster** via `image=<path>` / `--image <path>` — a
+  richer, concrete picture cover-fit into the zone. The header still lays the
+  crisp, scalable title + badge over the clean left column, so the picture's
+  legibility and the brand-free framing are preserved.
+
+```
+python -m tools.headerkit.header --title "…" --thesis "…" --badge "…" \
+    --image input/figures/hbf-illustration.png --out runs/<id>/header.png
+```
+
+Supply a picture **without its own baked-in title text or logo** — the header
+provides those, and duplicate text/brand would clash.
+
 > `header.py` is owned by the integrator; if it is not present yet in your
 > checkout, compose directly from the public API (`canvas` → `paste_illustration`
 > → `scrim_panel` → `eyebrow_chip` → `title_block` → `meta_line` → `series_tag`),

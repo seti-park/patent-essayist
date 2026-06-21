@@ -46,6 +46,20 @@ class TestComposer(unittest.TestCase):
         with self.assertRaises(ValueError):
             self._render(size=(4000, 2000))   # 2:1, not 5:2
 
+    def test_supplied_image_used_as_art_layer(self):
+        # A supplied raster cover-fits into the art zone; output stays 5:2.
+        from PIL import Image
+        art = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+        art.close()
+        self.addCleanup(lambda: os.path.exists(art.name) and os.remove(art.name))
+        Image.new("RGB", (1200, 800), (240, 120, 90)).save(art.name)
+        im = self._render(image=art.name, scale=1.0)
+        self.assertEqual(im.size, (W, H))
+        self.assertAlmostEqual(im.size[0] / im.size[1], 2.5, places=6)
+        # the supplied art color should appear in the right (art) half
+        px = im.convert("RGB").getpixel((int(W * 0.85), int(H * 0.5)))
+        self.assertGreater(px[0], px[2])   # warm (R>B), i.e. the art, not the cool gradient
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

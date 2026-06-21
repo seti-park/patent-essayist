@@ -30,7 +30,7 @@ from .components import (
     canvas, dot_grid, scrim_panel,
     eyebrow_chip, title_block, subtitle_block, series_tag,
 )
-from .render import svg_to_image, paste_illustration
+from .render import svg_to_image, paste_illustration, load_cover
 from .illustration import IllustrationSpec, generate_illustration_svg
 
 DEFAULT_SERIES = "SETI . PATENT ESSAYIST"
@@ -70,6 +70,7 @@ def build_header(
     theme_name: str = "aurora",
     backend: str = "procedural",
     keywords=None,
+    image: str = None,
     out: str,
     scale: float = 2.0,
     size=None,
@@ -107,18 +108,25 @@ def build_header(
 
     img, d = canvas(theme, (width, height))
 
-    # --- AI illustration: right half of the canvas (5:2 -> half-width is 1.25:1,
-    #     matching the 1500x1200 viewBox, so no distortion). Vector -> crisp. ---
-    spec = IllustrationSpec(
-        title=title,
-        thesis=thesis,
-        keywords=list(keywords) if keywords else _auto_keywords(title, thesis),
-        theme_name=theme_name,
-    )
-    svg = generate_illustration_svg(spec, backend=backend)
+    # --- art layer in the right half of the canvas (5:2 -> half-width is
+    #     1.25:1, matching the 1500x1200 viewBox, so no distortion) ---
     zone_w = width // 2
-    illo = svg_to_image(svg, zone_w, height)
-    paste_illustration(img, illo, box=(width - zone_w, 0, width, height))
+    zone_box = (width - zone_w, 0, width, height)
+    if image:
+        # A supplied or AI-generated raster used as the illustration (richer than
+        # the procedural SVG). Cover-fit into the art zone; the header still lays
+        # crisp, scalable title/badge text over the clean left column.
+        illo = load_cover(image, (zone_w, height))
+    else:
+        spec = IllustrationSpec(
+            title=title,
+            thesis=thesis,
+            keywords=list(keywords) if keywords else _auto_keywords(title, thesis),
+            theme_name=theme_name,
+        )
+        svg = generate_illustration_svg(spec, backend=backend)
+        illo = svg_to_image(svg, zone_w, height)   # vector -> crisp at any size
+    paste_illustration(img, illo, box=zone_box)
 
     # --- optional faint dot grid (off by default; reads as noise over the soft field) ---
     if grid_overlay:
@@ -158,6 +166,9 @@ def main(argv=None):
                     choices=["procedural", "llm", "image-api"])
     ap.add_argument("--keywords", default="",
                     help="comma-separated concept anchors (else auto from title+thesis)")
+    ap.add_argument("--image", default=None,
+                    help="use a supplied/AI-generated raster as the art layer (cover-fit into "
+                         "the right zone) instead of the generated SVG illustration")
     ap.add_argument("--grid", action="store_true", help="add the faint dot-grid texture (off by default)")
     ap.add_argument("--scale", type=float, default=2.0,
                     help="render scale over the 3000x1200 reference (default 2.0 = 6000x2400; "
@@ -169,7 +180,7 @@ def main(argv=None):
     out = build_header(
         title=args.title, thesis=args.thesis, badge=args.badge, series=args.series,
         theme_name=args.theme_name, backend=args.backend, keywords=keywords,
-        out=args.out, scale=args.scale, grid_overlay=args.grid,
+        image=args.image, out=args.out, scale=args.scale, grid_overlay=args.grid,
     )
     from PIL import Image
     print(out, Image.open(out).size)

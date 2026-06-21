@@ -19,6 +19,19 @@ def svg_to_image(svg: str, width: int, height: int) -> Image.Image:
     return Image.open(io.BytesIO(png_bytes)).convert("RGBA")
 
 
+def load_cover(path: str, size) -> Image.Image:
+    """Load an image file and cover-fit it (scale to fill + center-crop, no
+    distortion) to ``size`` = (width, height). Used to place a supplied or
+    AI-generated raster illustration into the header's art zone."""
+    w, h = int(size[0]), int(size[1])
+    im = Image.open(path).convert("RGBA")
+    scale = max(w / im.width, h / im.height)
+    nw, nh = max(round(im.width * scale), w), max(round(im.height * scale), h)
+    im = im.resize((nw, nh), Image.LANCZOS)
+    left, top = (nw - w) // 2, (nh - h) // 2
+    return im.crop((left, top, left + w, top + h))
+
+
 def paste_illustration(canvas, illo: Image.Image, box=None) -> None:
     """Alpha-composite an illustration onto `canvas`.
 
