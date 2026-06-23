@@ -1,4 +1,4 @@
-# SanDisk Is Trying to Own the Packaging Grammar of High Bandwidth Flash, Unexamined
+# SanDisk Filed to Own the Packaging Grammar of High Bandwidth Flash
 
 ![Figure 36A: the high bandwidth flash package.](figures/fig-36A.png)
 
