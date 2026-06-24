@@ -1,50 +1,58 @@
-# Essay context — investor / technical-moat angle (US 12,560,948 B2)
+# Essay context — US 12,560,948 B2 (formal pipeline run)
 
-Framing brief for this deliverable. Records the audience reframe and the discipline applied, so
-the run is reproducible and the editorial choices are on the record.
+Framing brief for the patent-essay pipeline. Read by Phase 1 (audience reframe) and carried
+through Phase 2/3.
 
-## Audience and purpose
+## Audience and deliverable
 
-- **Audience:** technology investors performing diligence.
-- **Job to be done:** decide whether Agility Robotics has a real technical moat, using this
-  patent as evidence.
-- **Deliverable:** a single English analytical article, not the storytelling series essay.
+- **Audience:** technology investors performing diligence (analyst literacy: high on company
+  narrative, medium on patent-claim mechanics, low on prosecution detail).
+- **Question to answer:** does Agility Robotics have a real technical moat, with this patent as
+  the evidence? Land a clear verdict.
+- **Deliverable:** one English analytical article (X Articles long-form), not a storytelling
+  series essay.
 
-## Angle reframe (important)
+## Angle reframe
 
-The materials bundled with the patent (`Context.md`) were written for a different deliverable: a
-Korean, general-audience storytelling series ("patents as a growth diary"), Act 4, story-first,
-for readers who do not know Agility. That brief's hook and tone do not fit an investor moat
-assessment.
+The patent shipped with a Korean general-audience storytelling brief (Act 4 of a "patents as a
+growth diary" series). Keep that brief's verified facts; discard its storytelling angle in favor
+of the investor / moat question. Where they conflict, this brief controls.
 
-This deliverable keeps the bundled brief's verified **facts** (patent number, dates, claim
-language, technical core, the maturation-toward-safety observation) but discards its
-**storytelling angle** in favor of the investor / moat question the user actually asked. Where
-the two conflict, the user's request controls.
+## Posture and closing discipline (carries a prior lesson)
 
-## Discipline applied (from the repo's own lessons and proposals)
+- **Posture: measured.** Keep the full accuracy bar (claim-scope and external-fact discipline
+  below). Do not relax factual rigor.
+- **Investor firm-closing guard (REQUIRED).** A prior run on this patent passed the loop but
+  closed over-defensively: it led with a "qualified yes", gave the moat and its limits equal
+  weight ("limits are equally real"), and re-listed caveats already covered. For this run the
+  verdict must be proportionate to the evidence and land firmly:
+  - lead the verdict with the call, not the qualifier;
+  - state limits once, as boundaries that scope the moat, not as equal counterweights;
+  - keep an anti-hype guard so confidence does not tip into overclaim (no "single patent that
+    locks the market").
+  - The 6-pass rubric gates factual OVERREACH but not OVER-HEDGE, so this guard is a SETI-level
+    closing check, applied in Phase 3 in addition to the passes.
 
-- **Claim-scope lock-map** (`meta/improvement-proposals/2026-06-11-claim-scope-lock-map.md`): the
-  moat verdict rests only on what independent claim 1 *requires* (locked). Optional embodiments
-  in the description and dependent claims are labeled open; example point values are labeled
-  pinned. No description-preferred behavior is credited to claim 1.
-- **External-fact scope discipline**
-  (`meta/improvement-proposals/2026-06-11-external-fact-scope-discipline.md`): market facts are
-  scoped to their sources and never universalized.
-- **Investor-edition speculation framing**
-  (`docs/lessons/investor-edition-speculation-framing.md`): market and financing context is
-  fenced as "outside the filing" and sourced; the patent analysis is the spine. No forcing of an
-  unstated competitor angle.
+## Claim-scope discipline (locked / open / pinned)
 
-## Sourced external facts used
+The moat verdict rests only on what independent claim 1 requires (locked). Optional embodiments
+in the description and dependent claims are open; approximate point values are pinned (neither
+floor nor ceiling). Never credit the description's optional behavior to the independent claim.
 
-- SPAC merger (Churchill Capital Corp XI), about $2.5B valuation, Nasdaq ticker AGLT, close
-  expected around end of 2026, roughly $620M cash incl. a Foxconn-led portion. Source: GeekWire.
+## External-fact discipline
+
+Market and financing facts are external to the patent. Fence them as "outside the filing",
+source them (tiered), and never universalize beyond the source's literal scope.
+
+### Sourced external facts available for this run
+
+- SPAC merger with Churchill Capital Corp XI, about $2.5B valuation, Nasdaq ticker AGLT, close
+  expected around end of 2026, roughly $620M cash incl. a Foxconn-led portion. Source: GeekWire
+  (Tier 3).
 - Digit in paid commercial use at GXO (more than 100,000 totes), plus Schaeffler, Toyota Motor
-  Manufacturing Canada, Mercado Libre. Sources: GXO press release; Robotics & Automation News.
+  Manufacturing Canada, Mercado Libre. Sources: GXO press release (Tier 1); Robotics &
+  Automation News (Tier 4, milestone count).
 
-## Verification
+## Figures available
 
-All six deterministic gates pass with zero findings (see `gate-result.txt`). Citation anchors
-resolve against `invention-summary.md`; selected figures 1, 3, 6 are all used; Sources block uses
-the 5-label category enum with all-or-nothing subgrouping.
+FIG. 1-8 (FIG. 5 expands across a multi-panel kneel sequence). Pre-cleaned in input/figures/.

@@ -1,9 +1,18 @@
+---
+essay_id: agility-us12560948-moat
+patent_reference: US 12,560,948 B2
+spine_source: handoff/01-design/thesis-spine.md
+draft_version: 1
+mode_used: essay
+posture_used: measured
+audience: tech-investor (technical-moat diligence)
+---
 
 # Agility Robotics' Moat Is The Safe Stop, Not The Walk
 
 Agility Robotics is about to be a public company, and the story it sells to investors is that a
 two-legged robot can work in the same aisle as a person and be trusted there. The merger that
-takes it public values it at about $2.5 billion. That premise, not walking speed or
+takes it public values it at about $2.5 billion.[^f-spac] That premise, not walking speed or
 payload, is what the valuation rests on. So the question a diligence file should ask is narrow:
 when a humanoid has to stop because a person got too close, what does Agility own that a
 competitor does not? US 12,560,948 B2, granted in February 2026, is the cleanest answer the
@@ -117,12 +126,12 @@ than a cage. That is the same capability the company's market story now depends 
 The following context sits outside the filing and comes from public reporting, not the patent.
 Agility has agreed to go public through a merger with Churchill Capital Corp XI at a valuation of
 about $2.5 billion, expected to trade on Nasdaq as AGLT around the end of 2026 with roughly $620
-million in cash, part of it from a Foxconn-led group.
+million in cash, part of it from a Foxconn-led group.[^f-spac]
 
 Its Digit robot is already in paid commercial use, most visibly under a multi-year agreement with
-the logistics operator GXO, where Agility reports it has moved more than 100,000
-totes, with other customers including Schaeffler, Toyota Motor Manufacturing Canada, and
-Mercado Libre. None of that is inside the patent, and the patent does not prove any
+the logistics operator GXO,[^f-gxo] where Agility reports it has moved more than 100,000
+totes,[^f-totes] with other customers including Schaeffler, Toyota Motor Manufacturing Canada, and
+Mercado Libre.[^f-customers] None of that is inside the patent, and the patent does not prove any
 of it. What the patent does is show that the safety capability underneath the deployment story is
 something Agility is actively claiming as its own, at the moment it asks public investors to
 underwrite that story.
@@ -195,3 +204,12 @@ part Agility has moved to own.
 - GeekWire, "'Digit' maker Agility Robotics to go public in $2.5B deal," 2026, https://www.geekwire.com/2026/digit-maker-agility-robotics-to-go-public-in-2-5b-deal-heres-what-the-filings-say-about-its-finances/
 - Robotics & Automation News, "Agility Robotics' Digit humanoid passes 100,000-tote milestone in live GXO implementation," 2025, https://roboticsandautomationnews.com/2025/11/24/agility-robotics-digit-humanoid-passes-100000-tote-milestone-in-live-gxo-implementation/96877/
 
+# Footnotes
+
+[^f-spac]: Agility agreed to a SPAC merger with Churchill Capital Corp XI; about $2.5B valuation; Nasdaq ticker AGLT; close expected around end of 2026; roughly $620M cash including a Foxconn-led portion. GeekWire (2026).
+
+[^f-gxo]: GXO and Agility signed an industry-first, multi-year humanoid deployment agreement. GXO press release.
+
+[^f-totes]: Agility reports Digit moved more than 100,000 totes at a GXO facility (Flowery Branch, GA). Robotics & Automation News (2025).
+
+[^f-customers]: Named customers include Schaeffler, Toyota Motor Manufacturing Canada, Mercado Libre. GeekWire (2026).
