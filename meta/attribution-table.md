@@ -39,15 +39,15 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 0 | 6 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
+| `revision-induced-band-break` † | 0 | 1 | 2 | 0 | 0 | 0 |
+| `sources-entry-template-drift` † | 0 | 3 | 0 | 0 | 0 | 0 |
 | `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
-| `redundancy-bloat` | 0 | 5 | 0 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -56,28 +56,39 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `sources-bracketed-year-anchor-collision` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `design-anchor-unused` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
-recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
-all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
-the triggering finding ids and is the append-only audit reference).
+Counts derived from the ledger as of run `029-agility-torso-protrusion` (third recorded run;
+patent US 12,290,940 B1; PASS at iter 2, converged round-1 revise-recommended → round-2 pass).
+A class with a proposal on file shows its records under `proposed` (the proposal file under
+`meta/improvement-proposals/` lists the triggering finding ids and is the append-only audit
+reference).
 
-Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
-grounding hard-gate breach both runs — most damaging class in the system),
-`mobile-paragraph-wall` (medium walls both runs, gate-invisible to sentence-counting
-STRUCT-001), `external-fact-universalization`, `fence-canon-verification-gap` (escalated
-low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
-`redundancy-bloat`, `revision-induced-band-break`, `paraphrase-hedge-compression`, and
-`figure-token-regex-blindspot` (latent; avoided by trap-3 convention both runs — counted as
-recurring mitigation cost, not failure).
+Cross-essay recurrence: `mobile-paragraph-wall` now 3/3 essays (medium walls each time,
+gate-invisible to sentence-counting STRUCT-001) and `redundancy-bloat` 3/3 (all low,
+heterogeneous). Present in 2/2 of the first two essays: `claim-scope-misattribution` (HIGH +
+grounding hard-gate breach both runs — most damaging class in the system; did NOT recur in
+run 3, which had no high finding), `external-fact-universalization`, `fence-canon-verification-gap`
+(escalated low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
+`paraphrase-hedge-compression`, and `figure-token-regex-blindspot` (latent; avoided by trap-3
+convention — recurring mitigation cost, not failure). `revision-induced-band-break` reached
+**3/3 essays** in run 3 (crossed RECUR_THRESHOLD) and `sources-entry-template-drift` is now
+3 records / 2 essays.
 
 RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
-`fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
-low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
-awareness, two intensifier tics — no single mechanical rule covers them and the class has
-never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
-`meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
+`fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file, recommended-apply);
+`revision-induced-band-break` (NEW proposal `2026-06-24-paragraph-length-joint-band`,
+recommended-apply — the companion the STRUCT-005 proposal named-and-deferred until this class
+hit the bar); `sources-entry-template-drift` (HELD at `watch`: cross-essay but the prior retro
+already held it, this run's record is low/optional, sibling of `source-pointer-style-drift`);
+and `redundancy-bloat` (deliberately HELD at `watch`: six low-severity records, heterogeneous
+sub-mechanisms — anchor doubling, caption echo, layering awareness, intensifier tics, spine
+motif — no single mechanical rule covers them, never cost a loop iteration). New `watch` class
+with a ready diff: `sources-bracketed-year-anchor-collision` (proposal
+`2026-06-24-sources-bracketed-year-anchor-collision`, novel mechanical win, 1 occurrence). 7
+proposals on file (5 from 2026-06-11, 2 from 2026-06-24); see `meta/improvement-proposals/`. Do
+not hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).
