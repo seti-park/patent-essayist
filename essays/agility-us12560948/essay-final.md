@@ -22,8 +22,9 @@ switch [0011].
 The other classic answer is a cage. Put the robot behind a fence and segregation keeps people
 safe. But segregation "greatly reduce[s] the productive potential of dynamically stable robots"
 [0013], and for a humanoid that destroys the entire reason to buy one instead of a conveyor or a
-wheeled cart. A caged humanoid is an expensive way to do what cheaper machines already do. So
-the company is boxed in. Cut the power and it falls on someone. Cage it and it earns nothing.
+wheeled cart. A caged humanoid is an expensive way to do what cheaper machines already do.
+
+So the company is boxed in. Cut the power and it falls on someone. Cage it and it earns nothing.
 The patent steps into exactly that gap.
 
 ## What Claim 1 Locks
@@ -45,7 +46,9 @@ Read what that actually requires. Risk is measured over time and has to be risin
 second reading greater than the first. The robot first slows in a way it can reverse. Before it
 does anything more committal, it checks the space around itself, the clearance information [0027].
 Only then does it reconfigure, and the reconfiguration has to lower the robot's center-of-gravity
-[0028]. The protected idea is not the word "stop." It is the graduated move from a cheap,
+[0028].
+
+The protected idea is not the word "stop." It is the graduated move from a cheap,
 reversible slow-down to a surroundings-aware posture change that drops the robot low as the
 danger climbs. Fig. 3 is that logic drawn out, from "should I decelerate?" through "is it safe to
 reconfigure?" to a final safe operating stop, with hold-and-watch states at each rung.
@@ -87,9 +90,10 @@ filing describes. Drop the clearance check and the robot can reconfigure into a 
 behind it. Refuse to lower the center-of-gravity and just freeze standing, and a later fault
 still topples a tall mass from full height. Collapse the rising-risk escalation into one stop
 threshold and the robot either over-reacts and parks itself constantly, which is the productivity
-loss that made cages unattractive [0013], or it under-reacts. The filing even spells out why a
-reconfiguration can be the wrong call at a blind corner or against a running person, where there
-is no time and standing still is safer [0033]. The claim is not an arbitrary lock on one
+loss that made cages unattractive [0013], or it under-reacts.
+
+The filing even spells out why a reconfiguration can be the wrong call at a blind corner or
+against a running person, where there is no time and standing still is safer [0033]. The claim is not an arbitrary lock on one
 behavior. It tracks the physics, which means most ways around it produce a worse robot.
 
 Two features push the fence wider. The claim is written so "bipedal" can be read as "mobile,"
@@ -109,15 +113,15 @@ than a cage. That is the same capability the company's market story now depends 
 
 The following context sits outside the filing and comes from public reporting, not the patent.
 Agility has agreed to go public through a merger with Churchill Capital Corp XI at a valuation of
-about $2.5 billion, with the combined company expected to trade on Nasdaq as AGLT around the end
-of 2026 and roughly $620 million in cash going onto the balance sheet, part of it from a
-Foxconn-led group. Its Digit robot is already in paid commercial use, most visibly under a
-multi-year agreement with the logistics operator GXO, where Agility reports the robot has moved
-more than 100,000 totes, alongside named customers such as Schaeffler, Toyota Motor Manufacturing
-Canada, and Mercado Libre. None of that is inside the patent, and the patent does not prove any
-of it. What the patent does is show that the safety capability underneath the deployment story is
-something Agility is actively claiming as its own, on the record, at the moment it asks public
-investors to underwrite that story.
+about $2.5 billion, expected to trade on Nasdaq as AGLT around the end of 2026 with roughly $620
+million in cash, part of it from a Foxconn-led group.
+
+Its Digit robot is already in paid commercial use, most visibly under a multi-year agreement with
+the logistics operator GXO, where Agility reports it has moved more than 100,000 totes, with other
+customers including Schaeffler, Toyota Motor Manufacturing Canada, and Mercado Libre. None of that
+is inside the patent, and the patent does not prove any of it. What the patent does is show that
+the safety capability underneath the deployment story is something Agility is actively claiming as
+its own, at the moment it asks public investors to underwrite that story.
 
 ## What This Patent Does Not Do
 
@@ -132,7 +136,10 @@ The field is also crowded. The examiner allowed this filing over directly adjace
 including a 2021 framework for safe deployment of humanoid robots, a 2007 method for an emergent
 walking stop, and a 2016 falling-protection method using arm compliance. Clearing that art is a
 real positive signal about novelty of the specific combination. It is not evidence of a category
-lock, because many capable groups are filing next door. The patent has no forward citations yet,
+lock. The filing's own list of cited references runs to dozens of adjacent patents and
+applications, which is what a crowded field looks like.
+
+The patent has no forward citations yet,
 which is expected for something this new but means there is no market signal about how
 foundational it will prove. And the usual caveat holds with force here: a patent is not a product
 or a safety certification, owning the method is not proof that Digit executes it well, and an
@@ -151,13 +158,16 @@ gap between a granted method and a certified, shipping behavior.
 
 For an AGLT diligence file, the right weight is this. Treat US 12,560,948 B2 as strong evidence
 that Agility is focused on the correct thing and is competent at fencing it, rather than as a
-single dispositive lock on the humanoid market. Then watch three things over the next year: what
-the co-pending family and PCT application turn into, and in particular whether any device or
-system claims issue, since those would be easier to detect and enforce than today's method
-claims; whether later patents start citing this one; and whether the graduated safe-stop behavior
-shows up in the actual deployments and in any third-party safety certification. The walk gets the
-demos. The safe stop is what gets the robot into the building, and that is the part Agility has
-moved to own.
+single dispositive lock on the humanoid market.
+
+Then watch three things over the next year. The first is whether the co-pending family and PCT
+application yield any device or system claims, which would be easier to detect and enforce than
+today's method claims. The second is whether later patents start to cite this one. The third is
+whether the graduated safe-stop behavior shows up in real deployments and in third-party safety
+certification.
+
+The walk gets the demos. The safe stop is what gets the robot into the building, and that is the
+part Agility has moved to own.
 
 # Sources
 
