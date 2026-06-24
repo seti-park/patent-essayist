@@ -148,23 +148,24 @@ a technical and strategic one, not a legal opinion on claim validity or freedom 
 
 ## The Investor Read
 
-The verdict is a qualified yes. This is a genuine technical moat, narrow and well-aimed, over the
-one capability that converts a humanoid from a caged demo into a coworker a safety officer will
-approve. Its strength is that the claim sits on the physics of the problem, so the cheap ways
-around it tend to produce a more dangerous or less productive robot, and its reach into wheeled
-forms and into the language of industrial stop standards is deliberate fence-building. Its limits
-are equally real: one independent method claim, a contested field, no courtroom test, and the
-gap between a granted method and a certified, shipping behavior.
+The verdict is yes. This is a real technical moat over the one capability that turns a humanoid
+from a caged demo into a coworker a safety officer will approve, and that capability gates the
+revenue the valuation already assumes. It holds for a durable reason: the claim sits on the
+physics of the problem, so the cheap ways around it tend to produce a more dangerous or less
+productive robot, and its reach into wheeled forms and into the language of industrial stop
+standards is deliberate fence-building.
 
-For an AGLT diligence file, the right weight is this. Treat US 12,560,948 B2 as strong evidence
-that Agility is focused on the correct thing and is competent at fencing it, rather than as a
-single dispositive lock on the humanoid market.
+The boundaries are the ones set out above, and they scope the moat rather than cancel it. It is
+one independent method claim in a contested field, and a granted method is not yet a shipping,
+certified behavior. What it is not is a single patent that locks the whole humanoid market, and
+nobody should price it as one.
 
-Then watch three things over the next year. The first is whether the co-pending family and PCT
-application yield any device or system claims, which would be easier to detect and enforce than
-today's method claims. The second is whether later patents start to cite this one. The third is
-whether the graduated safe-stop behavior shows up in real deployments and in third-party safety
-certification.
+For an AGLT diligence file, treat US 12,560,948 B2 as strong evidence that Agility is focused on
+the revenue-gating problem and is competent at fencing it. Then watch three things over the next
+year. The first is whether the co-pending family and PCT application yield any device or system
+claims, which would be easier to detect and enforce than today's method claims. The second is
+whether later patents start to cite this one. The third is whether the graduated safe-stop
+behavior shows up in real deployments and in third-party safety certification.
 
 The walk gets the demos. The safe stop is what gets the robot into the building, and that is the
 part Agility has moved to own.

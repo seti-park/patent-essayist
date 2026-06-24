@@ -212,3 +212,54 @@ No pass-3 finding reached `high`/`critical` at any iteration (the pass-3 items w
 and `low`), and `gate_anchors` passed every round, so the grounding hard-gate (goal 1) was never
 breached. Goal-2 hard-gate clear: no `FIGUSE-001` orphan and no pass-3 coverage `high`
 (figures 1, 3, 6 all used; the invention-summary core mechanism is covered in the draft).
+
+---
+
+## Review 4 (SETI calibration, post-loop)
+
+```yaml
+review_id: agility-us12560948-editorial-review-4
+draft_source: essays/agility-us12560948/essay-final.md
+review_timestamp: 2026-06-24T02:00:00Z
+posture_applied: measured
+trigger: SETI catch (overrides skill output per SKILL.md "Output role")
+overall_assessment: pass
+
+findings:
+  - pass: pass-6-lead-conclusion-strength
+    location: §"The Investor Read"
+    severity: medium
+    severity_under_default_posture: medium
+    finding: |
+      Over-hedged conclusion. The verdict led with "qualified yes", gave the moat and its
+      limits equal weight ("Its limits are equally real"), and re-listed caveats already
+      covered in §"What This Patent Does Not Do", so the closing third read as defensive and
+      muddied the call an investor asked for. Not a factual error; a stance-calibration miss.
+      The measured 6-pass does not gate for under-claim / over-hedge (passes 1-6 check factual
+      OVERREACH, AI-tells, structure, and arc closure, not conclusion confidence), so this
+      surfaced as a SETI catch, which the skill says overrides skill output.
+    recommendation: |
+      Lead with a clear "yes"; frame the limits as scoping the moat, not cancelling it; state
+      them once (reference, do not re-list); keep the anti-hype guard ("not a single patent
+      that locks the market") so confidence does not tip into overclaim.
+```
+
+### Revision applied after Review 4
+
+- Verdict now opens "The verdict is yes." and ties the moat to the revenue the valuation
+  assumes (investor relevance up front).
+- Removed the false-equivalence "Its limits are equally real"; the limits become a "boundaries
+  scope it, they do not cancel it" paragraph that references §"What This Patent Does Not Do"
+  instead of re-listing it.
+- Kept claim-scope discipline intact: the affirmative is about the capability the claim covers,
+  not an overclaim of legal scope; the anti-hype line ("nobody should price it as one") stays.
+- Deterministic gates re-run: all six PASS, zero findings. No 8-sentence regression (new
+  paragraphs are 3 / 3 / 5 / 2 sentences).
+
+### Meta-loop candidate
+
+The rubric has an asymmetry worth noting for `pipeline-retro`: pass-3/pass-4 defend against
+factual and causal OVERREACH, but no pass defends against OVER-HEDGE (a conclusion too defensive
+for its evidence). For investor-edition essays this is a recurring risk. Candidate: a pass-6
+sub-check, "verdict confidence proportionate to evidence", or a posture note that investor
+editions default to a firmer closing posture.
