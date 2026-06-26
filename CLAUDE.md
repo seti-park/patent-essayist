@@ -50,7 +50,7 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
   thesis-architect/    P1 Design  — patent → thesis + 4-axis grounding + figure plan (voice-off)
   essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
   voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
-  editorial-review/    P3 Edit    — 6-pass severity review (voice-fenced)
+  editorial-review/    P3 Edit    — 7-pass severity review (voice-fenced; pass-7 adversarial reader)
   pipeline-retro/      meta-loop  — findings → ledger → propose-only improvement proposals
   _shared/
     references/        shared canon: deliverable-voice-rules · anti-ai-writing (vendored absorbed) ·
@@ -58,7 +58,7 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
                        (each ported skill also carries its own references/: voice-profile +
                         voice-canon live under voice-canon-lookup/; x-articles-format-en,
                         section-blueprint, mode-spec, etc. under essay-en-composer/)
-    scripts/           6 deterministic gate scripts (Python stdlib) + banned_terms.txt + tests
+    scripts/           10 deterministic gate scripts (Python stdlib) + banned_terms.txt + tests
     vendor/            blader/humanizer + harshaneel/ai-check — REFERENCE ONLY, absorbed into
                        anti-ai-writing.md, NOT run in the loop — see vendor/README.md
 handoff/          01-design 02-compose 03-edit       runtime stage artifacts (gitignored)
@@ -106,12 +106,17 @@ which references each phase loads:
 
 ## Deterministic gates
 
-`_shared/scripts/run_gates.py` runs six mechanical checks and returns pass/fail + `check_id`s:
+`_shared/scripts/run_gates.py` runs ten mechanical checks and returns pass/fail + `check_id`s:
 `gate_emdash`, `gate_anchors` (`[dddd]` 4-digit format + chain + figure refs), `gate_sources`
 (`# Sources` h1, 5-label enum, all-or-nothing subgrouping), `gate_banned` (anti-AI banned
 list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan selected figure —
-goal 2). Run `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
-`python meta/regression.py` for tests + fixtures.
+goal 2), plus four **run-045 self-check gates** — `gate_meta` (reader-instruction /
+essay-self-reference posturing; hard-fail), `gate_stub` (stub section vs siblings), `gate_cashtag`
+(bare ticker → `$`cashtag), `gate_dupe` (gross verbatim repetition; warn) — the mechanical half
+of the editorial blind-spots a human used to catch by hand in post-acceptance revision (see
+`meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`; judgment complement =
+editorial **pass-7** adversarial reader). Run `python .claude/skills/_shared/scripts/test_gates.py`
+for the suite, or `python meta/regression.py` for tests + fixtures.
 
 ## Customization
 

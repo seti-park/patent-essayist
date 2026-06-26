@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-human-revision-blindspots
 created: 2026-06-26T00:00:00Z
-status: watch
+status: partially-applied (run 045, user-authorized, regression-gated)
 lever: multi (reference-edit + rubric-tuning + new-capture-mechanism)
 goal: "3,4a,4b"
 root_cause_stage: edit + architecture
@@ -12,6 +12,27 @@ triggering_findings:
   - essay_id: 045-agility-638-last-mile-moat
     source: human-revision-delta (v2..v2.4, applied AFTER the inner loop returned overall_assessment == pass)
 ---
+
+## Applied (2026-06-26, user-authorized + regression-gated)
+
+Most of this was **implemented this session**, not left propose-only (SETI authorized direct
+application and `meta/regression.py` passes):
+
+- **4 new self-check gates** built, tested (47/47), wired into `run_gates.py`: `gate_meta`
+  (META-001 fail / META-002 warn), `gate_stub` (STUB-001), `gate_cashtag` (CASH-001), `gate_dupe`
+  (DUPE-001). They catch the run-045 hand-fixed flaws on flawed input and pass the v2.4 final.
+- **Prevention references**: `anti-ai-writing.md` (meta category + gate_meta mirror),
+  `section-blueprint.md` (BLUF / claim-headers / steelman beat / no-stub + `header` field),
+  `x-articles-format-en.md` (claim-first headers, "What X" deprecated; `$`cashtag),
+  `deliverable-voice-rules.md` (meta / BLUF / jargon-signpost / stub-dupe-cashtag).
+- **Registration**: `scoring-rubric.md` (Layer-1 table + goal matrix + pass-7 + richer `/goal`),
+  `attribution-table.md` (9 rows), `scripts/README.md`, `CLAUDE.md` (6→10 gates), and
+  `editorial-review` **pass-7 adversarial reader** (`references/pass-7-adversarial-reader.md`).
+
+**Still propose-only (not yet built):** the **revision-delta capture channel** (the
+self-sustaining mechanism below) — `handoff/03-edit/revision-notes.md` + a `pipeline-retro`
+second input; and the `steelman-absent` upstream wiring into `thesis-architect`'s
+`phase2-handoff-notes`.
 
 ## Headline: the meta-loop is blind to human post-acceptance editing
 

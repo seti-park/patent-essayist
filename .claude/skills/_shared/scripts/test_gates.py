@@ -21,6 +21,10 @@ import gate_sources
 import gate_banned
 import gate_structure
 import gate_figure_use
+import gate_meta
+import gate_stub
+import gate_cashtag
+import gate_dupe
 import run_gates
 
 
@@ -233,6 +237,99 @@ class TestStructure(unittest.TestCase):
         draft = "Intro line.\n- a\n- b\n- c\n- d\n"
         r = gate_structure.check(draft, {})
         self.assertTrue(_has(r, "STRUCT-003"))
+
+
+class TestMeta(unittest.TestCase):
+    def test_reader_instruction_fails(self):
+        r = gate_meta.check("Read it the way an examiner would. The rotor spins.\n", {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "META-001"))
+
+    def test_self_reference_fails(self):
+        r = gate_meta.check("Everything below is the proof; the rest of this essay shows it.\n", {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "META-001"))
+
+    def test_scope_disclaimer_passes(self):
+        # functional self-reference, NOT posturing -> must not fire
+        r = gate_meta.check("This essay does not adjudicate them. It only marks where to look.\n", {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "META-001"))
+
+    def test_meta_inside_quote_ignored(self):
+        r = gate_meta.check('A critic wrote "watch how the patent handles each" last year.\n', {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_soft_reader_address_warns(self):
+        r = gate_meta.check("You might think the broad claim is the strong move.\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "META-002"))
+
+
+class TestStub(unittest.TestCase):
+    def _doc(self, gamma_body):
+        return ("## Alpha\n" + ("word " * 120) + "\n\n"
+                "## Beta\n" + ("word " * 110) + "\n\n"
+                "## Gamma\n" + gamma_body + "\n\n"
+                "# Sources\n- x\n")
+
+    def test_stub_section_warns(self):
+        r = gate_stub.check(self._doc("a tiny stub."), {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "STUB-001"))
+
+    def test_balanced_sections_pass(self):
+        r = gate_stub.check(self._doc("word " * 100), {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "STUB-001"))
+
+    def test_sources_subgroups_not_counted(self):
+        draft = ("## Alpha\n" + ("word " * 80) + "\n\n"
+                 "## Beta\n" + ("word " * 80) + "\n\n"
+                 "## Gamma\n" + ("word " * 80) + "\n\n"
+                 "# Sources\n## Patents\n- a\n## Papers\n- b\n")
+        r = gate_stub.check(draft, {})
+        self.assertFalse(_has(r, "STUB-001"))
+
+
+class TestCashtag(unittest.TestCase):
+    def test_bare_ticker_warns(self):
+        r = gate_cashtag.check("The firm is trading as AGLT starting Monday.\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "CASH-001"))
+
+    def test_exchange_colon_warns(self):
+        r = gate_cashtag.check("It lists on NASDAQ: AGLT this quarter.\n", {})
+        self.assertTrue(_has(r, "CASH-001"))
+
+    def test_cashtag_form_passes(self):
+        r = gate_cashtag.check("The firm is trading as $AGLT starting Monday.\n", {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "CASH-001"))
+
+    def test_acronym_not_flagged(self):
+        r = gate_cashtag.check("The deal with GXO and USPTO filings, sold as one stack.\n", {})
+        self.assertFalse(_has(r, "CASH-001"))
+
+
+class TestDupe(unittest.TestCase):
+    def test_gross_repeat_warns(self):
+        draft = ("The defensible engine is filed elsewhere entirely. "
+                 "Months later, the defensible engine is filed elsewhere entirely.\n")
+        r = gate_dupe.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "DUPE-001"))
+
+    def test_no_repeat_passes(self):
+        r = gate_dupe.check("The rotor turns a shaft which then drives a centrifugal pump cleanly.\n", {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "DUPE-001"))
+
+    def test_quoted_repeat_ignored(self):
+        draft = ('It says "a deployment mechanism and deployable autonomous delivery robot" once; '
+                 'again "a deployment mechanism and deployable autonomous delivery robot" verbatim.\n')
+        r = gate_dupe.check(draft, {})
+        self.assertFalse(_has(r, "DUPE-001"))
 
 
 class TestRunGatesEndToEnd(unittest.TestCase):
