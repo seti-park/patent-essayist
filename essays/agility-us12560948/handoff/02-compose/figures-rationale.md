@@ -4,7 +4,7 @@ Composer's actual placement decisions (vs Phase-1 figure-rationale intent).
 
 | Figure | Placement | Render mode | Caption (as drafted) |
 |---|---|---|---|
-| FIG. 5 | Cover, directly under the title | image-plus-caption (header) | *FIG. 5A-5AD (frames 5A, 5K, 5T, 5AD): the robot lowers its center-of-gravity in stages ... one embodiment of the locked step.* |
+| FIG. 5 | Cover, directly under the title | image-plus-caption (header) | *FIG. 5A-5AD, the reconfiguration in the patent's four phases [0046]: 5A (start), then 5G, 5L, 5W, 5AD ... one embodiment of the locked step.* |
 | FIG. 1 | §"What The Body Forces", inline reference in first sentence | reference-only (no image block in draft) | establishing the body; referenced as "(Fig. 1)" |
 | FIG. 3 | §"What Claim 1 Locks", after the interpretation paragraph | caption-only-italic | *FIG. 3, [0033]: the escalation the claim locks, including the clearance check that gates the reconfiguration.* |
 | FIG. 6 | §"Locked, Open, And Pinned", end of section | caption-only-italic | *FIG. 6, [0047]: the kneel is one open embodiment of the locked instruction to lower the center-of-gravity, a compact pose that collapses predictably on a fault.* |

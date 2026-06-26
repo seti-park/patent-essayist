@@ -17,9 +17,9 @@ Per-figure purpose and intended reader effect.
 - **Caption anchor**: `[0033]` (why reconfiguration can be the wrong call when there is no time).
 
 ## FIG. 5 — the fold-down sequence (cover + motion)
-- **Purpose**: show the reconfiguration as motion: a curated start-to-kneel strip (frames 5A,
-  5K, 5T, 5AD cropped from the patent's own panels) of the robot lowering its center-of-gravity
-  in stages.
+- **Purpose**: show the reconfiguration as motion: a strip of 5A (standing start) plus the end of
+  each of the patent's four phases (5G, 5L, 5W, 5AD, per `[0046]`-`[0047]`), cropped from the
+  patent's own panels, of the robot lowering its center-of-gravity in stages.
 - **Intended effect**: the cover image and the most literal picture of the thesis (how the robot
   comes to rest). Carries visual weight while FIG. 3 stays the claim-logic centerpiece.
 - **Claim-scope caption guard**: framed as one embodiment of the locked step; claim 1 requires

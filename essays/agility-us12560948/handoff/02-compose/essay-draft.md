@@ -12,7 +12,7 @@ audience: tech-investor (technical-moat diligence)
 
 ![FIG. 5 reconfiguration sequence](figures/fig-05-sequence.png)
 
-*FIG. 5A-5AD (frames 5A, 5K, 5T, 5AD): the robot lowers its center-of-gravity in stages, from a near-standing crouch to a compact kneel. This is one embodiment of the locked step. Claim 1 requires lowering a center-of-gravity, not this exact choreography.*
+*FIG. 5A-5AD, the reconfiguration in the patent's four phases [0046]: 5A (standing start), then 5G, 5L, 5W, 5AD as the robot bends and tilts forward, balances deeper over its thighs, drops its knees to the ground, and brings its hands down to a compact kneel. One embodiment of the locked step. Claim 1 requires lowering a center-of-gravity, not this exact choreography.*
 
 Agility Robotics is about to be a public company, and the story it sells to investors is that a two-legged robot can work in the same aisle as a person and be trusted there. The merger that takes it public values it at about $2.5 billion.[^f-spac] That premise, not walking speed or payload, is what the valuation rests on. So the question a diligence file should ask is narrow: when a humanoid has to stop because a person got too close, what does Agility own that a competitor does not? US 12,560,948 B2, granted in February 2026, is the cleanest answer the company has put on the public record. It does not patent walking. It patents how the robot comes to rest.
 
