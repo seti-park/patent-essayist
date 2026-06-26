@@ -88,6 +88,19 @@ Mitigation 적용 후에도 남는 weakness 명시. 3 옵션:
 - "Residual risk: Acknowledged — Bosch's 10ms baseline assumes 2020-era accelerometer; modern (2025+) accelerometers may be faster. Essay §4 notes this and bounds the claim accordingly."
 - "Residual risk: Acceptance — thesis predicts Tesla will publish a continuation in 2026 H2 with explicit 70ms benchmark. Falsifiable."
 
+### D. Steelman beat — carry into Compose
+
+The strongest objection + its mitigation is not just a thesis-survival check; it is a **beat
+the essay must draft.** Carry it into `phase2-handoff-notes` as a concede-then-refine
+instruction so Compose allocates a section beat that states the objection at full strength,
+then refines — never leaving the strongest pro-subject counter for the reader to raise.
+
+Run 045 gap: the strongest counter — "isn't claiming the broad workflow the smart, strong
+move?" — was a Category-1/4 objection (the patent's breadth read as a strength, not a weakness)
+that survived to publication unrebutted, until hand-revision added "the workflow claim is a
+strong fence, and a fence is not an engine." Class `steelman-absent`; checked by editorial
+pass-4 / pass-7; allocated by `section-blueprint.md`'s steelman beat.
+
 ## Output schema (thesis-spine.md)
 
 ```markdown
@@ -98,6 +111,8 @@ Mitigation 적용 후에도 남는 weakness 명시. 3 옵션:
 **Mitigation**: <how the essay disarms it + where in the essay>
 
 **Residual risk**: none | Acknowledged: <what gets noted> | Acceptance: <falsifier event>
+
+**Steelman beat**: <the section that concedes the strongest counter at full strength, then refines — carried into phase2-handoff-notes>
 ```
 
 ## 실패 사례

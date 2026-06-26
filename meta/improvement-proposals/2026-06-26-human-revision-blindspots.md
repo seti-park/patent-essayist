@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-human-revision-blindspots
 created: 2026-06-26T00:00:00Z
-status: partially-applied (run 045, user-authorized, regression-gated)
+status: applied (run 045, user-authorized, regression-gated)
 lever: multi (reference-edit + rubric-tuning + new-capture-mechanism)
 goal: "3,4a,4b"
 root_cause_stage: edit + architecture
@@ -29,10 +29,13 @@ application and `meta/regression.py` passes):
   `attribution-table.md` (9 rows), `scripts/README.md`, `CLAUDE.md` (6→10 gates), and
   `editorial-review` **pass-7 adversarial reader** (`references/pass-7-adversarial-reader.md`).
 
-**Still propose-only (not yet built):** the **revision-delta capture channel** (the
-self-sustaining mechanism below) — `handoff/03-edit/revision-notes.md` + a `pipeline-retro`
-second input; and the `steelman-absent` upstream wiring into `thesis-architect`'s
-`phase2-handoff-notes`.
+**Now applied too (2026-06-26):** the **revision-delta capture channel** —
+`handoff-template/03-edit/revision-notes.md` (convention + run-045 worked example),
+`meta/normalize_revision_notes.py` (deterministic normalizer with `--selftest`),
+`pipeline-retro` second-input wiring, the ledger-schema `origin` field, and the ledger seeded
+with run 045's 9 `human-post-accept` deltas (53 → 62); and the `steelman-absent` upstream
+wiring into `thesis-architect/references/adversarial-defense.md` (§D steelman beat carried into
+`phase2-handoff-notes`).
 
 ## Headline: the meta-loop is blind to human post-acceptance editing
 

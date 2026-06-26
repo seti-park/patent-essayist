@@ -19,8 +19,8 @@ improves the *system* that makes essays — but only by proposing. It is the sec
 two-tier design (see `_shared/references/scoring-rubric.md` and `CLAUDE.md`).
 
 ```
-inner loop output (edit-log.md + gate-result.json)
-    → normalize findings → meta/findings-ledger.jsonl
+inner loop output (edit-log.md + gate-result.json) + post-accept revision-notes.md
+    → normalize findings (+ revision-delta channel) → meta/findings-ledger.jsonl
     → attribute root cause (meta/attribution-table.md)  → goal + owner stage/artifact
     → score recurrence (count by (pass, root_cause) class across the ledger)
     → on a strong signal: write meta/improvement-proposals/<id>.md (evidence + exact diff)
@@ -41,6 +41,13 @@ regression check (`meta/regression.py`). This is the primary anti-drift safeguar
    Normalize each finding (and each failing gate `check_id`) into a ledger record per
    `references/ledger-schema.md`. Append to `meta/findings-ledger.jsonl`. Empty-pass "no
    findings" entries are recorded too (they prove coverage and prevent false recurrence gaps).
+
+   Also read `handoff/03-edit/revision-notes.md` if present and normalize it with
+   `python meta/normalize_revision_notes.py --notes handoff/03-edit/revision-notes.md --essay-id <id> --append meta/findings-ledger.jsonl`.
+   This is the **revision-delta channel** (`source: human-revision`, `origin: human-post-accept`):
+   it captures the post-acceptance human edits the edit-log never sees — the editorial
+   blind-spots a human catches AFTER the loop returns pass. Keep `origin` distinct in recurrence
+   (a recurring `human-post-accept` class → extend coverage; an `inner-loop` class → tune a pass).
 
 2. **Attribute root cause** — map each finding class to the *stage + artifact that should have
    prevented it*, using `meta/attribution-table.md`. Tag each record with `goal`
@@ -95,7 +102,8 @@ max-iter). Or manually when asked to review pipeline health or propose improveme
 
 ## References
 
-- `references/ledger-schema.md` — the `findings-ledger.jsonl` record schema.
+- `references/ledger-schema.md` — the `findings-ledger.jsonl` record schema (incl. the `origin` / human-revision fields).
+- `meta/normalize_revision_notes.py` + `handoff-template/03-edit/revision-notes.md` — the revision-delta capture channel (post-accept human edits → ledger).
 - `references/proposal-format.md` — proposal file format + the 4 improvement levers + the
   canon-admission procedure.
 - `meta/attribution-table.md` — finding-class → goal + owner stage/artifact + lever map (the

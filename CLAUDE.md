@@ -101,7 +101,11 @@ which references each phase loads:
 - **Meta-loop (`pipeline-retro`, propose-only):** after each essay, normalizes findings into
   `meta/findings-ledger.jsonl`, attributes recurring root causes to the owning stage/artifact,
   and writes evidence-backed improvement proposals. It **never edits a skill** — a human
-  applies proposals after `meta/regression.py` passes.
+  applies proposals after `meta/regression.py` passes. It also normalizes the **revision-delta
+  channel** — `handoff/03-edit/revision-notes.md` (post-acceptance human edits) via
+  `meta/normalize_revision_notes.py`, tagged `origin: human-post-accept` — so the editorial
+  blind-spots a human catches AFTER the loop says pass feed the ledger too (the half the
+  gates/passes don't yet score, and the engine that keeps the self-check criteria growing).
 - **`/goal` (optional outer net):** auto-resume backstop if a run is interrupted.
 
 ## Deterministic gates
