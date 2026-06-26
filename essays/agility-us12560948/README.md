@@ -22,7 +22,7 @@ evidence-proportionate closing posture in Phase 1 and drafts it in from the star
 | Phase 2 Compose (`essay-en-composer`, voice-on) | `handoff/02-compose/`: essay-draft, publication, thesis-trace, figures-rationale |
 | Phase 3 Edit (`editorial-review`, voice-fenced) | `handoff/03-edit/`: edit-log (6-pass + firm-closing guard), essay-final, gate-result.json, score-history |
 | Run evidence (top level) | `edit-log.md`, `score-history.md`, `gate-result.json`, `essay-context.md` |
-| Figures | `figures/fig-01.png`, `fig-03.png`, `fig-06.png` |
+| Figures | `figures/fig-05-sequence.png` (cover strip) + `fig-01.png`, `fig-03.png`, `fig-06.png`; full kneel-sequence composites `fig-05AF/GO/PX/YAD.png` |
 
 ## Result
 

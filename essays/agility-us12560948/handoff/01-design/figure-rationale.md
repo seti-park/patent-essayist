@@ -16,6 +16,16 @@ Per-figure purpose and intended reader effect.
   gate that claim 1 locks, not a single stop threshold.
 - **Caption anchor**: `[0033]` (why reconfiguration can be the wrong call when there is no time).
 
+## FIG. 5 — the fold-down sequence (cover + motion)
+- **Purpose**: show the reconfiguration as motion: a curated start-to-kneel strip (frames 5A,
+  5K, 5T, 5AD cropped from the patent's own panels) of the robot lowering its center-of-gravity
+  in stages.
+- **Intended effect**: the cover image and the most literal picture of the thesis (how the robot
+  comes to rest). Carries visual weight while FIG. 3 stays the claim-logic centerpiece.
+- **Claim-scope caption guard**: framed as one embodiment of the locked step; claim 1 requires
+  lowering a center-of-gravity, not this exact choreography. The full-sequence composites
+  (fig-05AF / GO / PX / YAD) ship in figures/ for the complete run.
+
 ## FIG. 6 — the kneel end state (payoff)
 - **Purpose**: show the post-reconfiguration pose: compact kneel, knees and end effectors on the
   ground, center-of-gravity dropped.

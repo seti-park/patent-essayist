@@ -10,6 +10,10 @@ audience: tech-investor (technical-moat diligence)
 
 # Agility Robotics' Moat Is The Safe Stop, Not The Walk
 
+![FIG. 5 reconfiguration sequence](figures/fig-05-sequence.png)
+
+*FIG. 5A-5AD (frames 5A, 5K, 5T, 5AD): the robot lowers its center-of-gravity in stages, from a near-standing crouch to a compact kneel. This is one embodiment of the locked step. Claim 1 requires lowering a center-of-gravity, not this exact choreography.*
+
 Agility Robotics is about to be a public company, and the story it sells to investors is that a two-legged robot can work in the same aisle as a person and be trusted there. The merger that takes it public values it at about $2.5 billion.[^f-spac] That premise, not walking speed or payload, is what the valuation rests on. So the question a diligence file should ask is narrow: when a humanoid has to stop because a person got too close, what does Agility own that a competitor does not? US 12,560,948 B2, granted in February 2026, is the cleanest answer the company has put on the public record. It does not patent walking. It patents how the robot comes to rest.
 
 ## What The Body Forces
@@ -39,7 +43,7 @@ A moat is only as wide as what the independent claim requires, so it is worth se
 
 **Locked.** Claim 1 requires the timed, rising-risk sequence above: two hazard readings with the second higher than the first, a clearance check after decelerating, and a reconfiguration driven by both that hazard reading and the clearance, where the reconfiguration lowers the center-of-gravity. Take away any one of those and you are outside the claim.
 
-**Open.** Almost everything an onlooker would point to is in the dependent claims or the description, not in claim 1. The specific kneel in Fig. 6 is one example of lowering the center-of-gravity, not a requirement. So are crouching, sitting, the standing-to-non-standing move (claim 19), the knee bend and torso tilt, the safe operating stop with a trained-operator release [0031], the machine-learning hazard model that names YOLOv8 and Amazon Rekognition [0024], and placing a carried tote on the floor on the way down (claim 20). These widen the fence across many concrete behaviors, which is good drafting, but a competitor avoids them one at a time without touching the core.
+**Open.** Almost everything an onlooker would point to is in the dependent claims or the description, not in claim 1. The specific kneel in Fig. 6 is one example of lowering the center-of-gravity, not a requirement, and the patent walks that fold frame by frame across FIG. 5. So are crouching, sitting, the standing-to-non-standing move (claim 19), the knee bend and torso tilt, the safe operating stop with a trained-operator release [0031], the machine-learning hazard model that names YOLOv8 and Amazon Rekognition [0024], and placing a carried tote on the floor on the way down (claim 20). These widen the fence across many concrete behaviors, which is good drafting, but a competitor avoids them one at a time without touching the core.
 
 **Pinned.** A few numbers are example points, not guarantees. The fall-extent reduction "by at least 30%, by at least 50%" [0029] is pinned only as far as claim 13 commits it, and the decision loop rates such as 1 Hz or 10 Hz are illustrative. None of that should be read as a bound the independent claim states.
 
