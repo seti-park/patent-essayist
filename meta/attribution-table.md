@@ -31,6 +31,15 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `em-dash` | gate EMDASH-001 / pass-6 6E | 4b | compose | strip-pipeline.md | reference-edit |
 | `voice-canon-cadence-drift` | pass-1 1A | 4b | compose | voice-canon entry (weak/missing) | voice-canon-admission |
 | `voice-canon-structural-miss` | pass-1 1A | 4b | compose | voice-canon entry + section-blueprint | voice-canon-admission |
+| `meta-reader-instruction` | gate META-001 / pass-1 / pass-7 | 4b | canon | anti-ai-writing.md → gate_meta | gate-promotion (done run 045) |
+| `lead-thesis-deferral` | pass-6 6A / pass-7 / human-revision | 4a | design/compose | thesis-spine arc / section-blueprint lead block | reference-edit |
+| `nonclaim-section-header` | pass-6 / pass-7 / human-revision | 4a | compose | section-blueprint header / x-articles-format-en | reference-edit |
+| `jargon-overdepth` | pass-5 / pass-7 / human-revision | 3 | compose | deliverable-voice-rules.md | reference-edit |
+| `steelman-absent` | pass-4 / pass-7 / human-revision | 1 | design | thesis-spine adversarial-defense → phase2-handoff-notes | reference-edit |
+| `section-stub-imbalance` | gate STUB-001 / pass-5 / pass-7 | 4a | compose | section-blueprint word_target balance | reference-edit |
+| `thesis-restatement-redundancy` | pass-2 / pass-7 | 3 | compose | section-blueprint (sub-mechanism of redundancy-bloat) | rubric-tuning |
+| `revision-induced-duplication` | gate DUPE-001 / pass-2 | 4b | compose | essay-en-composer revision-mode re-scan | rubric-tuning |
+| `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 
@@ -39,17 +48,21 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 1 | 4 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
-| `redundancy-bloat` | 0 | 5 | 0 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `claim-vs-spec-citation-conflation` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figuse-selection-scope-overread` † | 0 | 0 | 1 | 0 | 0 | 0 |
+| `source-tier-hedge-posture` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `rule-of-three-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `legal-posture-language-slip` † | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -57,27 +70,40 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Counts derived from the ledger as of run `2026-06-11-us20260158546a1-both-and-steel` (second
-recorded run; cross-run recurrence is now measurable). A class with a proposal on file shows
-all its records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
-the triggering finding ids and is the append-only audit reference).
+Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
+run). A class with a proposal on file shows its triggering records under `proposed` (the
+proposal file under `meta/improvement-proposals/` lists the triggering finding ids and is the
+append-only audit reference).
 
-Cross-essay recurrence (present in 2/2 essays): `claim-scope-misattribution` (HIGH +
-grounding hard-gate breach both runs — most damaging class in the system),
-`mobile-paragraph-wall` (medium walls both runs, gate-invisible to sentence-counting
-STRUCT-001), `external-fact-universalization`, `fence-canon-verification-gap` (escalated
-low → medium; run-2 resolution field-tested the interrogative-🤔-host fix),
-`redundancy-bloat`, `revision-induced-band-break`, `paraphrase-hedge-compression`, and
-`figure-token-regex-blindspot` (latent; avoided by trap-3 convention both runs — counted as
-recurring mitigation cost, not failure).
+Cross-essay recurrence (present in 2+/3 essays): `claim-scope-misattribution` (HIGH +
+grounding hard-gate breach in runs 1–2 — most damaging class in the system; **did NOT recur in
+run 045**, whose grounding/claim pass was clean — the run-045 claim issue was a *citation
+notation* mislabel, a different class, see below), `mobile-paragraph-wall` (walls in runs 1–2,
+edge-of-band only in run 045), `external-fact-universalization`, `fence-canon-verification-gap`
+(escalated low → medium; run-2 resolution field-tested the interrogative-🤔-host fix, no
+recurrence in run 045), `redundancy-bloat` (now 3/3 — sanctioned-repetition-layering awareness
+again in run 045), `revision-induced-band-break`, `paraphrase-hedge-compression`, and
+`figure-token-regex-blindspot` (latent; avoided by convention all runs — recurring mitigation
+cost, not failure).
+
+New first-seen classes in run 045 (all `watch`/`proposed`, count 1): **`claim-vs-spec-citation-conflation`**
+(the iter-1 MEDIUM — three verbatim CLAIM quotes carried a `[0144]` *spec-paragraph* bracket;
+quote TEXT byte-exact, only the attribution LABEL wrong; distinct from `claim-scope-misattribution`,
+which is claim *semantics*, and from `quote-notation-gap`, which was a missing "(emphasis added)";
+resolved iter-2 by attributing claim quotes by claim in prose + correcting thesis-trace upstream),
+**`figuse-selection-scope-overread`** (proposal on file — `gate_figure_use` reads the whole
+selection file, so figures in the "Reviewed but NOT selected" section false-count as selected;
+one dropped-figure-from-prose away from a spurious goal-2 hard FAIL), `source-tier-hedge-posture`
+(a tier-4 source on a hedged non-load-bearing forward pointer — within bounds), and
+`rule-of-three-warn` (STRUCT-004 on a factual customer triad — warn-only, behaving as designed).
 
 RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
 `fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (deliberately HELD at `watch`: all five records
-low-severity, heterogeneous sub-mechanisms — anchor doubling, caption echo, layering
-awareness, two intensifier tics — no single mechanical rule covers them and the class has
-never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
-`meta/improvement-proposals/2026-06-11-*.md`. Do not hand-edit the counts.
+recommended-apply) and `redundancy-bloat` (now at 6, still deliberately HELD at `watch`:
+heterogeneous sub-mechanisms — anchor doubling, caption echo, sanctioned-layering awareness,
+intensifier tics — no single mechanical rule covers them and the class has never cost a loop
+iteration). 6 proposals on file as of 2026-06-24 (5 from `2026-06-11-*.md` + the new
+`2026-06-24-figuse-selection-scope.md`). Do not hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).

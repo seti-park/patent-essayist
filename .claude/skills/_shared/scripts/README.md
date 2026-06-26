@@ -2,7 +2,7 @@
 
 Deterministic, mechanical checks that a finished English essay draft must pass.
 Pure Python 3 standard library — **no pip installs**. Every gate is runnable
-standalone and importable; `run_gates.py` aggregates all six.
+standalone and importable; `run_gates.py` aggregates all ten.
 
 These gates are the **mechanical (hard pass/fail) layer** of the quality loop. They are
 aligned to the real editorial rules: em-dash / banned-list (anti-ai Pass 1), `[xxxx]` 4-digit
@@ -20,6 +20,10 @@ See `_shared/references/scoring-rubric.md` for how the two combine into PASS/FAI
 | `gate_banned.py`     | Banned-terms / AI-tell phrase gate |
 | `gate_structure.py`  | Structural heuristics (all warn-only) |
 | `gate_figure_use.py` | Figure-use gate — orphan selected figure (north-star goal 2) |
+| `gate_meta.py`       | Reader-instruction / essay-self-reference posturing (META-001 fail) |
+| `gate_stub.py`       | Section-balance — a section that is a stub vs its siblings (warn) |
+| `gate_cashtag.py`    | Venue ticker convention — bare ticker should be a `$`-cashtag (warn) |
+| `gate_dupe.py`       | Gross verbatim phrase repetition in body prose (warn) |
 | `banned_terms.txt`   | Mechanical mirror of the anti-ai banned subset (see its header) |
 | `run_gates.py`       | Aggregator + CLI |
 | `test_gates.py`      | `unittest` suite (inline fixtures) |
@@ -99,6 +103,11 @@ python gate_figure_use.py DRAFT.md [--figure-selection figure-selection.md]
 | FIGUSE-001   | fail | 2  | a **selected** figure is never referenced (orphan) |
 | FIGUSE-002   | warn | 2  | a referenced figure is not in figure-selection (off-plan) |
 | FIGUSE-000   | warn | 2  | no figure-selection provided; check skipped |
+| META-001     | fail | 4b | reader-instruction / essay-self-reference posturing |
+| META-002     | warn | 4b | softer reader-address worth a human look |
+| STUB-001     | warn | 4a | a body section is a stub vs its siblings (merge/expand) |
+| CASH-001     | warn | 4a | ticker in labeling context lacks the `$` cashtag prefix |
+| DUPE-001     | warn | 4b | a distinctive 5-word phrase repeats verbatim in prose |
 
 ## Tunable constants
 

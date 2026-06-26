@@ -20,9 +20,9 @@ have prevented it.
 |------|--------------------|----------------|---------------------------------|
 | **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans, 4-axis grounding, thesis-spine |
 | **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale, invention-summary Quotable spans |
-| **3. Easy for the reader to understand** | `gate_structure` (warn-only smells) | pass-5 reader-perspective | mode/posture audience calibration |
-| **4a. Well-structured** | `gate_structure` | pass-6 lead/conclusion + format | section-blueprint, x-articles-format-en, thesis arc |
-| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash` | pass-1 voice + anti-ai | voice-on drafting + anti-ai canon + strip-pipeline |
+| **3. Easy for the reader to understand** | `gate_structure`, `gate_stub`, `gate_meta` (warn-only smells) | pass-5 reader-perspective + **pass-7 adversarial reader** | mode/posture calibration, section-blueprint lead-altitude |
+| **4a. Well-structured** | `gate_structure`, `gate_stub`, `gate_cashtag` | pass-6 lead/conclusion + format (BLUF + header-as-claim) | section-blueprint, x-articles-format-en, thesis arc |
+| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash`, `gate_meta`, `gate_dupe` | pass-1 voice + anti-ai | voice-on drafting + anti-ai canon + strip-pipeline |
 
 When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
 artifact, so improvement proposals target the true root cause rather than the symptom.
@@ -42,6 +42,15 @@ the editorial passes and the revision actions.
 | `banned`     | `BANNED-001` | — | 4b |
 | `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
 | `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
+| `meta`       | `META-001` (reader-instruction / self-reference) | `META-002` | 4b, 3 |
+| `stub`       | (none — all warn) | `STUB-001` (section stub) | 4a, 3 |
+| `cashtag`    | (none — all warn) | `CASH-001` (bare ticker) | 4a |
+| `dupe`       | (none — all warn) | `DUPE-001` (verbatim repeat) | 4b, 3 |
+
+The last four are the **run-045 self-check gates** — the mechanical half of the editorial
+blind-spots a human used to catch by hand in post-acceptance revision (see
+`meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`). `gate_meta` hard-fails;
+the rest warn. Their judgment complement is **pass-7** (below).
 
 Invocation (orchestrator):
 
@@ -77,6 +86,26 @@ confirm each core-mechanism layer is addressed somewhere in the draft. A core-me
 or a spine-critical Quotable span left entirely uncovered is a `high` finding ("specification
 under-use"). This is the qualitative complement to the mechanical `gate_figure_use`: gates
 catch unused *figures*, the coverage sub-check catches unused *specification*.
+
+### Adversarial reader-pass (pass-7, goal 3/4a)
+
+A fresh-context pass that does NOT trust the draft (the judgment complement of the self-check
+gates). It simulates the target reader (the impatient investor) and a skeptical pro-subject
+reader, and hunts — decomposed yes/no with a quoted span per check, multi-vote for fuzzy items
+— for: BLUF lead-altitude (does para 1 state the verdict?), header-as-claim, an unrebutted
+strongest counter (steelman absent), reader-instruction / self-reference meta, jargon deep-dive
+past the insight, stub-section rhythm, and the core verdict restated in > 3 sections. See
+`editorial-review/references/pass-7-adversarial-reader.md`. Findings feed the severity model
+like any other pass.
+
+### Richer goal strings (`/goal` as quality driver)
+
+`/goal` can drive the loop to self-enforce more than "gates pass + assessment == pass": pass it
+the acceptance criteria as falsifiable, evidence-forced checks and the orchestrator self-audits
+each iteration. Example: `/goal the final passes all gates AND a fresh-eyes adversarial
+reader-pass returns no unresolved high findings (para-1 states the verdict; headers are claims;
+the strongest counter is rebutted; no reader-instruction meta; jargon as signposts; no stub
+section)`. As criteria get mechanized into gates, reliance on the judge shrinks.
 
 ## PASS / FAIL (orchestrator loop policy)
 

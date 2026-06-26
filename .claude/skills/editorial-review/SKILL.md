@@ -1,6 +1,6 @@
 ---
 name: editorial-review
-description: "Mandatory 6-pass review on every essay draft from Phase 2 Compose. Six passes (voice canon + anti-AI compliance, redundancy + compression, claim adequacy + fact verification + paraphrase mutation, logical alignment + causality, reader perspective + paragraph readability, lead/conclusion + format compliance). Structured YAML feedback — NOT auto-fix. Posture-aware (aggressive / measured / conservative). Use when essay-draft.md lands in Phase 3 Edit Project. NOT for: format-only verification (folded into Pass 6), pool admission (deprecated), auto-fix, voice training corpus admission."
+description: "Mandatory 7-pass review on every essay draft from Phase 2 Compose. Seven passes (voice canon + anti-AI compliance, redundancy + compression, claim adequacy + fact verification + paraphrase mutation, logical alignment + causality, reader perspective + paragraph readability, lead/conclusion + format compliance). Structured YAML feedback — NOT auto-fix. Posture-aware (aggressive / measured / conservative). Use when essay-draft.md lands in Phase 3 Edit Project. NOT for: format-only verification (folded into Pass 6), pool admission (deprecated), auto-fix, voice training corpus admission."
 ---
 
 # editorial-review
@@ -12,7 +12,7 @@ handoff/02-compose/essay-draft.md
     + handoff/01-design/{thesis-spine.md, invention-summary.md, fact-check-log.md}
     + patent.md (re-uploaded for Pass 3 verbatim checks)
     + Knowledge: deliverable-voice-rules.md, anti-ai-writing.md, x-article-format.md
-    → 6 passes
+    → 7 passes
     → handoff/03-edit/edit-log.md (structured YAML feedback)
     → SETI revises → handoff/03-edit/essay-final.md
 ```
@@ -37,7 +37,7 @@ Phase 3 Project does NOT load `voice-profile.md` (avoid voice drift bias from re
 
 After `essay-en-composer` produces `handoff/02-compose/essay-draft.md`. Mandatory on every essay. No skip option. Rationale: v1 historical leaks (paraphrase mutation in published draft) reached publication only because editorial-review was skipped.
 
-## Six passes (v2 locked order)
+## Seven passes (v2 locked order; pass-7 added run 045)
 
 1. **Voice canon + anti-AI compliance** — voice canon pattern adherence (cadence, structure inheritance) + banned-pattern grep (em-dash count = 0, "delve" / "navigate" / "leverage" etc.). See `references/pass-1-voice-anti-ai.md`.
 2. **Redundancy + compression** — claim repetition + sentence tightening + paragraph word-count earn check. See `references/pass-2-redundancy.md`.
@@ -45,6 +45,7 @@ After `essay-en-composer` produces `handoff/02-compose/essay-draft.md`. Mandator
 4. **Logical alignment + causality** — 인과 vs 상관 vs 우연 distinction, thesis-section 정렬 check against `thesis-spine.md` spine→section trace. See `references/pass-4-logic-causality.md`.
 5. **Reader perspective + paragraph readability** — engagement curve, stake clarity, mobile rendering line count. See `references/pass-5-reader-perspective.md`.
 6. **Lead/conclusion + format compliance** — hook anchor to thesis, frame closure, `# Sources` 5-category enum check, "First, et al." format, em-dash count, `[xxxx]` format check, banned-words grep (covers the deterministic-gate absorption). See `references/pass-6-lead-conclusion-format.md`.
+7. **Adversarial reader-pass (fresh-eyes, run 045+)** — a separate-context pass that does NOT trust the draft: read as the impatient investor and the skeptical pro-subject reader and hunt, decomposed yes/no with a quoted span per check, for BLUF lead-altitude, header-as-claim, an unrebutted strongest counter (steelman), reader-instruction/self-reference meta, jargon deep-dive, stub rhythm, and the core verdict restated in >3 sections. The judgment complement of `gate_meta`/`gate_stub`/`gate_cashtag`/`gate_dupe`. See `references/pass-7-adversarial-reader.md`.
 
 Causal claim quality is a recurring cross-pass concern (Pass 3 + Pass 5). See `references/causal-reasoning.md`.
 
@@ -111,6 +112,7 @@ Post:
 - `references/pass-4-logic-causality.md` — thesis-section 정렬 + 인과/상관/우연 distinction.
 - `references/pass-5-reader-perspective.md` — engagement curve, stake clarity, mobile rendering.
 - `references/pass-6-lead-conclusion-format.md` — hook/closure + mechanical compliance (em-dash, [xxxx] format, banned-words, Sources 5-category enum, "First, et al.").
+- `references/pass-7-adversarial-reader.md` — fresh-eyes adversarial reader-pass (BLUF / header-as-claim / steelman / meta / jargon-depth / stub / thesis-restatement); judgment complement of the run-045 self-check gates.
 - `references/posture-lens.md` — 3-tier posture + per-pass posture sensitivity table.
 - `references/external-fact-verification.md` — Pass 3 sub-pass detail, 5-tier source authority hierarchy.
 - `references/causal-reasoning.md` — causal claim quality checks (Pass 3 + Pass 5).

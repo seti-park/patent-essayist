@@ -10,11 +10,33 @@ For the locked single spine in `thesis-spine.md`:
 - Section ordering follows thesis arc, NOT patent document structure.
 - The spine→section trace in `thesis-spine.md` is the contract — every supporting point lands somewhere; no section advances claims outside the spine.
 
+## Lead altitude, section headers, and balance (analytical / diligence mode)
+
+For analytical or diligence essays (investor / technical-moat reads), three structural
+defaults — learned from run 045's hand-revision (see
+`meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`):
+
+- **Lead altitude (BLUF / 두괄식).** Paragraph 1 states the verdict as a declarative sentence,
+  NOT a deferred question. Claim-then-proof: the body substantiates a verdict already on the
+  table. (A narrative-magazine piece may defer; pick per mode.) *(checked: editorial pass-6
+  lead-altitude + pass-7; the "rest of this essay" framing is gated by `META-001`.)*
+- **Section headers are claims.** Each `##` header is an assertion, so a header-only skim
+  reconstructs the argument (run 045: *workflow-not-robot → disclaims-the-hard-parts →
+  territory-is-not-the-moat → moat-is-filed-elsewhere*). Avoid bare-label / "What X does"
+  headers. *(checked: editorial pass-6 / pass-7 header-as-claim.)*
+- **Steelman beat.** When `thesis-spine.md` adversarial defense names a strong pro-subject
+  counter, allocate a beat that concedes it at full strength, then refines (run 045: "the
+  workflow claim is a strong fence, and a fence is not an engine"). *(checked: pass-4 / pass-7.)*
+- **No stub sections.** Keep `word_target`s balanced; a section far shorter than its siblings
+  should be merged or expanded. *(gate: `STUB-001` warn.)*
+
 ## Per-section fields (composer's internal plan)
 
 Each section the composer plans has:
 
 - `section_id` — kebab-case, unique (e.g. `1-lead`, `2-architecture`, `4-closing`).
+- `header` — the section's `##` title, written as a *claim* (assertion), not a label; the set
+  of headers should read as the argument skeleton (see above).
 - `word_target` — integer. Composer writes within ±20%.
 - `voice_canon_reference` — list of `voice-canon-lookup` entry_ids (at least 1).
 - `paragraph_anchors_used` — list of `[XXXX]` patent paragraph anchors this section will cite, drawn from `invention-summary.md` Quotable spans + Quote anchor table.
