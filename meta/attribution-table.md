@@ -86,3 +86,30 @@ never cost a loop iteration). 5 proposals on file as of 2026-06-11; see
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).
+
+## Self-audit channel — first dataset (origin: self-post-accept)
+
+Run `2026-06-26-us12560948b2-investor-selfaudit` is the first dataset for a third finding
+**origin**, alongside `inner-loop` (a pass should have caught it) and `human-post-accept` (only a
+human caught it): **`self-post-accept`** — the self-audit loop caught it *adversarially, with no
+human in the loop*, after the inner loop returned `pass` and all ten gates were green. Captured
+via the same `## delta` channel (`meta/normalize_revision_notes.py --origin self-post-accept`).
+This is the empirical answer to "can `/goal` self-check without a human": 11 findings caught and
+resolved across two autonomous rounds, convergence verified by a second blind fresh-context pair.
+
+Routing for the classes that channel surfaced (added so the ledger records resolve; mirrors the
+levers already used for their cousins):
+
+| Finding class (pattern_tag) | Source signal | Goal | Owner stage | Owner artifact | Default lever |
+|---|---|---|---|---|---|
+| `claim-scope-misattribution` | pass-7 G1 / fresh-context | 1 | design | thesis-architect invention-summary claim-scope map (locked/open/pinned) | reference-edit |
+| `legal-posture-language-slip` | pass-7 / fresh-context | 1 | compose | deliverable-voice-rules.md legal register + fact-check-log | reference-edit |
+| `prosecution-record-overstatement` | pass-7 G1 / fresh-context | 1 | compose | fact-check-log prosecution-record discipline | reference-edit |
+| `figure-caption-scope-deferral` | pass-7 / fresh-context | 2 | compose | caption-roles.md scope-first ordering | reference-edit |
+| `anchor-incomplete` | pass-7 G2 / fresh-context | 1 | compose | essay-en-composer/citation-format.md range anchors for multi-paragraph spans | reference-edit |
+
+`nonclaim-section-header`, `lead-thesis-deferral`, `steelman-absent`, `meta-reader-instruction`,
+`venue-ticker-convention`, and `revision-induced-duplication` are the run-045 human-revision
+classes, now field-tested by the autonomous pass too (caught by `gate_dupe` / pass-7 without a
+human). Their rows live with the run-045 dataset. See
+`meta/improvement-proposals/2026-06-26-self-audit-origin-and-goal-acceptance.md`.
