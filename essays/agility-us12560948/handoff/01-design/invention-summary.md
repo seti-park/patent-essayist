@@ -29,7 +29,7 @@ the first place. The patent targets the gap between those two failing options.
 **Quotable spans:**
 - `[0010]`: "Such robots are always falling to some degree during normal operation."
 - `[0010]`: "If a dynamically stable robot loses power or otherwise becomes disabled, it collapses."
-- `[0011]`: "Ironically, this includes close encounters associated with accessing and activating a disabling feature on such a robot."
+- `[0012]`: "Ironically, this includes close encounters associated with accessing and activating a disabling feature on such a robot."
 - `[0013]`: "segregation strategies for hazard mitigation greatly reduce the productive potential of dynamically stable robots"
 
 ## 청구항 분석 — 4-layer core mechanism
@@ -80,8 +80,8 @@ information (308); reconfiguration to lowered center-of-gravity; safe operating 
   - Quote anchor refs: q-0028-1, q-0029-1, q-0047-1
 - **angle-deployability-moat** (investor lens): the claimed safety capability is the gate to
   un-caged deployment in shared human space.
-  - Evidence paragraphs: `[0002]`, `[0013]`, `[0041]`
-  - Quote anchor refs: q-0002-1, q-0013-1, q-0041-1
+  - Evidence paragraphs: `[0002]`, `[0013]`, `[0042]`
+  - Quote anchor refs: q-0002-1, q-0013-1, q-0042-1
 
 ## Reference number table
 
@@ -130,7 +130,7 @@ information (308); reconfiguration to lowered center-of-gravity; safe operating 
 | q-0031-1 | `[0031]` | "While in a safe operating stop, the mobile robot 100 may halt all movement without completely shutting down." | claim-supporting (dependent) |
 | q-0032-1 | `[0032]` | "increasingly greater losses of efficiency while providing increasingly greater risk reduction" | mechanism-critical |
 | q-0033-1 | `[0033]` | "may increase rather than decrease the risk to the human" | mechanism-critical |
-| q-0041-1 | `[0041]` | "are protective and controlled forms of Category-1 and Category-2 stops" | claim-supporting (standards) |
+| q-0042-1 | `[0042]` | "are protective and controlled forms of Category-1 and Category-2 stops" | claim-supporting (standards) |
 | q-0047-1 | `[0047]` | "the mobile robot 100 may tend to collapse in a predictable manner and into a compact form, thereby reducing or eliminating a safety hazard to nearby humans" | quantitative/effect |
 
 ## Timeline

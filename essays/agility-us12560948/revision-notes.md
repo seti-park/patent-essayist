@@ -16,8 +16,10 @@
 >
 > Run shape: v1 = the loop-PASSED `essay-final.md`. v2 = round-1 fixes (8 adversarial findings).
 > v2.1 = a self-introduced echo the dupe gate caught on re-run. v2.2 = round-2 multi-vote fixes
-> (2 reviewers, applied where they agreed). Final v2.2 passes all 10 gates with 0 findings; both
-> fresh reviewers independently call it publishable, with the round-1 high/medium all resolved.
+> (2 reviewers). v2.3 = a round-3 confirmation pair on the final draft, which caught two off-by-one
+> paragraph anchors traced to the Phase-1 invention-summary and fixed them at the source. Final
+> v2.3 passes all 10 gates with 0 findings and the anchor chain intact; both fresh reviewers call it
+> publishable, with the round-1 high/medium all resolved.
 > One block per edit; keys (`class` `round` `before` `after` `rationale`) each on ONE line.
 
 <!-- ROUND 1 — fresh-context adversarial pass on the loop-PASSED v1 (1 high + 6 medium + a
@@ -103,6 +105,38 @@ before: FIG. 5 caption cited "[0046]" for "the patent's four phases", but phases
 after: cited "[0046]-[0047]"
 rationale: the anchor must cover every frame the caption names; both [0046] and [0047] are in the invention-summary anchor set, so the range stays gate-clean.
 
+<!-- ROUND 3 — a SECOND confirmation pair (blind) on the final draft. Caught two off-by-one
+     paragraph anchors that originated in the Phase-1 invention-summary and were inherited by the
+     essay; fixed at the source so a recompose would not reintroduce them. -->
+
+## delta
+class: anchor-offbyone
+round: v2.3
+before: the disable-switch irony was anchored [0011], but para (11) only sets up the generic E-stop; the explicit irony ("Ironically, this includes close encounters associated with accessing and activating a disabling feature") is para (12)
+after: corrected to [0012] in BOTH the essay and the invention-summary Quotable span (the mislabel originated upstream; the essay inherited it)
+rationale: off-by-one anchor flagged by both round-3 reviewers (C medium, D low); fixed at the source so a recompose from the handoff cannot reintroduce it.
+
+## delta
+class: anchor-offbyone
+round: v2.3
+before: the "Category-1 and Category-2 stops" quote was anchored [0041], but that quote is para (42); para (41) is collision-avoidance reconfiguration selection
+after: corrected to [0042] in BOTH the essay and the invention-summary quote row (q-0041-1 -> q-0042-1)
+rationale: off-by-one anchor inherited from the invention-summary; reviewer C caught it on spot-check. Fixed at the source.
+
+## delta
+class: anchor-incomplete
+round: v2.3
+before: the FIG. 3 caption anchored "the escalation the claim locks" to [0033], but FIG. 3 is introduced and walked as a decision tree in [0035]-[0039]; [0033] supports only the "standing still is safer" caveat (where the essay still cites it correctly)
+after: caption anchor changed to [0035]; the [0033] cite elsewhere is kept where it is accurate
+rationale: point a figure caption at the paragraph that actually describes the figure; reviewer C, low.
+
+## delta
+class: revision-induced-duplication
+round: v2.3
+before: the round-2 prosecution-record rewrite left "issued with the nearest adjacent art already before the examiner" (steelman) and "The claims issued with that art on the record" (next paragraph) as a near-verbatim within-section echo
+after: the second occurrence trimmed to "That the patent issued anyway is a real positive signal about the novelty of the specific combination."
+rationale: a round-2 fix introduced a conceptual echo across two consecutive paragraphs; reviewer D flagged it (the judgment-pass analog of the v2.1 gate_dupe catch).
+
 # Considered and not applied (logged, not edited)
 
 These were raised in the self-audit and deliberately NOT applied — the discipline that keeps the
@@ -110,6 +144,10 @@ loop from over-editing. The system's rubric gates OVERREACH, not OVER-HEDGE; a f
 reviewers did not agree on, or that does not survive grounding, is logged and dropped, not forced
 into the draft.
 
+- **physics-motif echo (round-3, NOT applied).** Reviewer C noted "anchored to the physics of a
+  fault" (limits section) and "the claim sits on the physics of the problem" (conclusion) as a mild
+  echo, but rated the check PASS ("reinforcement, not bloat"); reviewer D did not flag it. It is the
+  thesis spine, within the 3-section verdict ceiling; trimming would weaken the through-line. Watch.
 - **thesis-restatement-redundancy (round-2, NOT applied).** Reviewer A flagged the "bounded rather
   than absolute" refrain as heavy (low); reviewer B scored the same check PASS ("verdict in 3
   sections, within the at-most-3 limit"). No majority, and trimming would weaken the steelman
@@ -145,4 +183,5 @@ applied:
 | v2 | round-1 fresh-context pair (2 reviewers, multi-vote) | 1 high + 6 medium + 1 grounding slip | 8 fixes |
 | v2.1 | dupe gate re-run on v2 | 1 self-introduced 5-gram echo (warn) | 1 fix |
 | v2.2 | round-2 fresh-context pair (2 reviewers, multi-vote) | 0 high, 0 medium of the round-1 classes; 2 agreed lows (1 medium per B) | 2 fixes |
-| final | 10-gate re-run + both reviewers | 0 gate findings; "publishable as-is" ×2 | converged |
+| v2.3 | round-3 confirmation pair on final v2.2 | 0 high; 2 medium + 2 low (two off-by-one anchors traced to the invention-summary, 1 caption anchor, 1 within-section echo) | 4 fixes (2 at source) |
+| final | 10-gate re-run + anchor-chain check | 0 gate findings; anchor chain intact; both reviewers "publishable as-is" | converged |

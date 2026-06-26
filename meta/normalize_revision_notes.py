@@ -50,6 +50,7 @@ CLASS_MAP = {
     "figure-caption-scope-deferral": ("2", "compose", "caption-roles.md scope-first ordering"),
     "figure-cover-undervalued": ("2", "design", "invention-summary-schema Figure relationships + SKILL Step 9"),
     "anchor-incomplete": ("1", "compose", "essay-en-composer/citation-format.md range anchors for multi-paragraph spans"),
+    "anchor-offbyone": ("1", "design", "thesis-architect invention-summary Quotable-spans paragraph labeling"),
 }
 _KEYS = ("class", "round", "before", "after", "rationale", "goal")
 _KV_RE = re.compile(r"\s*([A-Za-z_]+)\s*:\s*(.*)$")

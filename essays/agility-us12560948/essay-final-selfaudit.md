@@ -9,7 +9,7 @@ Agility Robotics is about to be a public company, and the story it sells to inve
 
 ## The Body Rules Out Both Standard Safety Answers
 
-Start with the shape, because the shape creates the problem (Fig. 1). A bipedal robot is "always falling to some degree during normal operation" [0010]. It stays upright only by constant active control, which means the moment it loses power or faults, "it collapses" [0010]. That single fact breaks the standard factory safety answer. For a hundred years the way to make a machine safe has been a button that cuts the power. Do that to a humanoid and you have not stopped a hazard, you have created one: a cut-power humanoid falls. The filing makes the irony explicit, noting that the most dangerous moment can be the human reaching in to hit the disable switch [0011].
+Start with the shape, because the shape creates the problem (Fig. 1). A bipedal robot is "always falling to some degree during normal operation" [0010]. It stays upright only by constant active control, which means the moment it loses power or faults, "it collapses" [0010]. That single fact breaks the standard factory safety answer. For a hundred years the way to make a machine safe has been a button that cuts the power. Do that to a humanoid and you have not stopped a hazard, you have created one: a cut-power humanoid falls. The filing makes the irony explicit, noting that the most dangerous moment can be the human reaching in to hit the disable switch [0012].
 
 The other classic answer is a cage. Put the robot behind a fence and segregation keeps people safe. But segregation "greatly reduce[s] the productive potential of dynamically stable robots" [0013], and for a humanoid that destroys the entire reason to buy one instead of a conveyor or a wheeled cart. A caged humanoid is an expensive way to do what cheaper machines already do.
 
@@ -26,7 +26,7 @@ Read what that actually requires. Risk is measured over time and has to be risin
 
 The protected idea is not the word "stop." It is the graduated move from a cheap, reversible slow-down to a surroundings-aware posture change that drops the robot low as the danger climbs. Fig. 3 is that logic drawn out, from "should I decelerate?" through "is it safe to reconfigure?" to a final safe operating stop, with hold-and-watch states at each rung.
 
-*FIG. 3, [0033]: the escalation the claim locks, including the clearance check that gates the reconfiguration.*
+*FIG. 3, [0035]: the escalation the claim locks, including the clearance check that gates the reconfiguration.*
 
 ## The Moat Is Only What Claim 1 Requires
 
@@ -46,7 +46,7 @@ The useful test is whether a competitor can get the same safety result without p
 
 The filing even spells out why a reconfiguration can be the wrong call at a blind corner or against a running person, where there is no time and standing still is safer [0033]. The claim is not an arbitrary lock on one behavior. It tracks the physics, which means most ways around it produce a worse robot.
 
-Two features push the fence wider. The claim is written so "bipedal" can be read as "mobile," reaching wheeled dynamically stable robots and forms with one arm or more than two [0015], which closes the "we are not a biped" exit a wheeled-humanoid rival might try. And the behavior is anchored to recognized industrial safety practice: the filing frames its stops as "protective and controlled forms of Category-1 and Category-2 stops" [0041], the controlled-stop categories that workplace standards already speak in. A claim drafted in the language of the safety standard is a claim aimed at the exact capability a buyer's safety team has to sign off on.
+Two features push the fence wider. The claim is written so "bipedal" can be read as "mobile," reaching wheeled dynamically stable robots and forms with one arm or more than two [0015], which closes the "we are not a biped" exit a wheeled-humanoid rival might try. And the behavior is anchored to recognized industrial safety practice: the filing frames its stops as "protective and controlled forms of Category-1 and Category-2 stops" [0042], the controlled-stop categories that workplace standards already speak in. A claim drafted in the language of the safety standard is a claim aimed at the exact capability a buyer's safety team has to sign off on.
 
 ## The Safe Stop Is The Deployment Gate
 
@@ -60,7 +60,7 @@ Its Digit robot is already in paid commercial use, most visibly under a multi-ye
 
 The limits are real. The bear case is that this is one method claim in a crowded field, easy to step around, and it is the right worry, the reason the moat is bounded rather than absolute. Where it overstates is in "easy to step around": the combination claimed here issued with the nearest adjacent art already before the examiner, and it is anchored to the physics of a fault, not to one arbitrary pose. Every one of the 20 claims is a method claim. A method claim protects the act of performing the steps, which fits a behavior well, but it is generally harder to detect and to enforce than a claim on a device, because you have to show the accused robot actually runs the sequence. There is also a single independent claim, so the independent protection has one validity target rather than several. If claim 1 were knocked out, the dependents survive only as narrower fallbacks.
 
-The field is also crowded. Among the references of record, disclosed by the applicant itself, are three directly adjacent works: a 2021 framework for safe deployment of humanoid robots, a 2007 method for an emergent walking stop, and a 2016 falling-protection method using arm compliance. The claims issued with that art on the record, which is a real positive signal about the novelty of the specific combination. It is not evidence of a category lock. The filing's own list of cited references runs to dozens of adjacent patents and applications, which is what a crowded field looks like.
+The field is also crowded. Among the references of record, disclosed by the applicant itself, are three directly adjacent works: a 2021 framework for safe deployment of humanoid robots, a 2007 method for an emergent walking stop, and a 2016 falling-protection method using arm compliance. That the patent issued anyway is a real positive signal about the novelty of the specific combination. It is not evidence of a category lock. The filing's own list of cited references runs to dozens of adjacent patents and applications, which is what a crowded field looks like.
 
 The patent has no forward citations yet, which is expected for something this new but means there is no market signal about how foundational it will prove. And the usual caveat holds with force here: a patent is not a product or a safety certification, owning the method is not proof that Digit executes it well, and an 18-month publication delay means the company's freshest filings are not yet visible. This read is a technical and strategic one, not a legal opinion on claim validity or freedom to operate.
 

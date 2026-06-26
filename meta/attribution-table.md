@@ -94,8 +94,10 @@ Run `2026-06-26-us12560948b2-investor-selfaudit` is the first dataset for a thir
 human caught it): **`self-post-accept`** — the self-audit loop caught it *adversarially, with no
 human in the loop*, after the inner loop returned `pass` and all ten gates were green. Captured
 via the same `## delta` channel (`meta/normalize_revision_notes.py --origin self-post-accept`).
-This is the empirical answer to "can `/goal` self-check without a human": 11 findings caught and
-resolved across two autonomous rounds, convergence verified by a second blind fresh-context pair.
+This is the empirical answer to "can `/goal` self-check without a human": 15 findings caught and
+resolved across three autonomous rounds, convergence verified by a third blind fresh-context pair
+that traced two residual off-by-one anchors back to the Phase-1 invention-summary and fixed them at
+the source.
 
 Routing for the classes that channel surfaced (added so the ledger records resolve; mirrors the
 levers already used for their cousins):
@@ -107,6 +109,7 @@ levers already used for their cousins):
 | `prosecution-record-overstatement` | pass-7 G1 / fresh-context | 1 | compose | fact-check-log prosecution-record discipline | reference-edit |
 | `figure-caption-scope-deferral` | pass-7 / fresh-context | 2 | compose | caption-roles.md scope-first ordering | reference-edit |
 | `anchor-incomplete` | pass-7 G2 / fresh-context | 1 | compose | essay-en-composer/citation-format.md range anchors for multi-paragraph spans | reference-edit |
+| `anchor-offbyone` | pass-7 G2 / fresh-context | 1 | design | thesis-architect invention-summary Quotable-spans paragraph labeling | reference-edit (fix at source) |
 
 `nonclaim-section-header`, `lead-thesis-deferral`, `steelman-absent`, `meta-reader-instruction`,
 `venue-ticker-convention`, and `revision-induced-duplication` are the run-045 human-revision
