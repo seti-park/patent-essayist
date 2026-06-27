@@ -73,9 +73,9 @@ announcement-colon patterns ("The key insight:", "What surprised me was…").
   are near-certain AI tells.
 - **Semicolons** joining two independent clauses in non-academic prose.
 - **Mid-sentence colons** after an incomplete clause ("The problem: nobody tests this").
-- **Boldface overuse** (also `STRUCT-002`); **inline-header vertical lists**; **Title Case in
-  body headings** where sentence case is the house style; **emoji** (only 🤔 at a
-  `closing-open-question` ending).
+- **Boldface overuse** (also `STRUCT-002`); **inline-header vertical lists**; **emoji** (only 🤔
+  at a `closing-open-question` ending). (Body-heading capitalization is **Title Case** by house
+  style — see `deliverable-voice-rules.md` — so it is not a tell here.)
 
 ### Content-shape tells (humanizer §§1–6, 25)
 
@@ -89,6 +89,16 @@ announcement-colon patterns ("The key insight:", "What surprised me was…").
 - Filler phrases ("in order to" → "to", "due to the fact that" → "because", "at this point in
   time" → "now", "has the ability to" → "can").
 - Stacked hedges ("could potentially possibly").
+
+### Plain-English word swaps (GOV.UK base)
+
+The composition-hygiene canon is based on the govuk-style plain-English standard. Prefer the
+plain word: **use** not utilise, **help** not facilitate, **start** not commence, **end** not
+terminate, **about** not in relation to, **so** not in order to, **enough** not sufficient. The
+unambiguous, sense-independent tells (`utilise`, `utilize`, `facilitate`, `commence`,
+`deep dive`, `going forward`, `ring-fence`) are mirrored to `scripts/banned_terms.txt` and
+hard-gated by `gate_banned`. The sense-dependent swaps stay here as Pass-1 judgment so a
+legitimate technical use ("terminate" a connection, "sufficient" voltage) is not false-failed.
 
 ## What NOT to flag (false-positive guard)
 

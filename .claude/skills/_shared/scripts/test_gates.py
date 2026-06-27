@@ -25,6 +25,7 @@ import gate_meta
 import gate_stub
 import gate_cashtag
 import gate_dupe
+import gate_typography
 import run_gates
 
 
@@ -330,6 +331,68 @@ class TestDupe(unittest.TestCase):
                  'again "a deployment mechanism and deployable autonomous delivery robot" verbatim.\n')
         r = gate_dupe.check(draft, {})
         self.assertFalse(_has(r, "DUPE-001"))
+
+
+class TestTypography(unittest.TestCase):
+    def test_latin_dotted_fails(self):
+        r = gate_typography.check("The rotor spins, e.g. at high rpm.\n", {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "LATIN-001"))
+
+    def test_latin_bare_fails(self):
+        r = gate_typography.check("Use a sensor, ie a thermocouple, here.\n", {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "LATIN-001"))
+
+    def test_latin_inside_quote_passes(self):
+        r = gate_typography.check('The patent says "the load, e.g. a motor, varies".\n', {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_exclamation_fails(self):
+        r = gate_typography.check("This is a huge result!\n", {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "EXCLAIM-001"))
+
+    def test_markdown_image_not_exclamation(self):
+        r = gate_typography.check("![figure one](fig-01.png)\n", {})
+        self.assertFalse(_has(r, "EXCLAIM-001"))
+
+    def test_emoji_warns(self):
+        r = gate_typography.check("The result is wild \U0001F525.\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "EMOJI-001"))
+
+    def test_sanctioned_thinking_emoji_passes(self):
+        r = gate_typography.check("So who really owns the moat? \U0001F914\n", {})
+        self.assertFalse(_has(r, "EMOJI-001"))
+
+    def test_caps_run_warns(self):
+        r = gate_typography.check("This is THE BIG DEAL today.\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "CAPS-001"))
+
+    def test_single_acronyms_not_flagged(self):
+        r = gate_typography.check("The USB link to the LLM is fast.\n", {})
+        self.assertFalse(_has(r, "CAPS-001"))
+
+    def test_part_number_not_flagged(self):
+        r = gate_typography.check("See US1234567B2 for the rotor.\n", {})
+        self.assertFalse(_has(r, "CAPS-001"))
+
+    def test_nondescriptive_link_warns(self):
+        r = gate_typography.check("Read the spec [here](http://x.example).\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "LINK-001"))
+
+    def test_long_sentence_warns(self):
+        draft = "The rotor " + "and the shaft " * 20 + "spin together.\n"
+        r = gate_typography.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "LONGSENT-001"))
+
+    def test_code_fence_exempt(self):
+        r = gate_typography.check("```\nx = 1  # e.g. this!\n```\n", {})
+        self.assertTrue(r["passed"], r["findings"])
 
 
 class TestRunGatesEndToEnd(unittest.TestCase):

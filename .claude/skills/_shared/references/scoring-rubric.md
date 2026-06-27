@@ -22,7 +22,7 @@ have prevented it.
 | **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale, invention-summary Quotable spans |
 | **3. Easy for the reader to understand** | `gate_structure`, `gate_stub`, `gate_meta` (warn-only smells) | pass-5 reader-perspective + **pass-7 adversarial reader** | mode/posture calibration, section-blueprint lead-altitude |
 | **4a. Well-structured** | `gate_structure`, `gate_stub`, `gate_cashtag` | pass-6 lead/conclusion + format (BLUF + header-as-claim) | section-blueprint, x-articles-format-en, thesis arc |
-| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash`, `gate_meta`, `gate_dupe` | pass-1 voice + anti-ai | voice-on drafting + anti-ai canon + strip-pipeline |
+| **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash`, `gate_meta`, `gate_dupe`, `gate_typography` | pass-1 voice + anti-ai + govuk hygiene | voice-on drafting + anti-ai canon + strip-pipeline |
 
 When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
 artifact, so improvement proposals target the true root cause rather than the symptom.
@@ -46,6 +46,7 @@ the editorial passes and the revision actions.
 | `stub`       | (none — all warn) | `STUB-001` (section stub) | 4a, 3 |
 | `cashtag`    | (none — all warn) | `CASH-001` (bare ticker) | 4a |
 | `dupe`       | (none — all warn) | `DUPE-001` (verbatim repeat) | 4b, 3 |
+| `typography` | `LATIN-001`, `EXCLAIM-001` | `EMOJI-001`, `CAPS-001`, `LINK-001`, `LONGSENT-001` | 4b, 4a |
 
 The last four are the **run-045 self-check gates** — the mechanical half of the editorial
 blind-spots a human used to catch by hand in post-acceptance revision (see

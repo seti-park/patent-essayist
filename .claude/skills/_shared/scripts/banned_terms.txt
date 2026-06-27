@@ -65,3 +65,18 @@ re:\b(serves|stands) as a\b
 re:\b(in summary|to recap|in conclusion)\b
 # filler announcement
 re:it'?s worth noting
+
+# --- GOV.UK plain-English base: govspeak + clichés (mechanically safe subset) ---
+# Plain-word swaps (use / help / start, not these formal tells). The sense-dependent
+# swaps (about<-in relation to, so<-in order to, enough<-sufficient) stay in
+# anti-ai-writing.md judgment to avoid false positives in patent prose.
+utilise
+utilize
+facilitate
+commence
+# Unambiguous clichés. Ambiguous singles (unlock, drive, robust, hub, portal,
+# ecosystem) are deliberately left to editorial judgment — they have legitimate
+# technical senses in patent prose.
+re:deep[ -]dive
+re:going forward
+re:ring[ -]fence
