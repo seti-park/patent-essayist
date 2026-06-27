@@ -53,32 +53,55 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
-| `mobile-paragraph-wall` † | 0 | 1 | 4 | 0 | 0 | 0 |
-| `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 0 | 8 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 7 | 0 | 0 | 0 | 0 |
+| `claim-scope-misattribution` † | 0 | 0 | 5 | 0 | 0 | 0 |
+| `external-fact-universalization` † | 0 | 0 | 4 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
-| `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
-| `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
+| `figure-token-regex-blindspot` † | 0 | 0 | 3 | 0 | 0 | 0 |
+| `meta-reader-instruction` † | 0 | 3 | 0 | 0 | 0 | 0 |
+| `revision-induced-duplication` † | 0 | 3 | 0 | 0 | 0 | 0 |
+| `sources-entry-template-drift` † | 0 | 3 | 0 | 0 | 0 | 0 |
+| `thesis-restatement-redundancy` † | 0 | 3 | 0 | 0 | 0 | 0 |
+| `anchor-incomplete` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `anchor-offbyone` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `figure-caption-scope-deferral` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `lead-thesis-deferral` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `legal-posture-language-slip` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `nonclaim-section-header` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `paragraph-eight-sentence-slip` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `steelman-absent` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `venue-ticker-convention` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
-| `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `claim-citation-narrowing-benign` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `claim-vs-spec-citation-conflation` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `figuse-selection-scope-overread` † | 0 | 0 | 1 | 0 | 0 | 0 |
-| `source-tier-hedge-posture` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `rule-of-three-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `legal-posture-language-slip` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `conclusion-over-hedge` † | 0 | 0 | 1 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figure-composition-tooling-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figure-cover-undervalued` † | 0 | 0 | 1 | 0 | 0 | 0 |
+| `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figuse-selection-scope-overread` † | 0 | 0 | 1 | 0 | 0 | 0 |
+| `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `jargon-overdepth` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `longsent-quote-integrated-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `prosecution-record-overstatement` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `publication-hard-wrap` † | 0 | 0 | 1 | 0 | 0 | 0 |
+| `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `restrained-bold-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `rule-of-three-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `section-stub-imbalance` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `source-tier-hedge-posture` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
-run). A class with a proposal on file shows its triggering records under `proposed` (the
-proposal file under `meta/improvement-proposals/` lists the triggering finding ids and is the
-append-only audit reference).
+Counts derived from the ledger (105 records) as of run
+`2026-06-27-us20260179833a1-deleted-hole` (Tesla metallized-ferrite planar transformer; sixth
+recorded run; inner-loop PASS @ iter-2, self-audit DRY in 2 rounds). A class with a proposal on
+file shows its triggering records under `proposed` (the proposal file under
+`meta/improvement-proposals/` lists the triggering finding ids and is the append-only audit
+reference).
 
 Cross-essay recurrence (present in 2+/3 essays): `claim-scope-misattribution` (HIGH +
 grounding hard-gate breach in runs 1–2 — most damaging class in the system; **did NOT recur in
@@ -91,6 +114,23 @@ again in run 045), `revision-induced-band-break`, `paraphrase-hedge-compression`
 `figure-token-regex-blindspot` (latent; avoided by convention all runs — recurring mitigation
 cost, not failure).
 
+Run `2026-06-27-us20260179833a1-deleted-hole` update (counts only; no new lever):
+`claim-scope-misattribution` recurred at **count 5** but at the *opposite end of the severity
+spectrum to runs 1–2* — a single LOW `self-post-accept` delta (§4 over-described independent
+claim 1 as parts "bonded together"; claim 1 recites no bonding limitation), caught
+**autonomously by the skeptic-persona self-audit in fresh context**, no human and no inner-loop
+breach. It errs *against the subject* (makes claim 1 read narrower than it is), the inverse of
+the runs 1–2 grounding hard-gate breaches that read the subject *too broadly*. The on-file
+`2026-06-11-claim-scope-lock-map.md` (reference-edit, still `watch`) already owns the class; this
+run is confirming evidence that the lock-map is the right lever, not a new failure mode.
+`mobile-paragraph-wall` reached **count 8** (caught-in-loop iter-1 medium + a *demoted* round-2
+low, the quote-integrated paragraph exception working as designed) — the on-file
+`2026-06-11-gate-structure-word-wall.md` (recommended-apply) still owns it; no new lever.
+`external-fact-universalization` reached **count 4** via an orphan-source variant (two Sources
+entries backing an unmade borrowed-from-PV silver/glass-frit lineage claim; resolved by dropping
+the sources, not the prose) — owned by `2026-06-11-external-fact-scope-discipline.md`
+(recommended-apply).
+
 New first-seen classes in run 045 (all `watch`/`proposed`, count 1): **`claim-vs-spec-citation-conflation`**
 (the iter-1 MEDIUM — three verbatim CLAIM quotes carried a `[0144]` *spec-paragraph* bracket;
 quote TEXT byte-exact, only the attribution LABEL wrong; distinct from `claim-scope-misattribution`,
@@ -102,13 +142,35 @@ one dropped-figure-from-prose away from a spurious goal-2 hard FAIL), `source-ti
 (a tier-4 source on a hedged non-load-bearing forward pointer — within bounds), and
 `rule-of-three-warn` (STRUCT-004 on a factual customer triad — warn-only, behaving as designed).
 
-RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
-`fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (now at 6, still deliberately HELD at `watch`:
-heterogeneous sub-mechanisms — anchor doubling, caption echo, sanctioned-layering awareness,
-intensifier tics — no single mechanical rule covers them and the class has never cost a loop
-iteration). 6 proposals on file as of 2026-06-24 (5 from `2026-06-11-*.md` + the new
-`2026-06-24-figuse-selection-scope.md`). Do not hand-edit the counts.
+New first-seen classes in run `2026-06-27-us20260179833a1-deleted-hole` (all count 1, `watch`):
+**`restrained-bold-drift`** (round-2 LOW — two load-bearing **bold** thesis anchors vs
+deliverable-voice-rules' single-anchor target; each is a genuine argument landing so neither is
+wrong alone, voice-fenced to `deliverable-voice-rules.md`, NOT `voice-profile.md`),
+**`longsent-quote-integrated-warn`** (iter-1 MEDIUM — a 44-55-word §3/§4 sentence cluster, split
+at the sentence level in iter-2; the residual gate_typography LONGSENT-001 warns are the
+patent-domain quote exception or gate-merge boundary artifacts — behaving as designed, warn never
+fails the round), and **`claim-citation-narrowing-benign`** (round-2 LOW — the draft cites only
+claim 5 where the spine framed claims 5/9/10; an accurate *narrowing*, errs toward under-claiming
+the subject, the benign inverse polarity of `claim-scope-misattribution`, no grounding risk).
+
+RECUR_THRESHOLD=3 reached by record count (as of run
+`2026-06-27-us20260179833a1-deleted-hole`): `mobile-paragraph-wall` (8),
+`claim-scope-misattribution` (5), `external-fact-universalization` (4),
+`fence-canon-verification-gap` (3), `figure-token-regex-blindspot` (3) — all five have a proposal
+on file. Two classes **newly crossed 3 this run**: `meta-reader-instruction` (now 3 — but its
+mechanical lever `gate_meta` is already promoted/done; this run's instance was a *soft* imperative
+"Read that twice" below gate_meta's literal trigger set, caught by editorial pass-1, a low in-loop
+catch — no new lever, `watch`) and `thesis-restatement-redundancy` (now 3 — a sub-mechanism of
+`redundancy-bloat`, which is itself deliberately HELD at `watch`; the instance is a 4-distinct-frames
+vs ≤3 pass-7 judgment that has never cost a loop iteration, so it inherits the parent's hold —
+`watch`, no rubric-tuning warranted on a borderline distinct-frames count). `redundancy-bloat`
+(now at 7) remains deliberately HELD at `watch`: heterogeneous sub-mechanisms — anchor doubling,
+caption echo, sanctioned-layering awareness, intensifier tics, thesis re-assertion — no single
+mechanical rule covers them and the class has never cost a loop iteration. 12 proposals on file
+as of this run; no new proposal written for `2026-06-27-us20260179833a1-deleted-hole` (every
+threshold-crossing class already has an on-file proposal or routes to a done/held lever —
+nothing crossed cleanly with a new, mechanically-safe lever this run materially advances). Do not
+hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).
