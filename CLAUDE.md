@@ -58,7 +58,7 @@ Individual phases can be run standalone: `/thesis-architect`, `/essay-en-compose
                        (each ported skill also carries its own references/: voice-profile +
                         voice-canon live under voice-canon-lookup/; x-articles-format-en,
                         section-blueprint, mode-spec, etc. under essay-en-composer/)
-    scripts/           10 deterministic gate scripts (Python stdlib) + banned_terms.txt + tests
+    scripts/           11 deterministic gate scripts (Python stdlib) + banned_terms.txt + tests
     vendor/            blader/humanizer + harshaneel/ai-check — REFERENCE ONLY, absorbed into
                        anti-ai-writing.md, NOT run in the loop — see vendor/README.md
 handoff/          01-design 02-compose 03-edit       runtime stage artifacts (gitignored)
@@ -116,7 +116,7 @@ which references each phase loads:
 
 ## Deterministic gates
 
-`_shared/scripts/run_gates.py` runs ten mechanical checks and returns pass/fail + `check_id`s:
+`_shared/scripts/run_gates.py` runs eleven mechanical checks and returns pass/fail + `check_id`s:
 `gate_emdash`, `gate_anchors` (`[dddd]` 4-digit format + chain + figure refs), `gate_sources`
 (`# Sources` h1, 5-label enum, all-or-nothing subgrouping), `gate_banned` (anti-AI banned
 list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan selected figure —
@@ -125,14 +125,21 @@ essay-self-reference posturing; hard-fail), `gate_stub` (stub section vs sibling
 (bare ticker → `$`cashtag), `gate_dupe` (gross verbatim repetition; warn) — the mechanical half
 of the editorial blind-spots a human used to catch by hand in post-acceptance revision (see
 `meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`; judgment complement =
-editorial **pass-7** adversarial reader). Run `python .claude/skills/_shared/scripts/test_gates.py`
+editorial **pass-7** adversarial reader). A further gate, `gate_typography`, adds the GOV.UK-base
+hygiene layer — Latin abbreviations and exclamation marks hard-fail; emoji, all-caps runs,
+non-descriptive link text, and run-on sentences warn — the mechanical subset of the govuk-derived
+`deliverable-voice-rules`. Run `python .claude/skills/_shared/scripts/test_gates.py`
 for the suite, or `python meta/regression.py` for tests + fixtures.
 
 ## Customization
 
 - **Tune behavior** in `_shared/references/` (scoring-rubric threshold + matrix,
   anti-ai-writing, deliverable-voice-rules) and each skill's own `references/`. The banned-term
-  list is mirrored to `_shared/scripts/banned_terms.txt` for mechanical enforcement.
+  list is mirrored to `_shared/scripts/banned_terms.txt` for mechanical enforcement. The
+composition/hygiene canon (`deliverable-voice-rules` + `anti-ai-writing`) is based on the
+**govuk-style** plain-English standard, adapted with patent-domain exceptions: claim language,
+terms of art, part numbers, and verbatim quotes keep their exact wording (reading-level and
+plain-word swaps apply only to the connective prose).
 - **Grow the canon** via the meta-loop: `pipeline-retro` proposes reference edits, gate
   promotions, voice-canon admissions, and rubric tuning — applied by a human after regression.
 - **Reference the originals:** `docs/source-prompts/<phase>/<skill>/` holds the verbatim
