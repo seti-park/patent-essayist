@@ -16,6 +16,9 @@
   *(gate: `FIGUSE-001`)*
 - **No banned AI-tell terms/constructions** outside quotes. *(gate: `BANNED-001`; the list
   lives in `anti-ai-writing.md` → `scripts/banned_terms.txt`)*
+- **No reader-instruction / essay-self-reference posturing** — "read it the way…", "everything
+  below…", "the rest of this essay", "watch how…". Insight, not stage directions. *(gate:
+  `META-001`; functional scope disclaimers like "this essay does not adjudicate X" are exempt.)*
 - **Sources block** present exactly once as `# Sources` (h1), 5-label enum, all-or-nothing
   `##` subgrouping. *(gates: `SOURCES-001/002/003`)*
 
@@ -25,6 +28,14 @@
   rule-of-three triads. *(gate warns: `STRUCT-00x`)*
 - Active voice by default; concrete nouns/verbs over nominalizations.
 - One idea per sentence; vary sentence length deliberately.
+- **Lead altitude (BLUF):** in analytical/diligence mode, paragraph 1 states the verdict, not
+  a deferred question. **Section headers are claims** (a header-only skim = the argument).
+  *(editorial pass-6 / pass-7.)*
+- **Jargon as signposts, not deep-dives:** keep the short domain term-of-art the target reader
+  scans for (e.g. "Section 101", "Alice"); cut the doctrinal explanation only a specialist
+  needs. *(editorial pass-5; class `jargon-overdepth`.)*
+- **No stub sections; no gross verbatim repetition; tickers as `$`-cashtags.** *(gate warns:
+  `STUB-001`, `DUPE-001`, `CASH-001`.)*
 
 <!-- PORT: drop the user's deliverable-voice-rules canon here. Keep any rule that must be
      machine-checked expressed concretely so it can be wired to a gate script. -->

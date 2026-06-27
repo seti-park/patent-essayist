@@ -4,7 +4,8 @@ SETI's anti-AI-tell rules are the source of truth for naturalness (north-star go
 canon has two tiers:
 
 - **Mechanical subset** — the unambiguous banned words/patterns, mirrored to
-  `_shared/scripts/banned_terms.txt` and hard-enforced by `gate_banned.py`. A hit fails the
+  `_shared/scripts/banned_terms.txt` and hard-enforced by `gate_banned.py` (and the
+  reader-instruction / essay-self-reference patterns by `gate_meta.py`). A hit fails the
   loop round.
 - **Judgment list** — the richer set of AI tells (copula avoidance, transition fingerprint,
   hedging, scaffolding, etc.) that editorial **Pass 1** evaluates with context. These are not
@@ -39,6 +40,12 @@ Context-dependent (canon-banned, but left to judgment to avoid false fails):
   is/are. *(serves/stands-as-a gated; the rest judged)*
 - **section summaries / generic conclusions** — "In summary", "To recap", "In conclusion". *(gated)*
 - **filler announcement** — "It's worth noting that…". *(gated)*
+- **reader-instruction / essay-self-reference** — telling the reader how to read ("read it
+  the way an examiner would", "watch how X handles each", "notice how") or naming the essay as
+  an object ("everything below is…", "the rest of this essay", "in this essay we", "this essay
+  will show"). The reader buys insight, not stage directions. *(gated by `gate_meta.py`
+  `META-001`; softer reader-address → `META-002` / judgment. Functional scope disclaimers like
+  "this essay does not adjudicate X" are deliberately NOT flagged.)*
 - **vague attributions** — "Many experts believe", "It is widely accepted", "Studies show".
 - **puffery** — "remarkable", "extraordinary", "unprecedented".
 - **elegant variation** — the same subject renamed mid-paragraph (Tesla → the EV maker → the
