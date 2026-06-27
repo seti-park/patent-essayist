@@ -92,12 +92,18 @@ which references each phase loads:
   fence: a Phase-3 voice finding routes to anti-ai/deliverable-voice or a Phase-2 voice-canon
   admission, never back to voice-profile.
 
-## Loop control (two tiers)
+## Loop control (three tiers)
 
 - **Inner loop (orchestrator, auto):** deterministic gates (hard pass/fail) + editorial
   **severity model** (`overall_assessment`: pass / revise-recommended / revise-required),
   threshold (default `pass`), grounding + goal-2 hard-gates, max iterations (default 4). On
   FAIL it feeds the edit findings back into Compose (revision mode) and re-scores.
+- **Self-audit (orchestrator, auto, post-acceptance):** after the inner loop passes, ≥2
+  fresh-context adversarial reviewers (the `pass-7-adversarial-reader` checklist + grounding
+  spot-checks, separate forked contexts, multi-vote) catch the blind-spots a `pass` survives.
+  Applied autonomously and logged via the revision-delta channel as `origin: self-post-accept`;
+  loops until dry. It can only ADD findings, never relax the bar. Acceptance set in
+  `_shared/references/scoring-rubric.md` (Layer 3), enforceable as a `/goal`.
 - **Meta-loop (`pipeline-retro`, propose-only):** after each essay, normalizes findings into
   `meta/findings-ledger.jsonl`, attributes recurring root causes to the owning stage/artifact,
   and writes evidence-backed improvement proposals. It **never edits a skill** — a human

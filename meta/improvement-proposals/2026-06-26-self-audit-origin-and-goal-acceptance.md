@@ -1,7 +1,8 @@
 ---
 proposal_id: 2026-06-26-self-audit-origin-and-goal-acceptance
 created: 2026-06-26T00:00:00Z
-status: recommended-apply
+status: applied
+applied: "2026-06-27 (branch claude/nice-ptolemy-epd4el) — Part A normalizer origin + Part B orchestrator self-audit stage (patent-essay/SKILL.md) + scoring-rubric Layer 3 + CLAUDE.md three-tier loop control. selftest + meta/regression.py + gate suite green."
 lever: new-tool + reference-edit
 goal: "1, 2, 3, 4a, 4b (cross-cutting: the autonomous self-check itself)"
 root_cause_stage: orchestrator + meta

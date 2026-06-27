@@ -5,17 +5,17 @@ description: >
   cleaned figures), runs Phase 1 Design → Phase 2 Compose → Phase 3 Edit, automating the
   hand-off between stages on disk and running the Compose↔Edit quality loop until the
   draft clears the deterministic gates and the editorial assessment (or max iterations),
-  then runs pipeline-retro to grow the system. Use when asked to turn a patent into a
-  finished English essay end to end.
+  then runs an autonomous post-acceptance self-audit and pipeline-retro to grow the system.
+  Use when asked to turn a patent into a finished English essay end to end.
 argument-hint: "[patent path | text | number]  [--threshold pass|revise-recommended] [--max-iter N] [--mode essay|wire]"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, WebFetch, WebSearch
 ---
 
 # Patent Essay — Orchestrator
 
-Drive the three-phase pipeline and the Compose↔Edit quality loop, then the meta-loop. The
-patent to process is named in `$ARGUMENTS` (a path under `input/`, raw text, or a patent
-number/URL).
+Drive the three-phase pipeline and the Compose↔Edit quality loop, then the post-acceptance
+self-audit and the meta-loop. The patent to process is named in `$ARGUMENTS` (a path under
+`input/`, raw text, or a patent number/URL).
 
 This orchestrator owns the **loop policy**; each phase's domain work lives in its own skill.
 Stages pass data through **handoff directories on disk**, not chat copy-paste. The four
@@ -34,6 +34,9 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
   faster turnaround; it may never be relaxed to `revise-required`. See `scoring-rubric.md`.
 - `--max-iter N` — max Compose↔Edit revision rounds. **Default: 4.**
 - `--mode essay|wire` — deliverable mode. **Default: essay.**
+- `--self-audit on|off` — run the post-acceptance fresh-context self-audit after the inner loop
+  passes. **Default: `on`** at `--threshold pass`. `off` skips it (fast / wire runs).
+- `--max-selfaudit-iter N` — max self-audit re-audit rounds (loop-until-dry cap). **Default: 3.**
 
 ## Pipeline
 
@@ -101,13 +104,51 @@ Stop on PASS, or at `max-iter`. On stop, promote the accepted draft to
 Each phase's heavy work runs in its own forked context; keep only the structured hand-off
 summaries in the main thread to stay within budget.
 
+## Self-audit (post-acceptance, auto)
+
+After the inner loop promotes `essay-final.md`, run a **fresh-context adversarial self-audit**
+before archiving (`--self-audit on`, default). This is the autonomous complement to the human
+revision-delta channel: it catches the editorial + grounding blind-spots that survive a `pass`.
+It can only **add** findings — the inner-loop bar and the grounding/goal-2 hard-gates stay in force.
+
+Per round:
+1. **Spawn ≥2 reviewers in separate forked contexts** (no commitment to the draft) on
+   `essay-final.md` + the raw patent, each running the
+   `editorial-review/references/pass-7-adversarial-reader.md` checklist plus grounding
+   spot-checks: claim-scope against the actual claims, every anchor against its cited paragraph.
+   Read as the two personas (impatient investor, skeptical pro-subject reader). Each finding is a
+   yes/no with a quoted span or `ABSENT`, never a holistic rating.
+2. **Multi-vote.** Apply a finding when the reviewers agree (≥ majority) OR when one reviewer's
+   grounding finding is verifiable against the source. Log split / taste-only / over-edit findings
+   to `revision-notes.md` as considered-not-applied, and do **not** force them in — the rubric
+   gates OVERREACH, not OVER-HEDGE.
+3. **Fix at the source.** When a finding traces upstream (e.g. an anchor mislabeled in
+   `invention-summary.md`), correct the Phase-1 artifact too, so a recompose can't reintroduce it.
+4. **Re-run the gates** and log every applied edit to `handoff/03-edit/revision-notes.md` as a
+   `## delta` block (schema: `handoff-template/03-edit/revision-notes.md`).
+
+**Loop until dry:** repeat until a round adds no `high`/`medium` and no agreed-applicable finding,
+bounded by `--max-selfaudit-iter` (default 3). Then normalize the deltas to the ledger as the
+autonomous origin:
+
+```
+python meta/normalize_revision_notes.py \
+  --notes handoff/03-edit/revision-notes.md --essay-id <essay-id> \
+  --origin self-post-accept --append meta/findings-ledger.jsonl
+```
+
+`origin: self-post-accept` keeps these distinct from `inner-loop` ("a pass should have caught it")
+and `human-post-accept` ("only a human caught it"). The acceptance set is defined in
+`scoring-rubric.md` (Layer 3) and is enforceable as a `/goal` (see below).
+
 ## Archive + meta-loop (after the inner loop)
 
 1. **Archive** the run to `runs/<essay-id>/`: copy `edit-log.md`, the final
    `run_gates.py --json` output as `gate-result.json`, and write `score-history.md`.
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
-   run's `edit-log.md` + `gate-result.json`. It normalizes findings into
-   `meta/findings-ledger.jsonl` (keyed by goal + owner artifact via the matrix), and when a
+   run's `edit-log.md` + `gate-result.json`. It normalizes the inner-loop findings **and** the
+   self-audit's `revision-notes.md` deltas into `meta/findings-ledger.jsonl` (keyed by goal +
+   owner artifact via the matrix; self-audit deltas carry `origin: self-post-accept`), and when a
    root-cause class recurs it writes an evidence-backed proposal to
    `meta/improvement-proposals/`. It **never** edits a skill — surface only the top proposal
    (if any) to the user in one line.
@@ -127,4 +168,11 @@ backstop if a run is interrupted before passing:
 
 ```
 /goal the patent-essay SCORE HISTORY shows a final draft that passes all gates with overall_assessment == pass
+```
+
+For the full autonomous bar, make the post-acceptance self-audit mandatory rather than the
+auto-default:
+
+```
+/goal the patent-essay run is self-audited: after the inner loop returns pass with all gates green, a fresh-context adversarial pass (>=2 reviewers, pass-7 personas, separate context) returns no unresolved high or medium finding, the grounding hard-gate holds, and a second blind pass confirms convergence
 ```
