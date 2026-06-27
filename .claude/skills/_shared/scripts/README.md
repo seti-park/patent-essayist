@@ -7,7 +7,7 @@ standalone and importable; `run_gates.py` aggregates all ten.
 These gates are the **mechanical (hard pass/fail) layer** of the quality loop. They are
 aligned to the real editorial rules: em-dash / banned-list (anti-ai Pass 1), `[xxxx]` 4-digit
 format + anchor chain (Pass 3 / Pass 6), the `# Sources` 5-label enum (Pass 6 6C), and the
-goal-2 figure-use check. The qualitative layer is `editorial-review`'s 6-pass severity model.
+goal-2 figure-use check. The qualitative layer is `editorial-review`'s 7-pass severity model.
 See `_shared/references/scoring-rubric.md` for how the two combine into PASS/FAIL.
 
 ## Files

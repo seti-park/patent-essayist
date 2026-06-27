@@ -4,7 +4,7 @@ Defines how the orchestrator decides PASS/FAIL for the Compose↔Edit loop. Two 
 by design:
 
 1. **Deterministic gates** (mechanical, hard pass/fail) — `_shared/scripts/run_gates.py`.
-2. **Qualitative editorial assessment** — `editorial-review`'s 6-pass review, expressed as a
+2. **Qualitative editorial assessment** — `editorial-review`'s 7-pass review, expressed as a
    **severity model** (`overall_assessment`), not an arbitrary 0–100 number. This mirrors the
    real `editorial-review/references/feedback-format.md` so the loop and the editor speak the
    same language.
@@ -64,7 +64,7 @@ python _shared/scripts/run_gates.py \
 
 ## Layer 2 — Editorial assessment (severity model)
 
-`editorial-review` runs the 6 passes and emits one `overall_assessment` from this enum,
+`editorial-review` runs the 7 passes and emits one `overall_assessment` from this enum,
 computed from the worst-severity finding present (see `editorial-review/references/feedback-format.md`):
 
 | Has critical? | Has high? | Has medium? | `overall_assessment` |

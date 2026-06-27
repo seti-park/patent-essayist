@@ -59,7 +59,7 @@ thesis-trace). It calls `voice-canon-lookup` internally per section.
 
 ### Phase 3 — Edit  (skill: `editorial-review`, voice-fenced)
 Invoke `editorial-review`. It reads `handoff/02-compose/` + Phase-1 cross-check anchors,
-runs the 6-pass review (including the pass-3 coverage sub-check for goal 2), and writes
+runs the 7-pass review (including the pass-3 coverage sub-check for goal 2 and the pass-7 adversarial reader), and writes
 `handoff/03-edit/edit-log.md` with an `overall_assessment`. It does **not** load
 `voice-profile` / `caption-roles`.
 
