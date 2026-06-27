@@ -23,6 +23,11 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `sources-enum-violation` | gate SOURCES-002 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit (or gate-promotion) |
 | `sources-subgroup-violation` | gate SOURCES-003 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit |
 | `lead-conclusion-weak` | pass-6 6A/6B | 4a | design/compose | thesis-spine arc / section-blueprint closing_directive | reference-edit |
+| `conclusion-over-hedge` | SETI catch / pass-6 6G | 4a | design + edit | thesis-spine closing posture + pass-6-lead-conclusion-format.md | reference-edit (or rubric-tuning: posture) |
+| `paragraph-eight-sentence-slip` | gate STRUCT-001 vs pass-2C | 3 / 4a | gate | gate_structure.py threshold (>8 vs >=8) | gate-strengthen |
+| `publication-hard-wrap` | publish render | 4a | compose | x-articles-format-en.md + strip-pipeline.md | reference-edit + pipeline |
+| `figure-cover-undervalued` | SETI catch / design | 2 | design | invention-summary-schema Figure relationships + SKILL Step 9 | reference-edit |
+| `figure-composition-tooling-gap` | cover build | 2 / 4a | tooling | tools/ (no figure-sequence helper) | new-tool |
 | `section-thesis-misalignment` | pass-4 | 4a | design | thesis-spine spine→section trace | reference-edit |
 | `reader-engagement-break` | pass-5 | 3 | compose | mode-spec posture / section-blueprint | rubric-tuning (posture) |
 | `redundancy-bloat` | pass-2 | 3 | compose | section-blueprint word_target | reference-edit |
@@ -107,3 +112,33 @@ iteration). 6 proposals on file as of 2026-06-24 (5 from `2026-06-11-*.md` + the
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).
+
+## Self-audit channel — first dataset (origin: self-post-accept)
+
+Run `2026-06-26-us12560948b2-investor-selfaudit` is the first dataset for a third finding
+**origin**, alongside `inner-loop` (a pass should have caught it) and `human-post-accept` (only a
+human caught it): **`self-post-accept`** — the self-audit loop caught it *adversarially, with no
+human in the loop*, after the inner loop returned `pass` and all ten gates were green. Captured
+via the same `## delta` channel (`meta/normalize_revision_notes.py --origin self-post-accept`).
+This is the empirical answer to "can `/goal` self-check without a human": 15 findings caught and
+resolved across three autonomous rounds, convergence verified by a third blind fresh-context pair
+that traced two residual off-by-one anchors back to the Phase-1 invention-summary and fixed them at
+the source.
+
+Routing for the classes that channel surfaced (added so the ledger records resolve; mirrors the
+levers already used for their cousins):
+
+| Finding class (pattern_tag) | Source signal | Goal | Owner stage | Owner artifact | Default lever |
+|---|---|---|---|---|---|
+| `claim-scope-misattribution` | pass-7 G1 / fresh-context | 1 | design | thesis-architect invention-summary claim-scope map (locked/open/pinned) | reference-edit |
+| `legal-posture-language-slip` | pass-7 / fresh-context | 1 | compose | deliverable-voice-rules.md legal register + fact-check-log | reference-edit |
+| `prosecution-record-overstatement` | pass-7 G1 / fresh-context | 1 | compose | fact-check-log prosecution-record discipline | reference-edit |
+| `figure-caption-scope-deferral` | pass-7 / fresh-context | 2 | compose | caption-roles.md scope-first ordering | reference-edit |
+| `anchor-incomplete` | pass-7 G2 / fresh-context | 1 | compose | essay-en-composer/citation-format.md range anchors for multi-paragraph spans | reference-edit |
+| `anchor-offbyone` | pass-7 G2 / fresh-context | 1 | design | thesis-architect invention-summary Quotable-spans paragraph labeling | reference-edit (fix at source) |
+
+`nonclaim-section-header`, `lead-thesis-deferral`, `steelman-absent`, `meta-reader-instruction`,
+`venue-ticker-convention`, and `revision-induced-duplication` are the run-045 human-revision
+classes, now field-tested by the autonomous pass too (caught by `gate_dupe` / pass-7 without a
+human). Their rows live with the run-045 dataset. See
+`meta/improvement-proposals/2026-06-26-self-audit-origin-and-goal-acceptance.md`.

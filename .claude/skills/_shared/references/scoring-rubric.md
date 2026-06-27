@@ -4,7 +4,7 @@ Defines how the orchestrator decides PASS/FAIL for the Compose↔Edit loop. Two 
 by design:
 
 1. **Deterministic gates** (mechanical, hard pass/fail) — `_shared/scripts/run_gates.py`.
-2. **Qualitative editorial assessment** — `editorial-review`'s 6-pass review, expressed as a
+2. **Qualitative editorial assessment** — `editorial-review`'s 7-pass review, expressed as a
    **severity model** (`overall_assessment`), not an arbitrary 0–100 number. This mirrors the
    real `editorial-review/references/feedback-format.md` so the loop and the editor speak the
    same language.
@@ -64,7 +64,7 @@ python _shared/scripts/run_gates.py \
 
 ## Layer 2 — Editorial assessment (severity model)
 
-`editorial-review` runs the 6 passes and emits one `overall_assessment` from this enum,
+`editorial-review` runs the 7 passes and emits one `overall_assessment` from this enum,
 computed from the worst-severity finding present (see `editorial-review/references/feedback-format.md`):
 
 | Has critical? | Has high? | Has medium? | `overall_assessment` |
@@ -127,9 +127,35 @@ PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-00
   `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
   the cap, it returns the best round with the remaining findings and the score history.
 
+## Layer 3 — Post-acceptance self-audit (autonomous)
+
+The inner loop and gates can return `pass` and still leave the editorial + grounding blind-spots a
+fresh reader catches. Layer 3 is a **post-acceptance** stage the orchestrator runs after the inner
+loop passes (`--self-audit on`, default): ≥2 reviewers in **separate forked contexts** run the
+`editorial-review/references/pass-7-adversarial-reader.md` checklist + grounding spot-checks, and
+their multi-voted findings are applied autonomously and logged via the revision-delta channel.
+
+Reliability comes from HOW, not just WHAT — the mechanisms the inner loop cannot apply to itself:
+fresh context (no commitment to the draft), decomposed evidence-forced checks (quoted span or
+`ABSENT`), persona diversity + multi-vote, fix-at-source for upstream causes, and loop-until-dry.
+It can only **raise** the bar — never relax a gate or a pass, and the grounding + goal-2 hard-gates
+hold every round.
+
+**Acceptance set (enforceable as a `/goal`):**
+
+```
+the patent-essay run is self-audited: after the inner loop returns pass with all gates green, a
+fresh-context adversarial pass (>=2 reviewers, pass-7 personas, separate context) returns no
+unresolved high or medium finding, the grounding hard-gate holds, and a second blind pass confirms
+convergence; applied deltas are logged via revision-notes.md (origin: self-post-accept).
+```
+
 ## Loop ↔ retro hand-off
 
-After the inner loop terminates (PASS or cap), the orchestrator hands the final `edit-log.md`
-+ gate result + score history to `pipeline-retro`, which normalizes findings into
-`meta/findings-ledger.jsonl` keyed by the goal + owner from the matrix above. See the
+After the inner loop terminates (PASS or cap) and the post-acceptance self-audit (Layer 3) runs,
+the orchestrator hands the final `edit-log.md` + gate result + score history + the self-audit's
+`revision-notes.md` to `pipeline-retro`, which normalizes findings into
+`meta/findings-ledger.jsonl` keyed by the goal + owner from the matrix above. Self-audit deltas
+carry `origin: self-post-accept` (vs the inner loop's `inner-loop` and the human channel's
+`human-post-accept`), so recurrence is scored over the dimension no pass yet gates. See the
 `pipeline-retro` skill for the propose-only meta-loop.

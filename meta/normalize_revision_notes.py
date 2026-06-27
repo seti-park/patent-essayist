@@ -10,9 +10,12 @@ recurrence over the editorial blind-spots a human catches AFTER the loop says "p
 half the gates/passes don't yet see. See
 `meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`.
 
-`origin` distinguishes "the loop missed it" (`inner-loop`, the default for gate/editorial
-records) from "the loop never had a chance to see it" (`human-post-accept`). Both are useful;
-they motivate different fixes (tune a pass vs. extend coverage).
+`origin` distinguishes "a pass should have caught it" (`inner-loop`, the default for
+gate/editorial records) from "no pass scored this dimension, but the self-audit loop caught it
+adversarially with no human in the loop" (`self-post-accept`) from "only a human caught it"
+(`human-post-accept`). Each motivates a different fix (tune a pass vs. add a pass vs. extend
+coverage). Set the autonomous origin with `--origin self-post-accept` (pairs with
+`--source self-audit`).
 
 Usage:
   python meta/normalize_revision_notes.py --notes handoff/03-edit/revision-notes.md \
@@ -40,6 +43,14 @@ CLASS_MAP = {
     "thesis-restatement-redundancy": ("3", "compose", "section-blueprint (redundancy-bloat sub-mechanism)"),
     "revision-induced-duplication": ("4b", "compose", "essay-en-composer revision-mode re-scan"),
     "venue-ticker-convention": ("4a", "compose", "x-articles-format-en.md"),
+    # --- self-audit channel additions (classes the autonomous adversarial pass surfaces) ---
+    "claim-scope-misattribution": ("1", "design", "thesis-architect invention-summary claim-scope map (locked/open/pinned)"),
+    "legal-posture-language-slip": ("1", "compose", "deliverable-voice-rules.md legal register + fact-check-log"),
+    "prosecution-record-overstatement": ("1", "compose", "fact-check-log prosecution-record discipline"),
+    "figure-caption-scope-deferral": ("2", "compose", "caption-roles.md scope-first ordering"),
+    "figure-cover-undervalued": ("2", "design", "invention-summary-schema Figure relationships + SKILL Step 9"),
+    "anchor-incomplete": ("1", "compose", "essay-en-composer/citation-format.md range anchors for multi-paragraph spans"),
+    "anchor-offbyone": ("1", "design", "thesis-architect invention-summary Quotable-spans paragraph labeling"),
 }
 _KEYS = ("class", "round", "before", "after", "rationale", "goal")
 _KV_RE = re.compile(r"\s*([A-Za-z_]+)\s*:\s*(.*)$")
@@ -69,7 +80,7 @@ def parse_notes(text):
     return [d for d in deltas if d.get("class")]
 
 
-def to_record(d, essay_id, ts):
+def to_record(d, essay_id, ts, origin="human-post-accept", source="human-revision"):
     cls = d["class"]
     if cls in CLASS_MAP:
         goal, stage, artifact = CLASS_MAP[cls]
@@ -79,7 +90,11 @@ def to_record(d, essay_id, ts):
     if d.get("goal"):
         goal = d["goal"]
     rnd = d.get("round", "").strip()
-    finding = "post-accept revision%s: %r -> %r. %s" % (
+    # "self-post-accept" => the self-audit loop caught it adversarially (no human in the loop);
+    # "human-post-accept" => only a human caught it. Both are post-accept (the loop said pass).
+    verb = "self-audit revision" if origin == "self-post-accept" else "post-accept revision"
+    finding = "%s%s: %r -> %r. %s" % (
+        verb,
         (" (" + rnd + ")") if rnd else "",
         d.get("before", "").strip(),
         d.get("after", "").strip(),
@@ -89,8 +104,8 @@ def to_record(d, essay_id, ts):
         "essay_id": essay_id,
         "iter": None,
         "run_timestamp": ts,
-        "source": "human-revision",
-        "origin": "human-post-accept",
+        "source": source,
+        "origin": origin,
         "pass": None,
         "check_id": None,
         "severity": "warn",
@@ -104,8 +119,8 @@ def to_record(d, essay_id, ts):
     }
 
 
-def normalize(text, essay_id, ts):
-    return [to_record(d, essay_id, ts) for d in parse_notes(text)]
+def normalize(text, essay_id, ts, origin="human-post-accept", source="human-revision"):
+    return [to_record(d, essay_id, ts, origin, source) for d in parse_notes(text)]
 
 
 _SELFTEST_NOTES = """# Revision notes — test
@@ -137,10 +152,17 @@ def _selftest():
     assert "Read it the way an examiner would" in a["finding"]
     b = recs[1]
     assert "unmapped" in b["root_cause_artifact"], "unknown class must flag for a new row"
+    # self-audit channel: --origin self-post-accept flips origin/source + the finding verb,
+    # while the default path above stays human-post-accept (backward compatible).
+    srecs = normalize(_SELFTEST_NOTES, "test-essay", "2026-01-01T00:00:00Z",
+                      origin="self-post-accept", source="self-audit")
+    assert srecs[0]["origin"] == "self-post-accept" and srecs[0]["source"] == "self-audit"
+    assert srecs[0]["finding"].startswith("self-audit revision")
+    assert a["origin"] == "human-post-accept", "default origin must remain human-post-accept"
     # every record must be valid JSON round-trip
-    for r in recs:
+    for r in recs + srecs:
         json.loads(json.dumps(r))
-    print("selftest OK: %d records, schema + class-map + unknown-flag verified" % len(recs))
+    print("selftest OK: %d records, schema + class-map + unknown-flag + origin-flag verified" % len(recs))
     return 0
 
 
@@ -150,6 +172,12 @@ def main(argv=None):
     p.add_argument("--essay-id", default="unknown-essay")
     p.add_argument("--timestamp", help="ISO-8601; default = now (UTC)")
     p.add_argument("--append", help="ledger path to append JSONL records to")
+    p.add_argument("--origin", default="human-post-accept",
+                   choices=["human-post-accept", "self-post-accept", "inner-loop"],
+                   help="provenance of the deltas (default: human-post-accept). "
+                        "Use self-post-accept for autonomous self-audit deltas.")
+    p.add_argument("--source", help="source tag; default paired to --origin "
+                   "(human-revision, or self-audit for self-post-accept)")
     p.add_argument("--selftest", action="store_true")
     args = p.parse_args(argv)
 
@@ -159,15 +187,16 @@ def main(argv=None):
         p.error("--notes is required (or use --selftest)")
 
     ts = args.timestamp or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    source = args.source or ("self-audit" if args.origin == "self-post-accept" else "human-revision")
     with open(args.notes, "r", encoding="utf-8") as fh:
-        recs = normalize(fh.read(), args.essay_id, ts)
+        recs = normalize(fh.read(), args.essay_id, ts, args.origin, source)
 
     lines = [json.dumps(r, ensure_ascii=False) for r in recs]
     if args.append:
         with open(args.append, "a", encoding="utf-8") as fh:
             for line in lines:
                 fh.write(line + "\n")
-        print("appended %d human-post-accept records to %s" % (len(lines), args.append))
+        print("appended %d %s records to %s" % (len(lines), args.origin, args.append))
     else:
         for line in lines:
             print(line)
