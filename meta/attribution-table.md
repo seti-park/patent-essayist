@@ -74,6 +74,10 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `mechanism-gloss-contradicts-quote` | 0 | 0 | 1 | 0 | 0 | 0 |
+| `cross-patent-mechanism-conflation` | 0 | 0 | 1 | 0 | 0 | 0 |
+| `caveat-not-grounded-in-source` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `marketing-line-overbinding` | 0 | 1 | 0 | 0 | 0 | 0 |
 
 Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
 run). A class with a proposal on file shows its triggering records under `proposed` (the
@@ -136,9 +140,27 @@ levers already used for their cousins):
 | `figure-caption-scope-deferral` | pass-7 / fresh-context | 2 | compose | caption-roles.md scope-first ordering | reference-edit |
 | `anchor-incomplete` | pass-7 G2 / fresh-context | 1 | compose | essay-en-composer/citation-format.md range anchors for multi-paragraph spans | reference-edit |
 | `anchor-offbyone` | pass-7 G2 / fresh-context | 1 | design | thesis-architect invention-summary Quotable-spans paragraph labeling | reference-edit (fix at source) |
+| `mechanism-gloss-contradicts-quote` | pass-7 / self-post-accept | 1 | compose | essay-en-composer/references/citation-format.md (gloss-must-match-anchor logical form) + pass-3 3D | reference-edit |
+| `cross-patent-mechanism-conflation` | pass-7 / self-post-accept | 1 | compose | essay-en-composer/references/section-blueprint.md hero-vs-support verb attribution (when a hero+support beat is shared) | reference-edit |
+| `caveat-not-grounded-in-source` | pass-7 G1 / self-post-accept | 1 | compose | essay-en-composer/references/execution-boundary.md (a caveat asserting patent grounding must cite the span; no manufactured "the patent counts X") | reference-edit |
+| `marketing-line-overbinding` | pass-7 / self-post-accept | 4a / 1 | compose | essay-en-composer/references/section-blueprint.md (a multi-patent external line binds to the family, not the single hero) | reference-edit |
 
 `nonclaim-section-header`, `lead-thesis-deferral`, `steelman-absent`, `meta-reader-instruction`,
 `venue-ticker-convention`, and `revision-induced-duplication` are the run-045 human-revision
 classes, now field-tested by the autonomous pass too (caught by `gate_dupe` / pass-7 without a
 human). Their rows live with the run-045 dataset. See
 `meta/improvement-proposals/2026-06-26-self-audit-origin-and-goal-acceptance.md`.
+
+Run `002-vl53l9cx-crosstalk-robustness` adds a second `self-post-accept` dataset: four
+**goal-1 grounding-precision** deltas the inner-loop `pass` survived (gates green, only `low`
+editorial findings), all caught by the fresh-context domain-expert reviewer rereading the gloss
+against the raw hero (US2024-0192337) + support (US2025-0012901) specs. Two are new mechanism-
+level failure shapes — `mechanism-gloss-contradicts-quote` (a band rule glossed as a sign,
+contradicting the [0052] quote one sentence later) and `cross-patent-mechanism-conflation` (the
+support patent's scale-and-subtract verb migrated onto the classify-and-reject hero) — and are
+mechanism-level cousins of the system's most recurrent class, `claim-scope-misattribution`. The
+other two (`caveat-not-grounded-in-source`, `marketing-line-overbinding`) are the same reflex of
+asserting grounding the source does not give. All four are count-1 (`watch`/`proposed`); the
+goal-1 family they belong to is the most recurrent in the ledger, so the two composer guards are
+bundled in `meta/improvement-proposals/2026-06-30-compose-grounding-precision-guards.md`
+(status `watch` — reference-edit, propose-only).
