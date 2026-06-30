@@ -53,11 +53,12 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
-| `mobile-paragraph-wall` † | 0 | 1 | 4 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 8 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 5 | 2 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
-| `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
+| `claim-scope-misattribution` † | 0 | 4 | 1 | 0 | 0 | 0 |
+| `anchor-incomplete` † | 0 | 3 | 0 | 0 | 0 | 0 |
 | `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
@@ -75,21 +76,39 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
-run). A class with a proposal on file shows its triggering records under `proposed` (the
-proposal file under `meta/improvement-proposals/` lists the triggering finding ids and is the
-append-only audit reference).
+Counts for the touched classes derived from the ledger as of run `stm-tof-us2026-0140238`
+(STM VL53L9CX Article 1, sixth recorded run). A class with a proposal on file shows its
+triggering records under `proposed` (the proposal file under `meta/improvement-proposals/`
+lists the triggering finding ids and is the append-only audit reference). The remaining rows
+below are carried from run 045 and may lag the ledger for classes this run did not touch.
 
-Cross-essay recurrence (present in 2+/3 essays): `claim-scope-misattribution` (HIGH +
-grounding hard-gate breach in runs 1–2 — most damaging class in the system; **did NOT recur in
-run 045**, whose grounding/claim pass was clean — the run-045 claim issue was a *citation
-notation* mislabel, a different class, see below), `mobile-paragraph-wall` (walls in runs 1–2,
-edge-of-band only in run 045), `external-fact-universalization`, `fence-canon-verification-gap`
+Cross-essay recurrence (present in 2+ essays): `claim-scope-misattribution` (HIGH +
+grounding hard-gate breach in runs 1–2 — most damaging class in the system; now logged in 5
+essays, but the **severity is trending down**: a caught-in-loop MEDIUM in run 2026-06-27, and in
+run `stm-tof-us2026-0140238` only a `self-post-accept` *citation-label* mislabel — the hero
+block quote labeled "Abstract and claim 1" when the exact string is Abstract-only — a notation
+defect, not a semantic scope breach; proposal `2026-06-11-claim-scope-lock-map.md` on file),
+`mobile-paragraph-wall` (walls in runs 1–2, edge-of-band in run 045, an inner-loop MEDIUM in
+run 2026-06-27, and in `stm-tof-us2026-0140238` a single-*sentence* 79/111-word wall — same
+class at the sentence granularity; proposal `2026-06-11-gate-structure-word-wall.md` on file,
+recommended-apply), `external-fact-universalization`, `fence-canon-verification-gap`
 (escalated low → medium; run-2 resolution field-tested the interrogative-🤔-host fix, no
-recurrence in run 045), `redundancy-bloat` (now 3/3 — sanctioned-repetition-layering awareness
-again in run 045), `revision-induced-band-break`, `paraphrase-hedge-compression`, and
-`figure-token-regex-blindspot` (latent; avoided by convention all runs — recurring mitigation
-cost, not failure).
+recurrence since), `redundancy-bloat` (now 5 essays / 8 records, still deliberately HELD at
+`watch` — heterogeneous sub-mechanisms; `stm-tof-us2026-0140238` was a 1,443→1,366-word trim,
+the first medium-severity instance but still a quality trim, never loop-blocking on its own),
+`revision-induced-band-break`, `paraphrase-hedge-compression`, and `figure-token-regex-blindspot`
+(latent; avoided by convention all runs — recurring mitigation cost, not failure).
+
+**New cross-essay class this run — `anchor-incomplete`** (goal 1, owner
+`essay-en-composer/citation-format.md` range anchors for multi-paragraph spans): now in **2
+essays / 3 records**, all caught by the autonomous self-audit (`origin: self-post-accept`),
+none by the inner loop — a single `[dddd]` anchor cites the paragraph for part of a
+multi-paragraph span, leaving the conclusion clause under-anchored to its true source paragraph
+(run 2026-06-26: a FIG. 3 caption pointed at [0033] for a tree walked in [0035]–[0039];
+`stm-tof-us2026-0140238`: the on-chip "small circuitry" clause anchored [0042] when the on-chip
+conclusion lives in [0043]). A recurring `self-post-accept` class signals **extend coverage**;
+filed as a `watch` proposal (`2026-06-30-multi-paragraph-anchor-coverage.md`) — below
+RECUR_THRESHOLD by distinct-essay count (2), so not yet `recommended-apply`.
 
 New first-seen classes in run 045 (all `watch`/`proposed`, count 1): **`claim-vs-spec-citation-conflation`**
 (the iter-1 MEDIUM — three verbatim CLAIM quotes carried a `[0144]` *spec-paragraph* bracket;

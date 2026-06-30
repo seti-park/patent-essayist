@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "gates": [
+    {
+      "gate": "emdash",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "anchors",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "sources",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "banned",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "structure",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "figure_use",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "meta",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "stub",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "cashtag",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "dupe",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "typography",
+      "passed": true,
+      "findings": [
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 44 words (target ~15-25)",
+          "location": "sentence: # How a Sensor Turns Light Into Distance, One Phot..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 63 words (target ~15-25)",
+          "location": "sentence: They are the front door of the whole sensor.  ## T..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 72 words (target ~15-25)",
+          "location": "sentence: The circuit looks at each bar as it arrives, keeps..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 42 words (target ~15-25)",
+          "location": "sentence: Around it sits a small cluster of adjacent ST fili..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 36 words (target ~15-25)",
+          "location": "sentence: With local storage cut to a handful of registers, ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 72 words (target ~15-25)",
+          "location": "sentence: STMicroelectronics describes its VL53L9 module as ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 68 words (target ~15-25)",
+          "location": "sentence: What is genuinely new is the resolution and the sp..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 172 words (target ~15-25)",
+          "location": "sentence: Part 2 is about learning to trust the distance.  #..."
+        }
+      ]
+    }
+  ]
+}
