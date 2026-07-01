@@ -55,12 +55,30 @@ taste critique, an unsourced-but-common-knowledge framing claim, and a borderlin
 section-length observation both reviewers rated PASS) were considered and logged as
 not-applied. Full detail and rationale: `revision-notes.md`.
 
-**Round 2 (confirmation pass, fresh reviewers, cold read of the corrected essay):** ran to
-satisfy the design's "a second blind pass confirms convergence" requirement. Result: [FILL IN
-after round 2 completes].
+**Round 2 (confirmation pass, 2 more fresh reviewers, cold read of the round-1-corrected
+essay):** ran to satisfy the design's "a second blind pass confirms convergence" requirement.
+Reviewer A (impatient investor) found no new high/medium findings and confirmed every round-1
+fix held on independent re-check. Reviewer B (skeptical pro-subject reader) surfaced 5 new
+candidate findings; each was independently verified against `input/patent.md` (and, for one,
+a live web search against ST's actual blog) before deciding: 2 held up and were applied (a
+dropped word in a quoted ST blog title, confirmed via live search; an over-generalized
+description of FIG. 3's six-line graph that misattributed a "jump" to all six lines when the
+patent only describes the three median-distance lines moving at that instant). The other 3 did
+not survive verification or the multi-vote bar: a jargon-signpost claim that was factually
+wrong on inspection ("time-of-flight" does appear spelled out in the essay's own prose, contra
+the reviewer's stated premise), a re-flagged SLAM-wording concern split against Reviewer A's
+independent "no findings" the same round, and a technically-accurate-but-genre-disproportionate
+claim-1-vs-claim-21 patent-construction observation. Full detail: `revision-notes.md`.
 
-Gates re-run after round 1's fixes: `passed: true`, 0 fail findings across all 11 gates; every
-paragraph re-verified under the 96-word mobile-readability threshold (max 95 words).
+**Convergence assessment:** stopped after round 2 of the 3-round cap. Round 2's hit rate (2
+applied of 5 candidates) was lower than round 1's (3 applied, all corroborated or independently
+verified), and a majority of round 2's candidates were reviewer artifacts rather than real
+defects — a reasonable stopping point short of the cap. The two remaining open items are logged
+as watch/design-stage items, not forced into the essay.
+
+Gates re-run after every fix, both rounds: `passed: true`, 0 fail findings across all 11 gates;
+every paragraph re-verified under the 96-word mobile-readability threshold (max 95 words, 34
+body paragraphs in the final state).
 
 ## Meta-loop signal
 

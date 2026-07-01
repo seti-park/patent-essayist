@@ -137,8 +137,8 @@
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
-          "message": "sentence runs 78 words (target ~15-25)",
-          "location": "sentence: 3's graph is the same event turned into six lines:..."
+          "message": "sentence runs 71 words (target ~15-25)",
+          "location": "sentence: The peak-intensity lines drop through the ambient ..."
         },
         {
           "check_id": "LONGSENT-001",

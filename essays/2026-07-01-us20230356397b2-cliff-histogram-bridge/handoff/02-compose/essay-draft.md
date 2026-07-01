@@ -2,7 +2,7 @@
 essay_id: 2026-07-01-us20230356397b2-cliff-histogram-bridge
 patent_reference: US 2023/0356397 A1
 spine_source: handoff/01-design/thesis-spine.md
-draft_version: 5
+draft_version: 6
 mode_used: walkthrough
 posture_used: measured
 ---
@@ -53,7 +53,9 @@ The reason any of this works comes down to one geometric fact, and it is worth s
 
 That relationship is fixed by where the rows physically sit, not by anything the floor is doing. A flat floor obeys it every single reading.
 
-FIG. 2 draws exactly this sequence, the robot's own beam grazing the edge, then slipping past it into empty air, across the four distances the essay has been narrating stage by stage. FIG. 3's graph is the same event turned into six lines: three median-distance lines and three peak-intensity lines, sitting flat and evenly spaced while the floor holds, then the peak-intensity lines dropping through the ambient rate one after another, then all six lines jumping together the instant the sensor loses the near floor and starts reading the far one.
+FIG. 2 draws exactly this sequence, the robot's own beam grazing the edge, then slipping past it into empty air, across the four distances the essay has been narrating stage by stage. FIG. 3's graph is the same event turned into six lines: three median-distance lines and three peak-intensity lines, sitting flat and evenly spaced while the floor holds.
+
+The peak-intensity lines drop through the ambient rate one after another first; then the median-distance lines converge toward each other as the edge itself comes into view; then, at the instant the sensor loses the near floor entirely, the three median-distance lines jump up together, reading the farther floor beyond the edge.
 
 **One row suddenly reading much farther than the fixed geometry allows is not a data anomaly. It is the floor announcing that it is gone there.** That is the entire trick: not a smarter sensor, but a controller that already knows what "normal" looks like well enough to notice the exact instant reality stops matching it.
 
@@ -75,7 +77,7 @@ Anticipating a hazard, rather than only reacting to one already underway, is wha
 
 What makes this durable rather than a one-generation trick is that the row-comparison idea does not care how many zones the sensor has. The patent's own example uses just three rows compared against each other [0036] to work at all.
 
-STMicroelectronics announced its VL53L9CX sensor in June 2026 with 2,268 zones arranged 54 by 42, roughly 35 times the zone count of the prior VL53L5/L8CX generation's 64 zones or fewer, ST's own words for it: "1st 3D ToF LiDAR with 2.3K zones and flood illumination." (ST is careful about its own wording here too: its press release calls the VL53L9 "the first direct Time-of-Flight (dToF) 3D LiDAR all-in-one module in ST's portfolio," a qualified first inside its own product line, not a claim that multi-zone depth sensing itself is new.)
+STMicroelectronics announced its VL53L9CX sensor in June 2026 with 2,268 zones arranged 54 by 42, roughly 35 times the zone count of the prior VL53L5/L8CX generation's 64 zones or fewer, ST's own words for it: "1st 3D ToF LiDAR sensor with 2.3K zones and flood illumination." (ST is careful about its own wording here too: its press release calls the VL53L9 "the first direct Time-of-Flight (dToF) 3D LiDAR all-in-one module in ST's portfolio," a qualified first inside its own product line, not a claim that multi-zone depth sensing itself is new.)
 
 A sensor with far more zones in 2026 is still running the same comparison a 2022-filed patent already claimed, because the trick was never about zone count. It was about noticing when a few of those zones stop agreeing with each other.
 

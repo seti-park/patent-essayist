@@ -39,9 +39,43 @@ rationale: Reviewer B judged that while the sentence avoids the literal banned p
 - **"For decades that was the standard placement"** (Reviewer B, low-medium; unsourced historical-duration claim): NOT applied. Judged as ordinary scene-setting narrative framing (bottom-mounted IR/ultrasonic cliff sensors on robot vacuums are documented from the early-2000s Roomba era, so "decades" is defensible general domain knowledge by 2026) rather than a specific fact requiring a citable source; essay-context.md does not flag this as a fact needing sourcing.
 - **Section-length imbalance** (both reviewers, low, explicitly rated PASS/borderline-PASS by both, not a true stub): NOT applied. Within normal rhythm variance; gate_stub independently confirms no hard stub.
 
-## Post-fix verification
+## Round 2 (confirmation pass — loop-until-dry, second forked-context round)
 
-- `python3 .claude/skills/_shared/scripts/run_gates.py --draft handoff/02-compose/essay-draft.md --invention-summary handoff/01-design/invention-summary.md --figures handoff/01-design/figures-index.txt --figure-selection handoff/01-design/figure-selection.md --mode essay --json` -> `passed: true`, 0 fail findings across all 11 gates (re-run after all 3 deltas applied).
+Per the design's "a second blind pass confirms convergence" requirement, a second round of 2
+fresh reviewers (same two personas, zero exposure to round 1's findings or to each other) read
+the round-1-corrected `essay-final.md` cold. Reviewer A (impatient investor) reported no new
+high/medium findings and confirmed the round-1 fixes hold (steelman still strong, claim-1 quote
+still exact, FIG. 5/6/7 distinction still clean, SLAM claim still proportionate) — 2 new
+low-severity observations only (both logged below as not-applied). Reviewer B (skeptical
+pro-subject reader) surfaced 5 new items; each was independently verified against
+`input/patent.md` (and, for one external claim, a live web search) before deciding whether to
+apply -- 2 held up and were applied, 3 did not survive verification or were split against
+Reviewer A and are logged as not-applied.
+
+## delta
+class: quote-fidelity-gap
+round: self-audit-r2
+before: "1st 3D ToF LiDAR with 2.3K zones and flood illumination" (as an exact quote of ST's blog title)
+after: "1st 3D ToF LiDAR sensor with 2.3K zones and flood illumination" (word "sensor" restored)
+rationale: Reviewer B flagged that the essay's quote silently drops a word from ST's actual blog title. Independently verified via a live web search (title snippet returned verbatim: "VL53L9: 1st 3D ToF LiDAR sensor with 2.3K zones and flood illumination... - The ST Blog") -- confirmed real, not a hallucinated web check. The dropped word originated in this run's own `essay-context.md` (which had transcribed the same incomplete quote from the upstream series-context brief) and was carried through unchanged by every pipeline stage; fixed here since this is the first point a byte-level check against the live source was actually performed.
+
+## delta
+class: figure-mechanism-oversimplification
+round: self-audit-r2
+before: "FIG. 3's graph is the same event turned into six lines... sitting flat and evenly spaced while the floor holds, then the peak-intensity lines dropping through the ambient rate one after another, then all six lines jumping together the instant the sensor loses the near floor and starts reading the far one."
+after: split into two paragraphs; the medium-range convergence phase (median-distance lines converging toward each other) is now named explicitly, and the final "jump" is correctly attributed to only the three median-distance lines, not all six.
+rationale: Reviewer B checked this sentence against patent paragraph [0077] ("the fourth line 310, the fifth line 312, and the sixth line 314 may all increase" -- naming only the three median-distance lines) and against the essay's own earlier description of the peak-intensity lines already having dropped below ambient during the long-range phase (so they would not also "jump" at the short-range instant). Independently re-verified against [0077] and against a direct visual read of `figures/fig-03.png` (six-line graph: three median-distance lines visibly converge before jumping up together at the right edge; the three peak-intensity lines visibly bottom out near the ambient-rate line earlier and stay low). The original sentence also skipped the medium-range convergence phase entirely, collapsing two distinct visual phases into one.
+
+## considered — not applied (round 2)
+
+- **Jargon-as-signpost finding** (Reviewer B, medium: claimed "time-of-flight is never spelled out in the essay's own prose" and SPAD/ROI are jargon gaps): NOT applied. Independently verified false on its central premise -- "time-of-flight" appears spelled out in the essay's own body prose (not just captions), e.g. "A single time-of-flight reading is a snapshot" (opening sentence of section 2). SPAD/ROI-as-acronyms do appear only inside the verbatim claim-1 quote, but their plain-English concepts (counting photons; "the region of interest carves out the bottom three rows") are thoroughly explained in the surrounding prose, which is what the check actually requires. Reviewer A's independent read the same round found no jargon-depth issue. Logged as a reviewer error on verification, not a real defect.
+- **SLAM-stack word-choice re-flagged** (Reviewer B only, medium; Reviewer A explicitly re-checked the same sentence the same round and found "no findings"): NOT applied a third time. Split verdict between the two round-2 reviewers on a sentence already softened once in round 1 (see the `closing-scope-overreach` delta above); per self-audit policy, split/taste-level findings are logged, not force-applied, especially on a sentence that has already been revised once for the identical concern.
+- **Claim 1 (general, disjunctive) vs. claim 21 (fully elaborated three-range embodiment) scope proximity** (Reviewer B only, medium; not raised by Reviewer A in either round): NOT applied. Verified the underlying patent-construction observation is technically accurate (claim 1's "convergence" test does not itself recite three ranges; the three-range architecture is claim 21's, dependent through claim 9, plus the specification's examples) -- but the essay's own text already has two full paragraphs of narrative distance between the claim-1 quote and the "three recognizable stages" description, never re-invokes "claim 1" for the three-range specifics, and grounds those specifics in specification paragraphs ([0051], [0054], [0083]), not a claim citation. This is a legitimate but genre-inappropriate level of claim-construction precision for a general-audience series essay (see the existing agility-run precedent's own scope note: "not a legal opinion on claim validity"); logged as watch for design-stage awareness rather than a drafting defect.
+
+## Post-fix verification (final, after both self-audit rounds)
+
+- `python3 .claude/skills/_shared/scripts/run_gates.py --draft handoff/02-compose/essay-draft.md --invention-summary handoff/01-design/invention-summary.md --figures handoff/01-design/figures-index.txt --figure-selection handoff/01-design/figure-selection.md --mode essay --json` -> `passed: true`, 0 fail findings across all 11 gates (re-run after all 5 applied deltas, both rounds).
 - Every `[dddd]` anchor remaining in the draft (`[0004] [0018] [0019] [0026] [0035] [0036] [0043] [0045] [0046] [0050] [0051] [0054] [0082] [0083] [0086]`) confirmed present in `invention-summary.md`'s anchor set; `[0005]` no longer cited (its content is now correctly quoted as part of the claim-1 sentence, attributed by claim name, not by paragraph bracket).
-- All essay-body paragraphs re-verified under the 96-word / 8-mobile-line Pass-5 threshold after the FIG. 6/7 split (max 95 words).
-- `draft_version` bumped 4 -> 5; `publication.md` regenerated; `essay-final.md` re-promoted from the corrected `publication.md`.
+- All essay-body paragraphs re-verified under the 96-word / 8-mobile-line Pass-5 threshold after every split, including the round-2 FIG. 3 split (max 95 words, 34 body paragraphs total).
+- `draft_version` bumped 4 -> 5 (round 1) -> 6 (round 2); `publication.md` regenerated each time; `essay-final.md` re-promoted from the corrected `publication.md` each time.
+- **Loop-until-dry status: converged, stopped after round 2 of the 3-round cap.** Round 2 found real issues (2 applied) but at a shrinking hit rate versus round 1 (3 applied), with the majority of round 2's candidate findings failing independent verification (jargon claim factually wrong on inspection) or failing the multi-vote bar (2 of 5 were split between the round's own two reviewers). A third round was judged disproportionate to the marginal remaining risk; the two genuinely open items (SLAM-stack word choice, claim-1/claim-21 proximity) are logged above as watch items for a future design-stage revisit rather than forced into a essay revision that keeps chasing a single adversarial persona's shifting bar.
