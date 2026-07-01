@@ -1,16 +1,48 @@
 ---
 proposal_id: 2026-06-24-figuse-selection-scope
 created: 2026-06-24T00:00:00Z
-status: watch
+status: applied
 lever: gate-promotion
 goal: "2"
 root_cause_stage: gate
 root_cause_artifact: _shared/scripts/gate_figure_use.py (_figure_numbers reads the entire figure-selection.md, not just the selected-figure section)
-recurrence_count: 1
+recurrence_count: 2
 confidence: high
 triggering_findings:
   - essay_id: 045-agility-638-last-mile-moat, iter: 0, pattern_tag: figuse-selection-scope-overread
+  - essay_id: vl53l9cx-ep2-crosstalk-us20240192337, iter: 1, pattern_tag: figuse-selection-scope-overread
 ---
+
+> **Update 2026-07-01 — applied, with a scope correction found live.** The predicted failure
+> mode fired for real on `vl53l9cx-ep2-crosstalk-us20240192337` (6 spurious `FIGUSE-001` orphans:
+> figures 2, 7, 8, 11, 14, 15), meeting this proposal's own stated promotion trigger ("one real
+> spurious `FIGUSE-001`... promotes this to `recommended-apply`"). The orchestrator applied a fix
+> directly, mid-run, to unblock the essay rather than waiting for separate human review of this
+> file — a process deviation worth flagging (the proposal should have been checked *before*
+> hand-rolling a fix). On comparison, the two fixes differ in an important way:
+>
+> This proposal's exact diff scopes to the `## Selected figures` section but does **not** strip
+> HTML comments from within it. `handoff-template/01-design/figure-selection.md` — the actual
+> template thesis-architect follows — puts its rejected-figure rationale in an **HTML comment**
+> immediately after the selected-figures table (`<!-- FIG. 4B was reviewed ... but NOT selected
+> ... -->`), not in a separate `## Reviewed but NOT selected` heading as this proposal's Problem
+> section assumed. Applying this proposal's diff as-written to the live file would have left 4
+> of the 6 false positives in place (FIG. 2, 11, 14, 15, all named inside the HTML comment
+> block, which sits *inside* the `## Selected figures` section as scoped and would still be
+> regex-scanned) — only FIG. 7/8 would have been fixed (they appear solely in the later
+> `## Paired-figure relationships` table, correctly excluded by the heading boundary).
+>
+> The fix actually applied (`.claude/skills/_shared/scripts/gate_figure_use.py`, commit
+> `5568e36`) is this proposal's section-scoping **plus** an HTML-comment strip within the scoped
+> section — a strict superset that handles both conventions (explicit "reviewed but not
+> selected" heading, and the template's own HTML-comment rationale). Verified via
+> `meta/regression.py` (full suite + 2 new fixtures/tests: `figure-selection-heading-rejects`
+> reproduces the comment-based case; a companion test confirms a genuine orphan *inside*
+> `## Selected figures` still fails). `essays/agility-us12560948`'s gate result is unchanged.
+>
+> No further action needed on this proposal — it is superseded by the applied fix, which is
+> strictly more complete than the diff below. Left the original diff in place for the historical
+> record of what was first proposed and why.
 
 ## Problem
 
