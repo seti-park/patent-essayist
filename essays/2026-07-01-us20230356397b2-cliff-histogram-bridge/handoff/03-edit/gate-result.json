@@ -197,8 +197,8 @@
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
-          "message": "sentence runs 53 words (target ~15-25)",
-          "location": "sentence: Raynor. - US 2021/0268903 (anti-collision). - US 2..."
+          "message": "sentence runs 164 words (target ~15-25)",
+          "location": "sentence: Raynor. - US 2021/0268903 A1, \"                   ..."
         }
       ]
     }

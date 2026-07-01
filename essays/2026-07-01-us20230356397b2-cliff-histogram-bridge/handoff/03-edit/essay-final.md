@@ -87,11 +87,11 @@ The next sensor generation will keep shipping with more zones, and every one of 
 ## Patents
 - US 2023/0356397 A1, "Cliff Detection in Robotic Devices," STMicroelectronics (Shenzhen) R&D Co. Ltd / STMicroelectronics S.A., filed 2022-05-03, inventors: Benoit Rivot, Xingyu Wang.
 - US 2022/0184815, "Controlling Movement of a Mobile Robot," STMicroelectronics R&D, filed 2020-12-15, inventors: James M. Hanratty, Jeffrey M. Raynor.
-- US 2021/0268903 (anti-collision).
-- US 2026/0087695 (histogram-based scene change).
-- US 2022/0067346 (depth and inertial fusion).
-- US 2024/0191996 (multi-IMU robotics fusion).
-- US 2022/0080979 (egomotion).
+- US 2021/0268903 A1, "Speed Measurement Using Time-of-Flight Sensing and Anti-Collision Protection Using Time-of-Flight Sensing," STMicroelectronics (Grenoble 2) SAS, filed 2021-02-15, published 2021-09-02, inventor: Thomas Perotto. (anti-collision)
+- US 2026/0087695 A1, "Compact Normalized Histograms and Scene Change Indicator," STMicroelectronics International N.V., filed 2024-09-25, published 2026-03-26, inventors: Olivier Pothier, Thierry Lebihen, Victor Macela. (histogram-based scene change)
+- US 2022/0067346 A1, "System and Method for Detecting Human Presence Based on Depth Sensing and Inertial Measurement," STMicroelectronics, Inc., filed 2020-08-28, published 2022-03-03, inventors: Xiaoyong Yang, Kalyan-Kumar Vadlamudi-Reddy. (depth and inertial fusion)
+- US 2024/0191996 A1, "System and Method for Time Synchronized Fusion of Multiple Inertial Sensors," STMicroelectronics International N.V., filed 2022-12-13, published 2024-06-13, inventors: Swapnil Sayan Saha, Denis Ciocca, Mahesh Chowdhary. (multi-IMU robotics fusion)
+- US 2022/0080979 A1, "Method for Motion Estimation in a Vehicle, Corresponding Device and Computer Program Product," STMicroelectronics S.r.l. / STMicroelectronics, Inc. / STMicroelectronics (Grand Ouest) SAS, filed 2021-09-09, published 2022-03-17, inventors: Nicola Matteo Palella, Leonardo Colombo, Andrea Donadel, Roberto Mura, Mahaveer Jain, Joëlle Philippe. (egomotion / vehicle motion estimation)
 
 ## Official statements
 - STMicroelectronics, VL53L9CX press release and blog (2026-06-22).
