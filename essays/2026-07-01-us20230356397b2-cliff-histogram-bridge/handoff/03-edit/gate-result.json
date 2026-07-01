@@ -149,26 +149,20 @@
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
-          "message": "sentence runs 45 words (target ~15-25)",
+          "message": "sentence runs 46 words (target ~15-25)",
           "location": "sentence: A peak intensity is only treated as a cliff signal..."
         },
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
           "message": "sentence runs 39 words (target ~15-25)",
-          "location": "sentence: 6 runs a different check for the medium range: not..."
+          "location": "sentence: 6: a different check for the medium range, not amb..."
         },
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
-          "message": "sentence runs 42 words (target ~15-25)",
-          "location": "sentence: 7 covers the simplest case, whether the ground has..."
-        },
-        {
-          "check_id": "LONGSENT-001",
-          "severity": "warn",
-          "message": "sentence runs 38 words (target ~15-25)",
-          "location": "sentence: Three separately-triggered tests, not one test run..."
+          "message": "sentence runs 78 words (target ~15-25)",
+          "location": "sentence: 7: the simplest case, whether the ground has been ..."
         },
         {
           "check_id": "LONGSENT-001",

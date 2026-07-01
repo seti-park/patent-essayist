@@ -44,21 +44,37 @@ The reason any of this works comes down to one geometric fact, and it is worth s
 
 That relationship is fixed by where the rows physically sit, not by anything the floor is doing. A flat floor obeys it every single reading.
 
-FIG. 2 draws exactly this sequence, the robot's own beam grazing the edge, then slipping past it into empty air, across the four distances the essay has been narrating stage by stage. FIG. 3's graph is the same event turned into six lines: three median-distance lines and three peak-intensity lines, sitting flat and evenly spaced while the floor holds.
+![FIG. 2: the robot approaching the edge across four stages, its beam grazing the drop and then slipping past it.](figures/fig-02AB.png)
 
-The peak-intensity lines drop through the ambient rate one after another first; then the median-distance lines converge toward each other as the edge itself comes into view; then, at the instant the sensor loses the near floor entirely, the three median-distance lines jump up together, reading the farther floor beyond the edge.
+*FIG. 2A-2B: the robot rolling toward the edge, its beam still landing on the floor ahead of it. FIG. 2C-2D: the beam grazing the edge itself, then slipping past it into empty air, the same four-stage approach the analogy above is narrating.*
+
+![FIG. 3: six lines tracking median distance and peak intensity per row as the robot approaches the edge.](figures/fig-03.png)
+
+*FIG. 3: the same event turned into six lines, three median-distance lines and three peak-intensity lines, sitting flat and evenly spaced while the floor holds. The peak-intensity lines drop through the ambient rate one after another first; then the median-distance lines converge toward each other as the edge itself comes into view; then, at the instant the sensor loses the near floor entirely, the three median-distance lines jump up together, reading the farther floor beyond the edge.*
 
 **One row suddenly reading much farther than the fixed geometry allows is not a data anomaly. It is the floor announcing that it is gone there.** That is the entire trick: not a smarter sensor, but a controller that already knows what "normal" looks like well enough to notice the exact instant reality stops matching it.
 
 ## The Three-Range Check Runs a Fixed Test, Not a Vague Impression
 
-A skeptical read of the previous section is fair: a change in floor material, dark carpet next to light tile, could plausibly weaken a signal too, and mistaking that for a cliff would be worse than useless. The patent's flowcharts (FIGS. 4 through 7) show why that mistake is checked for. FIG. 4 restates the whole method in three blocks: sense while moving [0082], compare the rows and detect an approaching edge, then change the robot's propulsion before it reaches that edge [0086].
+A skeptical read of the previous section is fair: a change in floor material, dark carpet next to light tile, could plausibly weaken a signal too, and mistaking that for a cliff would be worse than useless. The patent's flowcharts (FIGS. 4 through 7) show why that mistake is checked for.
 
-FIG. 5 makes the long-range test literal. A peak intensity is only treated as a cliff signal if it falls below a stated multiple of the *measured* ambient light level, not an arbitrary drop, so a merely darker floor that never crosses that ambient-relative threshold does not trigger a false stop.
+![FIG. 4: the claimed method restated as a three-block flowchart.](figures/fig-04.png)
 
-FIG. 6 runs a different check for the medium range: not ambient light, but whether the rows' distance readings have moved within a set percentage of each other, a convergence test that works the same in bright light or dark.
+*FIG. 4: the whole method in three blocks, sense while moving [0082], compare the rows and detect an approaching edge, then change the robot's propulsion before it reaches that edge [0086].*
 
-FIG. 7 covers the simplest case, whether the ground has been lost entirely, and brings the ambient-light check back only for the sub-case where distances jump upward, as a guard against briefly glimpsing a lower floor rather than a genuine edge. Three separately-triggered tests, not one test run three times, is what keeps "the floor changed color" from reading as "the floor ended."
+![FIG. 5: the long-range test, checking peak intensity against the ambient light level.](figures/fig-05.png)
+
+*FIG. 5: the long-range test made literal. A peak intensity is only treated as a cliff signal if it falls below a stated multiple of the measured ambient light level, not an arbitrary drop, so a merely darker floor that never crosses that ambient-relative threshold does not trigger a false stop.*
+
+![FIG. 6: the medium-range test, checking whether the rows' distance readings converge.](figures/fig-06.png)
+
+*FIG. 6: a different check for the medium range, not ambient light, but whether the rows' distance readings have moved within a set percentage of each other, a convergence test that works the same in bright light or dark.*
+
+![FIG. 7: the short-range test, checking whether the ground has been lost entirely.](figures/fig-07.png)
+
+*FIG. 7: the simplest case, whether the ground has been lost entirely, bringing the ambient-light check back only for the sub-case where distances jump upward, as a guard against briefly glimpsing a lower floor rather than a genuine edge.*
+
+Three separately-triggered tests, not one test run three times, is what keeps "the floor changed color" from reading as "the floor ended."
 
 ## The Same Trick Still Runs Under 35 Times More Zones
 

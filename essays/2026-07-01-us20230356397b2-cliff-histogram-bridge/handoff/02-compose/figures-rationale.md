@@ -1,5 +1,18 @@
 # Figures Rationale (Compose placements)
 
+> **Post-acceptance update (human-post-accept, after archiving/meta-loop/push):** SETI asked
+> for FIGS. 2-7 to get the same `image-plus-caption` treatment FIG. 1 already had, rather than
+> the `caption-only-italic` rendering "folded into body prose" recorded below (which this file
+> itself flagged, at the time, as "a deliberate deviation from the caption-only-italic
+> default"). All six now have an actual `![FIG. N: ...](figures/fig-0N.png)` embed followed by
+> an italic caption paragraph, at the same body locations already chosen below (placement
+> unchanged; only the rendering mode changed, from folded-into-prose to image-plus-caption).
+> Each caption reuses this file's already-drafted caption text (updated where the self-audit
+> corrected it, i.e. FIG. 3's six-line description). The per-figure sections below are kept as
+> the historical record of the original placement decision and are otherwise still accurate;
+> only their "Rendering" and "Caption (as written)" fields no longer describe the current
+> output. See `handoff/03-edit/revision-notes.md` for the delta record.
+
 All 7 figure numbers Phase 1 selected are placed. No pair broken; no figure dropped. This
 records Compose's actual placement, which matches Phase 1's `figure-rationale.md` plan with
 one refinement: FIG. 4-7 (the flowchart set) is split across two sections instead of stacked
