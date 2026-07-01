@@ -1,15 +1,19 @@
 ---
 proposal_id: 2026-06-24-figuse-selection-scope
 created: 2026-06-24T00:00:00Z
-status: watch
+updated: 2026-07-01T00:00:00Z
+status: recommended-apply
 lever: gate-promotion
 goal: "2"
 root_cause_stage: gate
 root_cause_artifact: _shared/scripts/gate_figure_use.py (_figure_numbers reads the entire figure-selection.md, not just the selected-figure section)
-recurrence_count: 1
+recurrence_count: 2
 confidence: high
 triggering_findings:
   - essay_id: 045-agility-638-last-mile-moat, iter: 0, pattern_tag: figuse-selection-scope-overread
+  - essay_id: 001-st-histogram-mechanism, iter: 1, pattern_tag: figuse-selection-scope-overread
+  - essay_id: 001-st-histogram-mechanism, iter: 2, pattern_tag: figuse-selection-scope-overread
+  - essay_id: 001-st-histogram-mechanism, iter: 3, pattern_tag: figuse-selection-scope-overread
 ---
 
 ## Problem
@@ -44,11 +48,32 @@ section-scoped     -> selected = {1, 4, 5}          (correct)
 
 This is a **distinct mechanism** from the existing `figure-token-regex-blindspot` class
 (`2026-06-11-figure-token-panel-suffix.md`), which is about lettered-panel tokens like
-"FIG. 4B". This one is a **selected-set scope over-read** of the selection *file*. It is
-first-seen (`recurrence_count: 1`), so it files at `watch` per the promotion rules — but it is
-mechanically safe, fully verified, and sits one dropped-figure-from-prose away from a spurious
-goal-2 hard fail, so the exact diff + test are included for early human application (same
-posture as the two `watch` proposals already on file).
+"FIG. 4B". This one is a **selected-set scope over-read** of the selection *file*.
+
+## Update 2026-07-01 — second occurrence, promoted to `recommended-apply`
+
+Run `001-st-histogram-mechanism` (US 2026/0140238 A1) is exactly the second occurrence this
+proposal's original text predicted: "A second selection file with a 'Reviewed but NOT
+selected' section whose dropped figures are not echoed in prose... promotes this to
+`recommended-apply`." Its `handoff/01-design/figure-selection.md` carries a `## Selected
+figures` table (FIG. 1, FIG. 2 only) followed by a `## Not selected (and why)` section that
+names FIG. 3-7 by number to document deliberate exclusion (crosstalk/correlator/phase-circuit
+detail below the audience floor). The essay draft never mentions FIG. 3-7 in prose — a clean,
+legitimate drop, exactly the case run 045 got lucky on. `gate_figure_use.py` fired real
+`FIGUSE-001` fails for figures 3, 4, 5, 6, and 7 in **every one of that run's 3 rounds**
+(iter 1, 2, 3 — the defect is stable across drafts, confirming it is a parse-scope bug, not
+content-dependent). The orchestrator manually adjudicated the goal-2 hard-gate as clear for
+that run's PASS determination (verified the real `## Selected figures` set — FIG. 1, FIG. 2 —
+has zero orphans), but this is exactly the "adjudicate around it every run" mitigation cost
+this proposal exists to retire.
+
+Re-verified against the current `gate_figure_use.py` source (2026-07-01, unchanged since
+2026-06-24): the diff below still applies verbatim.
+
+`recurrence_count` 1 → 2, `status` `watch` → `recommended-apply` per this proposal's own
+stated promotion rule. Mechanically safe, fully verified twice now, and has produced two real
+false `FIGUSE-001` batches (5 figures × 3 rounds in run 001 alone) rather than a single latent
+near-miss — the exact diff + test below are ready for direct human application.
 
 ## Proposed change (exact diff)
 
@@ -153,10 +178,13 @@ compatibility.
 - Not a reference-edit: the "mention dropped figures in prose anyway" workaround is exactly the
   per-run mitigation cost this should retire — a figure the design **dropped** should be allowed
   to be absent from prose without a spurious goal-2 hard fail.
-- `watch`, not `recommended-apply`: first occurrence (count 1 < RECUR_THRESHOLD 3) and the
-  failure has not yet actually fired in a run. A second selection file with a "Reviewed but NOT
-  selected" section whose dropped figures are not echoed in prose — or one real spurious
-  `FIGUSE-001` — promotes this to `recommended-apply`.
+- `recommended-apply` (updated 2026-07-01, was `watch`): the promotion trigger this proposal
+  itself specified — "a second selection file with a 'Reviewed but NOT selected' section whose
+  dropped figures are not echoed in prose" — fired for real in run `001-st-histogram-mechanism`
+  (15 real `FIGUSE-001` false fails: 5 figures × 3 rounds). Below `RECUR_THRESHOLD` by strict
+  essay-count (2 essays), but the per-run defect count and 100% reproduction rate across both
+  triggering runs make this a high-confidence mechanical fix ready for direct application; not
+  gated further on hitting essay-count 3.
 
 ## Regression expectation
 

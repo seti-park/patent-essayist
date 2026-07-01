@@ -45,6 +45,8 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `thesis-restatement-redundancy` | pass-2 / pass-7 | 3 | compose | section-blueprint (sub-mechanism of redundancy-bloat) | rubric-tuning |
 | `revision-induced-duplication` | gate DUPE-001 / pass-2 | 4b | compose | essay-en-composer revision-mode re-scan | rubric-tuning |
 | `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
+| `typography-html-comment-blindspot` | gate EXCLAIM-001 | 4b | gate | _shared/scripts/gate_typography.py (EXCLAIM_RE has no HTML-comment exemption) | gate-promotion (proposal on file 2026-07-01) |
+| `header-title-near-duplicate` | pass-1 1A | 4b | compose | essay-en-composer/references/section-blueprint.md (no rule against H1/first-`##` sharing a sentence frame) | reference-edit |
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 
@@ -53,8 +55,8 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
-| `mobile-paragraph-wall` † | 0 | 1 | 4 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 7 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 6 | 2 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
@@ -65,15 +67,29 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `claim-vs-spec-citation-conflation` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `figuse-selection-scope-overread` † | 0 | 0 | 1 | 0 | 0 | 0 |
+| `figuse-selection-scope-overread` † | 0 | 0 | 4 | 0 | 0 | 0 |
 | `source-tier-hedge-posture` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `rule-of-three-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `figure-panel-context-bleed` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `legal-posture-language-slip` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `jargon-gloss-gap` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `spec-undercoverage` | 0 | 1 | 0 | 0 | 0 | 0 |
+| `typography-html-comment-blindspot` (new 2026-07-01) | 0 | 0 | 1 | 0 | 0 | 0 |
+| `header-title-near-duplicate` (new 2026-07-01) | 0 | 1 | 0 | 0 | 0 | 0 |
+
+Rows above updated 2026-07-01 for run `001-st-histogram-mechanism`'s contributions only
+(`redundancy-bloat`, `mobile-paragraph-wall`, `figuse-selection-scope-overread`,
+`jargon-gloss-gap`, `spec-undercoverage`, and the 2 new rows). Every other row in this table
+still reflects its state as of run `045-agility-638-last-mile-moat` and has not been
+re-tallied against the several runs recorded in the ledger between 045 and this run (e.g.
+`2026-06-26-*`, `2026-06-27-*` datasets already visible in `findings-ledger.jsonl`) — this
+summary table has drifted out of sync with the ledger for those rows and a full re-tally
+across the whole ledger is recommended next time a human is doing table maintenance, not
+just an incremental per-run update. Flagged here rather than silently corrected in full,
+since a blanket re-tally is a larger edit than this run's scope justifies.
 
 Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
 run). A class with a proposal on file shows its triggering records under `proposed` (the
@@ -142,3 +158,62 @@ levers already used for their cousins):
 classes, now field-tested by the autonomous pass too (caught by `gate_dupe` / pass-7 without a
 human). Their rows live with the run-045 dataset. See
 `meta/improvement-proposals/2026-06-26-self-audit-origin-and-goal-acceptance.md`.
+
+## Run `001-st-histogram-mechanism` (2026-07-01)
+
+US 2026/0140238 A1, Article 1 of 3 in the STM VL53L9CX series. 3 inner-loop rounds (iter 1
+revise-recommended → iter 2 revise-recommended → iter 3 pass), then a dry self-audit round
+(0 applied edits — nothing cleared the multi-vote bar).
+
+**`figuse-selection-scope-overread` promoted `watch` → `recommended-apply`** (recurrence_count
+1 → 2): this run is the second occurrence the sibling proposal
+(`2026-06-24-figuse-selection-scope.md`) predicted verbatim — a `## Selected figures` /
+`## Not selected (and why)` sectioned selection file where the dropped figures (FIG. 3-7) are
+not echoed in prose, producing 5 real `FIGUSE-001` false fails in every one of the run's 3
+rounds (15 false fails total). The orchestrator manually adjudicated goal 2 as clear each
+round (the real `## Selected figures` set — FIG. 1, FIG. 2 — has zero orphans). See the
+proposal file's 2026-07-01 update block for the full re-verification.
+
+**New class `typography-html-comment-blindspot`** (watch, count 1): `gate_typography.py`'s
+`EXCLAIM_RE` exempts Markdown image syntax `![` but not HTML comments `<!--`, so an internal
+`<!-- ... -->` process annotation in the draft false-fires `EXCLAIM-001` (hard-fail) on the
+comment's opening `!`. Fired in round 1; worked around by deleting the stray comment (a
+content-layer fix, not a gate fix). Distinct from `figuse-selection-scope-overread` (different
+file, different check) and `figure-token-regex-blindspot` (lettered-panel suffixes, same gate
+script but a different regex). Proposal: `2026-07-01-typography-html-comment-blindspot.md`.
+
+**New class `header-title-near-duplicate`** (watch, count 1): the H1 and the first `##`
+section header shared the same "[subject] Cannot Time a [X] With a Stopwatch" sentence frame
+— a near-verbatim restatement rather than an escalation from title-hook to lead-hook. Resolved
+in round 2 (H1 states the paradox, first `##` now states the resolution). Single occurrence;
+no proposal filed yet, watching for recurrence. Distinct from `voice-canon-cadence-drift`
+(cadence matching against canon exemplars) and from pass-7 check 2 header-as-claim (whether
+headers reconstruct the argument on a skim, not whether two adjacent headers duplicate each
+other).
+
+**Recurring, matches existing rows (no new class):** `mobile-paragraph-wall` (9 dense
+paragraphs in round 1, 1 residual in round 2 — same class as the on-file
+`recommended-apply` `2026-06-11-gate-structure-word-wall.md`, now recurrence 8 by record
+count); `redundancy-bloat` (the "full histogram" motif recurrence, explicitly judged
+sanctioned-layering not filler — same heterogeneous-mechanism class deliberately held at
+`watch`, now recurrence 7); `spec-undercoverage` (a `[0004]` spine-trace anchor promised in
+`thesis-spine.md` but with no matching Quote-anchor entry in `invention-summary.md` — a
+Phase-1 backfill item, logged not papered over, matches this row's existing owner artifact);
+`jargon-gloss-gap` (the series-vocabulary "zone = cell" equivalence gap, resolved round 2 —
+same mechanism as the existing row, with a series-continuity wrinkle noted in the ledger
+record).
+
+**Self-audit calibration data point (does not fit the ledger schema cleanly, flagged for
+human judgment):** one self-audit reviewer raised a HIGH-severity claim-scope grounding
+finding that did **not** survive the orchestrator's own independent verification against
+`input/patent.md` (the reviewer conflated two distinct senses of "full histogram processing
+capabilities" in the patent's own vocabulary). Correctly not applied (reviewers split 1-1, no
+majority; the orchestrator's direct check refuted rather than confirmed it). Logged as
+`self-audit-reviewer-false-positive` (`root_cause_stage: self-audit-process`, not a
+design/compose/gate/canon stage) — this is reviewer-precision calibration data, not an essay
+defect, and the existing schema's "stage that should have prevented it" framing does not map
+cleanly onto "a reviewer's own false-positive rate." Single data point; not a proposal trigger
+on its own. Worth tracking as its own dimension if a recurring pattern of claim-scope
+false-positives (as opposed to the channel's several *true*-positive catches, e.g.
+`anchor-offbyone`, `claim-scope-misattribution` elsewhere in this table) emerges across future
+self-audit runs.
