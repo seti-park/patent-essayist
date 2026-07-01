@@ -1,0 +1,200 @@
+{
+  "passed": false,
+  "gates": [
+    {
+      "gate": "emdash",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "anchors",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "sources",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "banned",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "structure",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "figure_use",
+      "passed": false,
+      "findings": [
+        {
+          "check_id": "FIGUSE-001",
+          "severity": "fail",
+          "message": "selected figure 3 is never referenced in the draft (orphan)",
+          "location": "figure-selection"
+        },
+        {
+          "check_id": "FIGUSE-001",
+          "severity": "fail",
+          "message": "selected figure 4 is never referenced in the draft (orphan)",
+          "location": "figure-selection"
+        },
+        {
+          "check_id": "FIGUSE-001",
+          "severity": "fail",
+          "message": "selected figure 5 is never referenced in the draft (orphan)",
+          "location": "figure-selection"
+        },
+        {
+          "check_id": "FIGUSE-001",
+          "severity": "fail",
+          "message": "selected figure 6 is never referenced in the draft (orphan)",
+          "location": "figure-selection"
+        },
+        {
+          "check_id": "FIGUSE-001",
+          "severity": "fail",
+          "message": "selected figure 7 is never referenced in the draft (orphan)",
+          "location": "figure-selection"
+        }
+      ]
+    },
+    {
+      "gate": "meta",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "stub",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "cashtag",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "dupe",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "typography",
+      "passed": true,
+      "findings": [
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 37 words (target ~15-25)",
+          "location": "sentence: --- essay_id: 001-st-histogram-mechanism patent_re..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: The VCSEL (102) and VCSEL driver (104) emit the li..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 67 words (target ~15-25)",
+          "location": "sentence: Everything funnels into the histogram processing c..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 61 words (target ~15-25)",
+          "location": "sentence: A patent recently published by STMicroelectronics,..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 47 words (target ~15-25)",
+          "location": "sentence: A single-photon avalanche diode, or SPAD, is the c..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 50 words (target ~15-25)",
+          "location": "sentence: The fix the industry settled on, and the one this ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: The second half is what this patent's title is act..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: A histogram with a few hundred bins, each holding ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 46 words (target ~15-25)",
+          "location": "sentence: It calls for \"                                    ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 40 words (target ~15-25)",
+          "location": "sentence: A state machine with a handful of registers has re..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 43 words (target ~15-25)",
+          "location": "sentence: Picture the depth sensor's field of view as a grid..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 63 words (target ~15-25)",
+          "location": "sentence: 2 shows what that looks like as hardware rather th..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 63 words (target ~15-25)",
+          "location": "sentence: Reference/return histogram, crosstalk histogram, a..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 51 words (target ~15-25)",
+          "location": "sentence: Instead of running that math itself, \"            ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 49 words (target ~15-25)",
+          "location": "sentence: In June 2026, STMicroelectronics announced the VL5..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: Running 2,268 independent bin-by-bin histograms at..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 64 words (target ~15-25)",
+          "location": "sentence: It is not proof that it does.  **The engineering c..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 120 words (target ~15-25)",
+          "location": "sentence: This patent answers how to count that vote without..."
+        }
+      ]
+    }
+  ]
+}
