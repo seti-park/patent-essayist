@@ -201,6 +201,43 @@ class TestFigureUse(unittest.TestCase):
         self.assertTrue(r["passed"])
         self.assertTrue(_has(r, "FIGUSE-000"))
 
+    def test_rejected_figure_in_selected_heading_section_not_flagged(self):
+        # handoff-template's own convention: a "## Selected figures" table
+        # followed by prose/HTML-comment rationale that legitimately names
+        # REJECTED figures by number (e.g. "FIG. 2 was reviewed ... but NOT
+        # selected"). Those mentions must not count as selected.
+        selection = (
+            "# Figure Selection\n\n"
+            "## Selected figures\n\n"
+            "| Figure | File |\n|---|---|\n"
+            "| FIG. 1 | fig-01.png |\n"
+            "| FIG. 3 | fig-03.png |\n\n"
+            "<!-- FIG. 2 was reviewed as the paired precursor to FIG. 3 but NOT "
+            "selected: FIG. 3 alone carries the load-bearing concept. -->\n\n"
+            "## Paired-figure relationships (acknowledged)\n\n"
+            "| Figure(s) | Treatment |\n|---|---|\n"
+            "| FIG. 2 + FIG. 3 | FIG. 3 selected, FIG. 2 dropped |\n"
+        )
+        draft = "Figure 1 and Figure 3 both appear in the essay.\n"
+        r = gate_figure_use.check(draft, {"figure_selection_text": selection})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_rejected_figure_still_orphans_if_truly_selected(self):
+        # Sanity check: scoping to the heading section must not blind the
+        # gate to a real orphan that IS in the "## Selected figures" table.
+        selection = (
+            "## Selected figures\n\n"
+            "| Figure | File |\n|---|---|\n"
+            "| FIG. 1 | fig-01.png |\n"
+            "| FIG. 5 | fig-05.png |\n\n"
+            "## Paired-figure relationships (acknowledged)\n\n"
+            "| Figure(s) | Treatment |\n|---|---|\n"
+        )
+        draft = "Only Figure 1 appears in the essay.\n"
+        r = gate_figure_use.check(draft, {"figure_selection_text": selection})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "FIGUSE-001"))
+
 
 class TestBanned(unittest.TestCase):
     def test_banned_hits_fail(self):

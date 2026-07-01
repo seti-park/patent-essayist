@@ -21,6 +21,15 @@ Context keys consumed:
 Figure numbers are parsed from any of: "fig-07", "FIG. 7", "Figure 7", "Fig 7"
 (case-insensitive), N an integer.
 
+The figure-selection.md convention (see handoff-template/01-design/figure-selection.md)
+is a "## Selected figures" table followed by prose/HTML-comment discussion of figures
+that were considered and REJECTED (paired-figure rationale, etc.) -- e.g. "FIG. 2 was
+reviewed ... but NOT selected". That rejection prose legitimately names rejected figures
+by number, so a naive whole-document scan misreads them as selected and reports them as
+false-positive orphans. To avoid that, the "selected" set is parsed from just the
+"## Selected figures" section (HTML comments stripped), when that heading is present;
+otherwise the whole text is scanned as before (keeps flat-list selection files working).
+
 Checks:
   FIGUSE-000 (warn): no figure-selection provided -- check skipped.
   FIGUSE-001 (fail): a SELECTED figure is never referenced in the draft (orphan).
@@ -37,11 +46,31 @@ import sys
 GATE_ID = "figure_use"
 # Matches "fig-07", "FIG. 7", "Figure 7", "Fig 7".
 FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)\b", re.IGNORECASE)
+# Isolates the "## Selected figures" section (up to the next heading of any level).
+SELECTED_SECTION_RE = re.compile(
+    r"^#{1,6}[ \t]*Selected figures\b.*?(?=^#{1,6}[ \t]|\Z)",
+    re.IGNORECASE | re.MULTILINE | re.DOTALL,
+)
+HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 
 
 def _figure_numbers(text):
     """Return the set of figure numbers mentioned in text."""
     return {int(m.group(1)) for m in FIG_RE.finditer(text or "")}
+
+
+def _selected_text(selection_text):
+    """Scope selection_text to the '## Selected figures' section when present.
+
+    Falls back to the full text when no such heading exists, so flat
+    bullet-list selection files (no headings at all) keep their prior
+    whole-document-scan behavior.
+    """
+    if not selection_text:
+        return selection_text
+    match = SELECTED_SECTION_RE.search(selection_text)
+    section = match.group(0) if match else selection_text
+    return HTML_COMMENT_RE.sub(" ", section)
 
 
 def check(draft_text: str, context: dict) -> dict:
@@ -58,7 +87,7 @@ def check(draft_text: str, context: dict) -> dict:
         })
         return {"gate": GATE_ID, "passed": True, "findings": findings}
 
-    selected = _figure_numbers(selection_text)
+    selected = _figure_numbers(_selected_text(selection_text))
     used = _figure_numbers(draft_text)
 
     # FIGUSE-001: selected but never used (orphan).
