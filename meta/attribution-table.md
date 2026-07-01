@@ -53,18 +53,18 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `redundancy-bloat` | 0 | 6 | 0 | 0 | 0 | 0 |
-| `mobile-paragraph-wall` † | 0 | 1 | 4 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 8 | 0 | 0 | 0 | 0 |
+| `mobile-paragraph-wall` † | 0 | 8 | 2 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `claim-scope-misattribution` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `sources-entry-template-drift` † | 0 | 6 | 0 | 0 | 0 | 0 |
 | `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `claim-vs-spec-citation-conflation` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `claim-vs-spec-citation-conflation` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `figuse-selection-scope-overread` † | 0 | 0 | 1 | 0 | 0 | 0 |
 | `source-tier-hedge-posture` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `rule-of-three-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -74,6 +74,12 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `jargon-gloss-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `fact-introduced-beyond-spans` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quoted-title-emdash-policy-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `thesis-restatement-redundancy` | 0 | 3 | 0 | 0 | 0 | 0 |
+| `anchor-malformed` | 0 | 2 | 0 | 0 | 0 | 0 |
+| `paraphrase-substantive-change` | 0 | 2 | 0 | 0 | 0 | 0 |
+| `closing-scope-overreach` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `quote-fidelity-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
+| `figure-mechanism-oversimplification` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
 Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
 run). A class with a proposal on file shows its triggering records under `proposed` (the
@@ -109,6 +115,35 @@ heterogeneous sub-mechanisms — anchor doubling, caption echo, sanctioned-layer
 intensifier tics — no single mechanical rule covers them and the class has never cost a loop
 iteration). 6 proposals on file as of 2026-06-24 (5 from `2026-06-11-*.md` + the new
 `2026-06-24-figuse-selection-scope.md`). Do not hand-edit the counts.
+
+### Update — run `2026-07-01-us20230356397b2-cliff-histogram-bridge`
+
+Row counts above (`redundancy-bloat` 8, `mobile-paragraph-wall` 8 watch + 2 proposed,
+`sources-entry-template-drift` 6, `claim-vs-spec-citation-conflation` moved to 2 under
+`proposed` now that a proposal file exists for the class, plus new rows
+`thesis-restatement-redundancy` 3, `anchor-malformed` 2, `paraphrase-substantive-change` 2,
+`closing-scope-overreach` 1, `quote-fidelity-gap` 1, `figure-mechanism-oversimplification` 1)
+reflect this run's 13 inner-loop records + its pre-existing 5 self-post-accept records, added by
+`pipeline-retro`. Only rows this run's records touch were recomputed from the full ledger; other
+rows above (e.g. `claim-scope-misattribution`, `external-fact-universalization`) were not
+touched by this run and were left at their prior values, which are already known to lag the
+ledger by several intervening runs (`2026-06-26-*`, `2026-06-27-*`) not yet reconciled here — a
+full-table recount is a separate, larger task than this run's retro warrants.
+
+**`claim-vs-spec-citation-conflation` is now at 2 total occurrences** (run
+`045-agility-638-last-mile-moat` iter 1, `inner-loop`/editorial + this run,
+`self-post-accept`/self-audit) — below `RECUR_THRESHOLD` (3). Held at `watch`, not promoted.
+See `meta/improvement-proposals/2026-07-01-claim-vs-spec-citation-conflation-watch.md` for the
+explicit watch record and the applied-in-advance recommendation (run 045's own logged
+recommendation already states the fix; both occurrences self-corrected without needing it
+applied, but a 3rd occurrence should auto-promote).
+
+**Within-run recurrence signal:** this run's `mobile-paragraph-wall` recurred 4 times *within
+its own inner loop* (iter 1→2→3→4) before resolving at the iteration cap — see the "Within-run
+recurrence" section above. This does not change the cross-run recurrence count differently than
+a normal 4-record addition would, but it is additional, sharper evidence for the already-on-file
+`2026-06-11-gate-structure-word-wall.md` proposal (`recommended-apply`): the gate gap is now
+shown to cost iterations within a single essay, not just to recur across essays.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).
@@ -142,3 +177,43 @@ levers already used for their cousins):
 classes, now field-tested by the autonomous pass too (caught by `gate_dupe` / pass-7 without a
 human). Their rows live with the run-045 dataset. See
 `meta/improvement-proposals/2026-06-26-self-audit-origin-and-goal-acceptance.md`.
+
+## Self-audit channel — second dataset (run `2026-07-01-us20230356397b2-cliff-histogram-bridge`)
+
+Three new first-seen classes surfaced by this essay's self-audit (`origin: self-post-accept`),
+added here per this table's header rule (a new finding class gets a row when first seen):
+
+| Finding class (pattern_tag) | Source signal | Goal | Owner stage | Owner artifact | Default lever |
+|---|---|---|---|---|---|
+| `closing-scope-overreach` | pass-7 / fresh-context self-audit | 1 | design | thesis-spine adversarial-defense steelman-refine scope (closing-paragraph proportionality) | reference-edit |
+| `quote-fidelity-gap` | pass-3 / fresh-context self-audit (live-source check) | 1 | design | fact-check-log / essay-context.md external-quote transcription discipline | reference-edit |
+| `figure-mechanism-oversimplification` | pass-3 coverage / fresh-context self-audit | 2 | compose | caption-roles.md + essay-en-composer figure-description fidelity (multi-signal mechanisms) | reference-edit |
+
+Notes on routing judgment: `closing-scope-overreach` is distinct from `conclusion-over-hedge`
+(that is under-claiming/hedging; this is a closing sentence implying a broader architectural
+dependency than the patent supports — tentatively routed to goal 1 grounding-proportionality per
+the reviewer's own framing in the ledger record, not goal 4a format). `quote-fidelity-gap` is
+distinct from `paraphrase-accidental-drift` and `paraphrase-substantive-change` (those are
+patent-source paraphrase drift; this is an external, non-patent verbatim quote — a blog-post
+title — losing a word somewhere upstream of Phase 2, traced to essay-context.md's own
+transcription). `figure-mechanism-oversimplification` is distinct from `figure-orphan` /
+`figure-offplan` (those are gate-visible use/selection mismatches; this is a judgment-level
+fidelity gap where a correctly-used, correctly-selected figure's underlying mechanism is
+described with an incorrect generalization across its sub-signals).
+
+## Within-run recurrence — a distinct signal from cross-run recurrence
+
+`2026-07-01-us20230356397b2-cliff-histogram-bridge` recurred `mobile-paragraph-wall` 4 times
+*within its own inner loop* (iter 1 -> 2 -> 3 -> 4, shrinking magnitude each round, only
+resolving at the iteration cap). This is the same `pattern_tag` as the existing cross-run
+`mobile-paragraph-wall` class (see the main table row above and the recurrence ledger below —
+counted together, not double-tracked under a second tag), but the *within-one-essay* shape of
+the recurrence is itself a signal distinct from cross-essay recurrence: a single essay needing
+3 revision rounds to clear one finding class, even though it converged before the cap, means the
+mechanical gate gap (`gate_structure.py` counts sentences, not words) cost this run 3 full
+Compose<->Edit iterations it should not have needed. This sharpens (does not replace) the
+existing `mobile-paragraph-wall` proposal record: the word-count gate gap is not just a
+gate-invisibility problem across essays, it is now demonstrated to be an iteration-cost problem
+within a single essay. See `meta/improvement-proposals/2026-06-11-gate-structure-word-wall.md`
+(already `recommended-apply`) — this run is additional evidence for that same on-file proposal,
+not a new class or a new proposal.
