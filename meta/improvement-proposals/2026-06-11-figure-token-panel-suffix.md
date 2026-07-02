@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-11-figure-token-panel-suffix
 created: 2026-06-11T16:30:00Z
-status: watch
+status: applied  # 2026-07-02 architecture refactor; 3rd recurrence (2026-06-26 retro) met the bar; regression PASS
 lever: gate-promotion
 goal: "2"
 root_cause_stage: gate

@@ -81,10 +81,19 @@ Long paragraphs that are otherwise clean (no Pass 2 redundancy) may still need s
 
 ## Reader profile assumption
 
-SETI's reader is Tesla investor or tech-industry analyst. Domain literacy: high on company narratives, medium on patent-claim mechanics, low on filing-process detail.
+The binding profile is `_shared/references/reader-profile.md`: a curious retail investor,
+technical comprehension between advanced high school and early undergraduate, reading for the
+investment thread. A per-run override may appear in `input/essay-context.md` (e.g. an
+analyst-audience wire edition); absent one, the shared profile binds.
 
 This shapes Pass 5 judgment:
 
-- Patent-claim mechanism detail can be moderately dense (reader has medium literacy and is paying attention).
-- Filing-process detail (continuation chains, prosecution history) needs unpacking.
+- Domain literacy: high on company narratives, LOW on patent-claim mechanics, low on
+  filing-process detail. Claim mechanics need the translate-then-quote treatment and a
+  one-clause gloss per term of art (profile rules 1 and 3); flag unglossed terms.
+- Quantitative claims need a familiar-scale comparison when magnitude carries the point
+  (profile rule 2); flag naked magnitudes the reader can't weigh.
+- Filing-process detail (continuation chains, prosecution history) needs full unpacking.
 - Company-narrative friction needs zero unpacking (high literacy).
+- The money thread is structural (profile rule 4): a section that never feeds the verdict is
+  a 5B stake-clarity finding even when technically flawless.

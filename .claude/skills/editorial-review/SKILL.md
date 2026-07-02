@@ -1,6 +1,8 @@
 ---
 name: editorial-review
-description: "Mandatory 7-pass review on every essay draft from Phase 2 Compose. Seven passes (voice canon + anti-AI compliance, redundancy + compression, claim adequacy + fact verification + paraphrase mutation, logical alignment + causality, reader perspective + paragraph readability, lead/conclusion + format compliance). Structured YAML feedback — NOT auto-fix. Posture-aware (aggressive / measured / conservative). Use when essay-draft.md lands in Phase 3 Edit Project. NOT for: format-only verification (folded into Pass 6), pool admission (deprecated), auto-fix, voice training corpus admission."
+description: "Mandatory 7-pass review on every essay draft from Phase 2 Compose. Seven passes (voice canon + anti-AI compliance, redundancy + compression, claim adequacy + fact verification + paraphrase mutation, logical alignment + causality, reader perspective + paragraph readability, lead/conclusion + format compliance incl. 6G over-hedge guard, adversarial reader). Structured YAML feedback — NOT auto-fix. Posture-aware (aggressive / measured / conservative). Use when essay-draft.md lands in Phase 3 Edit. NOT for: format-only verification (folded into Pass 6), pool admission (deprecated), auto-fix, voice training corpus admission."
+context: fork
+agent: editorial-reviewer
 ---
 
 # editorial-review
@@ -33,9 +35,48 @@ Phase 3 Project does NOT load `voice-profile.md` (avoid voice drift bias from re
 
 3-tier: aggressive / measured (default) / conservative. The same finding receives different severity classification under different posture. See `references/posture-lens.md`.
 
+## Finding jurisdiction (anti-hedge-ratchet)
+
+Each pass rules ONLY on its own dimension, and grounding pressure never converts into verdict
+softening:
+
+- **Pass 3 / Pass 4 (grounding, causality)** judge text↔source fidelity. A finding's
+  recommendation names a better anchor, a narrower claim, or an explicitly-labeled-analysis
+  reframe — in that priority order. "Add a caveat / disclaimer / hedge to the conclusion" is
+  NEVER a valid pass-3/4 recommendation; if a claim cannot be anchored, narrowed, or labeled,
+  recommend cutting that claim, not hedging the verdict.
+- **Pass 6 6G** owns verdict confidence, symmetrically: it flags overreach the body cannot
+  carry AND over-hedge the body does not warrant.
+- **Pass 7's steelman check** accepts only a THIS-patent objection; a generic patent truism
+  ("patents don't guarantee products") is `steelman-absent`, not a satisfied steelman.
+
+Rationale: without this fence the loop ratchets — every grounding pass adds a caveat, no pass
+removes one, and conclusions converge on safe-harbor boilerplate regardless of the evidence
+(ledger class `conclusion-over-hedge`).
+
 ## When to invoke
 
 After `essay-en-composer` produces `handoff/02-compose/essay-draft.md`. Mandatory on every essay. No skip option. Rationale: v1 historical leaks (paraphrase mutation in published draft) reached publication only because editorial-review was skipped.
+
+## Re-review protocol (round N > 1)
+
+A re-review is NOT a fresh review plus vibes — it starts from the carried state:
+
+1. Read round N-1's `edit-log.round-(N-1).md` and the composer's
+   `revision-response.round-(N-1).md`.
+2. **Rule on every carried finding_id first**: verify each `applied` disposition actually
+   landed in the draft (quote the fixed span) and did not regress a neighbor (re-count
+   paragraph bands around any structural edit); for each `rejected` disposition, either accept
+   the rejection (note why) or re-assert the finding under its original id with the escalation
+   noted. No id disappears silently.
+3. Then run the full 7 passes on the current draft for NEW findings (ids `rN-F<k>`).
+4. A round-N review that finds zero medium+ findings must still show the carried-id rulings —
+   an edit-log that only says "no findings" after a failing round is invalid.
+
+Each review round runs in a FRESH context (no memory of having approved anything): the
+orchestrator spawns a new `editorial-reviewer` instance per round. Prior rounds' state travels
+through the artifacts above, not through conversation history — commitment to the draft is the
+documented failure mode this isolation exists to prevent.
 
 ## Seven passes (v2 locked order; pass-7 added run 045)
 
@@ -44,7 +85,7 @@ After `essay-en-composer` produces `handoff/02-compose/essay-draft.md`. Mandator
 3. **Claim adequacy + fact verification + paraphrase mutation** — every `[XXXX]` cite verified against `invention-summary.md` Quotable spans verbatim; external claims verified against `fact-check-log.md` + the (re-uploaded) patent.md; paraphrase variations classified (intentional restatement / accidental drift / substantive change). See `references/pass-3-fact-paraphrase.md`.
 4. **Logical alignment + causality** — 인과 vs 상관 vs 우연 distinction, thesis-section 정렬 check against `thesis-spine.md` spine→section trace. See `references/pass-4-logic-causality.md`.
 5. **Reader perspective + paragraph readability** — engagement curve, stake clarity, mobile rendering line count. See `references/pass-5-reader-perspective.md`.
-6. **Lead/conclusion + format compliance** — hook anchor to thesis, frame closure, `# Sources` 5-category enum check, "First, et al." format, em-dash count, `[xxxx]` format check, banned-words grep (covers the deterministic-gate absorption). See `references/pass-6-lead-conclusion-format.md`.
+6. **Lead/conclusion + format compliance** — hook anchor to thesis, frame closure, `# Sources` 5-category enum check, "First, et al." format, em-dash count, `[xxxx]` format check, banned-words grep (covers the deterministic-gate absorption), **6G over-hedge guard** (verdict confidence proportionate to evidence; the mirror of pass-3/4's overreach defense — judgment complement of `gate_hedge`). See `references/pass-6-lead-conclusion-format.md`.
 7. **Adversarial reader-pass (fresh-eyes, run 045+)** — a separate-context pass that does NOT trust the draft: read as the impatient investor and the skeptical pro-subject reader and hunt, decomposed yes/no with a quoted span per check, for BLUF lead-altitude, header-as-claim, an unrebutted strongest counter (steelman), reader-instruction/self-reference meta, jargon deep-dive, stub rhythm, and the core verdict restated in >3 sections. The judgment complement of `gate_meta`/`gate_stub`/`gate_cashtag`/`gate_dupe`. See `references/pass-7-adversarial-reader.md`.
 
 Causal claim quality is a recurring cross-pass concern (Pass 3 + Pass 5). See `references/causal-reasoning.md`.
@@ -62,7 +103,8 @@ posture_applied: measured
 overall_assessment: revise-required
 
 findings:
-  - pass: pass-3-fact-paraphrase
+  - finding_id: r1-F1
+    pass: pass-3-fact-paraphrase
     location: §3, sentence with "complements"
     severity: high
     severity_under_default_posture: high
@@ -81,7 +123,7 @@ Pre:
 - `handoff/02-compose/essay-draft.md` present.
 - `handoff/01-design/{thesis-spine.md, invention-summary.md, fact-check-log.md}` accessible.
 - `patent.md` re-uploaded to Phase 3 Knowledge for Pass 3 verbatim verification.
-- Knowledge files loaded: `deliverable-voice-rules.md`, `anti-ai-writing.md`, `x-article-format.md`, `working-dialogue-voice.md`. (NOT `voice-profile.md` — voice fencing.)
+- Knowledge files loaded: `deliverable-voice-rules.md`, `anti-ai-writing.md`, `x-article-format.md`, `working-dialogue-voice.md`, `_shared/references/reader-profile.md` (audience contract for pass-5/pass-7). (NOT `voice-profile.md` — voice fencing.)
 - Posture confirmed in opening response.
 
 Post:

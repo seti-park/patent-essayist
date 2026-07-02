@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-figure-selection-cover-and-phase
 created: 2026-06-26T00:00:00Z
-status: watch
+status: applied  # 2026-07-02 architecture refactor; schema + Step 9 edits
 lever: reference-edit
 goal: "2"
 root_cause_stage: design

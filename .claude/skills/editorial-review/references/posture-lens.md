@@ -41,6 +41,25 @@ Not every pass responds to posture the same way. Some passes have rules independ
 | 5 Reader perspective | Medium. Aggressive posture permits bold experimentation (delayed thesis, longer setup). Conservative posture enforces strict accessibility. |
 | 6 Lead / conclusion strength | High. Conservative posture requires thesis directly anchored at lead + closed at conclusion. Aggressive posture permits thesis-hint variation. |
 
+## Verdict editions — firm-closing default
+
+Verdict editions (investor / analysis / assessment) default to a **firmer closing**, independent
+of the 3-tier posture above. `thesis-architect` pins `closing_posture: firm` in `thesis-spine.md`
+for these editions (Step 8), and the composer carries it into the draft frontmatter. Under a
+declared firm closing:
+
+- an `Acknowledged` residual risk maps toward `closing-forward-watching-event` or
+  `closing-binary-test`, NOT `closing-open-question`;
+- an over-hedged close is a 6G finding at **high** severity (see
+  `pass-6-lead-conclusion-format.md` 6G);
+- `gate_hedge` HEDGE-001/002 escalate from warn to hard fail.
+
+Important asymmetry note: conservative posture raises sensitivity to OVERREACH (factual findings
+become critical). It does NOT license over-hedging the verdict — 6G binds at every posture. A
+review that responds to grounding pressure by recommending more hedging in the verdict is
+mis-scoped; the correct recommendations are stronger anchors, narrower claims, or labeled
+analysis (6G fix priority).
+
 ## Severity transparency in output
 
 The feedback YAML carries two severity fields per finding.

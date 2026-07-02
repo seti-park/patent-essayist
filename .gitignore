@@ -6,9 +6,11 @@ handoff/**
 !handoff/**/.gitkeep
 
 # Pipeline inputs are provided per run; keep the dirs, ignore the payloads.
+# (figures-work/ — Phase 0 staging — stays ignored by input/**.)
 input/**
 !input/
 !input/figures/
+!input/figures-raw/
 !input/**/.gitkeep
 
 # Per-run archives are generated each pipeline run; keep the dir, ignore payloads.

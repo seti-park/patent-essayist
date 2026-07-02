@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-gate-structure-sentence-band-align
 created: 2026-06-26T00:00:00Z
-status: recommended-apply
+status: applied  # 2026-07-02 architecture refactor; regression PASS
 lever: gate-strengthen
 goal: "3"
 root_cause_artifact: _shared/scripts/gate_structure.py (STRUCT-001 threshold off-by-one vs editorial Pass 2C)

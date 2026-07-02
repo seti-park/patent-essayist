@@ -105,6 +105,30 @@ Carry-over from v1 `patent-reader.references/4-layer-core-mechanism.md`.
 
 Layer 4 target: 2-4 angles. Each must have at least one evidence paragraph and one quote anchor ref. No anchor = exclude.
 
+### Claim scope map (locked / open / pinned)
+
+Required whenever Phase 2 will cite claim anchors. One row per independent claim
+plus every dependent claim the spine relies on.
+
+```markdown
+## Claim scope map
+
+| Claim | Locks (required by claim text) | Leaves open (description preference only) | Pins (approximate point limitations) |
+|---|---|---|---|
+| 1 | <orderings / conditions / ranges the claim text actually requires> | <what the description prefers but the claim does not require> | <"about X" point values, if any> |
+| 5 | ... | ... | e.g. "begins at about 50° C." — a pinned onset point, NOT a floor |
+```
+
+Rules:
+- **Locks** lists only what the claim text requires. Never attribute the description's
+  preferred embodiment (ordering, protocol, geometry) to a claim — narrate such preferences
+  as the description's, on description anchors.
+- **Pins** lists approximate point limitations ("about X"). A pinned point is never a floor
+  or a ceiling: do not describe it with bound vocabulary the claim does not state.
+- `phase2-handoff-notes.md` trap wording must restate this map's distinctions, not collapse
+  them (a trap that groups a pinned point under "floors" re-seeds the exact drift it exists
+  to prevent — see run 2026-06-11-us20260158546a1, finding F1).
+
 ### Reference number table
 
 ```markdown
@@ -123,11 +147,11 @@ Every numeric label in the patent text gets a row. `Figures` column lists which 
 ```markdown
 ## Figure relationships
 
-| Figure | Paired with | Relationship | Page (if known) |
-|---|---|---|---|
-| FIG. 6A | FIG. 6B | same-page sub-figure pair | p. 14 |
-| FIG. 7A | FIG. 7B, FIG. 7C | progressive sequence (before / during / after) | pp. 15-17 |
-| FIG. 1 | (standalone) | — | p. 9 |
+| Figure | Paired with | Relationship | Page (if known) | Cover candidate? | Phase map (sequences only) |
+|---|---|---|---|---|---|
+| FIG. 6A | FIG. 6B | same-page sub-figure pair | p. 14 | | |
+| FIG. 7A | FIG. 7B, FIG. 7C | progressive sequence (before / during / after) | pp. 15-17 | yes (most literal picture of the claimed step) | 7A p1 / 7B p2 / 7C p3, per [0046]-[0047] |
+| FIG. 1 | (standalone) | — | p. 9 | | |
 ```
 
 Documents paired relationships that figure-selection (thesis-architect Step 9) needs:
@@ -135,6 +159,13 @@ Documents paired relationships that figure-selection (thesis-architect Step 9) n
 - **same-page sub-figure pair** — typically processed together as one cognitive unit (e.g., FIG. 6A + 6B). Selecting one but not the other risks losing the visual narrative.
 - **progressive sequence** — must keep all units to preserve before/after meaning. Splitting breaks the figure's argument.
 - **standalone** — independent figure, no pair constraint.
+- **Cover candidate**: mark the single figure that best carries the 5:2 header. It is judged on
+  visual force and on depicting the claimed core step, separately from the argument-economy
+  selection. A sequence that depicts the claimed step is a strong cover candidate even if a static
+  end-state figure already covers the same point in the body.
+- **Phase map**: when a figure is a progressive sequence and the specification enumerates phases,
+  record the phase-to-panel ranges with the enumerating paragraph anchor. Keyframes chosen for a
+  cover strip map one-per-phase from this column, not from visual spacing.
 
 Phase 1 Step 9 (figure mapping) reviews this table to ensure paired figures are treated as one unit in `figure-selection.md`. Phase 1 Step 11 (`phase2-handoff-notes.md`) flags any paired figure where SETI chose to break the pair, so Phase 2 doesn't reopen the decision.
 

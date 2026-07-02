@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Aggregator for the patent-essay deterministic validation gates.
 
-Runs all eleven gates against a draft and aggregates the results.
+Runs all thirteen gates against a draft and aggregates the results.
 
 DRAFT FORMAT ASSUMPTIONS: see gate_emdash.py for the full shared list (Markdown
 draft; quoted text = double quotes or '>' blockquotes; [dddd] anchors; Figure N
@@ -14,7 +14,8 @@ Hard pass/fail rule:
 
 Usage:
   run_gates.py --draft DRAFT [--invention-summary FILE] [--figures FILE]
-               [--figure-selection FILE] [--mode essay|wire] [--json]
+               [--figure-selection FILE] [--patent FILE]
+               [--mode essay|wire] [--json]
 """
 
 import argparse
@@ -28,6 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import gate_emdash
 import gate_anchors
+import gate_quotes
 import gate_sources
 import gate_banned
 import gate_structure
@@ -37,10 +39,12 @@ import gate_stub
 import gate_cashtag
 import gate_dupe
 import gate_typography
+import gate_hedge
 
 GATES = [
     gate_emdash,
     gate_anchors,
+    gate_quotes,
     gate_sources,
     gate_banned,
     gate_structure,
@@ -50,6 +54,7 @@ GATES = [
     gate_cashtag,
     gate_dupe,
     gate_typography,
+    gate_hedge,
 ]
 
 
@@ -74,6 +79,9 @@ def build_context(args):
     if args.figure_selection:
         with open(args.figure_selection, "r", encoding="utf-8") as fh:
             ctx["figure_selection_text"] = fh.read()
+    if args.patent:
+        with open(args.patent, "r", encoding="utf-8") as fh:
+            ctx["patent_text"] = fh.read()
     return ctx
 
 
@@ -124,6 +132,7 @@ def main(argv=None) -> int:
     p.add_argument("--invention-summary", help="path to invention-summary text file")
     p.add_argument("--figures", help="path to figures file (ints, line/comma separated)")
     p.add_argument("--figure-selection", help="path to figure-selection.md (orphan-figure gate)")
+    p.add_argument("--patent", help="path to patent.md (verbatim-quote gate)")
     p.add_argument("--mode", choices=["essay", "wire"], default="essay",
                    help="reserved pass-through mode (default: essay)")
     p.add_argument("--json", action="store_true", help="emit JSON summary instead of text")

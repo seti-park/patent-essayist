@@ -19,6 +19,7 @@ Each fixture is a directory meta/fixtures/<name>/ containing:
   - invention-summary.md   (optional context)
   - figures-index.txt      (optional, ints one per line)
   - figure-selection.md    (optional)
+  - patent.md              (optional, verbatim-quote gate context)
 
 Usage:
   python meta/regression.py            # run gate tests + all fixtures
@@ -71,6 +72,9 @@ def _run_fixture(name):
     sel = os.path.join(fdir, "figure-selection.md")
     if os.path.exists(sel):
         ctx["figure_selection_text"] = _load(sel)
+    pat = os.path.join(fdir, "patent.md")
+    if os.path.exists(pat):
+        ctx["patent_text"] = _load(pat)
 
     overall, results = run_gates.run_all(draft, ctx)
     seen = {f["check_id"] for r in results for f in r["findings"]}
