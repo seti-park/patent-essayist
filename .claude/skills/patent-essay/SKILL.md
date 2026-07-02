@@ -24,7 +24,9 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
 ## Inputs (provided per run)
 
 - `input/patent.md` — the English patent (or whatever path `$ARGUMENTS` names).
-- `input/figures/fig-NN.png` — pre-cleaned figures (Layer-1 cleaning is out of scope).
+- `input/figures/fig-NN.png` — pre-cleaned figures, **or** raw drawings dropped in
+  `input/figures-raw/` (PDF-page screenshots/exports; sub-figures pre-split) — Phase 0
+  cleans those automatically.
 - `input/essay-context.md` — optional extra framing/context for the run.
 
 ## Parameters
@@ -39,6 +41,15 @@ north-star goals and the goal→check matrix live in `_shared/references/scoring
 - `--max-selfaudit-iter N` — max self-audit re-audit rounds (loop-until-dry cap). **Default: 3.**
 
 ## Pipeline
+
+### Phase 0 — Figure prep  (skill: `figure-prep`, only when raw figures are provided)
+
+If `input/figures-raw/` contains image files, invoke `figure-prep` first: it views each raw
+drawing, decides rotation (only if the figure body reads sideways) + USPTO/WO header/footer
+trim fractions, writes `input/figures/trim-decisions.json`, and runs its deterministic pixel
+pipeline (trim → tight-crop → uniform 10% margin → `input/figures/fig-NN.png`, 300 DPI,
+grayscale + `figure-manifest.md`). Requires Pillow + numpy (`pip install pillow numpy`).
+If `input/figures/` already holds cleaned `fig-NN.png` and `figures-raw/` is empty, skip.
 
 ### Phase 1 — Design  (skill: `thesis-architect`, voice-off)
 Invoke `thesis-architect` on the patent. It writes the design hand-off to

@@ -9,6 +9,7 @@ handoff/**
 input/**
 !input/
 !input/figures/
+!input/figures-raw/
 !input/**/.gitkeep
 
 # Per-run archives are generated each pipeline run; keep the dir, ignore payloads.

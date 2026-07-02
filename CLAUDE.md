@@ -1,10 +1,13 @@
 # Patent Essay System (Claude Code / web)
 
-A skill-based pipeline that turns an **English patent** (+ cleaned figures) into a finished
-**English essay** for X Articles. Three phases — **Design → Compose → Edit** — pass data
-through on-disk hand-off directories, and an orchestrator runs the Compose↔Edit quality loop
-until the draft clears the deterministic gates and the editorial assessment. After each essay
-a second, slower **meta-loop** (`pipeline-retro`) proposes improvements to the system itself.
+A skill-based pipeline that turns an **English patent** (+ its drawings — raw PDF-page
+exports are fine) into a finished **English essay** for X Articles. An optional **Phase 0**
+(`figure-prep`) cleans raw drawings into the input contract (header cut → rotate if the body
+reads sideways → tight-crop → uniform margins → `fig-NN.png`); three phases — **Design →
+Compose → Edit** — then pass data through on-disk hand-off directories, and an orchestrator
+runs the Compose↔Edit quality loop until the draft clears the deterministic gates and the
+editorial assessment. After each essay a second, slower **meta-loop** (`pipeline-retro`)
+proposes improvements to the system itself.
 
 This is a conversion of a system originally run as separate claude.ai Projects. The real
 skill bodies have been ported into `.claude/skills/`; the originals are preserved verbatim in
@@ -30,23 +33,29 @@ traceability matrix is in `_shared/references/scoring-rubric.md`:
 /patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire]
 ```
 
-Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and optional
-`essay-context.md`. The orchestrator runs all three phases plus the loop, archives the run to
-`runs/<essay-id>/`, runs the meta-loop, and returns the final essay
+Inputs live under `input/`: `patent.md`, figures (either pre-cleaned `figures/fig-NN.png`,
+or RAW drawings in `figures-raw/` — Phase 0 `figure-prep` cleans, renames, and indexes them
+automatically; needs `pip install pillow numpy`), and optional `essay-context.md`. The
+orchestrator runs Phase 0 when raw figures are present, then all three phases plus the loop,
+archives the run to `essays/<essay-id>/`, runs the meta-loop, and returns the final essay
 (`handoff/03-edit/essay-final.md`) plus a score history. Optional outer backstop:
 
 ```
 /goal the patent-essay SCORE HISTORY shows a final draft that passes all gates with overall_assessment == pass
 ```
 
-Individual phases can be run standalone: `/thesis-architect`, `/essay-en-composer`,
+Individual phases can be run standalone: `/figure-prep`, `/thesis-architect`, `/essay-en-composer`,
 `/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an internal Phase-2 helper).
 
 ## Architecture
 
 ```
 .claude/skills/
-  patent-essay/        orchestrator: P1→P2→P3 inner loop + per-essay pipeline-retro (entry point)
+  patent-essay/        orchestrator: P0→P1→P2→P3 inner loop + per-essay pipeline-retro (entry point)
+  figure-prep/         P0 Figure prep — raw drawings → header cut / rotate-if-sideways /
+                       tight-crop / uniform 10% margin → input/figures/fig-NN.png + manifest
+                       (vision decides per-figure trim+rotation; scripts/ do the pixels —
+                       ported from patent-essay-pipeline patent-figures-clean v2.1)
   thesis-architect/    P1 Design  — patent → thesis + 4-axis grounding + figure plan (voice-off)
   essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
   voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
@@ -69,7 +78,7 @@ meta/
   attribution-table.md       finding-class → goal + owner stage/artifact + lever (retro's brain)
   improvement-proposals/     propose-only proposals (evidence + exact diff); applied by a human
   fixtures/ + regression.py  regression guard run before any proposal is applied
-input/    patent.md · figures/ · essay-context.md
+input/    patent.md · figures-raw/ (raw drops) · figures/ (cleaned) · essay-context.md
 docs/source-prompts/  original claude.ai skills (5: 01-design 02-compose 03-edit 04-promote)
 ```
 
