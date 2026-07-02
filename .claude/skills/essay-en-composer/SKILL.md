@@ -38,6 +38,28 @@ Two orthogonal dimensions, both selectable at invocation. Default: walkthrough +
 6. **Annotate factual claims** — inline `[XXXX]` at every patent claim. External claims go to `# Sources` block + cross-check `fact-check-log.md`. See `references/citation-format.md`.
 7. **Emit draft + publication.md + handoff files** — `essay-draft.md` (frontmatter + footnotes), `publication.md` (stripped via `references/strip-pipeline.md`), `figures-rationale.md`, `thesis-trace.md`.
 
+## Revision mode (loop rounds ≥ 2)
+
+When invoked with edit-log findings / failing gate check_ids (the orchestrator's revision
+step), the composer is a SURGEON, not a re-drafter:
+
+- **Touch only named spans.** Edit exactly the spans a finding or failing check names, plus
+  the minimal surrounding wording a fix forces. Every unflagged sentence survives the round
+  byte-identical.
+- **No new hedges on unflagged prose.** Never add qualifiers, soften verbs, demote definite
+  articles, or downgrade the declared closing posture on sentences no finding named. The
+  loop's Pass 3/4 findings push claims down where evidence demands it; revision mode must not
+  amplify that into register-wide drift (reader-reported failure mode on multi-iteration
+  essays). Grounding fixes state exactly what the finding requires — no prophylactic hedging
+  around them.
+- **Re-scan the blast radius.** After editing, re-check the touched section(s) for
+  (a) self-echo against the rest of the essay (the `gate_dupe` classes:
+  revision-induced-duplication) and (b) the paragraph band — a split or merge can push a
+  NEIGHBOR paragraph over the sentence/word band (revision-induced-band-break); re-count
+  every paragraph in any structurally edited section.
+- **Log the delta.** End the revision with a one-line-per-edit list (span → finding id) so
+  Edit and the self-audit can verify nothing outside the findings moved.
+
 ## Plan ⊥ Execute boundary
 
 Composition stays within `thesis-spine.md` constraints. Fact introduction beyond `invention-summary.md` Quotable spans + `fact-check-log.md` external facts is forbidden in all modes. Voice and clarity refinement scope expands with posture (conservative → measured → aggressive) within walkthrough mode; strict-execution suppresses mid-session intervention; pair mode adds sentence-level checkpoints. Spine gaps stop composition rather than provoke improvisation. Full rule list in `references/execution-boundary.md`.

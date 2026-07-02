@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-02-composer-revision-mode-discipline
 created: 2026-07-02T00:00:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored, regression-gated)
 lever: reference-edit
 goal: "4b"
 root_cause_stage: compose
@@ -15,6 +15,12 @@ triggering_findings:
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 2, pattern_tag: revision-induced-band-break
   - essay_id: (audience feedback, multi-iteration published outputs), pattern_tag: conclusion-over-hedge — reader-reported over-conservative register on heavily-looped essays (SETI, 2026-07-02)
 ---
+
+> **Update 2026-07-02 — applied verbatim** (the "Revision mode (loop rounds ≥ 2)" section
+> inserted into `essay-en-composer/SKILL.md` between "Process (7 steps)" and "Plan ⊥ Execute
+> boundary", exactly as filed), same-day, on SETI's go-ahead following the reader-feedback
+> discussion. Success criteria to watch on the next multi-round run are in the Regression
+> expectation below.
 
 ## Problem
 
