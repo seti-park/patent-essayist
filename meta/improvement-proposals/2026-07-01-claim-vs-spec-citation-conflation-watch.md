@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-01-claim-vs-spec-citation-conflation-watch
 created: 2026-07-01T11:00:00Z
-status: watch
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: reference-edit
 goal: "1"
 root_cause_stage: compose
@@ -12,6 +12,16 @@ triggering_findings:
   - essay_id: 045-agility-638-last-mile-moat, iter: 1, pattern_tag: claim-vs-spec-citation-conflation
   - essay_id: 2026-07-01-us20230356397b2-cliff-histogram-bridge, iter: null (self-post-accept, round 1), pattern_tag: claim-vs-spec-citation-conflation
 ---
+
+> **Update 2026-07-02 — applied early by human decision.** Both reference edits below were
+> applied as part of the user-sponsored meta-harvest refactor, at recurrence 2 (below
+> RECUR_THRESHOLD 3) on the grounds this file itself laid out: the exact fix was on file for
+> early human application, both occurrences cost real loop/self-audit work, and the change is
+> documentation-only. `citation-format.md` gained the "Claim language vs specification-paragraph
+> attribution" subsection verbatim; `invention-summary-schema.md`'s Quote anchor table gained a
+> `Source layer (claim / spec)` column adapted to that file's actual column layout (Quote ID /
+> Paragraph / Verbatim text / Significance), including the `q-clm<N>-<seq>` ID form and a
+> claim-sourced example row. Gates and fixtures untouched; regression green.
 
 ## Problem
 

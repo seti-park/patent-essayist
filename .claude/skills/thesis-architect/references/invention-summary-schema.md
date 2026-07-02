@@ -145,13 +145,24 @@ Origin: phase1-retrospective.md Insight 6-1 — FIG 6A 가 selection 단계에�
 ```markdown
 ## Quote anchor table
 
-| Quote ID | Paragraph | Verbatim text | Significance |
-|---|---|---|---|
-| q-0016-1 | `[0016]` | "the vision sensor providing pre-impact prediction to the airbag controller" | claim-supporting |
-| q-0024-1 | `[0024]` | "deployment decision is made approximately 70 milliseconds before traditional accelerometer-based systems would respond" | quantitative |
+| Quote ID | Paragraph | Verbatim text | Significance | Source layer |
+|---|---|---|---|---|
+| q-0016-1 | `[0016]` | "the vision sensor providing pre-impact prediction to the airbag controller" | claim-supporting | spec |
+| q-0024-1 | `[0024]` | "deployment decision is made approximately 70 milliseconds before traditional accelerometer-based systems would respond" | quantitative | spec |
+| q-clm1-1 | claim 1 | "a controller configured to initiate deployment prior to physical contact" | claim-supporting | claim |
 ```
 
-Quote ID format: `q-<paragraph>-<seq>`. Significance enum: `claim-supporting | mechanism-critical | quantitative | prior-art-contrast`. See `references/quote-anchor-conventions.md`.
+Quote ID format: `q-<paragraph>-<seq>` for spec-sourced spans, `q-clm<N>-<seq>` for claim-sourced spans. Significance enum: `claim-supporting | mechanism-critical | quantitative | prior-art-contrast`. See `references/quote-anchor-conventions.md`.
+
+**Source layer (claim / spec) — mark at extraction time.** Every Quotable span must be marked
+`claim` or `spec` when it is extracted, while the patent text is in hand and the distinction is
+cheapest to get right. For a `claim`-sourced span the Paragraph cell carries the claim number
+(`claim 1`), not a `[dddd]` bracket. Compose must carry this marking into `thesis-trace.md`'s
+anchor map unchanged; a `claim`-marked span may never acquire a `[dddd]` bracket downstream, and
+a `spec`-marked span may never be narrated as "the claim... exactly as filed" downstream — a
+specification paragraph restating a claim limitation in its own words is a paraphrase of the
+claim, not the claim itself (see `essay-en-composer/references/citation-format.md`, "Claim
+language vs specification-paragraph attribution").
 
 ### Timeline
 

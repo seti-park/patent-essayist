@@ -17,6 +17,23 @@ Tesla's claim of pre-impact deployment derives from the vision sensor's predicti
 - Phase 2 never re-extracts from patent.md (patent.md isn't in Phase 2 Knowledge).
 - Quoted text must match the verbatim text in the invention-summary source — Phase 3 Edit Pass 3 verifies this by string match.
 
+### Claim language vs specification-paragraph attribution
+
+Verbatim **claim** language (independent or dependent claim text) is attributed by claim number
+in prose — "Claim 1 states...", "claim 17 covers..." — **never** by a `[dddd]`
+specification-paragraph bracket. `[dddd]` brackets are reserved for specification paragraphs.
+
+Before citing any quote as claim language, verify the quoted text actually appears in the named
+claim (not the specification's summary/background paragraph describing the same limitation in
+different words, and not the Abstract). A specification paragraph that restates a claim
+limitation in its own words is a paraphrase of the claim, not the claim itself, and must not be
+quoted as if it were the granted claim text.
+
+If the invention-summary's Quote-anchor table marks a span as spec-sourced, do not upgrade it to
+"the claim, quoted exactly as filed" in composed prose even if the wording is similar to the
+claim; either quote the claim itself (re-extracting it from the patent's claims section) or keep
+the spec-paragraph attribution and description-level framing.
+
 ### External (non-patent) sources → entries in `# Sources` block
 
 External attributions go in the essay's `# Sources` block at the end, NOT as inline footnotes. The 5-category enum (Patents / Papers / Official statements / News & media / Technical specs) applies.
