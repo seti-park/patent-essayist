@@ -23,7 +23,9 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `sources-enum-violation` | gate SOURCES-002 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit (or gate-promotion) |
 | `sources-subgroup-violation` | gate SOURCES-003 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit |
 | `lead-conclusion-weak` | pass-6 6A/6B | 4a | design/compose | thesis-spine arc / section-blueprint closing_directive | reference-edit |
-| `conclusion-over-hedge` | SETI catch / pass-6 6G | 4a | design + edit | thesis-spine closing posture + pass-6-lead-conclusion-format.md | reference-edit (or rubric-tuning: posture) |
+| `conclusion-over-hedge` | gate HEDGE-001/002/003 / pass-6 6G (was: SETI catch only) | 4a | design + edit | thesis-spine closing_posture + section-blueprint closing directive + pass-6 6G | gate-promotion (done 2026-07-02) + reference-edit |
+| `quote-fabrication` | gate QUOTE-001 (was: pass-3 judgment only) | 1 | design | invention-summary Quotable spans / quote-anchor-conventions verbatim discipline | gate-promotion (done 2026-07-02) |
+| `loop-shape-violation` | check_run RUN-001..007 | all | orchestrator | patent-essay SKILL loop policy (round artifacts, dispositions, double-clean) | reference-edit |
 | `paragraph-eight-sentence-slip` | gate STRUCT-001 vs pass-2C | 3 / 4a | gate | gate_structure.py threshold (>8 vs >=8) | gate-strengthen |
 | `publication-hard-wrap` | publish render | 4a | compose | x-articles-format-en.md + strip-pipeline.md | reference-edit + pipeline |
 | `figure-cover-undervalued` | SETI catch / design | 2 | design | invention-summary-schema Figure relationships + SKILL Step 9 | reference-edit |

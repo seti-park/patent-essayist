@@ -1,6 +1,8 @@
 ---
 name: essay-en-composer
 description: "Composes English long-form patent analysis essays from the Phase 1 Design handoff (thesis-spine.md + invention-summary.md + figure-selection.md + fact-check-log.md). Mode-aware (walkthrough / strict-execution / pair) × posture-aware (aggressive / measured / conservative). Inline [xxxx] paragraph citations from invention-summary Quotable spans. Output: handoff/02-compose/essay-draft.md + figures-rationale.md + thesis-trace.md + publication.md via strip pipeline. Use when user provides handoff/01-design/* and asks to draft, compose, or write the essay. NOT for: thesis design (Phase 1 thesis-architect), voice judgment (delegate to voice-canon-lookup), editorial review (Phase 3 editorial-review), promo digest (Phase 4 promo-composer)."
+context: fork
+agent: essay-composer
 ---
 
 # essay-en-composer
@@ -28,6 +30,12 @@ Two orthogonal dimensions, both selectable at invocation. Default: walkthrough +
 - **Mode category**: walkthrough (default) / strict-execution / pair — see `references/mode-spec.md`.
 - **Posture**: aggressive / measured (default) / conservative — see `references/mode-spec.md`.
 
+A third entry path is **revision mode** (loop round N > 1): the orchestrator feeds back the
+round's edit-log findings + failing gate check_ids, and the composer revises in place under the
+finding-by-finding disposition contract — see `references/revision-mode.md`. Revision mode is
+NOT freeform redrafting: every medium+ finding_id gets an `applied` or argued `rejected`
+disposition in `revision-response.round-N.md` before prose moves.
+
 ## Process (7 steps)
 
 1. **Mode selection** — adopt or default. Confirm in opening response.
@@ -36,7 +44,7 @@ Two orthogonal dimensions, both selectable at invocation. Default: walkthrough +
 4. **Plan figures** — per `references/figure-rendering.md` 4 caption_role types. Default body rendering = `caption-only-italic`; header = `image-plus-caption`.
 5. **Compose sections in order** — apply voice canon patterns by invoking `voice-canon-lookup` per section. Use only paragraph anchors from `invention-summary.md`. Respect `word_target` ±20%. Per-mode composition rhythm in `references/mode-spec.md`.
 6. **Annotate factual claims** — inline `[XXXX]` at every patent claim. External claims go to `# Sources` block + cross-check `fact-check-log.md`. See `references/citation-format.md`.
-7. **Emit draft + publication.md + handoff files** — `essay-draft.md` (frontmatter + footnotes), `publication.md` (stripped via `references/strip-pipeline.md`), `figures-rationale.md`, `thesis-trace.md`.
+7. **Emit draft + publication.md + handoff files** — `essay-draft.md` (frontmatter + footnotes; frontmatter carries `closing_posture` copied from `thesis-spine.md`, read by `gate_hedge`), `publication.md` (stripped via `references/strip-pipeline.md`, one line per paragraph), `figures-rationale.md`, `thesis-trace.md`.
 
 ## Plan ⊥ Execute boundary
 
@@ -50,7 +58,7 @@ Composition stays within `thesis-spine.md` constraints. Fact introduction beyond
 - `handoff/01-design/fact-check-log.md` exists (may be empty if thesis is entirely patent-anchored).
 - `figures/fig-NN.png` accessible via Project file uploads.
 - `voice-canon-lookup` skill installed in same Project.
-- Phase 2 Knowledge files loaded: `voice-profile.md`, `deliverable-voice-rules.md`, `anti-ai-writing.md`, `caption-roles.md`, `x-article-format.md`, `working-dialogue-voice.md`.
+- Phase 2 Knowledge files loaded: `voice-profile.md`, `deliverable-voice-rules.md`, `anti-ai-writing.md`, `caption-roles.md`, `x-article-format.md`, `working-dialogue-voice.md`, `_shared/references/reader-profile.md` (audience contract — jargon gloss budget, familiar-scale numbers, translate-then-quote claim language, money thread).
 - Mode and posture confirmed in opening response.
 
 ## Post-conditions
@@ -72,6 +80,7 @@ spine_source: handoff/01-design/thesis-spine.md
 draft_version: 1
 mode_used: walkthrough
 posture_used: measured
+closing_posture: firm   # copied from thesis-spine.md; read by gate_hedge
 ---
 
 # <Title>
@@ -112,5 +121,6 @@ Full schema → `handoff-template/02-compose/essay-draft.md`. Strip pipeline →
 - `references/figure-rendering.md` — 4 caption_role types, header vs body rendering modes.
 - `references/citation-format.md` — `[XXXX]` patent paragraph citations + external attribution rules.
 - `references/strip-pipeline.md` — draft.md → publication.md reproducible pipeline.
+- `references/revision-mode.md` — loop revision protocol: disposition-first, fix-at-source, grounding fix priority, recount-after-split, revision-response file.
 - `references/x-articles-format-en.md` — X Articles platform spec (markdown rendering, tables-as-image, Sources block structure, 5-category enum).
 - `references/execution-boundary.md` — Plan ⊥ Execute rules, blueprint gap handling, mode-by-posture scope.

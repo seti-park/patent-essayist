@@ -68,11 +68,25 @@ Fields:
 
 ### Closing directive integrates with `thesis-spine.md`
 
-`thesis-spine.md` 의 Closing posture (from voice-canon selection) + adversarial defense's residual risk together pre-commit the closing.
+`thesis-spine.md` 의 `closing_posture` declaration + adversarial defense's residual risk together pre-commit the closing.
+
+Under `closing_posture: firm` (the default for verdict/investor/analysis editions):
 
 - If residual risk = `Acceptance` (binary falsifier) → use `closing-binary-test` voice pattern.
-- If residual risk = `Acknowledged` → use `closing-open-question` or `closing-aphoristic-landing`.
+- If residual risk = `Acknowledged` → use `closing-forward-watching-event` or `closing-binary-test` — NOT `closing-open-question`. The acknowledgement was already spent in the limits section; the closing lands the call.
 - If residual risk = `none` → use `closing-aphoristic-landing` or `closing-forward-watching-event`.
+
+Under `closing_posture: open` (explicitly declared, with a recorded reason) the `Acknowledged` →
+`closing-open-question` mapping is available.
+
+**Verdict-section drafting discipline** (enforced by `gate_hedge` + editorial 6G):
+
+- The call leads; bounds follow ("The verdict is yes. …" — never "a qualified yes").
+- Exactly ONE anti-hype guard, specific to this patent — generic patent truisms ("a patent does
+  not guarantee production / a rising stock price", "only time will tell") are banned in the
+  verdict section; they belong (once) in the dedicated limits section.
+- Limits are referenced from the verdict ("the boundaries set out above scope the moat"), never
+  re-listed.
 
 ## Sources structure plan
 

@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-publication-line-wrap
 created: 2026-06-26T00:00:00Z
-status: recommended-apply
+status: applied  # 2026-07-02 architecture refactor; shipped as _shared/scripts/strip_publication.py + reference edits
 lever: reference-edit + pipeline
 goal: "4a"
 root_cause_artifact: essay-en-composer/references/x-articles-format-en.md (no line-wrap convention) + references/strip-pipeline.md (no paragraph-rejoin step)

@@ -7,6 +7,7 @@ spine_source: handoff/01-design/thesis-spine.md   # the locked spine this draft 
 draft_version: 1                            # increments each Compose↔Edit loop iteration
 mode_used: walkthrough                      # walkthrough | strict-execution | pair
 posture_used: measured                      # aggressive | measured | conservative
+closing_posture: firm                       # copied from thesis-spine.md; read by gate_hedge (firm | open)
 ---
 
 <!--

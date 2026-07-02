@@ -18,9 +18,12 @@ is what converts an unreliable holistic judgment into a reliable atomic one.
 1. **Fresh eyes.** Run in a separate context from the composer (extends the voice fence): a
    reviewer with no commitment to the draft's choices.
 2. **Persona simulation.** Read as the two readers who bounce hardest:
-   - the **impatient investor** — "where did I want the answer sooner / get bored / hit filler?"
+   - the **impatient investor** — instantiates `_shared/references/reader-profile.md`
+     (high-school-to-undergraduate technical comprehension, here for the money thread):
+     "where did I want the answer sooner / get bored / hit un-glossed jargon or filler?"
    - the **skeptical pro-subject reader** — "what is the strongest objection to the thesis, and
-     is it rebutted?"
+     is it rebutted?" The steelman must be a THIS-patent objection; a generic patent truism
+     ("patents don't guarantee products") counts as `steelman-absent`.
 3. **Decompose + force evidence.** Every check is a yes/no with a quoted span (or `ABSENT`),
    never a holistic rating.
 4. **Multi-vote the fuzzy ones.** For taste-level checks (jargon depth, redundancy feel), N

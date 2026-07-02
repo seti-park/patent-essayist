@@ -2,7 +2,9 @@
 
 Deterministic, mechanical checks that a finished English essay draft must pass.
 Pure Python 3 standard library — **no pip installs**. Every gate is runnable
-standalone and importable; `run_gates.py` aggregates all ten.
+standalone and importable; `run_gates.py` aggregates all thirteen. Two pipeline
+utilities live here too: `strip_publication.py` (draft → publication.md, incl.
+paragraph rejoin) and `check_run.py` (loop run-completeness checker).
 
 These gates are the **mechanical (hard pass/fail) layer** of the quality loop. They are
 aligned to the real editorial rules: em-dash / banned-list (anti-ai Pass 1), `[xxxx]` 4-digit
@@ -24,8 +26,12 @@ See `_shared/references/scoring-rubric.md` for how the two combine into PASS/FAI
 | `gate_stub.py`       | Section-balance — a section that is a stub vs its siblings (warn) |
 | `gate_cashtag.py`    | Venue ticker convention — bare ticker should be a `$`-cashtag (warn) |
 | `gate_dupe.py`       | Gross verbatim phrase repetition in body prose (warn) |
+| `gate_quotes.py`     | Invention-summary quotes verbatim-present in patent.md (goal-1 chain) |
+| `gate_hedge.py`      | Verdict-section over-hedge: boilerplate / qualifier-led / hedge density |
 | `banned_terms.txt`   | Mechanical mirror of the anti-ai banned subset (see its header) |
 | `run_gates.py`       | Aggregator + CLI |
+| `strip_publication.py` | draft.md → publication.md (frontmatter/footnotes strip + paragraph rejoin) |
+| `check_run.py`       | Loop run-completeness checker (round artifacts, dispositions, acceptance) |
 | `test_gates.py`      | `unittest` suite (inline fixtures) |
 
 ## Format assumptions
@@ -65,6 +71,7 @@ python run_gates.py --draft DRAFT.md \
     [--invention-summary SUMMARY.md] \
     [--figures FIGS.txt] \
     [--figure-selection figure-selection.md] \
+    [--patent patent.md] \
     [--mode essay|wire] [--json]
 ```
 
@@ -108,6 +115,12 @@ python gate_figure_use.py DRAFT.md [--figure-selection figure-selection.md]
 | STUB-001     | warn | 4a | a body section is a stub vs its siblings (merge/expand) |
 | CASH-001     | warn | 4a | ticker in labeling context lacks the `$` cashtag prefix |
 | DUPE-001     | warn | 4b | a distinctive 5-word phrase repeats verbatim in prose |
+| QUOTE-001    | fail | 1  | an invention-summary "verbatim" quote is absent from patent.md |
+| QUOTE-000/002 | warn | 1 | quote check skipped (no patent) / summary has no quotes |
+| HEDGE-001    | fail* | 4a | safe-harbor boilerplate in the verdict section (*fail iff `closing_posture: firm`, else warn) |
+| HEDGE-002    | fail* | 4a | qualifier-led verdict ("a qualified yes") (*same posture rule) |
+| HEDGE-003    | warn | 4a | hedge-word density in the verdict section over 50% of sentences |
+| HEDGE-000    | warn | 4a | no `##` body section before `# Sources`; hedge check skipped |
 
 ## Tunable constants
 

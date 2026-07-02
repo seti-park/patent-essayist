@@ -1,6 +1,8 @@
 ---
 name: thesis-architect
 description: "Produces the Phase 1 Design handoff bundle (invention-summary.md, thesis-spine.md, fact-check-log.md, figure-selection.md, figure-rationale.md) from a user-supplied patent.md plus cleaned figure assets. Performs 4-axis thesis grounding, Q7 hook-accessibility gate (2 patterns only), adversarial defense, single-spine selection. Output is Markdown, not YAML. Use when user provides patent text + cleaned figures and asks for thesis design, invention analysis, essay outline planning, or Phase 1 Design output. NOT for: prose composition (Phase 2 essay-en-composer), voice work (Phase 2 voice-canon-lookup), editorial review (Phase 3 editorial-review), promo digest (Phase 4 promo-composer)."
+context: fork
+agent: design-architect
 ---
 
 # thesis-architect
@@ -30,10 +32,10 @@ User supplies `patent.md` and a cleaned `figures/` directory (output of Layer 1 
 5. **Q7 hook gate (hard)** — each surviving candidate must map to exactly one of 2 admitted hook patterns. Otherwise reject. See `references/hook-patterns.md`.
 6. **Adversarial defense** — surface the strongest objection per surviving candidate, draft mitigation. Context research's **layer-confusion findings** are priority inputs for Category 1 objections. See `references/adversarial-defense.md`.
 7. **SETI selects one** — single-spine default; multi-spine requires explicit override per `references/single-spine-default.md`.
-8. **Spine lock** — write `thesis-spine.md` with locked candidate's 4-axis anchors, Q7 pattern, adversarial defense, spine→section trace.
-9. **Figure mapping** — write `figure-selection.md` and `figure-rationale.md`. Each figure maps to a thesis point + caption_role. **Paired-figure relationships** (same-page / sub-figure / before-after sequence) reviewed explicitly — pull from `invention-summary.md` §"Figure relationships".
+8. **Spine lock** — write `thesis-spine.md` with locked candidate's 4-axis anchors, Q7 pattern, adversarial defense, spine→section trace, and a **closing posture declaration**: `closing_posture: firm` is the DEFAULT for verdict/investor/analysis editions (the essay's job is to land a call; the limits section bounds it). Only declare `closing_posture: open` when the thesis itself is a genuinely open question the essay does not adjudicate — and record why. Under `firm`, an `Acknowledged` residual risk maps to `closing-forward-watching-event` or `closing-binary-test`, never `closing-open-question` (see `editorial-review/references/posture-lens.md` and pass-6 6G).
+9. **Figure mapping** — write `figure-selection.md` and `figure-rationale.md`. Each figure maps to a thesis point + caption_role. **Paired-figure relationships** (same-page / sub-figure / before-after sequence) reviewed explicitly — pull from `invention-summary.md` §"Figure relationships". Additionally: (a) tag one **cover candidate** for the 5:2 header, judged on visual force + whether it depicts the claimed core step — do NOT drop a sequence that depicts the claimed step purely for economy; (b) for a progressive sequence whose spec enumerates phases, take keyframes one-per-phase from the §"Figure relationships" Phase map (cite the enumerating paragraph), never by visual spacing.
 10. **Fact-check log seed** — write `fact-check-log.md` listing every external (non-patent) fact the spine relies on, with source URL.
-11. **Phase 2 handoff notes** — write `phase2-handoff-notes.md` capturing: (a) Phase 1 의 audience reframe 결정 (if any) (b) 인용 priority 매핑 (어느 Quotable span 이 essay 의 어느 section 에 우선 사용) (c) framing decision 의 trace (rejected candidates 의 핵심 사유) (d) Phase 2 가 우회해야 할 함정 (e) open questions for Phase 2 (SETI 결정 대기 항목).
+11. **Phase 2 handoff notes** — write `phase2-handoff-notes.md` capturing: (a) Phase 1 의 audience reframe 결정 (if any) (b) 인용 priority 매핑 (어느 Quotable span 이 essay 의 어느 section 에 우선 사용) (c) framing decision 의 trace (rejected candidates 의 핵심 사유) (d) Phase 2 가 우회해야 할 함정 — including, for every claim the spine cites, a claim-scope trap restating the invention-summary Claim scope map (locked vs open vs pinned) in do/don't form; trap wording itself must honor the map's vocabulary (never call a pinned point a "floor", never present description-preferred ordering/protocol as claim-locked) (e) open questions for Phase 2 (SETI 결정 대기 항목).
 
 ## Pre/post conditions
 
@@ -85,6 +87,9 @@ Post:
 
 ## Single-spine declaration
 - [x] Single-spine (default)
+
+## Closing posture
+closing_posture: firm  # verdict edition default; carried into the draft frontmatter for gate_hedge
 ```
 
 Full schema → `handoff-template/01-design/thesis-spine.md`.

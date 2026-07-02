@@ -27,6 +27,14 @@ publication.md is the file SETI pastes into X Articles at publication time.
 
 ## Reproducible pipeline
 
+Canonical (portable, includes the paragraph-rejoin step):
+
+```bash
+python .claude/skills/_shared/scripts/strip_publication.py draft.md -o publication.md
+```
+
+Legacy shell equivalent (no rejoin step; reference only):
+
 ```bash
 sed '/^---$/,/^---$/d' draft.md \
   | awk '/^# Footnotes/ { exit } { print }' \
@@ -34,6 +42,15 @@ sed '/^---$/,/^---$/d' draft.md \
   | sed -E 's/ +/ /g' \
   > publication.md
 ```
+
+### Paragraph rejoin (publication only)
+
+The hand-wrapped draft is reflowed to one line per paragraph as the last strip step. A blank line
+separates paragraphs; lines that begin with `#`, `>`, `!` (image), or `|` (table), list items
+(`-` / `*` / `+` / `N.` followed by a space), fenced code, and full-line italic captions are
+structural and are NOT joined to neighbors; everything else in a block is joined with a single
+space. Rationale: X Articles honors single newlines, so an intra-paragraph hard wrap renders as a
+ragged mid-sentence break (proposal `2026-06-26-publication-line-wrap`).
 
 ## Pipeline notes
 

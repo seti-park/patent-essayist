@@ -35,8 +35,11 @@ import sys
 # Tunable constants
 # ---------------------------------------------------------------------------
 GATE_ID = "figure_use"
-# Matches "fig-07", "FIG. 7", "Figure 7", "Fig 7".
-FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)\b", re.IGNORECASE)
+# Matches "fig-07", "FIG. 7", "Figure 7", "Fig 7", and panel-suffixed "FIG. 7C".
+# The optional single panel letter is needed because a trailing letter removes the
+# \b word boundary after the digits, making "FIG. 4B" invisible and falsely
+# orphaning figure 4 (ledger: figure-token-regex-blindspot, 3 recurrences).
+FIG_RE = re.compile(r"\bfig(?:ure|\.|-)?\s*0*(\d+)[a-z]?\b", re.IGNORECASE)
 
 
 def _figure_numbers(text):

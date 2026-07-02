@@ -18,10 +18,10 @@ have prevented it.
 
 | Goal | Deterministic gate | Editorial pass | Upstream owner (P1/P2 artifact) |
 |------|--------------------|----------------|---------------------------------|
-| **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans, 4-axis grounding, thesis-spine |
-| **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale, invention-summary Quotable spans |
-| **3. Easy for the reader to understand** | `gate_structure`, `gate_stub`, `gate_meta` (warn-only smells) | pass-5 reader-perspective + **pass-7 adversarial reader** | mode/posture calibration, section-blueprint lead-altitude |
-| **4a. Well-structured** | `gate_structure`, `gate_stub`, `gate_cashtag` | pass-6 lead/conclusion + format (BLUF + header-as-claim) | section-blueprint, x-articles-format-en, thesis arc |
+| **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) + **`gate_quotes`** (QUOTE-001 invention-summary ↔ patent verbatim) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans + Claim scope map, 4-axis grounding, thesis-spine |
+| **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale (+ cover candidate, phase map), invention-summary Quotable spans |
+| **3. Easy for the reader to understand** | `gate_structure`, `gate_stub`, `gate_meta` (warn-only smells) | pass-5 reader-perspective (against `reader-profile.md`) + **pass-7 adversarial reader** | reader-profile + mode/posture calibration, section-blueprint lead-altitude |
+| **4a. Well-structured (incl. verdict strength)** | `gate_structure`, `gate_stub`, `gate_cashtag`, **`gate_hedge`** (HEDGE-001/002 verdict boilerplate / qualifier-led; fail under `closing_posture: firm`) | pass-6 lead/conclusion + format (BLUF + header-as-claim + **6G over-hedge guard**) | section-blueprint closing directive, thesis-spine closing_posture, x-articles-format-en, thesis arc |
 | **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash`, `gate_meta`, `gate_dupe`, `gate_typography` | pass-1 voice + anti-ai + govuk hygiene | voice-on drafting + anti-ai canon + strip-pipeline |
 
 When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
@@ -38,6 +38,7 @@ the editorial passes and the revision actions.
 |------|-------------------------|------------------|--------------|
 | `emdash`     | `EMDASH-001` | `EMDASH-002` | 4b |
 | `anchors`    | `ANCHOR-001`, `ANCHOR-002`, `FIGREF-001` | `ANCHOR-000`, `FIGREF-000` | 1, 2 |
+| `quotes`     | `QUOTE-001` (summary quote absent from patent) | `QUOTE-000`, `QUOTE-002` | 1 |
 | `sources`    | `SOURCES-001/002/003` | `SOURCES-004` | 4a |
 | `banned`     | `BANNED-001` | — | 4b |
 | `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
@@ -47,6 +48,7 @@ the editorial passes and the revision actions.
 | `cashtag`    | (none — all warn) | `CASH-001` (bare ticker) | 4a |
 | `dupe`       | (none — all warn) | `DUPE-001` (verbatim repeat) | 4b, 3 |
 | `typography` | `LATIN-001`, `EXCLAIM-001` | `EMOJI-001`, `CAPS-001`, `LINK-001`, `LONGSENT-001` | 4b, 4a |
+| `hedge`      | `HEDGE-001`, `HEDGE-002` (when draft declares `closing_posture: firm`) | `HEDGE-000`, `HEDGE-003` (+ 001/002 when posture not firm) | 4a |
 
 The last four are the **run-045 self-check gates** — the mechanical half of the editorial
 blind-spots a human used to catch by hand in post-acceptance revision (see
@@ -60,7 +62,8 @@ python _shared/scripts/run_gates.py \
   --draft handoff/02-compose/essay-draft.md \
   --invention-summary handoff/01-design/invention-summary.md \
   --figures handoff/01-design/figures-index.txt \
-  --figure-selection handoff/01-design/figure-selection.md --json
+  --figure-selection handoff/01-design/figure-selection.md \
+  --patent input/patent.md --json
 ```
 
 ## Layer 2 — Editorial assessment (severity model)
@@ -111,22 +114,40 @@ section)`. As criteria get mechanized into gates, reliance on the judge shrinks.
 ## PASS / FAIL (orchestrator loop policy)
 
 ```
-PASS  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-001)
-         AND  editorial overall_assessment is acceptable per threshold
-         AND  grounding hard-gate not breached
+CLEAN(N)  ⇔  Layer-1 gates all pass (no fail-severity finding, including FIGUSE-001)
+             AND  editorial overall_assessment is acceptable per threshold
+             AND  grounding hard-gate not breached
+             AND  verdict hard-gate not breached
+
+ACCEPTED  ⇔  two consecutive CLEAN rounds from independently spawned reviewers
+             (the second is a confirmation round with no revision in between)
 ```
 
 - **Threshold (default): `pass`.** The loop accepts only a clean `pass`. `--threshold` may
   relax this to `revise-recommended` (accept medium-only findings) for faster turnaround; it
   may never relax to `revise-required`.
+- **Double-clean acceptance:** a single clean round — especially a round-1 clean on a first
+  draft — is a hypothesis, not a verdict. The confirmation round is a FRESH reviewer context
+  ruling on the same draft; only two consecutive cleans accept. Confirmation rounds do not
+  count against `--max-iter`.
 - **Grounding hard-gate:** any `high`/`critical` finding in pass-3 (claim adequacy / fact /
-  paraphrase) or any `gate_anchors` fail is an automatic FAIL even if you relaxed the
-  threshold — never ship weak or invented grounding (goal 1).
+  paraphrase), any `gate_anchors` fail, or any `gate_quotes` fail (QUOTE-001 — an
+  invention-summary quote absent from the patent) is an automatic FAIL even if you relaxed
+  the threshold — never ship weak or invented grounding (goal 1).
 - **Goal-2 hard-gate:** any `FIGUSE-001` (orphan figure) or pass-3 coverage `high` finding is
   an automatic FAIL — figures and spec must actually be used.
+- **Verdict hard-gate:** any `gate_hedge` fail (boilerplate / qualifier-led verdict under a
+  declared firm closing) or a 6G `high` finding is an automatic FAIL — the mirror of the
+  grounding hard-gate: never ship an over-hedged verdict the body's evidence does not
+  warrant (goal 4a; ledger class `conclusion-over-hedge`).
 - **Max revision iterations: 4** (`--max-iter`). On FAIL, the orchestrator feeds the
-  `findings` back into `essay-en-composer` (revision mode) and re-scores. If still failing at
-  the cap, it returns the best round with the remaining findings and the score history.
+  `findings` back into `essay-en-composer` (revision mode; every medium+ finding gets a
+  disposition in `revision-response.round-N.md`) and re-scores with a fresh reviewer. At the
+  cap, the best round may ship ONLY with an explicit `CAP HIT` line in `score-history.md`
+  and the unresolved findings surfaced.
+- **Run-completeness:** before archiving, `_shared/scripts/check_run.py` must pass — it
+  mechanically verifies round artifacts, disposition coverage, carried finding_ids,
+  double-clean (or CAP HIT) acceptance, and self-audit evidence.
 
 ## Layer 3 — Post-acceptance self-audit (autonomous)
 

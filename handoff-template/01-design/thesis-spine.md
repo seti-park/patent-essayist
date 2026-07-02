@@ -62,6 +62,16 @@
 
 **Residual risk**: Acknowledged — Bosch's ~10ms baseline assumes a 2020-era accelerometer ECU; §3 notes this and bounds the claim accordingly.
 
+**Steelman beat**: §3 concedes at full strength that the baseline could be read as outdated, then refines with the ECU-generation bound. <!-- THIS-patent objection only; the generic "patents don't guarantee products" truism is banned as a steelman (adversarial-defense.md). -->
+
+## Closing posture
+
+<!-- firm is the DEFAULT for verdict/investor/analysis editions. Under firm, an
+     Acknowledged residual maps to closing-forward-watching-event or
+     closing-binary-test, never closing-open-question (pass-6 6B override; 6G).
+     The composer copies this into the draft frontmatter for gate_hedge. -->
+closing_posture: firm
+
 ## Single-spine declaration
 
 <!-- Single-spine is the v2 default. Multi-spine requires an explicit SETI override

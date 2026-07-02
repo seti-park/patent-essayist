@@ -10,6 +10,7 @@ description: >
   regression check. Use after a patent-essay run completes, or when asked to review pipeline
   health / propose pipeline improvements.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
+context: fork
 ---
 
 # pipeline-retro

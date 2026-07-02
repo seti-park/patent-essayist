@@ -26,7 +26,11 @@ import gate_stub
 import gate_cashtag
 import gate_dupe
 import gate_typography
+import gate_quotes
+import gate_hedge
 import run_gates
+import strip_publication
+import check_run
 
 
 def _has(result, check_id):
@@ -95,6 +99,14 @@ class TestAnchors(unittest.TestCase):
         ctx = {"invention_summary_text": "", "figures_index": [1, 2, 3]}
         r = gate_anchors.check(draft, ctx)
         self.assertTrue(r["passed"], r["findings"])
+
+    def test_lettered_figref_not_in_index_fails(self):
+        # Panel-suffixed off-index token must no longer escape FIGREF-001.
+        draft = "FIG. 7C shows the gear.\n"
+        ctx = {"invention_summary_text": "", "figures_index": [1, 2, 3]}
+        r = gate_anchors.check(draft, ctx)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "FIGREF-001"))
 
     def test_malformed_anchor_fails(self):
         draft = "See [123] and [12345] for detail.\n"
@@ -201,6 +213,13 @@ class TestFigureUse(unittest.TestCase):
         self.assertTrue(r["passed"])
         self.assertTrue(_has(r, "FIGUSE-000"))
 
+    def test_lettered_panel_token_counts_for_figure(self):
+        # "FIG. 3B" must count as a reference to figure 3 (no false orphan).
+        draft = "Figure 1, Fig. 2, and FIG. 3B all appear.\n"
+        r = gate_figure_use.check(draft, {"figure_selection_text": self.SELECTION})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "FIGUSE-001"))
+
 
 class TestBanned(unittest.TestCase):
     def test_banned_hits_fail(self):
@@ -228,6 +247,19 @@ class TestStructure(unittest.TestCase):
         r = gate_structure.check(para + "\n", {})
         self.assertTrue(r["passed"])  # warn only
         self.assertTrue(_has(r, "STRUCT-001"))
+
+    def test_eight_sentence_paragraph_warns(self):
+        # Boundary aligned to editorial Pass 2C: exactly 8 sentences must warn.
+        para = " ".join("This is sentence %d." % i for i in range(8))
+        r = gate_structure.check(para + "\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        hits = [f for f in r["findings"] if f["check_id"] == "STRUCT-001"]
+        self.assertEqual(len(hits), 1, r["findings"])
+
+    def test_seven_sentence_paragraph_clean(self):
+        para = " ".join("This is sentence %d." % i for i in range(7))
+        r = gate_structure.check(para + "\n", {})
+        self.assertFalse(_has(r, "STRUCT-001"), r["findings"])
 
     def test_rule_of_three_warns(self):
         draft = "It was fast, cheap, and simple.\n"
@@ -441,6 +473,272 @@ class TestRunGatesEndToEnd(unittest.TestCase):
         finally:
             for p in (clean_path, dirty_path, summary, figs):
                 os.unlink(p)
+
+
+class TestQuotes(unittest.TestCase):
+    PATENT = (
+        "# US 9,999,999 B2\n\n"
+        "[0016] The vision sensor provides **pre-impact prediction** to the\n"
+        "airbag controller before contact occurs.\n\n"
+        "[0024] The deployment decision is made approximately 70 milliseconds\n"
+        "before traditional systems would respond.\n"
+    )
+    SUMMARY = (
+        "**Quotable spans:**\n"
+        '- `[0016]`: "The vision sensor provides pre-impact prediction to the airbag controller"\n'
+        "\n"
+        "## Quote anchor table\n\n"
+        "| Quote ID | Paragraph | Verbatim text | Significance |\n"
+        "|---|---|---|---|\n"
+        '| q-0024-1 | `[0024]` | "approximately 70 milliseconds" | quantitative |\n'
+    )
+
+    def test_verbatim_quotes_pass(self):
+        # Span 0016 crosses a bold marker + a hard wrap in the patent text:
+        # the allowed normalizations must bridge both.
+        r = gate_quotes.check("", {"invention_summary_text": self.SUMMARY,
+                                   "patent_text": self.PATENT})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "QUOTE-001"))
+
+    def test_fabricated_span_fails(self):
+        summary = self.SUMMARY.replace("pre-impact prediction", "post-impact correction")
+        r = gate_quotes.check("", {"invention_summary_text": summary,
+                                   "patent_text": self.PATENT})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "QUOTE-001"))
+
+    def test_mutated_table_quote_fails(self):
+        summary = self.SUMMARY.replace("approximately 70 milliseconds",
+                                       "approximately 90 milliseconds")
+        r = gate_quotes.check("", {"invention_summary_text": summary,
+                                   "patent_text": self.PATENT})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "QUOTE-001"))
+
+    def test_no_patent_skips(self):
+        r = gate_quotes.check("", {"invention_summary_text": self.SUMMARY})
+        self.assertTrue(r["passed"])
+        self.assertTrue(_has(r, "QUOTE-000"))
+
+    def test_summary_without_quotes_warns(self):
+        r = gate_quotes.check("", {"invention_summary_text": "## Metadata\nnothing here\n",
+                                   "patent_text": self.PATENT})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "QUOTE-002"))
+
+
+class TestHedge(unittest.TestCase):
+    def _draft(self, verdict, firm=False, limits=""):
+        fm = "---\nessay_id: t\nclosing_posture: firm\n---\n" if firm else ""
+        return (
+            fm + "# T\n\n## Lead\n\nBody paragraph one.\n\n" + limits +
+            "## The Investor Read\n\n" + verdict + "\n\n# Sources\n\n- US1, Acme\n"
+        )
+
+    def test_boilerplate_fails_when_firm(self):
+        d = self._draft("The verdict is yes. But a patent does not guarantee production.",
+                        firm=True)
+        r = gate_hedge.check(d, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "HEDGE-001"))
+
+    def test_boilerplate_warns_without_firm_posture(self):
+        d = self._draft("A patent does not guarantee production.")
+        r = gate_hedge.check(d, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "HEDGE-001"))
+
+    def test_qualifier_led_verdict_fails_when_firm(self):
+        d = self._draft("The verdict is a qualified yes, with real limits.", firm=True)
+        r = gate_hedge.check(d, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "HEDGE-002"))
+
+    def test_firm_clean_verdict_passes(self):
+        d = self._draft(
+            "The verdict is yes. The claim sits on the physics of the problem. "
+            "The boundaries scope the moat rather than cancel it. "
+            "Watch the continuation filings over the next year.", firm=True)
+        r = gate_hedge.check(d, {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_quoted_boilerplate_exempt(self):
+        d = self._draft('The CEO said "a patent does not guarantee success" on stage. '
+                        "The verdict is yes.", firm=True)
+        r = gate_hedge.check(d, {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "HEDGE-001"))
+
+    def test_limits_section_not_scanned(self):
+        limits = ("## What This Patent Does Not Do\n\n"
+                  "A patent is not a product, and it does not guarantee production.\n\n")
+        d = self._draft("The verdict is yes. The moat is real and it gates the revenue.",
+                        firm=True, limits=limits)
+        r = gate_hedge.check(d, {})
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_hedge_density_warns(self):
+        d = self._draft(
+            "The claim might hold. Competitors could route around it. "
+            "The market may not care. Perhaps the family grows.")
+        r = gate_hedge.check(d, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "HEDGE-003"))
+
+
+class TestCheckRun(unittest.TestCase):
+    CLEAN_LOG = "overall_assessment: pass\n\nfindings:\n  - pass: pass-1\n    finding: \"no findings\"\n"
+    FAIL_LOG = (
+        "overall_assessment: revise-required\n\nfindings:\n"
+        "  - finding_id: r1-F1\n    pass: pass-3-fact-paraphrase\n"
+        "    location: s3\n    severity: high\n    finding: \"drift\"\n"
+    )
+    GATE_PASS = '{"passed": true, "gates": []}'
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+        self.edit = os.path.join(self.root, "03-edit")
+        self.compose = os.path.join(self.root, "02-compose")
+        os.makedirs(self.edit)
+        os.makedirs(self.compose)
+
+    def _w(self, rel, text):
+        path = os.path.join(self.root, rel)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(text)
+
+    def _accepted_double_clean(self):
+        self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-1.md",
+                "# Revision response\n\n## r1-F1\n\n- disposition: applied\n")
+        self._w("03-edit/edit-log.round-2.md",
+                "overall_assessment: pass\n\nfindings:\n"
+                "  - pass: carried\n    finding: \"r1-F1 verified fixed\"\n")
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        self._w("03-edit/edit-log.round-3.md", self.CLEAN_LOG)
+        self._w("03-edit/gate-result.round-3.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-2.md", "# Revision response\n(no medium+ findings)\n")
+        self._w("03-edit/essay-final.md", "# Final\n")
+        self._w("03-edit/revision-notes.md", "## delta\n- self-audit fix\n")
+
+    def test_double_clean_acceptance_passes(self):
+        self._accepted_double_clean()
+        r = check_run.check(self.root)
+        self.assertTrue(r["passed"], r["findings"])
+
+    def test_single_pass_promotion_fails(self):
+        self._w("03-edit/edit-log.round-1.md", self.CLEAN_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("03-edit/essay-final.md", "# Final\n")
+        self._w("03-edit/revision-notes.md", "self-audit: no unresolved findings\n")
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-005"))
+
+    def test_missing_disposition_fails(self):
+        self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-1.md", "# Revision response\n(empty)\n")
+        self._w("03-edit/edit-log.round-2.md", self.CLEAN_LOG.replace("pass\n", "pass\nr1-F1 ruled: fixed\n", 1))
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-003"))
+
+    def test_dropped_carried_id_fails(self):
+        self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-1.md", "## r1-F1\n- disposition: applied\n")
+        self._w("03-edit/edit-log.round-2.md", self.CLEAN_LOG)  # never mentions r1-F1
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-004"))
+
+    def test_cap_hit_promotion_warns_but_passes(self):
+        self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-1.md", "## r1-F1\n- disposition: applied\n")
+        self._w("03-edit/edit-log.round-2.md",
+                "overall_assessment: revise-required\n\nfindings:\n"
+                "  - finding_id: r2-F1\n    pass: pass-3\n    severity: high\n"
+                "    finding: \"r1-F1 persists\"\n")
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        self._w("03-edit/essay-final.md", "# Final\n")
+        self._w("03-edit/score-history.md", "| 2 | ... |\nCAP HIT at max-iter; best round shipped.\n")
+        self._w("03-edit/revision-notes.md", "self-audit: no unresolved findings\n")
+        r = check_run.check(self.root)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertTrue(_has(r, "RUN-006"))
+
+    def test_missing_self_audit_fails(self):
+        self._accepted_double_clean()
+        os.unlink(os.path.join(self.edit, "revision-notes.md"))
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-007"))
+
+
+class TestStripPublication(unittest.TestCase):
+    DRAFT = (
+        "---\n"
+        "essay_id: 044-test\n"
+        "mode_used: walkthrough\n"
+        "---\n"
+        "# Title\n"
+        "\n"
+        "First line of a paragraph that was\n"
+        "hard-wrapped at a narrow column [^f-one]\n"
+        "and continues here.\n"
+        "\n"
+        "> a verbatim quote line\n"
+        "> attribution line\n"
+        "\n"
+        "*FIG. 1, [0042]: caption stays on its own line.*\n"
+        "\n"
+        "# Sources\n"
+        "- US1234567B2, Acme, Rotor\n"
+        "\n"
+        "# Footnotes\n"
+        "[^f-one]: fact-base entry\n"
+    )
+
+    def test_frontmatter_stripped(self):
+        out = strip_publication.strip_publication(self.DRAFT)
+        self.assertNotIn("essay_id", out)
+        self.assertTrue(out.startswith("# Title"))
+
+    def test_footnotes_cut_sources_kept(self):
+        out = strip_publication.strip_publication(self.DRAFT)
+        self.assertNotIn("# Footnotes", out)
+        self.assertNotIn("fact-base entry", out)
+        self.assertIn("# Sources", out)
+
+    def test_markers_stripped_no_space_artifact(self):
+        out = strip_publication.strip_publication(self.DRAFT)
+        self.assertNotIn("[^f-one]", out)
+        self.assertNotIn("  ", out)  # marker removal must not leave a double space
+        self.assertIn("hard-wrapped at a narrow column and continues here.", out)
+
+    def test_paragraph_rejoined_to_one_line(self):
+        out = strip_publication.strip_publication(self.DRAFT)
+        self.assertIn(
+            "First line of a paragraph that was hard-wrapped at a narrow column "
+            "and continues here.", out.splitlines())
+
+    def test_structural_lines_not_joined(self):
+        out = strip_publication.strip_publication(self.DRAFT)
+        lines = out.splitlines()
+        self.assertIn("> a verbatim quote line", lines)
+        self.assertIn("> attribution line", lines)
+        self.assertIn("*FIG. 1, [0042]: caption stays on its own line.*", lines)
+
+    def test_code_fence_untouched(self):
+        draft = "Body text.\n\n```\nx = 1\ny = 2\n```\n"
+        out = strip_publication.strip_publication(draft)
+        self.assertIn("x = 1\ny = 2", out)
 
 
 def _run():

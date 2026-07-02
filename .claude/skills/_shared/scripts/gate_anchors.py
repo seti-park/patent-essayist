@@ -37,7 +37,7 @@ ANCHOR_RE = re.compile(r"\[(\d{4})\]")                 # [0123]
 # Any bracketed pure-digit token, to catch malformed (non-4-digit) anchors like
 # [123] or [12345]. Markdown footnote refs ([^id]) are excluded by \d-only.
 ANCHOR_ANY_DIGITS_RE = re.compile(r"\[(\d+)\]")
-FIGREF_RE = re.compile(r"\bfig(?:ure|\.)?\s*(\d+)\b", re.IGNORECASE)  # Figure 3 / Fig. 3 / Fig 3
+FIGREF_RE = re.compile(r"\bfig(?:ure|\.)?\s*(\d+)[a-z]?\b", re.IGNORECASE)  # Figure 3 / Fig. 3 / Fig 3 / FIG. 3B
 
 
 def _find_anchors(text):

@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-11-claim-scope-lock-map
 created: 2026-06-11T16:30:00Z
-status: watch
+status: applied  # 2026-07-02 architecture refactor; field-validated on the 2026-06-24 run (class did not recur with the map applied manually)
 lever: reference-edit
 goal: "1"
 root_cause_stage: design

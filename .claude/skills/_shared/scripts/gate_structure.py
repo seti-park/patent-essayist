@@ -12,7 +12,7 @@ pragmatic conventions and are easily retargeted. EVERY check here is WARN
 severity (never a hard fail) by design — they flag style risks, not blockers.
 
 Checks (all warn):
-  STRUCT-001: a body paragraph with more than MAX_SENTENCES_PER_PARA sentences.
+  STRUCT-001: a body paragraph with more than 7 sentences (8+ is a Pass 2C high).
   STRUCT-002: bold-overuse — more than MAX_BOLD_PER_100_WORDS bold spans /100 words.
   STRUCT-003: bullet-overuse — bullet lines > MAX_BULLET_FRACTION of non-blank lines.
   STRUCT-004: rule-of-three — sentences with an "A, B, and C" triad of short items.
@@ -26,7 +26,8 @@ import sys
 # Tunable constants
 # ---------------------------------------------------------------------------
 GATE_ID = "structure"
-MAX_SENTENCES_PER_PARA = 8       # STRUCT-001 threshold
+# Editorial Pass 2C flags >= 8 sentences as high; the gate warns at the same boundary.
+MAX_SENTENCES_PER_PARA = 7       # STRUCT-001: warn when a paragraph exceeds the 3-7 band
 MAX_BOLD_PER_100_WORDS = 2       # STRUCT-002 threshold (spans per 100 words)
 MAX_BULLET_FRACTION = 0.35       # STRUCT-003 threshold (fraction of non-blank lines)
 

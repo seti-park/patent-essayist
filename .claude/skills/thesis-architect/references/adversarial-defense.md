@@ -6,6 +6,15 @@ For each thesis candidate that survived 4-axis grounding (Step 4) and the Q7 hoo
 
 가장 strict 한 reader (편집장, 경쟁 분석가, 회의적 투자자) 의 시각에서 thesis 를 공격. Steelman 의 반대 — weak-man 회피.
 
+**Generic-truism ban.** "특허는 양산/제품/주가 상승을 보장하지 않는다" 류의 category-level
+truism 은 steelman 이 아니라 weak-man 이다 — 어떤 특허 에세이에도 똑같이 적용되므로 THIS
+thesis 에 대한 objection 이 아니다. Strongest objection 은 반드시 이 특허의 청구항 텍스트,
+이 baseline, 이 thesis 의 인과 구조를 특정해서 공격해야 한다. Generic truism 을 objection
+으로 채택하면 mitigation 이 자동으로 generic hedge ("보장하지 않지만 지켜볼 만하다") 로
+수렴하고, 결론부가 safe-harbor boilerplate 로 무너진다 (pass-6 6G / gate_hedge 가 이를
+잡지만, 근본 원인은 여기서 차단). Category-level 한계는 limits section 이 1회 다루는
+소재이지, adversarial defense 의 산출물이 아니다.
+
 3 layer:
 
 1. **Strongest objection** — 어느 reader 가 가장 강하게 제기할 challenge.
@@ -77,7 +86,11 @@ Mitigation 이 명시 안 되면 thesis disqualification 위험. Thesis 가 weak
 
 ### C. Residual risk acknowledgement
 
-Mitigation 적용 후에도 남는 weakness 명시. 3 옵션:
+Mitigation 적용 후에도 남는 weakness 명시. Residual risk 는 **결론의 강도를 낮추는 장치가
+아니라 결론의 신뢰를 사는 장치**다: `Acknowledged` 는 limits section 에 1회 명시로 소비되고,
+verdict 는 spine 의 `closing_posture` (verdict edition 은 firm 이 default) 를 따른다.
+`Acknowledged` 라는 이유로 open-question closing 을 고르지 않는다 (pass-6 6B firm-closing
+override 참조). 3 옵션:
 
 1. **None** — patent text 가 strict, thesis 가 완전 anchored. 최선.
 2. **Acknowledged** — essay 본문에서 "본 분석은 X 가정에 기반한다" 명시. Reader 가 가정을 보고 disagree 할 수 있음.
@@ -94,6 +107,11 @@ The strongest objection + its mitigation is not just a thesis-survival check; it
 the essay must draft.** Carry it into `phase2-handoff-notes` as a concede-then-refine
 instruction so Compose allocates a section beat that states the objection at full strength,
 then refines — never leaving the strongest pro-subject counter for the reader to raise.
+
+The steelman beat inherits the **generic-truism ban**: it concedes the strongest
+THIS-patent objection (claim scope, baseline, causal structure), never the generic
+"patents don't guarantee products" truism. Editorial pass-7 check 3 judges the steelman by
+the same rule — a truism steelman is `steelman-absent`, not a pass.
 
 Run 045 gap: the strongest counter — "isn't claiming the broad workflow the smart, strong
 move?" — was a Category-1/4 objection (the patent's breadth read as a strength, not a weakness)

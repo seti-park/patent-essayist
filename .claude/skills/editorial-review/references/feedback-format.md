@@ -12,7 +12,8 @@ posture_applied: aggressive | measured | conservative
 overall_assessment: pass | revise-recommended | revise-required
 
 findings:
-  - pass: <pass-name>
+  - finding_id: r1-F1        # r<round>-F<seq>; stable for the whole run, never reused
+    pass: <pass-name>
     location: <where in draft>
     severity: critical | high | medium | low
     severity_under_default_posture: <severity if measured posture applied>
@@ -33,6 +34,7 @@ findings:
 
 ## Required fields per finding
 
+- `finding_id` (`r<round>-F<seq>` — required on every real finding; "no findings" entries carry none)
 - `pass` (which pass detected it)
 - `location` (which section / paragraph)
 - `severity` (critical / high / medium / low)
@@ -88,6 +90,25 @@ findings:
 
 Low findings do not affect assessment.
 
+## Finding lifecycle (loop rounds)
+
+Findings are tracked BY ID across the whole Compose↔Edit loop; nothing closes silently:
+
+1. **Review round N** writes `handoff/03-edit/edit-log.round-N.md` (the canonical
+   `edit-log.md` is a copy of the latest round). Every real finding carries `finding_id: rN-F<k>`.
+2. **Revision** (composer, revision mode — see
+   `essay-en-composer/references/revision-mode.md`) writes
+   `handoff/02-compose/revision-response.round-N.md` with exactly one disposition per
+   medium/high/critical finding: `applied` (what changed, where) or `rejected` (why — must argue
+   from the spine, the source text, or an explicit rule; "disagree" is not a justification).
+3. **Review round N+1** starts from round N's log + responses and MUST rule on each carried id
+   before hunting new findings: verify each `applied` disposition actually landed (and did not
+   regress a neighbor — after any structural edit, re-count paragraph bands), and either accept
+   each `rejected` disposition or re-assert the finding (same id, escalation noted). A high or
+   critical finding stays open under its id until verified fixed or its rejection is accepted.
+4. `_shared/scripts/check_run.py` verifies this chain mechanically (artifact presence,
+   disposition coverage, no silently dropped ids) before a run may be archived.
+
 ## Empty pass handling
 
 If a pass produces no findings, emit:
@@ -110,7 +131,8 @@ posture_applied: measured
 overall_assessment: revise-required
 
 findings:
-  - pass: paraphrase-mutation-judgment
+  - finding_id: r1-F1
+    pass: paraphrase-mutation-judgment
     location: §3, sentence containing "complements"
     severity: high
     severity_under_default_posture: high
@@ -122,7 +144,8 @@ findings:
     quote: "Tesla Vision data complements traditional accelerometer-based decisions"
     related_fact_entry: tesla-supplements-2026-05-08
 
-  - pass: voice-canon-compliance
+  - finding_id: r1-F2
+    pass: voice-canon-compliance
     location: §2, paragraph 1
     severity: medium
     severity_under_default_posture: medium
@@ -133,7 +156,8 @@ findings:
       Re-read canon entry. Consider restructuring opening sentence to lead with the event.
     quote: "The patent describes an architecture where..."
 
-  - pass: claim-adequacy
+  - finding_id: r1-F3
+    pass: claim-adequacy
     location: §4
     severity: low
     severity_under_default_posture: low
@@ -151,7 +175,8 @@ findings:
     finding: "no findings"
     scoped_to: "Engagement curve and audience accessibility checked across all sections"
 
-  - pass: lead-conclusion-strength
+  - finding_id: r1-F4
+    pass: lead-conclusion-strength
     location: §1 lead
     severity: low
     severity_under_default_posture: low

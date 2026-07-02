@@ -1,154 +1,165 @@
 # Patent Essay System (Claude Code / web)
 
-A skill-based pipeline that turns an **English patent** (+ cleaned figures) into a finished
-**English essay** for X Articles. Three phases — **Design → Compose → Edit** — pass data
-through on-disk hand-off directories, and an orchestrator runs the Compose↔Edit quality loop
-until the draft clears the deterministic gates and the editorial assessment. After each essay
-a second, slower **meta-loop** (`pipeline-retro`) proposes improvements to the system itself.
-
-This is a conversion of a system originally run as separate claude.ai Projects. The real
-skill bodies have been ported into `.claude/skills/`; the originals are preserved verbatim in
-`docs/source-prompts/` as the reference baseline. The conversion adds: **automated stage
-hand-off**, **real deterministic gate scripts aligned to the editorial rules**, an
-**automatic inner quality loop**, and a **propose-only self-improvement meta-loop**.
+A skill-based pipeline that turns an **English patent** (+ figures, raw or cleaned) into a
+finished **English essay** for X Articles, written for a **curious retail investor** (technical
+comprehension between advanced high school and early undergraduate — see
+`_shared/references/reader-profile.md`). Four phases — **Figures → Design → Compose → Edit** —
+pass data through on-disk hand-off directories. Every phase runs in an **isolated agent
+context** (`context: fork` + `.claude/agents/`), and an orchestrator runs the Compose↔Edit
+quality loop to a **double-clean acceptance** verified by a mechanical run-completeness check.
+After each essay a slower **meta-loop** (`pipeline-retro`) proposes improvements to the system
+itself.
 
 ## North-star goals (acceptance criteria)
 
-Every gate and editorial pass exists to defend one of four goals. The full goal→check
-traceability matrix is in `_shared/references/scoring-rubric.md`:
+Every gate and editorial pass defends one of four goals; the full goal→check traceability
+matrix is in `_shared/references/scoring-rubric.md`:
 
-1. **Catch the patent's core accurately** — anchor chain, invention-summary, grounding.
-2. **Use figures + specification sufficiently** — `gate_figure_use` (orphan figures) +
-   editorial pass-3 coverage sub-check.
-3. **Easy for the reader to understand** — structure gate + pass-5 reader perspective.
-4. **Well-structured (4a) and natural (4b)** — sources/format + lead/conclusion; banned/em-dash
-   + voice-on drafting.
+1. **Catch the patent's core accurately** — anchor chain + verbatim-quote gate, grounding.
+2. **Use figures + specification sufficiently** — `gate_figure_use` + pass-3 coverage.
+3. **Easy for the reader to understand** — reader-profile calibration, structure, pass-5/7.
+4. **Well-structured (4a) and natural (4b)** — incl. the **verdict hard-gate**: conclusions
+   must be evidence-proportionate in BOTH directions (no overreach, no safe-harbor hedging).
 
 ## How to run
 
 ```
-/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire]
+/patent-essay <patent path | text | number>  [--threshold pass|revise-recommended] [--max-iter 4] [--mode essay|wire] [--self-audit on|off]
 ```
 
-Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (pre-cleaned), and optional
-`essay-context.md`. The orchestrator runs all three phases plus the loop, archives the run to
-`runs/<essay-id>/`, runs the meta-loop, and returns the final essay
-(`handoff/03-edit/essay-final.md`) plus a score history. Optional outer backstop:
+Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (cleaned) **or**
+`figures-raw/` (zip / TIFF drop — Phase 0 cleans it), and optional `essay-context.md`
+(per-run audience/edition overrides). The orchestrator runs Phase 0-3 plus the loop, the
+post-acceptance self-audit, `check_run.py`, archives to `runs/<essay-id>/`, runs the
+meta-loop, and returns the final essay + score history + check_run verdict.
 
-```
-/goal the patent-essay SCORE HISTORY shows a final draft that passes all gates with overall_assessment == pass
-```
+**Model allocation** (the recommended setup): run the SESSION on the strongest model
+available (Fable 5) — the main thread holds loop policy, arbitration, and acceptance calls,
+and `model: inherit` agents (design / compose / review / self-audit readers) get that model
+in clean contexts, which is where writing and editorial judgment quality comes from.
+Mechanical agents pin cheaper models in their frontmatter (`grounding-verifier`,
+`figures-prep`: `model: sonnet`). An "advisor" pattern (weak main model consulting a strong
+one) is deliberately NOT used: prose and integration quality are bounded by the model that
+holds the pen, not the one giving advice.
 
-Individual phases can be run standalone: `/thesis-architect`, `/essay-en-composer`,
-`/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an internal Phase-2 helper).
+Individual phases can be run standalone: `/patent-figures-clean`, `/thesis-architect`,
+`/essay-en-composer`, `/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an
+internal Phase-2 helper).
 
 ## Architecture
 
 ```
+.claude/agents/          isolated contexts + model pinning (the fencing is PHYSICAL now)
+  design-architect       P1 worker (inherit)    essay-composer     P2 worker (inherit)
+  editorial-reviewer     P3 worker, fresh per round (inherit)
+  adversarial-reader     self-audit personas, >=2 in parallel (inherit)
+  grounding-verifier     fidelity instrument (sonnet)   figures-prep  P0 worker (sonnet)
 .claude/skills/
-  patent-essay/        orchestrator: P1→P2→P3 inner loop + per-essay pipeline-retro (entry point)
-  thesis-architect/    P1 Design  — patent → thesis + 4-axis grounding + figure plan (voice-off)
-  essay-en-composer/   P2 Compose — design hand-off → blueprint → draft → strip (voice-on)
-  voice-canon-lookup/  P2 internal helper — voice-canon corpus (index.yaml + 33 entries)
-  editorial-review/    P3 Edit    — 7-pass severity review (voice-fenced; pass-7 adversarial reader)
-  pipeline-retro/      meta-loop  — findings → ledger → propose-only improvement proposals
+  patent-essay/          orchestrator: loop policy + arbitration ONLY (entry point; main context)
+  patent-figures-clean/  P0 Figures — raw drop → cleaned fig-NN.png + vision-verified manifest
+  thesis-architect/      P1 Design  — patent → invention-summary (+ Claim scope map) + thesis-spine
+                         (+ closing_posture) + figure plan (+ cover candidate)   [fork: design-architect]
+  essay-en-composer/     P2 Compose — blueprint → draft (+ revision mode w/ dispositions)
+                                                                    [fork: essay-composer]
+  voice-canon-lookup/    P2 internal helper — voice-canon corpus (runs inline in the composer)
+  editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge guard;
+                         finding_id lifecycle; re-review protocol   [fork: editorial-reviewer]
+  pipeline-retro/        meta-loop  — findings → ledger → propose-only proposals   [fork]
   _shared/
-    references/        shared canon: deliverable-voice-rules · anti-ai-writing (vendored absorbed) ·
-                       caption-roles · working-dialogue-voice · scoring-rubric (severity + matrix)
-                       (each ported skill also carries its own references/: voice-profile +
-                        voice-canon live under voice-canon-lookup/; x-articles-format-en,
-                        section-blueprint, mode-spec, etc. under essay-en-composer/)
-    scripts/           11 deterministic gate scripts (Python stdlib) + banned_terms.txt + tests
-    vendor/            blader/humanizer + harshaneel/ai-check — REFERENCE ONLY, absorbed into
-                       anti-ai-writing.md, NOT run in the loop — see vendor/README.md
-handoff/          01-design 02-compose 03-edit       runtime stage artifacts (gitignored)
-handoff-template/ 01-design 02-compose 03-edit       full-schema templates the skills reference
-runs/    <essay-id>/  edit-log.md · gate-result.json · score-history.md   (per-run archive)
-meta/
-  findings-ledger.jsonl      append-only normalized findings (keyed by goal + owner artifact)
-  attribution-table.md       finding-class → goal + owner stage/artifact + lever (retro's brain)
-  improvement-proposals/     propose-only proposals (evidence + exact diff); applied by a human
-  fixtures/ + regression.py  regression guard run before any proposal is applied
-input/    patent.md · figures/ · essay-context.md
-docs/source-prompts/  original claude.ai skills (5: 01-design 02-compose 03-edit 04-promote)
+    references/          scoring-rubric (severity + matrix + double-clean acceptance) ·
+                         reader-profile (audience contract) · deliverable-voice-rules ·
+                         anti-ai-writing · caption-roles · working-dialogue-voice
+    scripts/             13 deterministic gates (stdlib) + strip_publication.py +
+                         check_run.py + banned_terms.txt + tests
+    vendor/              humanizer + ai-check — REFERENCE ONLY, absorbed into anti-ai-writing
+handoff/          01-design 02-compose 03-edit    runtime stage artifacts (gitignored)
+handoff-template/ full-schema templates incl. revision-response.md + revision-notes.md
+essays/<essay-id>/  the TRACKED deliverable: essay-final.md · figures/ · gate-result.json ·
+                    score-history.md · edit-log.md · README.md · full handoff/ phase tree
+runs/    <essay-id>/  per-run archive (round logs, gate results, dispositions)
+meta/    findings-ledger.jsonl · attribution-table.md · improvement-proposals/ ·
+         fixtures/ + regression.py  (the system's persistent memory — tracked)
+input/   patent.md · figures/ · figures-raw/ · essay-context.md
+docs/source-prompts/  original claude.ai skills, verbatim reference baseline
 ```
 
 Data flows by **output contracts**: each phase's `SKILL.md` defines the exact files it writes
-to its `handoff/<phase>/` directory, and the next phase reads them — no chat copy-paste. The
-`handoff-template/` tree holds the full-schema templates the skills point at.
+to `handoff/<phase>/`, and the next phase reads them — no chat copy-paste, no shared
+conversation state. Context isolation is enforced by the harness (forked agents), not by
+instructions: the reviewer physically cannot see the composer's reasoning, only its artifacts.
 
-## Voice fencing (by which references each phase loads)
+## Voice + source fencing (by agent, physical)
 
-The original system enforced this by physically separate Projects; here it is enforced by
-which references each phase loads:
-
-- **Design (voice-off):** thesis-architect's own references only (invention-summary-schema,
-  4-axis-grounding, hook-patterns, …) — no deliverable-voice canon.
-- **Compose (voice-on):** full voice stack — `voice-canon-lookup` (voice-profile + 33-entry
-  canon), `deliverable-voice-rules`, `anti-ai-writing`, the composer's `x-articles-format-en`,
-  `caption-roles`.
-- **Edit (voice-fenced):** `deliverable-voice-rules` + `anti-ai-writing` only — **not**
-  voice-profile or caption-roles, to prevent editor voice drift. The meta-loop preserves this
-  fence: a Phase-3 voice finding routes to anti-ai/deliverable-voice or a Phase-2 voice-canon
-  admission, never back to voice-profile.
+- **Design (voice-off, design-architect):** thesis-architect references only — no voice canon.
+- **Compose (voice-on, essay-composer):** full voice stack + reader-profile; NEVER reads the
+  raw patent (Quotable spans are the only patent source).
+- **Edit (voice-fenced, editorial-reviewer):** `deliverable-voice-rules` + `anti-ai-writing`
+  + `reader-profile` only — not voice-profile / caption-roles. Fresh instance per round.
+- **Self-audit (adversarial-reader / grounding-verifier):** blind to each other; can only ADD
+  findings; grounding recommendations are anchor/narrow/label/cut — never "add a hedge".
 
 ## Loop control (three tiers)
 
-- **Inner loop (orchestrator, auto):** deterministic gates (hard pass/fail) + editorial
-  **severity model** (`overall_assessment`: pass / revise-recommended / revise-required),
-  threshold (default `pass`), grounding + goal-2 hard-gates, max iterations (default 4). On
-  FAIL it feeds the edit findings back into Compose (revision mode) and re-scores.
-- **Self-audit (orchestrator, auto, post-acceptance):** after the inner loop passes, ≥2
-  fresh-context adversarial reviewers (the `pass-7-adversarial-reader` checklist + grounding
-  spot-checks, separate forked contexts, multi-vote) catch the blind-spots a `pass` survives.
-  Applied autonomously and logged via the revision-delta channel as `origin: self-post-accept`;
-  loops until dry. It can only ADD findings, never relax the bar. Acceptance set in
-  `_shared/references/scoring-rubric.md` (Layer 3), enforceable as a `/goal`.
-- **Meta-loop (`pipeline-retro`, propose-only):** after each essay, normalizes findings into
-  `meta/findings-ledger.jsonl`, attributes recurring root causes to the owning stage/artifact,
-  and writes evidence-backed improvement proposals. It **never edits a skill** — a human
-  applies proposals after `meta/regression.py` passes. It also normalizes the **revision-delta
-  channel** — `handoff/03-edit/revision-notes.md` (post-acceptance human edits) via
-  `meta/normalize_revision_notes.py`, tagged `origin: human-post-accept` — so the editorial
-  blind-spots a human catches AFTER the loop says pass feed the ledger too (the half the
-  gates/passes don't yet score, and the engine that keeps the self-check criteria growing).
-- **`/goal` (optional outer net):** auto-resume backstop if a run is interrupted.
+- **Inner loop (auto):** per round — gates (`run_gates.py`, now incl. `gate_quotes`
+  invention-summary↔patent verbatim and `gate_hedge` verdict over-hedge) + a FRESH
+  `editorial-review` (severity model, finding_ids). **Acceptance = double-clean**: two
+  consecutive clean rounds from independent reviewers (a round-1 "pass" is a hypothesis, not
+  a verdict). On FAIL: `essay-en-composer` revision mode — every medium+ finding gets an
+  `applied`/`rejected` disposition in `revision-response.round-N.md` (revision-mode.md), and
+  the next reviewer verifies each disposition landed. Hard-gates: grounding (pass-3
+  high/critical, gate_anchors, gate_quotes), goal-2 (FIGUSE-001, coverage), **verdict**
+  (gate_hedge fail / 6G high under firm closing). Max 4 revision rounds; at cap, ship the
+  best round ONLY with an explicit `CAP HIT` in score-history + surfaced findings.
+- **Run-completeness (auto):** `_shared/scripts/check_run.py` must pass before archiving —
+  it mechanically proves the loop ran (contiguous round artifacts, disposition coverage, no
+  dropped finding_ids, double-clean or CAP HIT, self-audit evidence). If it fails, do the
+  missing work; never edit artifacts to satisfy it.
+- **Self-audit (auto, post-acceptance):** ≥2 `adversarial-reader` agents (personas, blind,
+  parallel) + 1 `grounding-verifier`; multi-vote; over-hedge findings are first-class
+  (symmetric with overreach); fixes via composer revision mode; `## delta` blocks in
+  revision-notes.md; loop until dry (cap 3); normalized to the ledger as
+  `origin: self-post-accept`.
+- **Meta-loop (`pipeline-retro`, propose-only):** normalizes inner-loop + self-audit +
+  human-post-accept findings into `meta/findings-ledger.jsonl` (attribution-table keys),
+  writes evidence-backed proposals. It never edits a skill — a human applies after
+  `meta/regression.py` passes.
 
 ## Deterministic gates
 
-`_shared/scripts/run_gates.py` runs eleven mechanical checks and returns pass/fail + `check_id`s:
-`gate_emdash`, `gate_anchors` (`[dddd]` 4-digit format + chain + figure refs), `gate_sources`
-(`# Sources` h1, 5-label enum, all-or-nothing subgrouping), `gate_banned` (anti-AI banned
-list), `gate_structure` (warn-only heuristics), `gate_figure_use` (orphan selected figure —
-goal 2), plus four **run-045 self-check gates** — `gate_meta` (reader-instruction /
-essay-self-reference posturing; hard-fail), `gate_stub` (stub section vs siblings), `gate_cashtag`
-(bare ticker → `$`cashtag), `gate_dupe` (gross verbatim repetition; warn) — the mechanical half
-of the editorial blind-spots a human used to catch by hand in post-acceptance revision (see
-`meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`; judgment complement =
-editorial **pass-7** adversarial reader). A further gate, `gate_typography`, adds the GOV.UK-base
-hygiene layer — Latin abbreviations and exclamation marks hard-fail; emoji, all-caps runs,
-non-descriptive link text, and run-on sentences warn — the mechanical subset of the govuk-derived
-`deliverable-voice-rules`. Run `python .claude/skills/_shared/scripts/test_gates.py`
-for the suite, or `python meta/regression.py` for tests + fixtures.
+`_shared/scripts/run_gates.py` runs thirteen mechanical checks (pass `--patent` for the
+quote gate): `gate_emdash`, `gate_anchors` (incl. panel-letter figure tokens), **`gate_quotes`**
+(every invention-summary Quotable span / Quote anchor row verbatim-present in patent.md — the
+mechanical half of the grounding chain), `gate_sources`, `gate_banned`, `gate_structure`
+(STRUCT-001 warns at ≥8 sentences, aligned to Pass 2C), `gate_figure_use`, `gate_meta`,
+`gate_stub`, `gate_cashtag`, `gate_dupe`, `gate_typography`, and **`gate_hedge`** (verdict-section
+safe-harbor boilerplate / qualifier-led verdict / hedge density; hard-fails under the draft's
+`closing_posture: firm`). Utilities: `strip_publication.py` (publication.md with one line per
+paragraph) and `check_run.py` (loop shape). Run
+`python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
+`python meta/regression.py` for tests + fixtures.
+
+## The over-hedge defense (why conclusions stay firm)
+
+The historical failure: passes 3/4 punished overreach, nothing punished over-hedge, and the
+cheapest way to satisfy a grounding critic is to hedge — so conclusions ratcheted toward
+"a patent doesn't guarantee production/stock gains" boilerplate. The defense is now
+structural, at four layers: (1) `thesis-spine.md` declares `closing_posture: firm` by default
+for verdict editions; (2) the composer's closing directive drafts the call first with ONE
+patent-specific anti-hype guard; (3) editorial 6G + the jurisdiction fence (grounding passes
+may never recommend hedging; fix priority = anchor → narrow → label → cut); (4) `gate_hedge`
+hard-fails boilerplate/qualifier-led verdicts under a firm posture. The steelman must be a
+THIS-patent objection — generic patent truisms are banned as steelmen and count as
+`steelman-absent`.
 
 ## Customization
 
-- **Tune behavior** in `_shared/references/` (scoring-rubric threshold + matrix,
-  anti-ai-writing, deliverable-voice-rules) and each skill's own `references/`. The banned-term
-  list is mirrored to `_shared/scripts/banned_terms.txt` for mechanical enforcement. The
-composition/hygiene canon (`deliverable-voice-rules` + `anti-ai-writing`) is based on the
-**govuk-style** plain-English standard, adapted with patent-domain exceptions: claim language,
-terms of art, part numbers, and verbatim quotes keep their exact wording (reading-level and
-plain-word swaps apply only to the connective prose).
-- **Grow the canon** via the meta-loop: `pipeline-retro` proposes reference edits, gate
-  promotions, voice-canon admissions, and rubric tuning — applied by a human after regression.
-- **Reference the originals:** `docs/source-prompts/<phase>/<skill>/` holds the verbatim
-  claude.ai skills (incl. Phase-4 `promo-composer`, out of scope for this conversion but
-  preserved for a future port). Keep each phase's **output contract** intact when porting.
-- **Vendored AI-tell skills** under `_shared/vendor/` are reference-only (absorbed into
-  `anti-ai-writing.md`); they are not run in the loop.
-
-## Note
-
-The legacy static HTML files (`index.html`, `1.html`–`3.html`) are unrelated leftovers and
-are not part of this system.
+- **Audience** in `_shared/references/reader-profile.md` (per-run override via
+  `input/essay-context.md`); **behavior** in `_shared/references/` (scoring-rubric,
+  anti-ai-writing, deliverable-voice-rules) and each skill's `references/`; the banned-term
+  list is mirrored to `_shared/scripts/banned_terms.txt`. The composition/hygiene canon is
+  govuk-based plain English with patent-domain exceptions (claim language, terms of art, part
+  numbers, verbatim quotes keep exact wording).
+- **Grow the canon** via `pipeline-retro` proposals, applied by a human after
+  `meta/regression.py`.
+- **Originals** in `docs/source-prompts/` (incl. Phase-4 `promo-composer`, preserved for a
+  future port). Keep each phase's output contract intact when porting.

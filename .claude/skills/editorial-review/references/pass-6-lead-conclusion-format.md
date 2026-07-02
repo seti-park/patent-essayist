@@ -30,6 +30,14 @@ Closing posture must match `handoff/01-design/thesis-spine.md` adversarial defen
 
 Mismatch is high severity.
 
+**Firm-closing override (verdict editions).** When `thesis-spine.md` declares
+`closing_posture: firm` (the default for investor / analysis / assessment editions — see
+`posture-lens.md`), an `Acknowledged` residual risk maps toward `closing-forward-watching-event`
+or `closing-binary-test`, NOT `closing-open-question`. An open-question or over-hedged close under
+a declared firm posture is a 6G finding (below), high severity. Rationale: for an essay whose job
+is to land a call, the Acknowledged→open-question default was the structural source of
+safe-harbor conclusions ("a patent does not guarantee production") that no pass could see.
+
 ## 6C — `# Sources` 5-category enum check
 
 The `# Sources` block must conform to:
@@ -79,6 +87,41 @@ Title rule (per `legacy/v1/phase-a-spec.md`'s em-dash decision): title may NOT u
 | "Tesla's 70ms Vindication — A Patent Reading" | ✗ em-dash |
 | "Tesla's 70ms Vindication" | ✓ no separator |
 
+## 6G — Verdict confidence proportionate to evidence (over-hedge guard)
+
+For essays that land a verdict or recommendation (investor / analysis / assessment editions),
+check that the conclusion's confidence matches the evidence the body established. This is the
+mirror of Pass 3 / Pass 4, which guard OVERREACH; 6G guards OVER-HEDGE.
+
+Flag (over-hedge):
+- the verdict leads with the qualifier instead of the call ("a qualified yes" before the "yes");
+- false equivalence between the thesis and its limits ("the limits are equally real");
+- caveats re-listed in the verdict that a dedicated limits section already covered (state once,
+  then reference);
+- generic safe-harbor boilerplate in the verdict ("a patent does not guarantee production / a
+  rising stock price", "only time will tell", "remains to be seen") — a category-level truism is
+  never this essay's conclusion;
+- stacked hedges a body with firm evidence does not warrant.
+
+**Hedge budget**: the verdict section keeps exactly ONE anti-hype guard, and it must be specific
+to this patent (e.g. "nobody should price it as a market lock"), not a truism about patents in
+general. Everything else that bounds the thesis lives in the dedicated limits section, referenced
+— not re-listed — from the verdict.
+
+Do not invert the fix into overclaim: a firm verdict still keeps its one anti-hype guard and
+never asserts beyond the claim scope (Pass 3 still binds). When 6G and Pass 3 appear to conflict
+on the same sentence, the fix priority is: find a stronger anchor → narrow the claim to what the
+anchor supports → reframe as explicitly-labeled analysis. Deleting the call or hedging it into
+boilerplate is the LAST resort, not the first.
+
+Mechanical pre-filter: `gate_hedge` (HEDGE-001 boilerplate, HEDGE-002 qualifier-led verdict,
+HEDGE-003 hedge density) — hard-fails when the draft frontmatter declares `closing_posture: firm`.
+6G is the judgment backstop for what the regexes miss (false equivalence, caveat re-listing,
+evidence-confidence mismatch).
+
+Severity: medium under measured posture; high when `thesis-spine.md` declares a firm-closing
+posture and the draft violates it.
+
 ## Severity calibration per posture
 
 | Sub-check | aggressive | measured | conservative |
@@ -90,6 +133,7 @@ Title rule (per `legacy/v1/phase-a-spec.md`'s em-dash decision): title may NOT u
 | 6E em-dash present | high | high | high |
 | 6E other mechanical fails | high | high | high |
 | 6F title em-dash | high | high | high |
+| 6G over-hedged verdict | medium | medium (high under declared firm-closing) | medium (high under declared firm-closing) |
 
 ## Output finding template
 
