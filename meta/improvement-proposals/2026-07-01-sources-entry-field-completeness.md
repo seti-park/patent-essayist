@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-01-sources-entry-field-completeness
 created: 2026-07-01T00:00:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: reference-edit
 goal: "4a"
 root_cause_stage: compose
@@ -14,6 +14,11 @@ triggering_findings:
   - essay_id: 2026-06-24-us12560948b2-safe-stop, iter: 1, pattern_tag: sources-entry-template-drift
   - essay_id: vl53l9cx-ep2-crosstalk-us20240192337, iter: 2, pattern_tag: sources-entry-template-drift
 ---
+
+> **Update 2026-07-02 — applied verbatim.** Both additive blocks below (Patents field-4/5
+> label-locking + unstated-field placeholder; Papers author/venue-unstated conventions) were
+> inserted into `x-articles-format-en.md` exactly as filed, as part of the user-sponsored
+> meta-harvest refactor. Reference-only change; gates and fixtures untouched, regression green.
 
 ## Problem
 
