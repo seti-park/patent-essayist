@@ -45,7 +45,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `thesis-restatement-redundancy` | pass-2 / pass-7 | 3 | compose | section-blueprint (sub-mechanism of redundancy-bloat) | rubric-tuning |
 | `revision-induced-duplication` | gate DUPE-001 / pass-2 | 4b | compose | essay-en-composer revision-mode re-scan | rubric-tuning |
 | `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
-| `typography-html-comment-blindspot` | gate EXCLAIM-001 | 4b | gate | _shared/scripts/gate_typography.py (EXCLAIM_RE has no HTML-comment exemption) | gate-promotion (proposal on file 2026-07-01) |
+| `typography-html-comment-blindspot` | gate EXCLAIM-001 | 4b | gate | _shared/scripts/gate_typography.py (EXCLAIM_RE has no HTML-comment exemption) | gate-promotion (applied 2026-07-02) |
 | `header-title-near-duplicate` | pass-1 1A | 4b | compose | essay-en-composer/references/section-blueprint.md (no rule against H1/first-`##` sharing a sentence frame) | reference-edit |
 | `sources-category-omitted` † | pass-6 6C | 4a | compose | x-articles-format-en.md (Sources category checklist — no explicit "every analyzed patent must appear under a category" completeness rule) | reference-edit |
 

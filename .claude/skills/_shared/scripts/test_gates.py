@@ -431,6 +431,39 @@ class TestTypography(unittest.TestCase):
         r = gate_typography.check("```\nx = 1  # e.g. this!\n```\n", {})
         self.assertTrue(r["passed"], r["findings"])
 
+    def test_html_comment_exclaim_exempt(self):
+        # An HTML comment's opening "<!--" is not a body-prose exclamation mark.
+        draft = (
+            "Some prose here that is fine.\n\n"
+            "<!-- internal note: revision applied, see round 1! -->\n\n"
+            "More prose after the comment.\n"
+        )
+        r = gate_typography.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "EXCLAIM-001"))
+
+    def test_html_comment_does_not_mask_real_exclamation(self):
+        # A genuine exclamation mark in body prose must still fail, even when an
+        # HTML comment appears elsewhere in the same draft.
+        draft = "This is amazing!\n<!-- a harmless internal note -->\n"
+        r = gate_typography.check(draft, {})
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "EXCLAIM-001"))
+
+    def test_multiline_html_comment_stripped(self):
+        # HTML comments spanning multiple lines must be fully removed, not just the
+        # opening line.
+        draft = (
+            "Prose before.\n"
+            "<!-- a multi-line\n"
+            "     comment block\n"
+            "     with an ! inside -->\n"
+            "Prose after.\n"
+        )
+        r = gate_typography.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "EXCLAIM-001"))
+
 
 class TestRunGatesEndToEnd(unittest.TestCase):
     CLEAN = (

@@ -43,6 +43,11 @@ LONG_SENTENCE_WORDS = 35          # warn threshold; editorial target is ~15-25
 ALLOWED_EMOJI = {"\U0001F914"}    # 🤔 — sanctioned at a closing-open-question
 
 FENCE_RE = re.compile(r"^\s*(```|~~~)")
+# HTML comments (<!-- ... -->) are process annotations, not prose — same treatment as
+# fenced code blocks and blockquotes. Strip them before any check runs so EXCLAIM-001
+# (and every other check here) never scans a comment's contents.
+# (ledger: typography-html-comment-blindspot, run 001-st-histogram-mechanism)
+HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 
 LATIN_PATTERNS = [
     (re.compile(r"\be\.g\.", re.I), "Latin abbreviation 'e.g.' (write 'for example')"),
@@ -102,6 +107,10 @@ def check(draft_text: str, context: dict) -> dict:
     findings = []
     in_fence = False
     prose_lines = []
+
+    # Strip HTML comments globally first (they can span multiple lines) so no check
+    # below ever scans a comment's contents as if it were body prose.
+    draft_text = HTML_COMMENT_RE.sub("", draft_text or "")
 
     for lineno, raw in enumerate(draft_text.splitlines(), start=1):
         if FENCE_RE.match(raw):

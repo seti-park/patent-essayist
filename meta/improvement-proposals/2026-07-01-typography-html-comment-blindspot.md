@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-01-typography-html-comment-blindspot
 created: 2026-07-01T00:00:00Z
-status: watch
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: gate-promotion
 goal: "4b"
 root_cause_stage: gate
@@ -11,6 +11,14 @@ confidence: high
 triggering_findings:
   - essay_id: 001-st-histogram-mechanism, iter: 1, pattern_tag: typography-html-comment-blindspot
 ---
+
+> **Update 2026-07-02 — applied verbatim.** Both diffs below (the `HTML_COMMENT_RE` strip in
+> `gate_typography.py` and the 3 `TestTypography` cases) were applied exactly as filed, as part
+> of the user-sponsored meta-harvest refactor that merged this run's branch. `test_gates.py`
+> (65 cases) and `meta/regression.py` green after applying. Applied early relative to the
+> promotion rules (count 1 < RECUR_THRESHOLD 3) on the grounds this file itself argued:
+> mechanically proven, strict extension of the existing fence/blockquote exemption pattern, and
+> the pipeline's own templates routinely emit HTML-comment annotations.
 
 ## Problem
 
