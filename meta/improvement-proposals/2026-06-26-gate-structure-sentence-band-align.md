@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-gate-structure-sentence-band-align
 created: 2026-06-26T00:00:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: gate-strengthen
 goal: "3"
 root_cause_artifact: _shared/scripts/gate_structure.py (STRUCT-001 threshold off-by-one vs editorial Pass 2C)
@@ -10,6 +10,11 @@ confidence: high
 triggering_findings:
   - essay_id: us12560948b2 ad-hoc run, pattern_tag: paragraph-eight-sentence-slip (3 instances incl. one revision regression)
 ---
+
+> **Update 2026-07-02 — applied verbatim** (threshold 8→7 with boundary comment, docstring
+> line, plus two `TestStructure` boundary cases: exactly-8 warns once, 7 stays silent), as part
+> of the user-sponsored meta-harvest refactor. No existing test or fixture assumed the old `>8`
+> boundary (verified before applying).
 
 ## Problem
 

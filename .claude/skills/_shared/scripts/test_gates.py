@@ -266,6 +266,20 @@ class TestStructure(unittest.TestCase):
         self.assertTrue(r["passed"])  # warn only
         self.assertTrue(_has(r, "STRUCT-001"))
 
+    def test_eight_sentence_paragraph_warns_at_pass2c_boundary(self):
+        # Editorial Pass 2C flags >= 8 sentences as high; the gate warns at the
+        # same boundary (exactly 8 sentences -> exactly one STRUCT-001 warn).
+        para = " ".join("This is sentence %d." % i for i in range(8))
+        r = gate_structure.check(para + "\n", {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertEqual(
+            sum(1 for f in r["findings"] if f["check_id"] == "STRUCT-001"), 1)
+
+    def test_seven_sentence_paragraph_in_band(self):
+        para = " ".join("This is sentence %d." % i for i in range(7))
+        r = gate_structure.check(para + "\n", {})
+        self.assertFalse(_has(r, "STRUCT-001"))
+
     def test_rule_of_three_warns(self):
         draft = "It was fast, cheap, and simple.\n"
         r = gate_structure.check(draft, {})
