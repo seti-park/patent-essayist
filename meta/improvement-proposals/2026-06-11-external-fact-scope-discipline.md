@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-11-external-fact-scope-discipline
 created: 2026-06-11T16:30:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: reference-edit
 goal: "1"
 root_cause_stage: compose
@@ -13,6 +13,10 @@ triggering_findings:
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 2, pattern_tag: external-fact-universalization
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: external-fact-universalization
 ---
+
+> **Update 2026-07-02 — applied verbatim** (the external-fact scope checklist item inserted
+> into `execution-boundary.md`'s per-sentence Quick reference exactly as filed), as part of the
+> user-sponsored meta-harvest refactor. Reference-only; regression green.
 
 ## Problem
 

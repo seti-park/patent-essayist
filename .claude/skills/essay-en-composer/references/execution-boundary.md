@@ -62,6 +62,12 @@ This distinction matters: avoid using "I know X is also true" reasoning to intro
 Before composing each sentence:
 - Is this a factual claim? → Cite [^fact-id] from facts_locked
 - Is the fact in facts_locked? → If no, stop. Gap detected.
+- Is it an EXTERNAL (non-patent) fact? → Prose scope must not exceed the fact-check-log
+  entry's literal scope. Assert a universal ("the industry…", "sold for exactly this…")
+  only when the log entry states one; if the log says "include"/"typical"/"can also",
+  name the logged scope explicitly instead of universalizing it. Titles and closing
+  aphorisms may compress a scoped fact only when the precise scoped statement appears in
+  nearby body prose (deliberate-compression allowance, on the record).
 - Is this transition/interpretation prose? → No citation needed, but no new facts either
 - Am I matching the voice_canon_reference? → If drifting, re-read canon entries
 
