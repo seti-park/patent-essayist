@@ -154,8 +154,9 @@ and `human-post-accept` ("only a human caught it"). The acceptance set is define
 
 ## Archive + meta-loop (after the inner loop)
 
-1. **Archive** the run to `runs/<essay-id>/`: copy `edit-log.md`, the final
-   `run_gates.py --json` output as `gate-result.json`, and write `score-history.md`.
+1. **Archive** the run to `essays/<essay-id>/` (tracked — `runs/` is gitignored scratch):
+   snapshot the `handoff/` stage artifacts, the final `run_gates.py --json` output as
+   `gate-result.json`, `score-history.md`, `revision-notes.md`, and the run's figures.
 2. **Meta-loop (skill: `pipeline-retro`, propose-only):** invoke `pipeline-retro` with the
    run's `edit-log.md` + `gate-result.json`. It normalizes the inner-loop findings **and** the
    self-audit's `revision-notes.md` deltas into `meta/findings-ledger.jsonl` (keyed by goal +

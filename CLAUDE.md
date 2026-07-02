@@ -72,12 +72,15 @@ Individual phases can be run standalone: `/figure-prep`, `/thesis-architect`, `/
                        anti-ai-writing.md, NOT run in the loop — see vendor/README.md
 handoff/          01-design 02-compose 03-edit       runtime stage artifacts (gitignored)
 handoff-template/ 01-design 02-compose 03-edit       full-schema templates the skills reference
-runs/    <essay-id>/  edit-log.md · gate-result.json · score-history.md   (per-run archive)
+essays/  <essay-id>/  TRACKED per-run archive: handoff snapshot · gate-result.json ·
+                      score-history.md · revision-notes · figures (runs/ is gitignored scratch)
 meta/
-  findings-ledger.jsonl      append-only normalized findings (keyed by goal + owner artifact)
-  attribution-table.md       finding-class → goal + owner stage/artifact + lever (retro's brain)
+  findings-ledger.jsonl      append-only normalized findings (merge=union via .gitattributes)
+  attribution-table.md       finding-class → goal + owner stage/artifact + lever (retro's brain);
+                             its recurrence summary is DERIVED — `python meta/tally_ledger.py --write`
+  run-notes/<essay-id>.md    per-run retro narrative (one file per run — parallel-session safe)
   improvement-proposals/     propose-only proposals (evidence + exact diff); applied by a human
-  fixtures/ + regression.py  regression guard run before any proposal is applied
+  fixtures/ + regression.py  regression guard (gate tests + fixtures + tally-sync check)
 input/    patent.md · figures-raw/ (raw drops) · figures/ (cleaned) · essay-context.md
 docs/source-prompts/  original claude.ai skills (5: 01-design 02-compose 03-edit 04-promote)
 ```
@@ -138,7 +141,8 @@ editorial **pass-7** adversarial reader). A further gate, `gate_typography`, add
 hygiene layer — Latin abbreviations and exclamation marks hard-fail; emoji, all-caps runs,
 non-descriptive link text, and run-on sentences warn — the mechanical subset of the govuk-derived
 `deliverable-voice-rules`. Run `python .claude/skills/_shared/scripts/test_gates.py`
-for the suite, or `python meta/regression.py` for tests + fixtures.
+for the suite, or `python meta/regression.py` for tests + fixtures + the attribution-table
+tally-sync check.
 
 ## Customization
 
