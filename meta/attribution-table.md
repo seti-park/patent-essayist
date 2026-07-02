@@ -63,7 +63,7 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 
 | pattern_tag | records | essays | gate | editorial | self-audit | human-rev | retro | proposals |
 |---|---|---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` | 12 | 6 |  | 12 |  |  |  | `2026-06-11-gate-structure-word-wall` (applied), `2026-07-02-section-blueprint-paragraph-word-band` (recommended-apply) |
+| `mobile-paragraph-wall` | 12 | 6 |  | 12 |  |  |  | `2026-06-11-gate-structure-word-wall` (applied), `2026-07-02-section-blueprint-paragraph-word-band` (applied) |
 | `redundancy-bloat` | 10 | 6 |  | 10 |  |  |  | — |
 | `sources-entry-template-drift` | 8 | 4 |  | 7 |  | 1 |  | `2026-07-01-sources-entry-field-completeness` (applied) |
 | `external-fact-universalization` | 5 | 3 |  | 3 | 2 |  |  | `2026-06-11-external-fact-scope-discipline` (applied) |
@@ -73,7 +73,7 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 | `fence-canon-verification-gap` | 3 | 2 |  | 3 |  |  |  | `2026-06-11-emoji-host-fence-decidable` (applied) |
 | `figure-token-regex-blindspot` | 3 | 3 | 2 |  |  |  | 1 | `2026-06-11-figure-token-panel-suffix` (watch) |
 | `meta-reader-instruction` | 3 | 3 |  | 1 | 1 | 1 |  | — |
-| `revision-induced-duplication` | 3 | 2 |  |  | 2 | 1 |  | `2026-07-02-composer-revision-mode-discipline` (recommended-apply) |
+| `revision-induced-duplication` | 3 | 2 |  |  | 2 | 1 |  | `2026-07-02-composer-revision-mode-discipline` (applied) |
 | `thesis-restatement-redundancy` | 3 | 3 |  | 1 | 1 | 1 |  | — |
 | `anchor-incomplete` | 2 | 1 |  |  | 2 |  |  | — |
 | `anchor-malformed` | 2 | 1 |  | 2 |  |  |  | — |
@@ -85,12 +85,12 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 | `paragraph-eight-sentence-slip` | 2 | 2 |  | 1 |  |  | 1 | `2026-06-26-gate-structure-sentence-band-align` (applied) |
 | `paraphrase-hedge-compression` | 2 | 2 |  | 2 |  |  |  | — |
 | `paraphrase-substantive-change` | 2 | 1 |  | 1 | 1 |  |  | — |
-| `revision-induced-band-break` | 2 | 2 |  | 2 |  |  |  | `2026-07-02-composer-revision-mode-discipline` (recommended-apply) |
+| `revision-induced-band-break` | 2 | 2 |  | 2 |  |  |  | `2026-07-02-composer-revision-mode-discipline` (applied) |
 | `steelman-absent` | 2 | 2 |  |  | 1 | 1 |  | — |
 | `venue-ticker-convention` | 2 | 2 |  |  | 1 | 1 |  | — |
 | `banned-pattern-recurring` | 1 | 1 |  | 1 |  |  |  | — |
 | `closing-scope-overreach` | 1 | 1 |  |  | 1 |  |  | `2026-07-02-posture-softening-ledger-tag` (watch) |
-| `conclusion-over-hedge` | 1 | 1 |  | 1 |  |  |  | `2026-06-24-conclusion-over-hedge-check` (applied), `2026-07-02-composer-revision-mode-discipline` (recommended-apply) |
+| `conclusion-over-hedge` | 1 | 1 |  | 1 |  |  |  | `2026-06-24-conclusion-over-hedge-check` (applied), `2026-07-02-composer-revision-mode-discipline` (applied) |
 | `fact-introduced-beyond-spans` | 1 | 1 |  | 1 |  |  |  | — |
 | `figure-caption-scope-deferral` | 1 | 1 |  |  | 1 |  |  | — |
 | `figure-composition-tooling-gap` | 1 | 1 |  |  |  |  | 1 | — |

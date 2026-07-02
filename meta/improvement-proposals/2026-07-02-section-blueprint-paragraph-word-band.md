@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-02-section-blueprint-paragraph-word-band
 created: 2026-07-02T00:00:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored, regression-gated)
 lever: reference-edit
 goal: "3"
 root_cause_stage: compose
@@ -15,6 +15,12 @@ triggering_findings:
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: mobile-paragraph-wall
 ---
+
+> **Update 2026-07-02 — applied verbatim** (the joint paragraph band + recount-after-
+> structural-edits rules inserted into `section-blueprint.md`'s per-section field spec,
+> directly after `word_target`), same-day, on SETI's go-ahead. Closes the compose-side half
+> the 2026-06-11 word-wall proposal deferred; the gate half (STRUCT-001/005) was applied
+> earlier the same day.
 
 ## Problem
 

@@ -38,6 +38,15 @@ Each section the composer plans has:
 - `header` — the section's `##` title, written as a *claim* (assertion), not a label; the set
   of headers should read as the argument skeleton (see above).
 - `word_target` — integer. Composer writes within ±20%.
+- **Paragraph band (joint, draft-time)** — every body paragraph stays within BOTH bands:
+  3–7 sentences AND ≤ 110 words (the mechanical mirrors: STRUCT-001 warns at ≥ 8 sentences,
+  STRUCT-005 at > 110 words ≈ 8 mobile lines; editorial Pass 2C flags ≥ 8 sentences high).
+  Draft TO the band — do not draft walls for the loop to split (mobile-paragraph-wall has
+  cost 3 full revision rounds in a single essay). One idea per paragraph: if a paragraph
+  needs a second idea to justify its length, it is two paragraphs.
+- **Recount after structural edits** — any split/merge during drafting or revision can push
+  a NEIGHBOR paragraph across the band (revision-induced-band-break); re-count every
+  paragraph in a touched section before handing off.
 - `voice_canon_reference` — list of `voice-canon-lookup` entry_ids (at least 1).
 - `paragraph_anchors_used` — list of `[XXXX]` patent paragraph anchors this section will cite, drawn from `invention-summary.md` Quotable spans + Quote anchor table.
 - `external_facts_used` — list of `fact-check-log.md` Fact IDs this section will cite. Empty if section is purely patent-anchored.
