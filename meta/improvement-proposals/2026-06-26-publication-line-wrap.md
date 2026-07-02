@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-26-publication-line-wrap
 created: 2026-06-26T00:00:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: reference-edit + pipeline
 goal: "4a"
 root_cause_artifact: essay-en-composer/references/x-articles-format-en.md (no line-wrap convention) + references/strip-pipeline.md (no paragraph-rejoin step)
@@ -10,6 +10,11 @@ confidence: high
 triggering_findings:
   - essay_id: us12560948b2, pattern_tag: publication-hard-wrap (mid-paragraph hard wraps render ragged in X Articles)
 ---
+
+> **Update 2026-07-02 — applied verbatim** (Line-wrapping rule under `x-articles-format-en.md`
+> "Markdown rendering"; "Paragraph rejoin (publication only)" step + reference reflow helper
+> appended to `strip-pipeline.md`'s reproducible pipeline), as part of the user-sponsored
+> meta-harvest refactor. Reference/pipeline-doc only; regression green.
 
 ## Problem
 

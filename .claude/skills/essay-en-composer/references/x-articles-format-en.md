@@ -18,6 +18,11 @@ X Articles 는 X platform 의 long-form publication format. tech-essay-en (영�
 
 **Tables — image 변환 필요**. X Articles 는 markdown table 을 정상 렌더링하지 않음. 작업 path — table 본문을 image 로 변환 후 X Articles 에 image 형식으로 발행. 본 변환은 작성 단계의 image preparation 영역.
 
+**Line wrapping (publication.md)**. One line per paragraph, blank line between paragraphs. No
+intra-paragraph hard wraps (X Articles honors single newlines, so a mid-sentence wrap renders as a
+ragged break). A block quote is one `>` line for the quote plus one `>` line for the attribution.
+Headings, list items, and italic captions each stay on their own line.
+
 ### Stock ticker — cashtag
 
 주식 ticker 는 first mention 에서 `$` prefix 의 cashtag form 사용 (예: `$AGLT`). X platform 의 native·linkable token — discoverability + convention 정합. ticker-labeling context ("trading as", "NASDAQ:", "ticker") 뒤의 bare ticker 는 cashtag 로 승격. *(gate: `CASH-001` warn; 근거: run 045 `venue-ticker-convention`.)*

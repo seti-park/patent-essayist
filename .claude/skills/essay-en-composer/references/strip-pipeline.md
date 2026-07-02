@@ -35,6 +35,29 @@ sed '/^---$/,/^---$/d' draft.md \
   > publication.md
 ```
 
+### Paragraph rejoin (publication only)
+
+The hand-wrapped draft is reflowed to one line per paragraph as the last strip step. A blank line
+separates paragraphs; lines that begin with `#`, `>`, `-`, `*`, digits+`.`, `!` (image), or `|`
+(table) are structural and are NOT joined to neighbors; everything else in a block is joined with a
+single space.
+
+Reference reflow helper (Python, mirrors the existing pipeline's reproducibility):
+
+```python
+import sys
+out, buf = [], []
+def flush():
+    if buf: out.append(" ".join(buf)); buf.clear()
+for ln in sys.stdin.read().splitlines():
+    s = ln.strip()
+    if not s: flush(); out.append("")
+    elif s[0] in "#>-*|!" or (s[:2].rstrip(".").isdigit()):
+        flush(); out.append(ln)
+    else: buf.append(s)
+flush(); print("\n".join(out))
+```
+
 ## Pipeline notes
 
 Validated on the 050 Tesla CAM essay (2026-05). Three regex decisions worth preserving.
