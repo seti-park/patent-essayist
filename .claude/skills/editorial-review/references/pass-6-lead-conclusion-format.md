@@ -30,6 +30,10 @@ Closing posture must match `handoff/01-design/thesis-spine.md` adversarial defen
 
 Mismatch is high severity.
 
+When `thesis-spine.md` declares a **firm-closing posture** (verdict / investor / analysis
+editions), the `Acknowledged` row maps toward `closing-forward-watching-event` or
+`closing-binary-test` instead of `closing-open-question` — see `posture-lens.md` and 6G below.
+
 ## 6C — `# Sources` 5-category enum check
 
 The `# Sources` block must conform to:
@@ -79,6 +83,25 @@ Title rule (per `legacy/v1/phase-a-spec.md`'s em-dash decision): title may NOT u
 | "Tesla's 70ms Vindication — A Patent Reading" | ✗ em-dash |
 | "Tesla's 70ms Vindication" | ✓ no separator |
 
+## 6G — Verdict confidence proportionate to evidence (over-hedge guard)
+
+For essays that land a verdict or recommendation (investor / analysis / assessment editions),
+check that the conclusion's confidence matches the evidence the body established. This is the
+mirror of Pass 3 / Pass 4, which guard OVERREACH; 6G guards OVER-HEDGE.
+
+Flag (over-hedge):
+- the verdict leads with the qualifier instead of the call ("a qualified yes" before the "yes");
+- false equivalence between the thesis and its limits ("the limits are equally real");
+- caveats re-listed in the verdict that a dedicated limits section already covered (state once,
+  then reference);
+- stacked hedges a body with firm evidence does not warrant.
+
+Do not invert the fix into overclaim: a firm verdict still keeps exactly one anti-hype guard and
+never asserts beyond the claim scope (Pass 3 still binds).
+
+Severity: medium under measured posture; high when `thesis-spine.md` declares a firm-closing
+posture and the draft violates it.
+
 ## Severity calibration per posture
 
 | Sub-check | aggressive | measured | conservative |
@@ -90,6 +113,7 @@ Title rule (per `legacy/v1/phase-a-spec.md`'s em-dash decision): title may NOT u
 | 6E em-dash present | high | high | high |
 | 6E other mechanical fails | high | high | high |
 | 6F title em-dash | high | high | high |
+| 6G over-hedged verdict | medium | medium (high if firm-closing declared) | n/a — defensive framing is the declared intent |
 
 ## Output finding template
 

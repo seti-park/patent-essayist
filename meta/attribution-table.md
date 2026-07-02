@@ -23,7 +23,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `sources-enum-violation` | gate SOURCES-002 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit (or gate-promotion) |
 | `sources-subgroup-violation` | gate SOURCES-003 / pass-6 6C | 4a | compose | x-articles-format-en.md | reference-edit |
 | `lead-conclusion-weak` | pass-6 6A/6B | 4a | design/compose | thesis-spine arc / section-blueprint closing_directive | reference-edit |
-| `conclusion-over-hedge` | SETI catch / pass-6 6G | 4a | design + edit | thesis-spine closing posture + pass-6-lead-conclusion-format.md | reference-edit (or rubric-tuning: posture) |
+| `conclusion-over-hedge` | SETI catch / reader feedback / pass-6 6G | 4a | design + edit | thesis-spine closing posture + pass-6-lead-conclusion-format.md | reference-edit (applied 2026-07-02) |
 | `paragraph-eight-sentence-slip` | gate STRUCT-001 vs pass-2C | 3 / 4a | gate | gate_structure.py threshold (>8 vs >=8) | gate-strengthen |
 | `publication-hard-wrap` | publish render | 4a | compose | x-articles-format-en.md + strip-pipeline.md | reference-edit + pipeline |
 | `figure-cover-undervalued` | SETI catch / design | 2 | design | invention-summary-schema Figure relationships + SKILL Step 9 | reference-edit |
@@ -63,7 +63,7 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 
 | pattern_tag | records | essays | gate | editorial | self-audit | human-rev | retro | proposals |
 |---|---|---|---|---|---|---|---|---|
-| `mobile-paragraph-wall` | 12 | 6 |  | 12 |  |  |  | `2026-06-11-gate-structure-word-wall` (applied) |
+| `mobile-paragraph-wall` | 12 | 6 |  | 12 |  |  |  | `2026-06-11-gate-structure-word-wall` (applied), `2026-07-02-section-blueprint-paragraph-word-band` (recommended-apply) |
 | `redundancy-bloat` | 10 | 6 |  | 10 |  |  |  | — |
 | `sources-entry-template-drift` | 8 | 4 |  | 7 |  | 1 |  | `2026-07-01-sources-entry-field-completeness` (applied) |
 | `external-fact-universalization` | 5 | 3 |  | 3 | 2 |  |  | `2026-06-11-external-fact-scope-discipline` (applied) |
@@ -73,7 +73,7 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 | `fence-canon-verification-gap` | 3 | 2 |  | 3 |  |  |  | `2026-06-11-emoji-host-fence-decidable` (applied) |
 | `figure-token-regex-blindspot` | 3 | 3 | 2 |  |  |  | 1 | `2026-06-11-figure-token-panel-suffix` (watch) |
 | `meta-reader-instruction` | 3 | 3 |  | 1 | 1 | 1 |  | — |
-| `revision-induced-duplication` | 3 | 2 |  |  | 2 | 1 |  | — |
+| `revision-induced-duplication` | 3 | 2 |  |  | 2 | 1 |  | `2026-07-02-composer-revision-mode-discipline` (recommended-apply) |
 | `thesis-restatement-redundancy` | 3 | 3 |  | 1 | 1 | 1 |  | — |
 | `anchor-incomplete` | 2 | 1 |  |  | 2 |  |  | — |
 | `anchor-malformed` | 2 | 1 |  | 2 |  |  |  | — |
@@ -85,12 +85,12 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 | `paragraph-eight-sentence-slip` | 2 | 2 |  | 1 |  |  | 1 | `2026-06-26-gate-structure-sentence-band-align` (applied) |
 | `paraphrase-hedge-compression` | 2 | 2 |  | 2 |  |  |  | — |
 | `paraphrase-substantive-change` | 2 | 1 |  | 1 | 1 |  |  | — |
-| `revision-induced-band-break` | 2 | 2 |  | 2 |  |  |  | — |
+| `revision-induced-band-break` | 2 | 2 |  | 2 |  |  |  | `2026-07-02-composer-revision-mode-discipline` (recommended-apply) |
 | `steelman-absent` | 2 | 2 |  |  | 1 | 1 |  | — |
 | `venue-ticker-convention` | 2 | 2 |  |  | 1 | 1 |  | — |
 | `banned-pattern-recurring` | 1 | 1 |  | 1 |  |  |  | — |
-| `closing-scope-overreach` | 1 | 1 |  |  | 1 |  |  | — |
-| `conclusion-over-hedge` | 1 | 1 |  | 1 |  |  |  | `2026-06-24-conclusion-over-hedge-check` (watch) |
+| `closing-scope-overreach` | 1 | 1 |  |  | 1 |  |  | `2026-07-02-posture-softening-ledger-tag` (watch) |
+| `conclusion-over-hedge` | 1 | 1 |  | 1 |  |  |  | `2026-06-24-conclusion-over-hedge-check` (applied), `2026-07-02-composer-revision-mode-discipline` (recommended-apply) |
 | `fact-introduced-beyond-spans` | 1 | 1 |  | 1 |  |  |  | — |
 | `figure-caption-scope-deferral` | 1 | 1 |  |  | 1 |  |  | — |
 | `figure-composition-tooling-gap` | 1 | 1 |  |  |  |  | 1 | — |
@@ -115,7 +115,7 @@ rationale, applied-fix narratives) lives in the proposal files and `meta/run-not
 | `spec-undercoverage` | 1 | 1 |  | 1 |  |  |  | — |
 | `typography-html-comment-blindspot` | 1 | 1 | 1 |  |  |  |  | `2026-07-01-typography-html-comment-blindspot` (applied) |
 
-Derived from 139 ledger records (113 tagged + 26 untagged coverage/no-finding records) across 10 runs, and 15 proposal files. Do not hand-edit: regenerate with `python meta/tally_ledger.py --write`; `meta/regression.py` fails while this block is stale. Proposal statuses come from each proposal file's frontmatter (`watch` / `recommended-apply` / `applied` / `escalated`).
+Derived from 139 ledger records (113 tagged + 26 untagged coverage/no-finding records) across 10 runs, and 18 proposal files. Do not hand-edit: regenerate with `python meta/tally_ledger.py --write`; `meta/regression.py` fails while this block is stale. Proposal statuses come from each proposal file's frontmatter (`watch` / `recommended-apply` / `applied` / `escalated`).
 <!-- tally:end -->
 
 ## Per-run retro notes

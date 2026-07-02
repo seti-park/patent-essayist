@@ -41,6 +41,16 @@ Not every pass responds to posture the same way. Some passes have rules independ
 | 5 Reader perspective | Medium. Aggressive posture permits bold experimentation (delayed thesis, longer setup). Conservative posture enforces strict accessibility. |
 | 6 Lead / conclusion strength | High. Conservative posture requires thesis directly anchored at lead + closed at conclusion. Aggressive posture permits thesis-hint variation. |
 
+## Verdict editions — firm-closing default (over-hedge guard)
+
+Verdict editions (investor / analysis) default to a firmer closing. When thesis-spine declares a
+firm-closing posture, an `Acknowledged` residual risk maps toward `closing-forward-watching-event`
+or `closing-binary-test`, NOT `closing-open-question`; an over-hedged close is then a 6G finding
+(see `pass-6-lead-conclusion-format.md` 6G). Rationale: the rubric's Pass 3/4 push every round
+toward safer claims; without a declared closing posture the loop converges on a verdict too
+defensive for its evidence — the failure mode readers of verdict editions actually report
+(too safe, dispute-avoidant), and one no pass could see before 6G.
+
 ## Severity transparency in output
 
 The feedback YAML carries two severity fields per finding.

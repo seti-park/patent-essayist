@@ -62,7 +62,18 @@
 
 **Residual risk**: Acknowledged — Bosch's ~10ms baseline assumes a 2020-era accelerometer ECU; §3 notes this and bounds the claim accordingly.
 
-## Single-spine declaration
+## Closing posture
+
+<!-- Declared at design time so Compose drafts the close at the right confidence and Pass 6
+     6G can hold it (the loop's Pass 3/4 only push claims DOWN; this is the counterweight).
+     Default rule: verdict / investor / analysis editions -> firm-closing; mechanism /
+     explainer editions -> measured. Under firm-closing, an Acknowledged residual risk maps
+     the close toward closing-forward-watching-event / closing-binary-test, NOT
+     closing-open-question (posture-lens.md). firm-closing = lead the verdict with the call
+     (not the qualifier), state caveats once in the limits section (not re-listed in the
+     verdict), keep exactly one anti-hype guard. -->
+- [ ] firm-closing (verdict / investor / analysis default)
+- [x] measured (mechanism / explainer default — this example is a mechanism read)
 
 <!-- Single-spine is the v2 default. Multi-spine requires an explicit SETI override
      per references/single-spine-default.md. -->

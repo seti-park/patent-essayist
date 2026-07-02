@@ -1,17 +1,32 @@
 ---
 proposal_id: 2026-06-24-conclusion-over-hedge-check
 created: 2026-06-24T03:30:00Z
-status: watch
+status: applied (2026-07-02, user-sponsored, promoted by reader feedback, regression-gated)
 lever: reference-edit
 goal: "4a"
 root_cause_stage: edit
 root_cause_artifact: editorial-review/references/pass-6-lead-conclusion-format.md (no over-hedge check) + posture-lens.md (no firm-closing default for verdict editions)
-recurrence_count: 1
-confidence: medium
+recurrence_count: 3
+confidence: high
 triggering_findings:
   - essay_id: us12560948b2 ad-hoc run (pre-pipeline), pattern_tag: conclusion-over-hedge, surfaced by SETI catch (not in ledger)
   - essay_id: 2026-06-24-us12560948b2-safe-stop, iter: 1, pattern_tag: conclusion-over-hedge (prevented; firm-closing posture held)
+  - essay_id: (audience feedback, multi-iteration published outputs), pattern_tag: conclusion-over-hedge, reported by SETI 2026-07-02 — investment-diligence readers judged heavily-looped essays "too safe / dispute-avoidant" (독자 피드백; register-level, not attributable to a single essay)
 ---
+
+> **Update 2026-07-02 — applied, promoted by reader feedback.** SETI relayed audience feedback
+> that multi-iteration outputs read "too safe / dispute-avoidant" for investment-diligence
+> readers — the register-level form of exactly the asymmetry this file names, and the third
+> human-observed occurrence (ad-hoc catch → prevented recurrence → reader feedback). Applied as
+> part of the user-sponsored refactor: 6G added to `pass-6-lead-conclusion-format.md` verbatim
+> (plus a 6B note so the residual-risk mapping and 6G cannot contradict, and a 6G row in the
+> per-posture severity table); the posture-lens verdict-edition note added; AND the session-retro
+> L1(b) extension implemented — `thesis-architect` Step 8 now declares a closing posture in
+> `thesis-spine.md` with `firm-closing` as the DEFAULT for verdict/investor/analysis editions
+> (template field added to `handoff-template/01-design/thesis-spine.md`), so Compose drafts the
+> close firm from the start instead of relying on Edit to notice timidity. Companion
+> instrumentation proposals filed the same day: composer revision-mode discipline,
+> posture-softening ledger tag, section-blueprint paragraph word band.
 
 ## Problem
 
