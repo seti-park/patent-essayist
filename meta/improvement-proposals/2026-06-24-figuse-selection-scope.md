@@ -1,20 +1,64 @@
 ---
 proposal_id: 2026-06-24-figuse-selection-scope
 created: 2026-06-24T00:00:00Z
-updated: 2026-07-01T00:00:00Z
-status: recommended-apply
+status: applied
 lever: gate-promotion
 goal: "2"
 root_cause_stage: gate
 root_cause_artifact: _shared/scripts/gate_figure_use.py (_figure_numbers reads the entire figure-selection.md, not just the selected-figure section)
-recurrence_count: 2
+recurrence_count: 3
 confidence: high
 triggering_findings:
   - essay_id: 045-agility-638-last-mile-moat, iter: 0, pattern_tag: figuse-selection-scope-overread
   - essay_id: 001-st-histogram-mechanism, iter: 1, pattern_tag: figuse-selection-scope-overread
   - essay_id: 001-st-histogram-mechanism, iter: 2, pattern_tag: figuse-selection-scope-overread
   - essay_id: 001-st-histogram-mechanism, iter: 3, pattern_tag: figuse-selection-scope-overread
+  - essay_id: vl53l9cx-ep2-crosstalk-us20240192337, iter: 1, pattern_tag: figuse-selection-scope-overread
 ---
+
+> **Update 2026-07-01 — applied, with a scope correction found live.** The predicted failure
+> mode fired for real on `vl53l9cx-ep2-crosstalk-us20240192337` (6 spurious `FIGUSE-001` orphans:
+> figures 2, 7, 8, 11, 14, 15), meeting this proposal's own stated promotion trigger ("one real
+> spurious `FIGUSE-001`... promotes this to `recommended-apply`"). The orchestrator applied a fix
+> directly, mid-run, to unblock the essay rather than waiting for separate human review of this
+> file — a process deviation worth flagging (the proposal should have been checked *before*
+> hand-rolling a fix). On comparison, the two fixes differ in an important way:
+>
+> This proposal's exact diff scopes to the `## Selected figures` section but does **not** strip
+> HTML comments from within it. `handoff-template/01-design/figure-selection.md` — the actual
+> template thesis-architect follows — puts its rejected-figure rationale in an **HTML comment**
+> immediately after the selected-figures table (`<!-- FIG. 4B was reviewed ... but NOT selected
+> ... -->`), not in a separate `## Reviewed but NOT selected` heading as this proposal's Problem
+> section assumed. Applying this proposal's diff as-written to the live file would have left 4
+> of the 6 false positives in place (FIG. 2, 11, 14, 15, all named inside the HTML comment
+> block, which sits *inside* the `## Selected figures` section as scoped and would still be
+> regex-scanned) — only FIG. 7/8 would have been fixed (they appear solely in the later
+> `## Paired-figure relationships` table, correctly excluded by the heading boundary).
+>
+> The fix actually applied (`.claude/skills/_shared/scripts/gate_figure_use.py`, commit
+> `5568e36`) is this proposal's section-scoping **plus** an HTML-comment strip within the scoped
+> section — a strict superset that handles both conventions (explicit "reviewed but not
+> selected" heading, and the template's own HTML-comment rationale). Verified via
+> `meta/regression.py` (full suite + 2 new fixtures/tests: `figure-selection-heading-rejects`
+> reproduces the comment-based case; a companion test confirms a genuine orphan *inside*
+> `## Selected figures` still fails). `essays/agility-us12560948`'s gate result is unchanged.
+>
+> No further action needed on this proposal — it is superseded by the applied fix, which is
+> strictly more complete than the diff below. Left the original diff in place for the historical
+> record of what was first proposed and why.
+
+> **Merge note 2026-07-02 — independent third-essay corroboration.** A parallel run,
+> `001-st-histogram-mechanism` (US 2026/0140238 A1), hit the same class independently on the
+> same day and promoted this proposal `watch` → `recommended-apply` on its own branch before
+> the applied fix above was visible to it: its `## Selected figures` (FIG. 1, FIG. 2) /
+> `## Not selected (and why)` selection file produced 5 real `FIGUSE-001` false fails (FIG. 3-7)
+> in **every one of its 3 inner-loop rounds** (15 false fails total), each round manually
+> adjudicated clear by the orchestrator. That run's rejection rationale lived in a real
+> `## Not selected` *heading* section — the convention this proposal's original diff scoped for —
+> while `vl53l9cx-ep2-crosstalk`'s lived in an HTML comment *inside* `## Selected figures`; the
+> applied fix (section-scoping + comment-strip) covers both observed conventions, so run 001's
+> evidence confirms the applied fix rather than requiring anything further. Frontmatter
+> `triggering_findings` / `recurrence_count` merged accordingly (3 essays, 5 records).
 
 ## Problem
 
@@ -48,32 +92,11 @@ section-scoped     -> selected = {1, 4, 5}          (correct)
 
 This is a **distinct mechanism** from the existing `figure-token-regex-blindspot` class
 (`2026-06-11-figure-token-panel-suffix.md`), which is about lettered-panel tokens like
-"FIG. 4B". This one is a **selected-set scope over-read** of the selection *file*.
-
-## Update 2026-07-01 — second occurrence, promoted to `recommended-apply`
-
-Run `001-st-histogram-mechanism` (US 2026/0140238 A1) is exactly the second occurrence this
-proposal's original text predicted: "A second selection file with a 'Reviewed but NOT
-selected' section whose dropped figures are not echoed in prose... promotes this to
-`recommended-apply`." Its `handoff/01-design/figure-selection.md` carries a `## Selected
-figures` table (FIG. 1, FIG. 2 only) followed by a `## Not selected (and why)` section that
-names FIG. 3-7 by number to document deliberate exclusion (crosstalk/correlator/phase-circuit
-detail below the audience floor). The essay draft never mentions FIG. 3-7 in prose — a clean,
-legitimate drop, exactly the case run 045 got lucky on. `gate_figure_use.py` fired real
-`FIGUSE-001` fails for figures 3, 4, 5, 6, and 7 in **every one of that run's 3 rounds**
-(iter 1, 2, 3 — the defect is stable across drafts, confirming it is a parse-scope bug, not
-content-dependent). The orchestrator manually adjudicated the goal-2 hard-gate as clear for
-that run's PASS determination (verified the real `## Selected figures` set — FIG. 1, FIG. 2 —
-has zero orphans), but this is exactly the "adjudicate around it every run" mitigation cost
-this proposal exists to retire.
-
-Re-verified against the current `gate_figure_use.py` source (2026-07-01, unchanged since
-2026-06-24): the diff below still applies verbatim.
-
-`recurrence_count` 1 → 2, `status` `watch` → `recommended-apply` per this proposal's own
-stated promotion rule. Mechanically safe, fully verified twice now, and has produced two real
-false `FIGUSE-001` batches (5 figures × 3 rounds in run 001 alone) rather than a single latent
-near-miss — the exact diff + test below are ready for direct human application.
+"FIG. 4B". This one is a **selected-set scope over-read** of the selection *file*. It is
+first-seen (`recurrence_count: 1`), so it files at `watch` per the promotion rules — but it is
+mechanically safe, fully verified, and sits one dropped-figure-from-prose away from a spurious
+goal-2 hard fail, so the exact diff + test are included for early human application (same
+posture as the two `watch` proposals already on file).
 
 ## Proposed change (exact diff)
 
@@ -178,13 +201,10 @@ compatibility.
 - Not a reference-edit: the "mention dropped figures in prose anyway" workaround is exactly the
   per-run mitigation cost this should retire — a figure the design **dropped** should be allowed
   to be absent from prose without a spurious goal-2 hard fail.
-- `recommended-apply` (updated 2026-07-01, was `watch`): the promotion trigger this proposal
-  itself specified — "a second selection file with a 'Reviewed but NOT selected' section whose
-  dropped figures are not echoed in prose" — fired for real in run `001-st-histogram-mechanism`
-  (15 real `FIGUSE-001` false fails: 5 figures × 3 rounds). Below `RECUR_THRESHOLD` by strict
-  essay-count (2 essays), but the per-run defect count and 100% reproduction rate across both
-  triggering runs make this a high-confidence mechanical fix ready for direct application; not
-  gated further on hitting essay-count 3.
+- `watch`, not `recommended-apply`: first occurrence (count 1 < RECUR_THRESHOLD 3) and the
+  failure has not yet actually fired in a run. A second selection file with a "Reviewed but NOT
+  selected" section whose dropped figures are not echoed in prose — or one real spurious
+  `FIGUSE-001` — promotes this to `recommended-apply`.
 
 ## Regression expectation
 

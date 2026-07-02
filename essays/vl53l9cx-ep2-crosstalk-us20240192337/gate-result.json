@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "gates": [
+    {
+      "gate": "emdash",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "anchors",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "sources",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "banned",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "structure",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "figure_use",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "meta",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "stub",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "cashtag",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "dupe",
+      "passed": true,
+      "findings": [
+        {
+          "check_id": "DUPE-001",
+          "severity": "warn",
+          "message": "repeated 5-word phrase 'the spad array and the' occurs 2 times in prose",
+          "location": "prose token #222"
+        }
+      ]
+    },
+    {
+      "gate": "typography",
+      "passed": true,
+      "findings": [
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 36 words (target ~15-25)",
+          "location": "sentence: --- essay_id: vl53l9cx-ep2-crosstalk-us20240192337..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: The VCSEL emitter (103) fires a light pulse; the S..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 50 words (target ~15-25)",
+          "location": "sentence: This piece picks up that same output and asks what..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 49 words (target ~15-25)",
+          "location": "sentence: If Article 1 was about reading the histogram, this..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 70 words (target ~15-25)",
+          "location": "sentence: The patent's own language for this is direct: \"   ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 72 words (target ~15-25)",
+          "location": "sentence: A sensor that trusts its own histogram without a w..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 48 words (target ~15-25)",
+          "location": "sentence: The near-zero peak lands below N_thresh and is dis..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 37 words (target ~15-25)",
+          "location": "sentence: Matched filters and zero-crossing filters are both..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 57 words (target ~15-25)",
+          "location": "sentence: 10 is that whole system in one diagram: the histog..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 53 words (target ~15-25)",
+          "location": "sentence: Histogram (801) into weight-coefficient generation..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 57 words (target ~15-25)",
+          "location": "sentence: That is engineering integration, not a rebrand of ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 47 words (target ~15-25)",
+          "location": "sentence: Plain MF (903) locks onto the false near-zero targ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 43 words (target ~15-25)",
+          "location": "sentence: What the classification-and-switchover step remove..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 37 words (target ~15-25)",
+          "location": "sentence: 13: the peak-finding circuit (407) on the same IC ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 36 words (target ~15-25)",
+          "location": "sentence: ST's own public description of the VL53L9CX, the L..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 51 words (target ~15-25)",
+          "location": "sentence: Set that marketing line next to the weighted-sum t..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: The patent's own word for fixing that reference po..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 42 words (target ~15-25)",
+          "location": "sentence: A companion filing from the same inventor, US 2025..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 45 words (target ~15-25)",
+          "location": "sentence: What it claims, and what the record supports, is a..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 50 words (target ~15-25)",
+          "location": "sentence: This one shows that the count arrives with the sen..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 169 words (target ~15-25)",
+          "location": "sentence: Article 3 asks what a robot does with a distance r..."
+        }
+      ]
+    }
+  ]
+}

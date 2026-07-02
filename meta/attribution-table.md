@@ -47,6 +47,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
 | `typography-html-comment-blindspot` | gate EXCLAIM-001 | 4b | gate | _shared/scripts/gate_typography.py (EXCLAIM_RE has no HTML-comment exemption) | gate-promotion (proposal on file 2026-07-01) |
 | `header-title-near-duplicate` | pass-1 1A | 4b | compose | essay-en-composer/references/section-blueprint.md (no rule against H1/first-`##` sharing a sentence frame) | reference-edit |
+| `sources-category-omitted` † | pass-6 6C | 4a | compose | x-articles-format-en.md (Sources category checklist — no explicit "every analyzed patent must appear under a category" completeness rule) | reference-edit |
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 
@@ -55,7 +56,7 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 
 | pattern_tag | open | watch | proposed | resolved | escalated | patches applied |
 |---|---|---|---|---|---|---|
-| `redundancy-bloat` | 0 | 7 | 0 | 0 | 0 | 0 |
+| `redundancy-bloat` | 0 | 9 | 0 | 0 | 0 | 0 |
 | `mobile-paragraph-wall` † | 0 | 6 | 2 | 0 | 0 | 0 |
 | `external-fact-universalization` † | 0 | 0 | 3 | 0 | 0 | 0 |
 | `fence-canon-verification-gap` † | 0 | 0 | 3 | 0 | 0 | 0 |
@@ -63,11 +64,11 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `figure-token-regex-blindspot` † | 0 | 0 | 2 | 0 | 0 | 0 |
 | `paraphrase-hedge-compression` † | 0 | 2 | 0 | 0 | 0 | 0 |
 | `revision-induced-band-break` † | 0 | 2 | 0 | 0 | 0 | 0 |
-| `sources-entry-template-drift` † | 0 | 2 | 0 | 0 | 0 | 0 |
+| `sources-entry-template-drift` † | 0 | 0 | 4 | 0 | 0 | 0 |
 | `banned-pattern-recurring` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `quote-notation-gap` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `claim-vs-spec-citation-conflation` † | 0 | 1 | 0 | 0 | 0 | 0 |
-| `figuse-selection-scope-overread` † | 0 | 0 | 4 | 0 | 0 | 0 |
+| `figuse-selection-scope-overread` † | 0 | 0 | 0 | 0 | 0 | 1 |
 | `source-tier-hedge-posture` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `rule-of-three-warn` † | 0 | 1 | 0 | 0 | 0 | 0 |
 | `source-pointer-style-drift` † | 0 | 1 | 0 | 0 | 0 | 0 |
@@ -79,22 +80,23 @@ glance. Counts are derived from `meta/findings-ledger.jsonl`; do not hand-edit t
 | `spec-undercoverage` | 0 | 1 | 0 | 0 | 0 | 0 |
 | `typography-html-comment-blindspot` (new 2026-07-01) | 0 | 0 | 1 | 0 | 0 | 0 |
 | `header-title-near-duplicate` (new 2026-07-01) | 0 | 1 | 0 | 0 | 0 | 0 |
+| `meta-reader-instruction` | 0 | 3 | 0 | 0 | 0 | 1 |
+| `sources-category-omitted` † | 0 | 1 | 0 | 0 | 0 | 0 |
 
-Rows above updated 2026-07-01 for run `001-st-histogram-mechanism`'s contributions only
-(`redundancy-bloat`, `mobile-paragraph-wall`, `figuse-selection-scope-overread`,
-`jargon-gloss-gap`, `spec-undercoverage`, and the 2 new rows). Every other row in this table
-still reflects its state as of run `045-agility-638-last-mile-moat` and has not been
-re-tallied against the several runs recorded in the ledger between 045 and this run (e.g.
-`2026-06-26-*`, `2026-06-27-*` datasets already visible in `findings-ledger.jsonl`) — this
-summary table has drifted out of sync with the ledger for those rows and a full re-tally
-across the whole ledger is recommended next time a human is doing table maintenance, not
-just an incremental per-run update. Flagged here rather than silently corrected in full,
-since a blanket re-tally is a larger edit than this run's scope justifies.
+Counts derived from the ledger as of run `vl53l9cx-ep2-crosstalk-us20240192337` (sixth recorded
+run, following `045-agility-638-last-mile-moat`, `2026-06-26-us12560948b2-investor-selfaudit`,
+and `2026-06-27-us12560948b2-safe-stop-e2e`). A class with a proposal on file shows its
+triggering records under `proposed` (the proposal file under `meta/improvement-proposals/` lists
+the triggering finding ids and is the append-only audit reference).
 
-Counts derived from the ledger as of run `045-agility-638-last-mile-moat` (third recorded
-run). A class with a proposal on file shows its triggering records under `proposed` (the
-proposal file under `meta/improvement-proposals/` lists the triggering finding ids and is the
-append-only audit reference).
+**Staleness note (2026-07-01):** the two intervening runs (`...-investor-selfaudit` and
+`...-safe-stop-e2e`) added self-audit and inner-loop records for several classes — notably
+`claim-scope-misattribution`, `legal-posture-language-slip`, and the `mobile-paragraph-wall` /
+`proposed` split — whose numeric rows above were not refreshed at the time (this pipeline-retro
+pass corrected only the rows its own new records directly touch: `redundancy-bloat` and
+`sources-entry-template-drift`, plus the two brand-new tags). A full recount pass across all six
+runs is still owed; flagging here rather than silently rewriting rows this run has no fresh
+evidence for.
 
 Cross-essay recurrence (present in 2+/3 essays): `claim-scope-misattribution` (HIGH +
 grounding hard-gate breach in runs 1–2 — most damaging class in the system; **did NOT recur in
@@ -112,19 +114,66 @@ New first-seen classes in run 045 (all `watch`/`proposed`, count 1): **`claim-vs
 quote TEXT byte-exact, only the attribution LABEL wrong; distinct from `claim-scope-misattribution`,
 which is claim *semantics*, and from `quote-notation-gap`, which was a missing "(emphasis added)";
 resolved iter-2 by attributing claim quotes by claim in prose + correcting thesis-trace upstream),
-**`figuse-selection-scope-overread`** (proposal on file — `gate_figure_use` reads the whole
-selection file, so figures in the "Reviewed but NOT selected" section false-count as selected;
-one dropped-figure-from-prose away from a spurious goal-2 hard FAIL), `source-tier-hedge-posture`
+**`figuse-selection-scope-overread`** (proposal `2026-06-24-figuse-selection-scope.md` — status
+now `applied`: the predicted failure fired for real on `vl53l9cx-ep2-crosstalk-us20240192337`
+(6 spurious `FIGUSE-001`), and the fix applied there turned out to need a superset of the
+original diff — HTML-comment stripping, not just section-scoping, since the template's own
+rejected-figure rationale lives in an HTML comment rather than a separate heading; see the
+proposal file's 2026-07-01 update for the full comparison), `source-tier-hedge-posture`
 (a tier-4 source on a hedged non-load-bearing forward pointer — within bounds), and
 `rule-of-three-warn` (STRUCT-004 on a factual customer triad — warn-only, behaving as designed).
 
+New first-seen class in `vl53l9cx-ep2-crosstalk-us20240192337` (2026-07-01, inner-loop iter-1
+HIGH — the sole driver of that iteration's `revise-required`): **`sources-category-omitted`** —
+the `# Sources` block carried only `## Official statements` and `## Technical specs`
+subheadings; neither analyzed patent (subject US 2024-0192337 B2, supporting US 2025-0012901)
+appeared under a `## Patents` category at all, despite both being cited in-body. Distinct from
+the table's two existing Sources-structure classes: `sources-enum-violation` is a *wrong label*
+(an ad-hoc category name outside the 5-item enum) and `sources-subgroup-violation` is
+*inconsistent subgrouping* (some sources categorized, others not, once `##` is in use) — this is
+a *whole required category silently absent* despite in-body use, which neither existing check
+tests for. First occurrence, count 1, filed `watch`; needs the human-added attribution-table row
+above (marked †) confirmed/refined once a second instance appears. Resolved iter-2 (`## Patents`
+added, ordered first, both patents in 6-field format).
+
+This run's `redundancy-bloat` instance (iter-1 MEDIUM, §6 3-idea paragraph) is a **new
+sub-mechanism**, not a repeat of a prior flavor: each of the three stacked ideas individually
+honored its own word-budget instruction, but the paragraph-level combination pushed past the
+single-idea earn threshold — a *budget-per-idea vs. budget-per-paragraph* gap, distinct from the
+class's previously observed flavors (word-level doubling, header/body echo, sanctioned
+cross-section layering, intensifier tics). Still folded into the umbrella `redundancy-bloat` tag
+per the class's existing heterogeneous-sub-mechanisms handling (see below), not split out, since
+it is a single low-frequency instance of yet another sub-mechanism rather than a stable new
+pattern on its own.
+
+This run's `sources-entry-template-drift` instance (iter-2 LOW — "filed" used instead of the
+spec's "priority" label; hero-patent publication date omitted with no placeholder) is the 4th
+occurrence of the class and crosses `RECUR_THRESHOLD`. Unlike the prior three occurrences (all
+`watch`, no proposal on file), this run's evidence — combined with the prior three — supports a
+`recommended-apply` reference-edit: see
+`meta/improvement-proposals/2026-07-01-sources-entry-field-completeness.md` (fixes both the
+Patents field-4/5 label-locking and unstated-field placeholder convention, and the adjacent
+Papers author/venue-unstated convention that drove the first two occurrences).
+
+This run's `meta-reader-instruction` instance (iter-1 LOW, FIG. 1 caption "this essay starts
+from...") is the 3rd ledger occurrence of the tag but **does not** warrant a new proposal: unlike
+the prior two occurrences (both confirmed violations that were removed), this one was judged
+*borderline* and ultimately ruled an exempted functional-scope-disclaimer, not a violation —
+`gate_meta` (already gate-promoted in run 045, see the main table above) correctly did not fire.
+This is the mechanism working as designed at the judgment layer, complementing rather than
+exposing a gap in the mechanical gate; no action proposed.
+
 RECUR_THRESHOLD=3 reached by record count: `external-fact-universalization`,
 `fence-canon-verification-gap`, `mobile-paragraph-wall` (proposals on file,
-recommended-apply) and `redundancy-bloat` (now at 6, still deliberately HELD at `watch`:
-heterogeneous sub-mechanisms — anchor doubling, caption echo, sanctioned-layering awareness,
-intensifier tics — no single mechanical rule covers them and the class has never cost a loop
-iteration). 6 proposals on file as of 2026-06-24 (5 from `2026-06-11-*.md` + the new
-`2026-06-24-figuse-selection-scope.md`). Do not hand-edit the counts.
+recommended-apply), `sources-entry-template-drift` (now at 4, **new** `recommended-apply`
+proposal as of 2026-07-01 — see above), `meta-reader-instruction` (now at 3, no new proposal —
+already gate-promoted, this run's instance is a correctly-behaving judgment-layer complement,
+not a gap), and `redundancy-bloat` (now at 9, still deliberately HELD at `watch`: heterogeneous
+sub-mechanisms — anchor doubling, caption echo, sanctioned-layering awareness, intensifier tics,
+and now budget-per-idea-vs-per-paragraph stacking — no single mechanical rule covers them and
+the class has never cost a loop iteration). 7 proposals on file as of 2026-07-01 (5 from
+`2026-06-11-*.md` + `2026-06-24-figuse-selection-scope.md` +
+`2026-07-01-sources-entry-field-completeness.md`). Do not hand-edit the counts.
 † = new finding class with no row in the main table above; adding the missing rows is itself
 a small reference-edit proposal per this table's header (human decision, still pending from
 run 1).
