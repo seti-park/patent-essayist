@@ -1,0 +1,68 @@
+# Utility: fetch public patent assets (grant PDF + drawing-sheet PNGs) from a
+# GitHub-hosted runner and commit them to the calling branch. Exists because the
+# pipeline's sandbox egress cannot reach USPTO/patentimages directly; runners can.
+name: fetch-patent-assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      patent_num:
+        description: "Patent number, digits only (e.g. 12361091)"
+        required: true
+      pub_id:
+        description: "Publication id used by patentimages (e.g. US12361091B1)"
+        required: true
+      grant_date:
+        description: "Grant date YYYYMMDD used in sheet filenames (e.g. 20250715)"
+        required: true
+      dest:
+        description: "Directory (repo-relative) to commit assets into"
+        required: true
+        default: "input-assets/patent"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch grant PDF (USPTO) and drawing sheets (patentimages)
+        run: |
+          set -u
+          mkdir -p "${{ inputs.dest }}"
+          cd "${{ inputs.dest }}"
+
+          curl -fsSL -A "Mozilla/5.0" --retry 3 --retry-delay 2 \
+            -o "US${{ inputs.patent_num }}.pdf" \
+            "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/${{ inputs.patent_num }}" \
+            && echo "pdf ok" || { echo "pdf FAILED"; rm -f "US${{ inputs.patent_num }}.pdf"; }
+
+          n=0; miss=0
+          while [ "$miss" -lt 2 ] && [ "$n" -lt 60 ]; do
+            f=$(printf 'US%s-%s-D%05d.png' "${{ inputs.patent_num }}" "${{ inputs.grant_date }}" "$n")
+            if curl -fsSL --retry 2 --retry-delay 1 -o "$f" \
+                 "https://patentimages.storage.googleapis.com/${{ inputs.pub_id }}/$f"; then
+              echo "got $f"; miss=0
+            else
+              rm -f "$f"; miss=$((miss+1))
+            fi
+            n=$((n+1))
+          done
+          ls -la
+
+      - name: Commit assets to this branch
+        run: |
+          set -eu
+          git config user.name "patent-asset-fetcher[bot]"
+          git config user.email "actions@users.noreply.github.com"
+          git add "${{ inputs.dest }}"
+          if git diff --cached --quiet; then
+            echo "nothing fetched — failing so the caller notices"
+            exit 1
+          fi
+          git commit -m "Fetch patent assets for US${{ inputs.patent_num }} (${{ inputs.pub_id }})"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
