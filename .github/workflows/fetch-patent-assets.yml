@@ -41,29 +41,59 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch grant PDF (USPTO) and drawing sheets (patentimages)
+      - name: Fetch grant PDF (patent_client -> pat2pdf -> FPO fallbacks)
         run: |
           set -u
           mkdir -p "$DEST"
           cd "$DEST"
+          PDF="US${PATENT_NUM}.pdf"
 
-          curl -fsSL -A "Mozilla/5.0" --retry 3 --retry-delay 2 \
-            -o "US${PATENT_NUM}.pdf" \
-            "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/${PATENT_NUM}" \
-            && echo "pdf ok" || { echo "pdf FAILED"; rm -f "US${PATENT_NUM}.pdf"; }
+          echo "== strategy 1: patent_client (USPTO Patent Public Search)"
+          pip install --quiet patent-client 2>/dev/null || echo "pip install failed"
+          python3 - <<'PY' || echo "patent_client strategy failed"
+          import os
+          num = os.environ["PATENT_NUM"]
+          from patent_client import PublicSearchDocument
+          doc = PublicSearchDocument.objects.get(num)
+          doc.download_images(path=".")
+          print("patent_client ok")
+          PY
+          # patent_client names the file variously; normalize
+          found=$(ls -S *.pdf 2>/dev/null | head -1 || true)
+          if [ -n "$found" ] && [ "$found" != "$PDF" ]; then mv "$found" "$PDF"; fi
 
+          if [ ! -s "$PDF" ]; then
+            echo "== strategy 2: pat2pdf.org"
+            page=$(curl -fsSL -A "Mozilla/5.0" "https://www.pat2pdf.org/pat2pdf/foo.pl?number=${PATENT_NUM}" || true)
+            link=$(echo "$page" | grep -oE 'https?://[^"]*pat[0-9A-Za-z]*\.pdf' | head -1 || true)
+            [ -n "$link" ] && curl -fsSL -A "Mozilla/5.0" -o "$PDF" "$link" || echo "pat2pdf failed"
+          fi
+
+          if [ ! -s "$PDF" ]; then
+            echo "== strategy 3: freepatentsonline"
+            curl -fsSL -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" \
+              -e "https://www.freepatentsonline.com/${PATENT_NUM}.html" \
+              -o "$PDF" "https://www.freepatentsonline.com/${PATENT_NUM}.pdf" || { echo "FPO failed"; rm -f "$PDF"; }
+          fi
+
+          echo "== bonus: patentimages sheets with browser headers"
           n=0; miss=0
           while [ "$miss" -lt 2 ] && [ "$n" -lt 60 ]; do
             f=$(printf 'US%s-%s-D%05d.png' "$PATENT_NUM" "$GRANT_DATE" "$n")
-            if curl -fsSL --retry 2 --retry-delay 1 -o "$f" \
+            if curl -fsSL --retry 1 -o "$f" \
+                 -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36" \
+                 -H "Referer: https://patents.google.com/" \
+                 -H "Accept: image/avif,image/webp,image/png,image/*;q=0.8" \
                  "https://patentimages.storage.googleapis.com/${PUB_ID}/$f"; then
-              echo "got $f"; miss=0
+              file "$f" | grep -q "PNG image" && { echo "got $f"; miss=0; } || { rm -f "$f"; miss=$((miss+1)); }
             else
               rm -f "$f"; miss=$((miss+1))
             fi
             n=$((n+1))
           done
+
           ls -la
+          [ -s "$PDF" ] || ls *.png >/dev/null 2>&1 || { echo "ALL STRATEGIES FAILED"; exit 1; }
 
       - name: Commit assets to this branch
         run: |
