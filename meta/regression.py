@@ -48,6 +48,14 @@ def _run_gate_tests():
     return rc == 0
 
 
+def _run_tally_check():
+    """Verify the derived recurrence tally in attribution-table.md is in sync."""
+    tally_path = os.path.join(HERE, "tally_ledger.py")
+    print("== tally sync (attribution-table.md vs findings-ledger.jsonl) ==")
+    rc = subprocess.call([sys.executable, tally_path, "--check"])
+    return rc == 0
+
+
 def _load(path):
     with open(path, "r", encoding="utf-8") as fh:
         return fh.read()
@@ -100,6 +108,7 @@ def main(argv=None):
     all_ok = True
     if not args.fixtures_only:
         all_ok = _run_gate_tests() and all_ok
+        all_ok = _run_tally_check() and all_ok
 
     print("== fixtures ==")
     if not os.path.isdir(FIXTURES):

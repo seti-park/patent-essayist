@@ -1,0 +1,4 @@
+# The findings ledger is append-only JSONL: parallel run branches each append
+# distinct records, so a union merge is always the correct resolution (no more
+# hand-resolving append/append conflicts when merging Claude Code session branches).
+meta/findings-ledger.jsonl merge=union

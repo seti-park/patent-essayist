@@ -30,10 +30,19 @@ inner loop output (edit-log.md + gate-result.json) + post-accept revision-notes.
 ## Hard rule: propose-only
 
 This skill **does not modify** any skill body, reference, gate script, `banned_terms.txt`, or
-voice canon. Its only writes are: append to `meta/findings-ledger.jsonl`, update
-`meta/attribution-table.md` recurrence counts, and create files under
-`meta/improvement-proposals/`. Every system change is a human decision applied after the
-regression check (`meta/regression.py`). This is the primary anti-drift safeguard.
+voice canon. Its only writes are: append to `meta/findings-ledger.jsonl`, write the run's
+narrative to `meta/run-notes/<essay-id>.md`, regenerate the derived tally block in
+`meta/attribution-table.md` (`python meta/tally_ledger.py --write` — never hand-edit counts),
+add new class ROWS to the attribution routing table when a first-seen class appears, and
+create files under `meta/improvement-proposals/`. Every system change is a human decision
+applied after the regression check (`meta/regression.py`). This is the primary anti-drift
+safeguard.
+
+**Merge-safety contract (parallel sessions):** all per-run writes go to files that union-merge
+cleanly — ledger appends (`.gitattributes merge=union`), a fresh `run-notes/<essay-id>.md`, a
+fresh proposal file. Do NOT append run-scoped narrative to `attribution-table.md` (that caused
+guaranteed 3-way conflicts across the 2026-07-01 parallel runs); the only attribution-table
+edits are new routing-table rows and the regenerated tally block.
 
 ## Process
 
@@ -72,7 +81,13 @@ regression check (`meta/regression.py`). This is the primary anti-drift safeguar
    essays + finding ids, recurrence count, confidence, the chosen lever, and the **exact diff**
    to apply. Strong signals are marked `recommended apply`; weak signals `watch`.
 
-6. **Hand back to the human** — surface only the single highest-priority new proposal (if any)
+6. **Write the run note + regenerate the tally** — put the run-scoped narrative (recurrences,
+   judgment calls, promotion updates, calibration notes) in `meta/run-notes/<essay-id>.md`,
+   add routing-table rows to `meta/attribution-table.md` for any first-seen class, then run
+   `python meta/tally_ledger.py --write` so the derived recurrence summary reflects the new
+   ledger records (`meta/regression.py` fails while it is stale).
+
+7. **Hand back to the human** — surface only the single highest-priority new proposal (if any)
    in one line. The human applies it after running `meta/regression.py`.
 
 ## Anti-drift safeguards
