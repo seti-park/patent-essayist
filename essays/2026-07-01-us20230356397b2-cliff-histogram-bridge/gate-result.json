@@ -1,0 +1,200 @@
+{
+  "passed": true,
+  "gates": [
+    {
+      "gate": "emdash",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "anchors",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "sources",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "banned",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "structure",
+      "passed": true,
+      "findings": [
+        {
+          "check_id": "STRUCT-004",
+          "severity": "warn",
+          "message": "rule-of-three: 2 'A, B, and C' triad(s) detected",
+          "location": "line 38 (first)"
+        }
+      ]
+    },
+    {
+      "gate": "figure_use",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "meta",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "stub",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "cashtag",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "dupe",
+      "passed": true,
+      "findings": []
+    },
+    {
+      "gate": "typography",
+      "passed": true,
+      "findings": [
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 37 words (target ~15-25)",
+          "location": "sentence: --- essay_id: 2026-07-01-us20230356397b2-cliff-his..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 62 words (target ~15-25)",
+          "location": "sentence: 1C opens the sensor itself: an 8x8 grid of zones (..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 40 words (target ~15-25)",
+          "location": "sentence: It is not \"                                       ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 47 words (target ~15-25)",
+          "location": "sentence: What turns any of this into a decision the robot c..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: The same statistical-distribution, same multi-zone..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 57 words (target ~15-25)",
+          "location": "sentence: Claim 1 states it directly, and it is worth quotin..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 42 words (target ~15-25)",
+          "location": "sentence: Each row keeps its own running tally: a bar chart ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 57 words (target ~15-25)",
+          "location": "sentence: It is watching three bar charts drift apart.** On ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 44 words (target ~15-25)",
+          "location": "sentence: Long range comes first, out around 45 centimeters ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 43 words (target ~15-25)",
+          "location": "sentence: Next is medium range, closer in around 30 centimet..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 45 words (target ~15-25)",
+          "location": "sentence: Short range is the last and simplest stage: the gr..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 42 words (target ~15-25)",
+          "location": "sentence: 1 makes the geometry itself visible, before any of..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 71 words (target ~15-25)",
+          "location": "sentence: The peak-intensity lines drop through the ambient ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 88 words (target ~15-25)",
+          "location": "sentence: It is the floor announcing that it is gone there.*..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 46 words (target ~15-25)",
+          "location": "sentence: A peak intensity is only treated as a cliff signal..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 39 words (target ~15-25)",
+          "location": "sentence: 6: a different check for the medium range, not amb..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 78 words (target ~15-25)",
+          "location": "sentence: 7: the simplest case, whether the ground has been ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 101 words (target ~15-25)",
+          "location": "sentence: STMicroelectronics announced its VL53L9CX sensor i..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 58 words (target ~15-25)",
+          "location": "sentence: A wider cluster of ST patents extends the same rea..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 41 words (target ~15-25)",
+          "location": "sentence: Detecting one cliff, once, from one sensor, is a n..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 56 words (target ~15-25)",
+          "location": "sentence: It is building one of the senses, and a reflex, a ..."
+        },
+        {
+          "check_id": "LONGSENT-001",
+          "severity": "warn",
+          "message": "sentence runs 164 words (target ~15-25)",
+          "location": "sentence: Raynor. - US 2021/0268903 A1, \"                   ..."
+        }
+      ]
+    }
+  ]
+}
