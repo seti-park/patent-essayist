@@ -74,7 +74,12 @@ announcement-colon patterns ("The key insight:", "What surprised me was…").
 - **Semicolons** joining two independent clauses in non-academic prose.
 - **Mid-sentence colons** after an incomplete clause ("The problem: nobody tests this").
 - **Boldface overuse** (also `STRUCT-002`); **inline-header vertical lists**; **emoji** (only 🤔
-  at a `closing-open-question` ending). (Body-heading capitalization is **Title Case** by house
+  at a `closing-open-question` ending, and the sentence hosting 🤔 must itself be that open
+  question — interrogative, ending in "?". A declarative/aphoristic host does not qualify,
+  even where a voice-canon entry sanctions the cadence: no canon entry is visible inside
+  the Phase-3 fence, so the allowance must be decidable from this rule alone. Composers:
+  when a closing hybrid offers both, put 🤔 on the question, not the aphorism).
+  (Body-heading capitalization is **Title Case** by house
   style — see `deliverable-voice-rules.md` — so it is not a tell here.)
 
 ### Content-shape tells (humanizer §§1–6, 25)

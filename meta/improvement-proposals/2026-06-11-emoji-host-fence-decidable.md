@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-11-emoji-host-fence-decidable
 created: 2026-06-11T16:30:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: reference-edit
 goal: "4b"
 root_cause_stage: canon
@@ -13,6 +13,13 @@ triggering_findings:
   - essay_id: 2026-06-10-us12636684b1-deleted-dome, iter: 2, pattern_tag: fence-canon-verification-gap
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: fence-canon-verification-gap
 ---
+
+> **Update 2026-07-02 — applied**, as part of the user-sponsored meta-harvest refactor. The
+> emoji-allowance rewrite below was applied with one contextual adaptation: the surrounding
+> bullet in `anti-ai-writing.md` had since changed its Title-Case wording (the govuk-base merge
+> made Title Case the house style, so "Title Case in body headings" is no longer listed as a
+> tell); the interrogative-🤔-host rule itself is inserted verbatim. Reference-only; regression
+> green.
 
 ## Problem
 
