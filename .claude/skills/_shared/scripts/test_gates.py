@@ -276,6 +276,18 @@ class TestStructure(unittest.TestCase):
         r = gate_structure.check(draft, {})
         self.assertTrue(_has(r, "STRUCT-003"))
 
+    def test_word_wall_warns_even_with_few_sentences(self):
+        # 2 sentences x 56 words = 112 words: invisible to STRUCT-001, caught by STRUCT-005.
+        para = " ".join(["word"] * 56) + ". " + " ".join(["word"] * 56) + "."
+        r = gate_structure.check(para + "\n", {})
+        self.assertTrue(r["passed"])  # warn only, never a hard fail
+        self.assertTrue(_has(r, "STRUCT-005"))
+        self.assertFalse(_has(r, "STRUCT-001"))
+
+    def test_normal_paragraph_no_word_wall_warning(self):
+        r = gate_structure.check("Short paragraph. Two sentences only.\n", {})
+        self.assertFalse(_has(r, "STRUCT-005"))
+
 
 class TestMeta(unittest.TestCase):
     def test_reader_instruction_fails(self):

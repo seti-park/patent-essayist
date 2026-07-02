@@ -16,6 +16,7 @@ Checks (all warn):
   STRUCT-002: bold-overuse — more than MAX_BOLD_PER_100_WORDS bold spans /100 words.
   STRUCT-003: bullet-overuse — bullet lines > MAX_BULLET_FRACTION of non-blank lines.
   STRUCT-004: rule-of-three — sentences with an "A, B, and C" triad of short items.
+  STRUCT-005: a body paragraph with more than MAX_WORDS_PER_PARA words (mobile wall).
 """
 
 import argparse
@@ -27,6 +28,7 @@ import sys
 # ---------------------------------------------------------------------------
 GATE_ID = "structure"
 MAX_SENTENCES_PER_PARA = 8       # STRUCT-001 threshold
+MAX_WORDS_PER_PARA = 110         # STRUCT-005 threshold (~8 mobile lines; ed. heuristic words/12)
 MAX_BOLD_PER_100_WORDS = 2       # STRUCT-002 threshold (spans per 100 words)
 MAX_BULLET_FRACTION = 0.35       # STRUCT-003 threshold (fraction of non-blank lines)
 
@@ -98,6 +100,20 @@ def check(draft_text: str, context: dict) -> dict:
                 "check_id": "STRUCT-001",
                 "severity": "warn",
                 "message": "paragraph has %d sentences (max %d)" % (n, MAX_SENTENCES_PER_PARA),
+                "location": "line %d" % start,
+            })
+
+    # STRUCT-005: mobile wall-of-text by WORD count. Sentence counting (STRUCT-001)
+    # misses 4-6-sentence paragraphs of long sentences that render >8 mobile lines
+    # (recurring pass-5 medium in 2/2 essays; see mobile-paragraph-wall in the ledger).
+    for start, text in paragraphs:
+        n_words = len(re.findall(r"\S+", text))
+        if n_words > MAX_WORDS_PER_PARA:
+            findings.append({
+                "check_id": "STRUCT-005",
+                "severity": "warn",
+                "message": "paragraph has %d words (max %d; ~8 mobile lines at 12-14 w/line)"
+                           % (n_words, MAX_WORDS_PER_PARA),
                 "location": "line %d" % start,
             })
 

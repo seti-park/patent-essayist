@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-06-11-gate-structure-word-wall
 created: 2026-06-11T16:30:00Z
-status: recommended-apply
+status: applied (2026-07-02, user-sponsored refactor, regression-gated)
 lever: gate-promotion
 goal: "3"
 root_cause_stage: compose
@@ -14,6 +14,14 @@ triggering_findings:
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 1, pattern_tag: mobile-paragraph-wall
   - essay_id: 2026-06-11-us20260158546a1-both-and-steel, iter: 2, pattern_tag: mobile-paragraph-wall
 ---
+
+> **Update 2026-07-02 — applied verbatim** (STRUCT-005 constant + check + docstring line, 2
+> `TestStructure` cases, scoring-rubric gate-table cell), as part of the user-sponsored
+> meta-harvest refactor. Evidence had kept accumulating since filing: run
+> `001-st-histogram-mechanism` logged 9 dense paragraphs in a single round, and run
+> `2026-07-01-us20230356397b2-cliff-histogram-bridge` recurred `mobile-paragraph-wall` 4 times
+> within its own inner loop (3 avoidable Compose↔Edit iterations) — see that run's
+> "Within-run recurrence" section in `meta/attribution-table.md`.
 
 ## Problem
 

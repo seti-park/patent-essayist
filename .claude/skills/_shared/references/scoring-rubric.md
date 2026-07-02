@@ -40,7 +40,7 @@ the editorial passes and the revision actions.
 | `anchors`    | `ANCHOR-001`, `ANCHOR-002`, `FIGREF-001` | `ANCHOR-000`, `FIGREF-000` | 1, 2 |
 | `sources`    | `SOURCES-001/002/003` | `SOURCES-004` | 4a |
 | `banned`     | `BANNED-001` | — | 4b |
-| `structure`  | (none — all warn) | `STRUCT-001..004` | 3, 4a |
+| `structure`  | (none — all warn) | `STRUCT-001..005` | 3, 4a |
 | `figure_use` | `FIGUSE-001` (orphan figure) | `FIGUSE-000`, `FIGUSE-002` | 2 |
 | `meta`       | `META-001` (reader-instruction / self-reference) | `META-002` | 4b, 3 |
 | `stub`       | (none — all warn) | `STUB-001` (section stub) | 4a, 3 |
