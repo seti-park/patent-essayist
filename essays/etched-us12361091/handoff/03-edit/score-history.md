@@ -22,3 +22,14 @@ Open at acceptance: 6 low, all anchor-precision/attribution polish (r2-F1, r2-F2
 | SA-3 (cap) | A: 0 med + 2 low; B: 1 med + 6 low | 88 rows: 87 SUPPORTED, 1 partial (sibling evidence scope); 1 med | 6 deltas / 8 finding-ids (6 not-applied, reasons logged) | CAP (3) REACHED with final fixes applied | Claim-18/8/9/11 dependency precision (verified vs claims text by orchestrator post-edit); sibling absence-claim narrowed to this-filing (evidence discipline). v4 -> v5. Gates 13/13. §7 unchanged since v3. |
 
 **Self-audit closure: cap 3 reached, final round's medium fixes applied and mechanically re-verified (claims dependency + verbatim negative limitation + gates 13/13). Residual open items (all low/nit, logged considered-not-applied in revision-notes.md): sa3A-F2, sa3A-F4, sa3B-F3, sa3B-F4, sa3B-F5, sa3B-F7, sa1A-F2/F4/F9, sa2A-F4/F2.**
+
+## Post-cap scoped delta verification (2026-07-03)
+
+The self-audit reached its 3-round cap with round-3 fixes applied; the v4→v5 edits were the
+only text never verified by a fresh instance. A scoped grounding-verifier pass (blind, fresh)
+verified all ten edited locations against the patent + claims: **10/10 SUPPORTED**, negative-
+limitation quote byte-identical across claim 1 / claim 14 / [0386], dependency chain 8→9→10→11
+confirmed, LVI/HBM absence claims confirmed by exhaustive 453-paragraph + 23-claim sweep,
+gate_quotes/gate_anchors clean. One INFO-level note (ambiguous relative-clause attachment,
+accurate under the essay's established framing; no fix recommended).
+Report: selfaudit-delta-verification.md. **Verification loop closed on evidence, not on cap.**
