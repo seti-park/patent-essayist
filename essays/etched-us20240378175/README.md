@@ -1,4 +1,4 @@
-# etched-us20240378175 — "Etched Filed the Memory Half of Its Story in 2023. It Is Still Pending."
+# etched-us20240378175 — "Etched Filed the Memory Half of Its Story in 2023."
 
 English long-form analysis (X Articles) of **US 2024/0378175 A1 — "Multi-chip systolic
 arrays"** (Etched.ai; application 18/195,769, filed 2023-05-10 — the company's earliest
@@ -12,8 +12,8 @@ written for a curious retail investor following Etched's July 2026 stealth-exit 
   layer is no layer"; but it is a roadmap the company keeps funding, not yet a fence: no
   claim has been allowed, and the whole portfolio (crown jewels included) is pledged as
   venture-debt collateral.
-- **Deliverable:** `essay-final.md` (draft_version 6) · publication strip at
-  `handoff/02-compose/publication.md` (2,834 words) · cover figure FIG. 5.
+- **Deliverable:** `essay-final.md` (draft_version 7, incl. human-directed confidence pass) · publication strip at
+  `handoff/02-compose/publication.md` (2,802 words) · cover figure FIG. 5.
 - **Figures placed:** FIG. 5 (header/cover), FIG. 1 + FIG. 2 (§3), FIG. 6 + FIG. 7 (§5);
   FIG. 3/4 intentionally dropped (scaling point carried in prose).
 

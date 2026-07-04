@@ -89,8 +89,8 @@
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
-          "message": "sentence runs 50 words (target ~15-25)",
-          "location": "sentence: This is the interface the application claims, as d..."
+          "message": "sentence runs 48 words (target ~15-25)",
+          "location": "sentence: This is the interface the application claims in cl..."
         },
         {
           "check_id": "LONGSENT-001",
@@ -143,8 +143,8 @@
         {
           "check_id": "LONGSENT-001",
           "severity": "warn",
-          "message": "sentence runs 36 words (target ~15-25)",
-          "location": "sentence: As of the 2026-05 record, the application is pendi..."
+          "message": "sentence runs 42 words (target ~15-25)",
+          "location": "sentence: As of the 2026-05 record, Etched is still paying t..."
         },
         {
           "check_id": "LONGSENT-001",

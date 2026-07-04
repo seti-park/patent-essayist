@@ -24,3 +24,9 @@ Open at acceptance: 4 low (r3-F1 citable-summary gloss; r4-F1 continuation/famil
 | SA-3 (cap) | A: 0 med (dry) + 4 low; B: 0 med (dry) + 4 low | 65 rows: 60 SUPPORTED, 1 OVERREACHED; 1 med | 1 applied (8 reader lows rejected at cap, reasons logged) | CAP (3) REACHED, readers dry 2 consecutive rounds | sa3G-F1 citation split ([0055] stage clause / [0056] Time-A) via second fix-at-source span (q-0055-1); orchestrator verified the clause mapping against patent.md post-edit. v5 -> v6. Gates 13/13. |
 
 **Self-audit closure: cap 3 reached; both adversarial readers dry for two consecutive rounds; the final round's single medium was a grounding-verifier-prescribed mechanical citation split, applied and orchestrator-verified (paragraph contents + gate_anchors/gate_quotes). Residual open items (all low, considered-not-applied with reasons in revision-notes.md): sa3A-F1..F4, sa3B-F1..F4, plus prior-round rejections.**
+
+## Human post-acceptance revision (2026-07-04)
+
+| round | directive | applied | gates | note |
+|-------|-----------|---------|-------|------|
+| human-1 | (1) drop "It Is Still Pending." from the title; (2) confidence pass — convert defensive/procedural phrasings to action-forward equivalents without deleting required facts | 6/6 targets (title; §6 header re-led; label sentence reframed action-forward keeping all 3 facts + one-sentence budget; claim-39 sentence strength-led with one qualifier; "as drafted" 5->2; 2 sweep rewrites + 1 fold) | 13/13 PASS (gate_hedge clean under firm) | §7 call/landing/binary-test, anti-hype guard, collateral paragraph, steelman: byte-stable vs v6. Both-or-neither rule intact (lien facts + rejection fact same section). v6 -> v7. |

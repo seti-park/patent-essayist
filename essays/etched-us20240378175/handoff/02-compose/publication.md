@@ -1,8 +1,8 @@
-# Etched Filed the Memory Half of Its Story in 2023. It Is Still Pending.
+# Etched Filed the Memory Half of Its Story in 2023.
 
 ![FIG. 5: memory channels hardwired to array columns, with no switch in between.](figures/fig-05.png)
 
-*FIG. 5: the claimed core step as a drawing. Two memory chips (505A, 505B) sit above one IC (215), and each independent channel (510A to 510D) runs over its own wires (520) straight into a dedicated column (515A to 515D) of the chip's systolic array (220) [0044]. No switch, no crossbar, nothing between memory and math. This is the interface the application claims, as drafted, in claim 39 [0016].*
+*FIG. 5: the claimed core step as a drawing. Two memory chips (505A, 505B) sit above one IC (215), and each independent channel (510A to 510D) runs over its own wires (520) straight into a dedicated column (515A to 515D) of the chip's systolic array (220) [0044]. No switch, no crossbar, nothing between memory and math. This is the interface the application claims in claim 39 [0016].*
 
 ## The Narrative Is Three Years Ahead of the Property Right
 
@@ -16,7 +16,7 @@ The thread does not cite a patent filing. The filing is still where the checking
 
 The document is US application 18/195,769, published as US 2024/0378175 A1 under the title "Multi-Chip Systolic Arrays." It was filed on 10 May 2023, which makes it Etched's earliest patent filing. Its two named inventors are Gavin Uberti and Christopher Zhu, the company's two co-founders. The "splittable math arrays" idea the thread describes is this document's subject. So is the memory half that is absent from the company's granted wiring patent, US 12,361,091 B1, the subject of an earlier analysis.
 
-One distinction carries all the weight. A patent application is not a patent. It is the scope a company is asking for, and the claims in it can shrink or die before anything becomes enforceable. So the honest verbs for this document are application-era verbs: Etched is seeking these claims, as drafted, and has been paying to seek them for three years.
+One distinction carries all the weight. A patent application is not a patent. It is the scope a company is asking for, and the claims in it can shrink or die before anything becomes enforceable. So the honest verbs for this document are application-era verbs: Etched is seeking these claims and has been paying to seek them for three years.
 
 What the application asks for, in its broadest form, is a package of chips that behaves as one machine:
 
@@ -81,11 +81,11 @@ The last piece is keeping the giant array busy. FIG. 7 charts a transformer laye
 
 *FIG. 7: pipelining one array row. Attention queries, keys, and values, projection, and the MLP layers follow each other through the row [0055], and at Time A a new computation has already entered while the previous one drains [0056]. The only idle gap is the layer-normalization stall, marked at Time B [0057].*
 
-Not everything here is that committed. The broad combined-array claims carry no AI limitation as drafted, and neither does claim 39's memory interface, which is ordinary drafting breadth. Where the filing does commit, it commits along a transformer's seams: the silicon split at self-attention's boundary, the timing chart pacing one layer through one row. The open question is not what this machine is for. It is what the document describing it is worth.
+Not everything here is that committed. The broad combined-array claims carry no AI limitation, and neither does claim 39's memory interface. That is ordinary drafting breadth. Where the filing does commit, it commits along a transformer's seams: the silicon split at self-attention's boundary, the timing chart pacing one layer through one row. The open question is not what this machine is for. It is what the document describing it is worth.
 
-## What Exists Today Is a Rejection, a Pledge, and Ongoing Spend
+## Etched Banked the Stack and Keeps Paying to Advance This Filing
 
-So what is this document, as a thing an investor can price, in July 2026? As of the 2026-05 record, the application is pending, with examination continuing after a final rejection (the examiner's formal no) and a request for continued examination (a paid restart that keeps the argument alive). Both halves of that record matter: the claims have been refused once, and the company is still spending money to pursue them. The filing's family is US-only, with no international filing and no continuation, the follow-on application that would extend the family. That is a bibliographic observation: it contrasts with the broader treatment given the company's granted patents, and it proves nothing by itself about intent.
+So what is this document, as a thing an investor can price, in July 2026? As of the 2026-05 record, Etched is still paying to push this application through examination: it is pending, has drawn one final rejection (the examiner's formal no), and is moving again under a request for continued examination, a paid restart. The filing's family is US-only, with no international filing and no continuation, the follow-on application that would extend the family. That is a narrower footprint than the company's granted patents carry, a contrast to note, not a motive to read.
 
 The money facts sit in the public registry: TriplePoint Capital took a security interest, a lender's collateral claim, in Etched's patent assets effective 19 April 2024, recorded at USPTO reel/frame 067204/0877. That lien covers the four applications then on file, this one and two since-rejected compiler filings among them. A second security interest, effective 18 July 2025, sits at reel/frame 071792/0869 and covers the portfolio as of that date, including the company's three granted patents. The second and third of those grants had issued three days earlier, on 15 July 2025. The dates are registry fact, and reading them as a lender sweeping fresh assets into its collateral is an inference, not a record. Both liens are blanket over the portfolio at signing, with no selectivity about any single filing, so they say nothing about this application in particular. What they do say cuts both ways: the patent stack, crown jewels included, is concrete enough to bank as venture-debt collateral, and the same pledged pool is what a creditor reaches if things go wrong.
 
@@ -97,7 +97,7 @@ Hold the July 2026 thread against the May 2023 filing and the verdict is firm. T
 
 The crowded-field objection survives contact and changes nothing about the date. Three things stay true however prosecution ends: the filing date stays 10 May 2023, the named inventors stay the two founders, and the content stays the switchless channel-to-column interface, which no rejection can un-write.
 
-Within the sought set, the most specific piece, claim 39's hardwired channels "without any switching element" [0016], inverts the crossbar practice the specification itself calls typical [0043]. On claim structure alone, it is the best candidate to survive in some form among the application's four independent claims, the ones that stand on their own rather than adding to another. The one guard the evidence forces is just as specific: broad claim 1, the plain combined-array package, sits closest to the examiner-cited multi-node art and is the part of this filing likeliest to shrink or die. The rejection record and the blanket liens scope this call without softening it.
+Within the sought set, the most specific piece, claim 39's hardwired channels "without any switching element" [0016], inverts the crossbar practice the specification itself calls typical [0043]. That specificity makes it the one built to survive in some form among the application's four independent claims, the ones that stand on their own rather than adding to another. The one guard the evidence forces is just as specific: broad claim 1, the plain combined-array package, sits closest to the examiner-cited multi-node art and is the part of this filing likeliest to shrink or die. The rejection record and the blanket liens scope this call without softening it.
 
 The falsifier is already on the docket. The paid restart has put the claims back in front of the examiner, and that process ends one of two ways. Either claims are allowed, and the memory half starts becoming a property right, or the claims narrow or die, and this document stays what it is today, a dated, co-founder-signed blueprint of the machine Etched is now selling. The philosophy was in writing by May 2023 either way. What the record decides next is whether that writing becomes property. The racks are shipping, the company says. The paper is still asking.
 

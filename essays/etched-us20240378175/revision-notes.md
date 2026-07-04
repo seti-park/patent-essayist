@@ -218,3 +218,75 @@ round: selfaudit-3
 before: FIG. 7 caption's stage-name clause ("Attention queries, keys, and values, projection, and the MLP layers follow each other through the row") rode on the Time-A clause's [0056] anchor; the stage list is [0055]'s content (sa3G-F1)
 after: "...follow each other through the row [0055], and at Time A a new computation has already entered while the previous one drains [0056]. The only idle gap is the layer-normalization stall, marked at Time B [0057]." — one anchor per clause at the clause boundaries
 rationale: citation split at the clause boundary, applied once Phase 1 added the q-0055-1 Quotable span (gate_quotes PASS); caption content unchanged and grounding-verified (round-3 reader B checked the legend order against fig-07.png and [0055]-[0057] semantics). Completes the FIG. 7 anchor set.
+
+> HUMAN-DIRECTED POST-ACCEPTANCE REVISION (origin: human-post-accept, round: human-1).
+> Two author directives: (1) title trim; (2) confidence pass — convert defensive/lawyerly
+> procedural phrasings to action-forward equivalents without moving any fact and without
+> crossing into asset-language overreach. Dispositioned in
+> `handoff/02-compose/revision-response.human-round-1.md`, applied v6 -> v7.
+> NOT touched: §7 call paragraph and landing couplet, the anti-hype guard, the §7 binary
+> test, the §6 collateral paragraph (all six contract elements byte-stable), the §6
+> steelman paragraph, and the label sentence's three facts (both-or-neither rule holds).
+
+## delta
+class: title-trim-human-directive
+round: human-1
+before: "# Etched Filed the Memory Half of Its Story in 2023. It Is Still Pending."
+after: "# Etched Filed the Memory Half of Its Story in 2023."
+rationale: author directive 1 — the trailing verdict sentence comes off the title; the pending status still lands in §1 paragraph 1 ("that document is still not an asset... a pending application"), so lead-altitude discipline holds. No body text references the title.
+
+## delta
+class: header-confidence-relead
+round: human-1
+before: "## What Exists Today Is a Rejection, a Pledge, and Ongoing Spend" — rejection as the headline word
+after: "## Etched Banked the Stack and Keeps Paying to Advance This Filing"
+rationale: directive 2a — the section's confident frame (pledge + ongoing spend) now leads the header-as-claim; the rejection stays as one fact inside the section (label sentence). Portfolio-scope discipline kept: "the Stack" is banked, not this filing individually. Header skim still reconstructs the argument.
+
+## delta
+class: label-sentence-confidence-reframe
+round: human-1
+before: "As of the 2026-05 record, the application is pending, with examination continuing after a final rejection (the examiner's formal no) and a request for continued examination (a paid restart that keeps the argument alive)."
+after: "As of the 2026-05 record, Etched is still paying to push this application through examination: it is pending, has drawn one final rejection (the examiner's formal no), and is moving again under a request for continued examination, a paid restart."
+rationale: directive 2b — action-forward lead (persistence, not damage) per essay-context's own call shape ("the company still paying to push it"); ALL THREE facts stay in the one sentence (pending / final rejection / RCE) with both glosses; "moving again" carries the record's "examination continuing"; stays in the same section as the lien facts (both-or-neither). Label-sentence budget now literally one sentence.
+
+## delta
+class: redundant-defensive-sentence-fold
+round: human-1
+before: "Both halves of that record matter: the claims have been refused once, and the company is still spending money to pursue them." — the balancing sentence the old neutral label needed
+after: (folded into the label sentence; no standalone replacement)
+rationale: zero facts lost — refused-once survives as "one final rejection", still-spending survives as the label's lead clause. With the action-forward label, keeping it would double-carry the prosecution facts the budget assigns to one sentence. §6 paragraph 1 recounted: 4 sentences (band 3-7).
+
+## delta
+class: double-labeled-inference-destack
+round: human-1
+before: "That is a bibliographic observation: it contrasts with the broader treatment given the company's granted patents, and it proves nothing by itself about intent." — label stacked on a defensive negation
+after: "That is a narrower footprint than the company's granted patents carry, a contrast to note, not a motive to read."
+rationale: directive 2e — one confident label move; the fact (US-only vs the granted patents' broader family treatment, fact-check-log family-us-only) and the labeled-observation-only discipline (no intent reading) both survive.
+
+## delta
+class: qualifier-destack-verdict
+round: human-1
+before: "On claim structure alone, it is the best candidate to survive in some form among the application's four independent claims, ..." — disclaimer-led, three stacked qualifiers (structure-alone / best-candidate / in-some-form)
+after: "That specificity makes it the one built to survive in some form among the application's four independent claims, ..."
+rationale: directive 2c — strength leads; the structural-inference basis is now the sentence's engine ("That specificity makes it", pointing at the prior sentence's most-specific-piece fact) rather than a fronted disclaimer; exactly one qualifier kept ("in some form", per the Claim scope map). "Built to survive" is the spine's own steelman-refine phrasing. sa1B-F1's accuracy bar holds: the ranking stays a structural inference, not a flat outcome prediction. Avoids a "likeliest" echo with the adjacent anti-hype guard (untouched).
+
+## delta
+class: rhythm-tic-trim
+round: human-1
+before: FIG. 5 header caption: "This is the interface the application claims, as drafted, in claim 39 [0016]."
+after: "This is the interface the application claims in claim 39 [0016]."
+rationale: directive 2d — "the application claims" already carries application-era scope; the tag was scaffolding here.
+
+## delta
+class: rhythm-tic-trim
+round: human-1
+before: §2: "Etched is seeking these claims, as drafted, and has been paying to seek them for three years."
+after: "Etched is seeking these claims and has been paying to seek them for three years."
+rationale: directive 2d — "is seeking" carries the pending status; the interrupting tag read as a lawyer's reflex in the essay's definitional sentence.
+
+## delta
+class: rhythm-tic-trim
+round: human-1
+before: §5: "The broad combined-array claims carry no AI limitation as drafted, and neither does claim 39's memory interface, which is ordinary drafting breadth." — tag plus trailing label on one sentence
+after: "The broad combined-array claims carry no AI limitation, and neither does claim 39's memory interface. That is ordinary drafting breadth."
+rationale: directive 2d + 2e — tag dropped, and the label split into a flat declarative that reads as a call, not an apology. "As drafted" body count 5 -> 2; kept where it does scope work: the §3 claim-1/UCIe line ("not something claim 1 requires as drafted") and the §6 steelman ("claim 1 and claim 26 as drafted"). §5 closing paragraph recounted: 6 sentences (band 3-7).

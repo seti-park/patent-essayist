@@ -44,19 +44,19 @@
 - **external_facts_used**: []
 - **word_target / word_actual**: 300 / 376 (Round-1 revision: closer no longer asserts "none of this reads generic" — drafting breadth conceded in one clause from the Claim scope map, transformer-shape narrowed to the anchored pieces, closer points forward to §6, per r1-F2/r1-F5)
 
-### 6-asset-status — "What Exists Today Is a Rejection, a Pledge, and Ongoing Spend"
-- **Spine element carried**: Prosecution label sentence (exactly ONE, glossed inline); collateral beat (ONE paragraph, portfolio scope, both liens with reel/frames, 3-day timing as dated fact with motive labeled inference, both-ways frame); US-only family observation (labeled bibliographic); steelman concession at full strength (examiner-cited field inside the concession)
+### 6-asset-status — "Etched Banked the Stack and Keeps Paying to Advance This Filing" (header re-led in human-1: pledge + ongoing spend lead the claim; the rejection is one fact inside the section)
+- **Spine element carried**: Prosecution label sentence (exactly ONE, glossed inline, action-forward since human-1 — all three facts and both glosses intact); collateral beat (ONE paragraph, portfolio scope, both liens with reel/frames, 3-day timing as dated fact with motive labeled inference, both-ways frame — byte-stable through human-1); US-only family observation (labeled observation, de-stacked in human-1); steelman concession at full strength (examiner-cited field inside the concession — byte-stable through human-1)
 - **voice_canon_reference**: contrast structure (Q58/Q82); epistemic hierarchy tone (registry fact vs inference labeling, Q30-31)
 - **paragraph_anchors_used**: [] (external-record section)
 - **external_facts_used**: `prosecution-record`, `tp-lien-1-2024`, `tp-lien-2-2025`, `grant-lien-timing`, `family-us-only`, `examiner-cited-field`
-- **word_target / word_actual**: 320 / 411 (the collateral paragraph carries both reel/frame cites and the two-sided frame; single paragraph held, compressed 197 -> 173 words in round-1 revision per r1-F4)
+- **word_target / word_actual**: 320 / 411 (the collateral paragraph carries both reel/frame cites and the two-sided frame; single paragraph held, compressed 197 -> 173 words in round-1 revision per r1-F4; human-1: -20 words net from the label-sentence reframe + both-halves fold + family-contrast de-stack, paragraph 1 recounted at 4 sentences)
 
 ### 7-verdict — "A Dated Roadmap the Company Keeps Funding, Not Yet a Fence"
-- **Spine element carried**: Firm call first (origin record + memory half in writing + still funded + already banked, versus not yet an asset); steelman refine (date/authorship/content survive prosecution; claim 39 the best structural candidate to survive in some form — labeled "on claim structure alone" per sa1B-F1, self-audit round 1); exactly ONE anti-hype guard (claim 1 breadth likeliest to shrink); limits referenced, not re-listed; closing-binary-test on the RCE outcome
+- **Spine element carried**: Firm call first (origin record + memory half in writing + still funded + already banked, versus not yet an asset); steelman refine (date/authorship/content survive prosecution; claim 39 the piece built to survive in some form — the structural-inference label rides on "That specificity makes it" since human-1, replacing the fronted "on claim structure alone" clause from sa1B-F1; one qualifier kept, sa1B-F1 accuracy bar intact); exactly ONE anti-hype guard (claim 1 breadth likeliest to shrink — byte-stable); limits referenced, not re-listed; closing-binary-test on the RCE outcome (byte-stable)
 - **voice_canon_reference**: `closing-binary-test-spacex-tesla-ecosystem-realized` (binary falsifier close), `closing-aphoristic-landing-corporate-story-vs-patents` (final two-sentence contrast landing)
 - **paragraph_anchors_used**: `[0016]`, `[0043]` (axis recap only, no new evidence)
 - **external_facts_used**: `etched-thread-2026-07` ("the racks are shipping, the company says" — recap attribution)
-- **word_target / word_actual**: 280 / 330 (Round-1 revision: paragraph 2 split at the invariant-list boundary for mobile length; "four independent claims" glossed in place per r1-F7; one date restatement cut per r1-F5; call shape and firm posture unchanged)
+- **word_target / word_actual**: 280 / 330 (Round-1 revision: paragraph 2 split at the invariant-list boundary for mobile length; "four independent claims" glossed in place per r1-F7; one date restatement cut per r1-F5; call shape and firm posture unchanged; human-1: -2 words net, confined to the claim-39 sentence)
 
 ## Coverage check
 
