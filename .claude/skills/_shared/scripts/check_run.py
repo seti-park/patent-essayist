@@ -17,6 +17,8 @@ Artifact contract (written by the orchestrator each round N = 1..K):
   handoff/03-edit/essay-final.md               promotion target (acceptance only)
   handoff/03-edit/score-history.md             must contain "CAP HIT" if promoted at cap
   handoff/03-edit/revision-notes.md            self-audit deltas (essay mode)
+  handoff/01-design/owner-briefing.md          Phase-1 Korean owner briefing --
+                                               one-time, not per-round (RUN-008)
 
 Checks:
   RUN-001 (fail): round artifacts missing or non-contiguous (edit-log/gate-result
@@ -42,6 +44,11 @@ Checks:
   RUN-007 (fail): --self-audit on and essay-final.md exists, but
                   revision-notes.md is missing or has neither a "## delta"
                   block nor an explicit no-findings statement.
+  RUN-008 (fail): essay-final.md exists but handoff/01-design/owner-briefing.md
+                  is missing or empty (whitespace-only) -- the Phase-1 Korean
+                  owner briefing (owner-comprehension overhaul, U5) was never
+                  produced. Unconditional: unlike RUN-007, not gated by
+                  --self-audit or --threshold.
   RUN-000 (warn): informational skips (incl. a confirmation transition, below).
 
 Confirmation-transition model (2026-07-03-check-run-confirmation-round-model
@@ -167,6 +174,7 @@ def check(handoff_dir, threshold="pass", self_audit="on"):
     findings = []
     edit_dir = os.path.join(handoff_dir, "03-edit")
     compose_dir = os.path.join(handoff_dir, "02-compose")
+    design_dir = os.path.join(handoff_dir, "01-design")
     score_path = os.path.join(edit_dir, "score-history.md")
 
     def add(check_id, severity, message, location):
@@ -297,6 +305,20 @@ def check(handoff_dir, threshold="pass", self_audit="on"):
                         "revision-notes.md has neither a '## delta' block nor an "
                         "explicit 'self-audit: no unresolved findings' statement",
                         notes_path)
+
+        # RUN-008 is unconditional -- unlike RUN-007 it is not gated by
+        # --self-audit or --threshold. Every completed run must carry the
+        # Phase-1 Korean owner briefing (owner-comprehension overhaul, U5).
+        briefing_path = os.path.join(design_dir, "owner-briefing.md")
+        if not os.path.exists(briefing_path):
+            add("RUN-008", "fail",
+                "owner-briefing.md missing from handoff/01-design/ (the Korean "
+                "owner briefing was never produced)", briefing_path)
+        elif not _read(briefing_path).strip():
+            add("RUN-008", "fail",
+                "owner-briefing.md in handoff/01-design/ is empty or "
+                "whitespace-only (the Korean owner briefing was never produced)",
+                briefing_path)
     else:
         add("RUN-000", "warn",
             "essay-final.md not present — acceptance checks skipped (run in progress?)",

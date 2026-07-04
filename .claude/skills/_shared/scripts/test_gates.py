@@ -700,7 +700,16 @@ class TestCheckRun(unittest.TestCase):
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(text)
 
-    def _accepted_double_clean(self):
+    def _write_owner_briefing(self, text=None):
+        os.makedirs(os.path.join(self.root, "01-design"), exist_ok=True)
+        self._w("01-design/owner-briefing.md", text if text is not None else (
+            "## 이 특허가 다루는 문제\n\n"
+            "기존 기술은 성능과 비용 사이의 절충으로 어려움을 겪었다.\n\n"
+            "**근거 (verbatim):**\n"
+            '- `[0001]`: "sample verbatim line for fixture"\n'
+        ))
+
+    def _accepted_double_clean(self, with_briefing=True):
         self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
         self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
         self._w("02-compose/revision-response.round-1.md",
@@ -714,6 +723,8 @@ class TestCheckRun(unittest.TestCase):
         self._w("02-compose/revision-response.round-2.md", "# Revision response\n(no medium+ findings)\n")
         self._w("03-edit/essay-final.md", "# Final\n")
         self._w("03-edit/revision-notes.md", "## delta\n- self-audit fix\n")
+        if with_briefing:
+            self._write_owner_briefing()
 
     def test_double_clean_acceptance_passes(self):
         self._accepted_double_clean()
@@ -761,6 +772,7 @@ class TestCheckRun(unittest.TestCase):
         self._w("03-edit/essay-final.md", "# Final\n")
         self._w("03-edit/score-history.md", "| 2 | ... |\nCAP HIT at max-iter; best round shipped.\n")
         self._w("03-edit/revision-notes.md", "self-audit: no unresolved findings\n")
+        self._write_owner_briefing()
         r = check_run.check(self.root)
         self.assertTrue(r["passed"], r["findings"])
         self.assertTrue(_has(r, "RUN-006"))
@@ -771,6 +783,25 @@ class TestCheckRun(unittest.TestCase):
         r = check_run.check(self.root)
         self.assertFalse(r["passed"])
         self.assertTrue(_has(r, "RUN-007"))
+
+    def test_owner_briefing_present_and_nonempty_no_finding(self):
+        self._accepted_double_clean()
+        r = check_run.check(self.root)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "RUN-008"))
+
+    def test_owner_briefing_missing_fails(self):
+        self._accepted_double_clean(with_briefing=False)
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-008"))
+
+    def test_owner_briefing_whitespace_only_fails(self):
+        self._accepted_double_clean(with_briefing=False)
+        self._write_owner_briefing(text="   \n\t\n  \n")
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-008"))
 
     def test_confirmation_transition_without_response_passes(self):
         # Round 1 clean; round 2 is a confirmation round (round_type marker)
@@ -786,6 +817,7 @@ class TestCheckRun(unittest.TestCase):
         self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
         self._w("03-edit/essay-final.md", "# Final\n")
         self._w("03-edit/revision-notes.md", "self-audit: no unresolved findings\n")
+        self._write_owner_briefing()
         r = check_run.check(self.root)
         self.assertTrue(r["passed"], r["findings"])
         self.assertFalse(_has(r, "RUN-001"))
