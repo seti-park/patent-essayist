@@ -5,8 +5,8 @@ description: >
   cleaned figures), runs Phase 0 Figures → Phase 1 Design → Phase 2 Compose → Phase 3 Edit,
   with every phase in an ISOLATED agent context (context: fork), a Compose↔Edit loop with
   double-clean acceptance and a mechanical run-completeness check, then a post-acceptance
-  self-audit and pipeline-retro. Use when asked to turn a patent into a finished English
-  essay end to end.
+  self-audit, a Phase 4 promo pack against the archive, and pipeline-retro. Use when asked
+  to turn a patent into a finished English essay end to end.
 argument-hint: "[patent path | text | number]  [--threshold pass|revise-recommended] [--max-iter N] [--mode essay|wire] [--self-audit on|off]"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, Skill, WebFetch, WebSearch
 ---
@@ -40,7 +40,8 @@ five north-star goals and the goal→check matrix live in `_shared/references/sc
 
 - **Main session (this orchestrator)**: the strongest model available — it holds loop
   policy, arbitrates composer-vs-reviewer conflicts, and makes the accept/revise calls.
-- **design-architect / essay-composer / editorial-reviewer / adversarial-reader**:
+- **design-architect / essay-composer / editorial-reviewer / adversarial-reader /
+  promo-composer**:
   `model: inherit` — design, prose, and editorial judgment are the hard parts; they run on
   the session model in clean, isolated contexts.
 - **grounding-verifier / figures-prep**: `model: sonnet` — retrieval-shaped verification and
@@ -58,24 +59,34 @@ are already clean, skip.
 ### Phase 1 — Design (skill: `thesis-architect`, agent: design-architect, voice-off)
 
 Invoke `thesis-architect`. It writes the `handoff/01-design/` bundle (invention-summary with
-Quotable spans + Claim scope map, thesis-spine with `closing_posture`, thesis-candidates,
-title-lead-candidates (5 energy-register pairs + `recommended:`), figure-selection with cover
-candidate, figure-rationale, fact-check-log, search-log, phase2-handoff-notes) and
+Quotable spans + Claim scope map, owner-briefing (Korean, per Step 2b +
+`_shared/references/owner-briefing-schema.md`), thesis-spine with `closing_posture`,
+thesis-candidates, title-lead-candidates (5 energy-register pairs + `recommended:`),
+figure-selection with cover candidate, figure-rationale, fact-check-log, search-log,
+phase2-handoff-notes) and
 auto-selects the recommended single-spine candidate. Also ensure
 `handoff/01-design/figures-index.txt` exists (from the manifest or `input/figures/`).
 
 On return: surface the candidate list in one line (human can override), AND surface the five
 title-lead candidates (register + title each) alongside — the human may override the pick;
 default = Phase 1's `recommended:` pick. Record the selected register/pair in one line; it
-travels to Phase 2 with the compose invocation. Then run the
+travels to Phase 2 with the compose invocation. Surface the Korean owner-briefing
+(`handoff/01-design/owner-briefing.md`) to the owner alongside the title-lead candidates: the
+run's two human moments travel together. Then run the
 early grounding gate — a Phase-1 quote fabrication must die here, not in round 3:
 
 ```
 python .claude/skills/_shared/scripts/gate_quotes.py handoff/01-design/invention-summary.md \
   --invention-summary handoff/01-design/invention-summary.md --patent input/patent.md
+
+python .claude/skills/_shared/scripts/gate_quotes.py handoff/01-design/owner-briefing.md \
+  --invention-summary handoff/01-design/owner-briefing.md --patent input/patent.md
 ```
 
-Any QUOTE-001 → send Phase 1 back once with the failing quotes named.
+(The second invocation verifies the briefing: its `근거 (verbatim)` span lines parse as
+Quotable-span lines, so the same gate covers it with zero code changes.) Any QUOTE-001 in
+either file → send Phase 1 back once with the failing quotes named; fix-at-source before
+Phase 2, same as invention-summary failures.
 
 ### Phase 2 — Compose (skill: `essay-en-composer`, agent: essay-composer, voice-on)
 
@@ -185,23 +196,36 @@ python .claude/skills/_shared/scripts/check_run.py --handoff handoff \
 
 It mechanically verifies the loop's shape: contiguous round artifacts, a disposition for
 every medium+ finding, no silently dropped finding_ids, double-clean (or explicit CAP HIT)
-acceptance, self-audit evidence. If it FAILS, do the missing work — never edit artifacts to
-satisfy the checker. Its verdict goes in the final report.
+acceptance, self-audit evidence, owner-briefing presence (RUN-008). If it FAILS, do the
+missing work — never edit artifacts to satisfy the checker. Its verdict goes in the final
+report.
 
-## Archive + meta-loop
+## Archive + promo + meta-loop
 
 1. **Archive** to `runs/<essay-id>/`: all `edit-log.round-*.md`, `gate-result.round-*.json`,
    `revision-response.round-*.md`, `score-history.md`, `revision-notes.md`, the final
    `run_gates.py --json` output as `gate-result.json`, and the check_run verdict.
 2. **Tracked deliverable** (committed): `essays/<essay-id>/` with `essay-final.md`,
-   `figures/`, `gate-result.json`, `score-history.md`, `edit-log.md`, `README.md`, and the
-   full `handoff/` phase tree — the canonical layout, per the 2026-06-26 retro L7.
-3. **Meta-loop**: invoke `pipeline-retro` (forked) with the run's artifacts. Propose-only;
+   `figures/`, `gate-result.json`, `score-history.md`, `edit-log.md`, `README.md`,
+   `owner-briefing.md` (copied from `handoff/01-design/`), `patent.md` (the run's exact
+   `input/patent.md` snapshot, so every `[dddd]` anchor in the archive resolves without
+   re-fetching), and the full `handoff/` phase tree — the canonical layout, per the
+   2026-06-26 retro L7.
+3. **Phase 4 promo (skill: `promo-composer`, agent: promo-composer; default-on for essay
+   mode, skippable on request)**: spawn it (fork, `model: inherit`) against the fresh
+   `essays/<essay-id>/` archive. Output contract: `essays/<essay-id>/promo/promo-pack.md`
+   (Korean post ≤ 280자 + English digest 280-340 words + 3-tweet thread sketch). Grounding
+   rule: every factual phrase traces to `essay-final.md`/`publication.md` or
+   `owner-briefing.md`; no new factual claims. Promo never edits the essay; promo findings
+   never reopen the loop.
+4. **Meta-loop**: invoke `pipeline-retro` (forked) with the run's artifacts. Propose-only;
    surface the top proposal in one line.
 
 ## Output (final report to the user)
 
 - The final essay (`handoff/03-edit/essay-final.md`).
+- The Korean owner briefing + the promo pack, called out for the owner
+  (`essays/<essay-id>/owner-briefing.md`, `essays/<essay-id>/promo/promo-pack.md`).
 - SCORE HISTORY: round → assessment → gate result (failing check_ids) → verdict → note,
   including confirmation rounds and self-audit rounds.
 - The `check_run.py` verdict line.

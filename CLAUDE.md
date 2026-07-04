@@ -24,6 +24,12 @@ matrix is in `_shared/references/scoring-rubric.md`:
    repeatable sentence; binds the SURFACE only (`gate_surface` + pass-6 6H + pass-7 hook
    check + cold-reader self-audit; doctrine: `_shared/references/reader-energy.md`).
 
+One **output contract** sits beside the rubric: the pipeline's understanding must reach TWO
+humans. The READER leaves armed (goal 5); the OWNER (Korean publisher) receives the same
+comprehension as the Korean **owner briefing** at Phase 1 (`gate_quotes`-verified, schema:
+`_shared/references/owner-briefing-schema.md`) plus the **promo pack** at Phase 4. Not a
+rubric goal: it is how the owner judges the essay, answers readers, and briefs a promo.
+
 ## How to run
 
 ```
@@ -33,8 +39,9 @@ matrix is in `_shared/references/scoring-rubric.md`:
 Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (cleaned) **or**
 `figures-raw/` (zip / TIFF drop — Phase 0 cleans it), and optional `essay-context.md`
 (per-run audience/edition overrides). The orchestrator runs Phase 0-3 plus the loop, the
-post-acceptance self-audit, `check_run.py`, archives to `runs/<essay-id>/`, runs the
-meta-loop, and returns the final essay + score history + check_run verdict.
+post-acceptance self-audit, `check_run.py`, archives to `runs/<essay-id>/` +
+`essays/<essay-id>/`, then runs Phase 4 promo (default-on in essay mode) and the meta-loop,
+and returns the final essay + owner briefing + promo pack + score history + check_run verdict.
 
 **Model allocation** (the recommended setup): run the SESSION on the strongest model
 available (Fable 5) — the main thread holds loop policy, arbitration, and acceptance calls,
@@ -56,17 +63,22 @@ internal Phase-2 helper).
   design-architect       P1 worker (inherit)    essay-composer     P2 worker (inherit)
   editorial-reviewer     P3 worker, fresh per round (inherit)
   adversarial-reader     self-audit personas, >=2 in parallel (inherit)
+  promo-composer         P4 worker, post-archive (inherit)
   grounding-verifier     fidelity instrument (sonnet)   figures-prep  P0 worker (sonnet)
 .claude/skills/
   patent-essay/          orchestrator: loop policy + arbitration ONLY (entry point; main context)
   patent-figures-clean/  P0 Figures — raw drop → cleaned fig-NN.png + vision-verified manifest
-  thesis-architect/      P1 Design  — patent → invention-summary (+ Claim scope map) + thesis-spine
-                         (+ closing_posture) + figure plan (+ cover candidate)   [fork: design-architect]
+  thesis-architect/      P1 Design  — patent → invention-summary (+ Claim scope map) + owner-briefing
+                         (KR, gate_quotes-verified) + thesis-spine (+ closing_posture) + figure plan
+                         (+ cover candidate)   [fork: design-architect]
   essay-en-composer/     P2 Compose — blueprint → draft (+ revision mode w/ dispositions)
                                                                     [fork: essay-composer]
   voice-canon-lookup/    P2 internal helper — voice-canon corpus (runs inline in the composer)
   editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge guard;
                          finding_id lifecycle; re-review protocol   [fork: editorial-reviewer]
+  promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR post
+                         ≤280자 + EN digest + 3-tweet sketch), grounded in essay-final/publication
+                         + owner-briefing; never edits the essay   [fork: promo-composer]
   pipeline-retro/        meta-loop  — findings → ledger → propose-only proposals   [fork]
   _shared/
     references/          scoring-rubric (severity + matrix + double-clean acceptance) ·
@@ -78,8 +90,10 @@ internal Phase-2 helper).
     vendor/              humanizer + ai-check — REFERENCE ONLY, absorbed into anti-ai-writing
 handoff/          01-design 02-compose 03-edit    runtime stage artifacts (gitignored)
 handoff-template/ full-schema templates incl. revision-response.md + revision-notes.md
-essays/<essay-id>/  the TRACKED deliverable: essay-final.md · figures/ · gate-result.json ·
-                    score-history.md · edit-log.md · README.md · full handoff/ phase tree
+essays/<essay-id>/  the TRACKED deliverable: essay-final.md · owner-briefing.md · patent.md
+                    (the run's input snapshot; anchors resolve offline) · figures/ ·
+                    gate-result.json · score-history.md · edit-log.md · README.md ·
+                    promo/promo-pack.md (P4) · full handoff/ phase tree
 runs/    <essay-id>/  per-run archive (round logs, gate results, dispositions)
 meta/    findings-ledger.jsonl · attribution-table.md · improvement-proposals/ ·
          fixtures/ + regression.py  (the system's persistent memory — tracked)

@@ -17,16 +17,16 @@ handoff/02-compose/essay-draft.md
       reader-energy.md
     → 7 passes
     → handoff/03-edit/edit-log.md (structured YAML feedback)
-    → SETI revises → handoff/03-edit/essay-final.md
+    → orchestrator routes medium+ findings to composer revision mode → handoff/03-edit/essay-final.md
 ```
 
 ## Output role
 
-2nd redundancy. SETI editorial intuition = 1st instance.
+Findings, not fixes.
 
-- Findings supply input for SETI's revise decision. NOT auto-fix.
-- SETI's combined sensitivity (voice + audience perception + adversarial reader + charm/honesty + direct preference) operates outside single-pass inferential reach. This skill cannot substitute for SETI catches.
-- Conflict resolution: SETI catch overrides skill output.
+- Findings supply input for the orchestrator's revise decision: it routes every medium+ finding to the composer's revision mode, where each gets an `applied`/`rejected` disposition. NOT auto-fix.
+- The owner holds override authority at the surfaced decision points (spine and title picks, briefing review, the acceptance report) and through the post-accept `revision-notes.md` channel. This skill cannot substitute for owner catches.
+- Conflict resolution: an owner catch overrides skill output.
 
 ## Voice fencing (CRITICAL)
 
@@ -124,7 +124,7 @@ findings:
       Re-anchor to source verbatim.
 ```
 
-Feedback gets written to `handoff/03-edit/edit-log.md`. SETI applies findings → `handoff/03-edit/essay-final.md`.
+Feedback gets written to `handoff/03-edit/edit-log.md`. The orchestrator routes medium+ findings to the composer's revision mode; on acceptance the draft is promoted to `handoff/03-edit/essay-final.md`.
 
 ## Pre/post conditions
 
@@ -139,17 +139,17 @@ Post:
 - `handoff/03-edit/edit-log.md` emitted with one entry per finding.
 - Each finding has specific draft location + severity + recommendation.
 - `overall_assessment` set per severity rules in `references/feedback-format.md`.
-- Auto-fix NOT performed (SETI decides which findings to apply).
+- Auto-fix NOT performed (the orchestrator routes findings to the composer's revision mode; the composer dispositions each).
 
 ## Coupling
 
 - ← `essay-en-composer` (`essay-draft.md` input)
 - ← `thesis-architect` (handoff/01-design/* for cross-checks)
-- → SETI (returns feedback for SETI to apply → `essay-final.md`)
+- → orchestrator (routes findings to the composer's revision mode → `essay-final.md`; the owner may override at surfaced decision points)
 
 ## Out of scope
 
-- Auto-fix (SETI decides).
+- Auto-fix (the composer's revision mode applies findings, with dispositions).
 - Pool admission (v1 `pool-admission` skill — dropped).
 - Strategic adversarial audit (v1 `strategic-audit` skill — dropped).
 - Cross-essay coherence sensing (v1 `cross-essay-coherence-sensor` — dropped).

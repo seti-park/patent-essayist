@@ -1,6 +1,6 @@
 ---
 name: thesis-architect
-description: "Produces the Phase 1 Design handoff bundle (invention-summary.md, thesis-spine.md, title-lead-candidates.md, fact-check-log.md, figure-selection.md, figure-rationale.md) from a user-supplied patent.md plus cleaned figure assets. Performs 4-axis thesis grounding, Q7 hook-accessibility gate (2 patterns only), adversarial defense, single-spine selection, energy-register title-lead candidates. Output is Markdown, not YAML. Use when user provides patent text + cleaned figures and asks for thesis design, invention analysis, essay outline planning, or Phase 1 Design output. NOT for: prose composition (Phase 2 essay-en-composer), voice work (Phase 2 voice-canon-lookup), editorial review (Phase 3 editorial-review), promo digest (Phase 4 promo-composer)."
+description: "Produces the Phase 1 Design handoff bundle (invention-summary.md, owner-briefing.md (Korean), thesis-spine.md, title-lead-candidates.md, fact-check-log.md, figure-selection.md, figure-rationale.md) from a user-supplied patent.md plus cleaned figure assets. Performs 4-axis thesis grounding, Q7 hook-accessibility gate (2 patterns only), adversarial defense, single-spine selection, energy-register title-lead candidates. Output is Markdown, not YAML. Use when user provides patent text + cleaned figures and asks for thesis design, invention analysis, essay outline planning, or Phase 1 Design output. NOT for: prose composition (Phase 2 essay-en-composer), voice work (Phase 2 voice-canon-lookup), editorial review (Phase 3 editorial-review), promo digest (Phase 4 promo-composer)."
 context: fork
 agent: design-architect
 ---
@@ -12,6 +12,7 @@ Phase 1 Design's primary inferential stage. Reads a patent + cleaned figures and
 ```
 patent.md + figures/ + context research
     → invention-summary.md   (structured patent analysis with Quotable spans)
+    → owner-briefing.md      (Korean owner comprehension transfer, Step 2b)
     → thesis candidates (2-4) → 4-axis grounding → Q7 hook gate → adversarial defense
     → thesis-spine.md         (locked single-spine + 4-axis anchors + Q7 + defense)
     → title-lead-candidates.md (5 title+lead pairs, one per energy register + recommended)
@@ -28,11 +29,22 @@ User supplies `patent.md` and a cleaned `figures/` directory (output of Layer 1 
 
 1. **Invention summary extraction** — read patent.md, write `invention-summary.md` per `references/invention-summary-schema.md`. Includes `**Quotable spans:**` `[xxxx]` blocks (verbatim, no paraphrase). Phase 2 reads these directly without re-touching patent.md.
 2. **Context research** — web-search for industry baseline, corporate narratives, prior product launches. Log every query to `search-log.md`. **Each significant finding classified for framing-impact (main thread / paragraph / footnote) at discovery time** — SETI quick decision before Step 3 candidate generation. Output feeds the baseline-difference axis. See `references/context-research.md`.
+
+   **Step 2b - Owner briefing (comprehension gate).** Before any thesis work, write
+   `handoff/01-design/owner-briefing.md` in KOREAN per
+   `_shared/references/owner-briefing-schema.md` (header block + 한 줄 요약 + sections ①-⑦ +
+   the schema's embedded register). Rationale: the publisher must understand the patent before
+   the pipeline starts angling it; comprehension precedes thesis. Placement: after Step 2 so
+   section ⑤ (프로모션 연결) can use the researched external context (and
+   `input/essay-context.md`, if present). Sections ①-④ each end with a `**근거 (verbatim):**`
+   block of Quotable-span-format lines; every span must be verbatim from patent.md (the
+   orchestrator runs `gate_quotes` on the briefing at the Phase-1 early gate). Full schema →
+   `handoff-template/01-design/owner-briefing.md`.
 3. **Thesis candidate generation** — 2-4 candidates, single-spine default. Each candidate carries draft 4-axis grounding. Write `thesis-candidates.md` capturing each candidate's frame + 4-axis status + rejection reason (for rejected ones). See `references/thesis-candidate-presentation.md`.
 4. **4-axis grounding lock** — for each candidate, fill all 4 axes (claims / problem / effect / baseline-difference). Any missing axis disqualifies the candidate. See `references/4-axis-grounding.md`.
 5. **Q7 hook gate (hard)** — each surviving candidate must map to exactly one of 2 admitted hook patterns. Otherwise reject. See `references/hook-patterns.md`.
 6. **Adversarial defense** — surface the strongest objection per surviving candidate, draft mitigation. Context research's **layer-confusion findings** are priority inputs for Category 1 objections. See `references/adversarial-defense.md`.
-7. **SETI selects one** — single-spine default; multi-spine requires explicit override per `references/single-spine-default.md`.
+7. **Spine selection (orchestrated)**: single-spine default; the orchestrator auto-selects the recommended candidate and surfaces the pick in one line for owner override (owner authority lives at surfaced decision points). Multi-spine requires explicit override per `references/single-spine-default.md`.
 8. **Spine lock** — write `thesis-spine.md` with locked candidate's 4-axis anchors, Q7 pattern, adversarial defense, spine→section trace, and a **closing posture declaration**: `closing_posture: firm` is the DEFAULT for verdict/investor/analysis editions (the essay's job is to land a call; the limits section bounds it). Only declare `closing_posture: open` when the thesis itself is a genuinely open question the essay does not adjudicate — and record why. Under `firm`, an `Acknowledged` residual risk maps to `closing-forward-watching-event` or `closing-binary-test`, never `closing-open-question` (see `editorial-review/references/posture-lens.md` and pass-6 6G).
 
    **Step 8b — Title-lead candidates (energy registers).** After the spine locks, write `handoff/01-design/title-lead-candidates.md`: FIVE title + lead-paragraph pairs, one per energy register (discovery / tension / contrarian / insider / stakes — definitions in `_shared/references/reader-energy.md`), ALL riding the locked spine's facts (a register changes delivery order and polarity, never the evidence). Each pair carries: (a) a title line ≤ 70 characters; (b) a 2-4 sentence lead-¶1 sketch that opens on that register's beat, with no verdict-insurance fact (status label, lien, rejection) ahead of the beat; (c) a one-line rationale tied to the `reader_sentence` from `input/essay-context.md` — if that field is absent, draft one at the top of the file for the orchestrator to confirm. The file ends with a `recommended: <register>` line plus a one-sentence why. The orchestrator surfaces all five; the selected pair travels to Phase 2. Full schema → `handoff-template/01-design/title-lead-candidates.md`.
@@ -50,6 +62,7 @@ Pre:
 
 Post:
 - `handoff/01-design/invention-summary.md` exists; every patent-text claim has a paragraph anchor; every Quotable span is verbatim.
+- `handoff/01-design/owner-briefing.md` exists (Step 2b): Korean per `_shared/references/owner-briefing-schema.md`; every `근거 (verbatim)` span line is verbatim-present in patent.md (gate_quotes-checkable).
 - `handoff/01-design/thesis-spine.md` exists; selected candidate has all 4 axes anchored and Q7 hook pattern declared.
 - `handoff/01-design/thesis-candidates.md` exists; all generated candidates documented (selected + rejected with rationale).
 - `handoff/01-design/title-lead-candidates.md` exists; five register-keyed title+lead pairs (every title ≤ 70 chars, every lead sketch beat-first), rationales tied to the `reader_sentence`, and a `recommended:` line with a one-sentence why (Step 8b).
@@ -123,6 +136,7 @@ If feedback loops cascade (>2 revisions of the same file), pause and ask SETI be
 
 - `references/invention-summary-schema.md` — fixed Markdown schema for `invention-summary.md` (metadata, 4-layer core mechanism, reference number table, figure relationships, quote anchor table, timeline, prior art, quantitative data).
 - `references/quote-anchor-conventions.md` — `**Quotable spans:**` `[xxxx]` block format, verbatim discipline, when to split anchors.
+- `_shared/references/owner-briefing-schema.md`: Step 2b contract for the Korean owner briefing (header + 한 줄 요약 + sections ①-⑦, gate-parseable `근거 (verbatim)` span format, embedded register since Phase 1 is voice-off).
 - `references/context-research.md` — Step 2 web-search-first methodology, baseline-difference axis evidence sourcing.
 - `references/4-axis-grounding.md` — Step 4 detail, anchor format per axis, disqualification rules.
 - `references/hook-patterns.md` — Q7 hard gate, 2 admitted patterns (corporate-narrative-friction, technical-impossibility).
