@@ -8,7 +8,7 @@ written for a curious retail investor following Etched's July 2026 stealth-exit 
 
 - **Thesis (spine C1):** the company's origin filing already claims the memory half of its
   Cluster-Scale Memory philosophy — memory channels hardwired to systolic-array columns
-  "without any switching element" (claim 39) — two years before the thread said "the best
+  "without any switching element" (claim 39) — three years before the thread said "the best
   layer is no layer"; but it is a roadmap the company keeps funding, not yet a fence: no
   claim has been allowed, and the whole portfolio (crown jewels included) is pledged as
   venture-debt collateral.
