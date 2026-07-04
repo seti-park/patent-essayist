@@ -25,3 +25,14 @@ structure or cites an anchor, quote-check it against the claim text / span carri
 finding being applied (the audit reports quote the patent verbatim — check against THAT,
 not memory) before returning. One line in the revision-response per new sentence:
 `new-sentence check: <claim/anchor> verified`.
+
+## Amendment (2026-07-04, etched-us20240378175)
+
+Recurrence now 4 within-run instances across 2 runs: this run's FIG. 7 caption needed THREE
+touches (r2-F1 semantic re-anchor; sa2G-F1 missing [0056]; sa3G-F1 clause-boundary split) —
+each fix's new text spawned the next round's finding. Two additions to the proposed check:
+(1) multi-clause captions anchor EACH clause to its own paragraph at write time;
+(2) formalize the fix-at-source span-request protocol that worked ad hoc twice this run
+(composer BLOCKED -> Phase 1 adds q-NNNN span verbatim -> composer applies): revision-mode.md
+should name it as the standard path when a fix needs an anchor outside the design bundle,
+instead of relying on orchestrator improvisation.

@@ -36,3 +36,13 @@ pure-Python fallback) BEFORE the vision naming pass:
 
 Fixture: this run's input/figures-raw/ 16-sheet set (copy to meta/fixtures/) as the clean-set
 regression case; the agility multi-panel set as the amber case.
+
+## Amendment (2026-07-04, etched-us20240378175)
+
+New evidence class: the vision pass named all 7 files correctly but wrote a WRONG manifest
+line (FIG. 6's 605/610 element labels swapped vs spec [0051]); four independent reviewers
+had to override the manifest against the image throughout the run. Element-label <-> spec
+cross-checking is exactly what a deterministic pass does better (the spec text pairs each
+numeral with its name). Recurrence for Phase-0 output defects: 2 runs (cost evidence run 1,
+correctness evidence run 2). Also: 7-sheet run took ~4 min/119k tokens (vs 15 min/255k for
+16 sheets) — cost scales with sheet count; OCR pass would flatten it.

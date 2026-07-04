@@ -57,3 +57,14 @@ with an explicit severity field, excluding table rows / prose mentions:
 Ship with two test_gates/check_run fixtures: (a) a confirmation transition without a
 revision-response (must PASS), (b) a verification-table id not re-ruled (must PASS), a
 declared medium dropped (must still FAIL).
+
+## Amendment (2026-07-04, etched-us20240378175)
+
+Second manifestation, second run in a row: RUN-003 x10 false FAILs because the severity
+regex does not recognize `prior_severity:` lines inside the carried_finding_rulings blocks
+that the id-continuity rule itself forces reviewers to write. The two defects compound: the
+checker demands continuity notation, then misparses that notation as new findings.
+Recurrence for the artifact is now 2 runs / 2 distinct defects -> upgrade confidence; the
+fix should cover BOTH: (a) confirmation-transition modeling, (b) severity parsing of
+carried-ruling notation (`prior_severity:`), or scoping the id harvest to declared finding
+blocks (`^\s*-?\s*finding_id:` with an adjacent `severity:` field).

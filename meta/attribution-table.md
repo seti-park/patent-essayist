@@ -151,3 +151,7 @@ human). Their rows live with the run-045 dataset. See
 | `anchor-pointer-offbyone` / `anchor-under-coverage` | pass-3 / self-audit grounding full table | 1 | compose | essay-en-composer/references/citation-format.md anchor-precision rule | reference-edit |
 | `option-embodiment-upgraded` | pass-3 3C (description "may/for example" stated as definite practice) | 1 | compose | essay-en-composer/references/citation-format.md | reference-edit |
 | `revision-added-text-drift` | round-N+1 mediums concentrated on round-N added sentences | 1 | compose | essay-en-composer/references/revision-mode.md (new-sentence self-check) | reference-edit |
+| `checker-severity-parse-gap` | check_run RUN-003 false FAILs on `prior_severity:` carried-ruling notation | all | gate | `_shared/scripts/check_run.py` severity regex | gate-strengthen |
+| `figure-manifest-mislabel` | manifest element-label swap surviving Phase-0 verification (files right, manifest wrong) | 2 | design | patent-figures-clean manifest verification loop | reference-edit (+ OCR cross-check) |
+| `caption-anchor-clause-drift` | multi-clause figure captions riding one anchor across clause boundaries | 1 | compose | essay-en-composer figure-rendering caption-anchor discipline | reference-edit |
+| `vocabulary-import-from-news` | present-day news vocabulary stated inside the filing's own reasoning | 1 | compose | citation-format.md source-era vocabulary discipline | reference-edit |
