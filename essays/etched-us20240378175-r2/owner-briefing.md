@@ -59,7 +59,7 @@
 
 ## ⑤ 회사 프로모션 글/기술과의 연결
 
-연결 맥락은 Etched의 2026년 7월 스텔스 종료(stealth-exit) 스레드와 그 보도다. 두 축은 LVI(회사 소개: 절반 전압 연산)와 CSM(Cluster Scale Memory, 무계층 메모리 철학)이다.
+연결 맥락은 Etched의 2026년 6월 말 스텔스 종료(stealth-exit) 스레드와 그 보도다(TechCrunch 2026-06-30). 두 축은 LVI(회사 소개: 절반 전압 연산)와 CSM(Cluster Scale Memory, 무계층 메모리 철학)이다.
 
 **특허가 실제로 뒷받침하는 것**
 - CSM 축의 메모리-어레이 직결 부분은 이 출원의 청구 내용과 겹친다: 무스위치 채널-열 하드와이어링 `[0016]`, 상수 가중치 전제 `[0044]`, 스위치/크로스바 관행과의 대비 `[0043]`, 공간·전력 절약 `[0045]`. 단 한도는 청구 중 지위: 이 철학이 2023-05-10 출원의 청구항 언어로 존재한다는 사실까지만 지지된다.
@@ -110,3 +110,4 @@
 N=3은 이 런의 마지막 self-audit 라운드다. 경로는 `essays/etched-us20240378175-r2/` 기준이다.
 
 > Revision note - retro back-fill 2026-07-04: 완료된 런에 owner-briefing-schema.md 계약을 소급 적용해 아카이브 번들과 input/essay-context.md에서 작성했다.
+> Revision note - erratum 2026-07-04: ⑤의 스레드 시점 "2026년 7월"을 "2026년 6월 말"로 교정 (essay-final.md와 TechCrunch 2026-06-30 근거; promo-composer가 suspected_essay_defects 채널로 보고한 sa1B-F5 동종 month-slip. 상류 원천은 essay-context.md와 fact-check-log 키 설명의 "July 2026" 표기).

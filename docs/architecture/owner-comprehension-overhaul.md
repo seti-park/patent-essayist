@@ -76,3 +76,29 @@ LVI coverage) — the unknown-unknowns made legible.
 owner; the 경계 지도 + 자료 지도 sections partially serve the first need without a new
 artifact class. Also deferred: a formal owner-signoff gate before archive (audit Gap 4's
 full remedy).
+
+## Validation results (2026-07-04, r2 retroactive)
+
+1. **PASS** — retroactive briefing at `essays/etched-us20240378175-r2/owner-briefing.md`:
+   896 어절, 11 verbatim span lines, gate_quotes PASS against the archived patent.md
+   (verified twice, agent + orchestrator). Owner confirmation of the comprehension move is
+   the remaining human half.
+2. **PASS** — promo pack at `essays/etched-us20240378175-r2/promo/promo-pack.md`: KR 265자 /
+   EN digest 295w posture-D-agrees-firm / tweets 223·275·234 chars; fact_trace 18/18, zero
+   dropped facts; all three scrubbed error classes verified dead. BONUS: the safe-claims
+   fence caught a real defect — the briefing's ⑤ had re-imported the sa1B-F5 month-slip
+   ("2026년 7월" vs the essay's late-June TechCrunch-sourced dating) from
+   essay-context.md/fact-check-log phrasing; promo followed the essay, routed the finding,
+   and the briefing was erratum'd same day. The channel works.
+3. **PASS** — test_gates 102/102 (99+3), meta/regression.py PASS, fixtures untouched.
+4. **PASS** — `essays/etched-us20240378175-r2/patent.md` archived (md5-identical to input);
+   also back-filled to the v7 dir. 091's input snapshot is unrecoverable from disk (noted).
+5. **OPEN until the next full run** — U1-U10 need no orchestrator improvisation: to be
+   proven on the next pipeline invocation (the doctrine, gate invocation, RUN-008, archive
+   contract, and Phase 4 flow are all written and registered).
+
+Retro material logged here for the next `pipeline-retro`: the "July 2026" month-slip class
+has three upstream carriers (`input/essay-context.md` — user-owned, flagged to the owner;
+the archived fact-check-log key description; the v7 README) and re-entered once through a
+Korean summary surface; candidate proposal is a date-canon line in essay-context or a
+fact-check-log normalization rule.

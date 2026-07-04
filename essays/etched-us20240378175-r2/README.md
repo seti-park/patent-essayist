@@ -11,6 +11,11 @@ register, human-selected from Phase 1's five title-lead candidates.
 - **Deliverable:** `essay-final.md` (draft_version 5) · publication strip
   `handoff/02-compose/publication.md` (2,991 words) · cover FIG. 5 (caption within the
   6-numeral feed budget) · 3 declared signature lines.
+- **Owner artifacts (2026-07-04 owner-comprehension overhaul, retroactive):**
+  `owner-briefing.md` (한국어 발행자 브리핑, ①-⑦ + 한 줄 요약, gate_quotes PASS against the
+  archived `patent.md` snapshot) · `promo/promo-pack.md` (KR post 265자 + EN digest 295w +
+  3-tweet sketch, every factual phrase traced to essay/briefing) · `patent.md` (the run's
+  exact input snapshot; all [dddd] anchors resolve offline).
 - **Figures placed:** FIG. 5 (cover), FIG. 1 + FIG. 2 (§2), FIG. 3 (§3), FIG. 6 + FIG. 7
   (§4). FIG. 4 not placed (grounded prose clause instead).
 
