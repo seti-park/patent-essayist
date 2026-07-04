@@ -15,6 +15,28 @@ thread that keeps them; the technology is what they leave having understood.
 
 They are smart and skeptical, not expert. Do not condescend; do not assume.
 
+## Reader jobs (what a finished essay does for them)
+
+Comprehension tier says what the reader can process; the jobs say what they came FOR. All
+three are load-bearing (goal 5 traces here; surface doctrine in
+`_shared/references/reader-energy.md`):
+
+1. **Information job** — what they came to learn: what the patent actually says, and what it
+   means for the company or stock that made them open the article.
+2. **Feeling job** — they leave ARMED, not lectured: insider knowledge (they read the primary
+   document, through you) plus a defensible take they could argue tomorrow.
+3. **Social job** — a quotable, repost-safe sentence: something they can say to a friend or
+   post without having to check back against the essay.
+
+## The leaving-sentence contract
+
+Every run's `input/essay-context.md` SHOULD carry a `reader_sentence:` field — the one
+sentence the reader wants to say to someone after reading. It is the **title brief and the
+lead's design target**: Phase 1 writes its title-lead candidates against it, the composer's
+¶1 aims at it, and the declared signature lines are usually it or its close siblings. If the
+field is absent, Phase 1 drafts one at the top of `title-lead-candidates.md` for the
+orchestrator to confirm.
+
 ## Calibration rules
 
 1. **Jargon budget.** Every term of art gets a one-clause gloss on first use ("a method

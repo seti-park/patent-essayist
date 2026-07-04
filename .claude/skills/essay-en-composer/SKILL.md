@@ -10,8 +10,9 @@ agent: essay-composer
 Phase 2 Compose's drafting stage. Reads the Phase 1 handoff bundle and produces the essay draft.
 
 ```
-handoff/01-design/{thesis-spine.md, invention-summary.md, figure-selection.md,
-                    figure-rationale.md, fact-check-log.md}
+handoff/01-design/{thesis-spine.md, invention-summary.md, title-lead-candidates.md,
+                    figure-selection.md, figure-rationale.md, fact-check-log.md}
+    + the orchestrator's selected title-lead pair (default: the file's recommended pick)
     + voice-canon-lookup (per section)
     → essay-draft.md          (inline [xxxx] cites, # Sources, frontmatter)
     → figures-rationale.md    (compose's actual placement decisions)
@@ -39,12 +40,12 @@ disposition in `revision-response.round-N.md` before prose moves.
 ## Process (7 steps)
 
 1. **Mode selection** — adopt or default. Confirm in opening response.
-2. **Load handoff** — read all 5 Phase 1 files. Reject if `thesis-spine.md` Q7 hook not declared, or if Quotable spans missing for spine anchors.
-3. **Plan sections** — build internal section blueprint per `references/section-blueprint.md`. Map spine→section, plan `voice_canon_reference` per section, plan `paragraph_anchors_used` + `external_facts_used` per section.
+2. **Load handoff** — read all 6 Phase 1 files. Reject if `thesis-spine.md` Q7 hook not declared, or if Quotable spans missing for spine anchors. Adopt the orchestrator's selected `title-lead-candidates.md` pair (register + title + lead sketch); if no selection was passed, use the file's `recommended:` pick and log the fallback in the opening response.
+3. **Plan sections** — build internal section blueprint per `references/section-blueprint.md`. Map spine→section, plan `voice_canon_reference` per section, plan `paragraph_anchors_used` + `external_facts_used` per section. The lead section plans hook-first from the selected title-lead pair: ¶1 delivers the chosen register's beat, the full two-sided call lands by the lead section's END, and no verdict-insurance fact (status label, lien, rejection) precedes the beat (see `_shared/references/reader-energy.md`). Plan ≤ 3 signature lines (exact strings) for declaration in `thesis-trace.md`.
 4. **Plan figures** — per `references/figure-rendering.md` 4 caption_role types. Default body rendering = `caption-only-italic`; header = `image-plus-caption`.
 5. **Compose sections in order** — apply voice canon patterns by invoking `voice-canon-lookup` per section. Use only paragraph anchors from `invention-summary.md`. Respect `word_target` ±20%. Per-mode composition rhythm in `references/mode-spec.md`.
 6. **Annotate factual claims** — inline `[XXXX]` at every patent claim. External claims go to `# Sources` block + cross-check `fact-check-log.md`. See `references/citation-format.md`.
-7. **Emit draft + publication.md + handoff files** — `essay-draft.md` (frontmatter + footnotes; frontmatter carries `closing_posture` copied from `thesis-spine.md`, read by `gate_hedge`), `publication.md` (stripped via `references/strip-pipeline.md`, one line per paragraph), `figures-rationale.md`, `thesis-trace.md`.
+7. **Emit draft + publication.md + handoff files** — `essay-draft.md` (frontmatter + footnotes; frontmatter carries `closing_posture` copied from `thesis-spine.md`, read by `gate_hedge`), `publication.md` (stripped via `references/strip-pipeline.md`, one line per paragraph), `figures-rationale.md`, `thesis-trace.md`. `thesis-trace.md` includes a `## Signature lines` section declaring ≤ 3 exact strings (0-3; write `none` explicitly if zero) — declared lines are protected surface per `_shared/references/reader-energy.md` (echo/count-exempt; factual review still applies).
 
 ## Plan ⊥ Execute boundary
 
@@ -53,12 +54,13 @@ Composition stays within `thesis-spine.md` constraints. Fact introduction beyond
 ## Pre-conditions
 
 - `handoff/01-design/thesis-spine.md` exists with locked 4-axis grounding + Q7 hook pattern declared.
+- `handoff/01-design/title-lead-candidates.md` exists (five register-keyed pairs + `recommended:` line); the orchestrator's selected pair known, or the recommended pick adopted as fallback.
 - `handoff/01-design/invention-summary.md` exists with Quotable spans covering every paragraph anchor the spine references.
 - `handoff/01-design/figure-selection.md` + `figure-rationale.md` exist with every selected figure mapped to a thesis point.
 - `handoff/01-design/fact-check-log.md` exists (may be empty if thesis is entirely patent-anchored).
 - `figures/fig-NN.png` accessible via Project file uploads.
 - `voice-canon-lookup` skill installed in same Project.
-- Phase 2 Knowledge files loaded: `voice-profile.md`, `deliverable-voice-rules.md`, `anti-ai-writing.md`, `caption-roles.md`, `x-article-format.md`, `working-dialogue-voice.md`, `_shared/references/reader-profile.md` (audience contract — jargon gloss budget, familiar-scale numbers, translate-then-quote claim language, money thread).
+- Phase 2 Knowledge files loaded: `voice-profile.md`, `deliverable-voice-rules.md`, `anti-ai-writing.md`, `caption-roles.md`, `x-article-format.md`, `working-dialogue-voice.md`, `_shared/references/reader-profile.md` (audience contract — jargon gloss budget, familiar-scale numbers, translate-then-quote claim language, money thread), `_shared/references/reader-energy.md` (goal-5 surface contract — hook-first lead, feed-context rules, signature lines).
 - Mode and posture confirmed in opening response.
 
 ## Post-conditions
@@ -66,6 +68,8 @@ Composition stays within `thesis-spine.md` constraints. Fact introduction beyond
 - `handoff/02-compose/essay-draft.md` emitted with inline `[XXXX]` markers, `# Sources` block, optional `# Footnotes` block.
 - `handoff/02-compose/publication.md` emitted via strip pipeline (Sources kept, frontmatter + footnotes stripped).
 - `handoff/02-compose/figures-rationale.md` and `handoff/02-compose/thesis-trace.md` emitted.
+- `thesis-trace.md` carries a `## Signature lines` section with 0-3 exact strings (`none` if zero) plus the selected title-lead register.
+- The lead's ¶1 opens on the selected register's beat; the full two-sided call lands by the lead section's end; no verdict-insurance fact precedes the beat.
 - Per-section word counts within ±20% of plan.
 - Mode and posture used logged in opening response.
 - Every `[XXXX]` traces to an entry in `invention-summary.md` Quotable spans or Quote anchor table.

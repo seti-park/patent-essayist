@@ -14,6 +14,7 @@ Detection:
 Acceptable repetition:
 - Lead → thesis recap in closing (the closing should circle back).
 - Cross-section thread bridges ("Recall §2's mechanism…") — only when the bridge genuinely re-anchors a long arc.
+- **Declared signature lines** (≤ 3, exact strings in `thesis-trace.md` `## Signature lines`) — protected surface per `_shared/references/reader-energy.md`: do not count their recurrences toward 2A and do not recommend rewording or compressing them (2B). Factual defects in a signature line are pass-3/4 findings as normal.
 
 Unacceptable repetition:
 - Same numeric value cited in 3+ places ("70 milliseconds" in §1, §2, §3) without new context.

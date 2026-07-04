@@ -12,7 +12,7 @@ itself.
 
 ## North-star goals (acceptance criteria)
 
-Every gate and editorial pass defends one of four goals; the full goal→check traceability
+Every gate and editorial pass defends one of five goals; the full goal→check traceability
 matrix is in `_shared/references/scoring-rubric.md`:
 
 1. **Catch the patent's core accurately** — anchor chain + verbatim-quote gate, grounding.
@@ -20,6 +20,9 @@ matrix is in `_shared/references/scoring-rubric.md`:
 3. **Easy for the reader to understand** — reader-profile calibration, structure, pass-5/7.
 4. **Well-structured (4a) and natural (4b)** — incl. the **verdict hard-gate**: conclusions
    must be evidence-proportionate in BOTH directions (no overreach, no safe-harbor hedging).
+5. **Reader energy** — the reader leans in at the lead, keeps momentum, leaves armed with a
+   repeatable sentence; binds the SURFACE only (`gate_surface` + pass-6 6H + pass-7 hook
+   check + cold-reader self-audit; doctrine: `_shared/references/reader-energy.md`).
 
 ## How to run
 
@@ -67,9 +70,10 @@ internal Phase-2 helper).
   pipeline-retro/        meta-loop  — findings → ledger → propose-only proposals   [fork]
   _shared/
     references/          scoring-rubric (severity + matrix + double-clean acceptance) ·
-                         reader-profile (audience contract) · deliverable-voice-rules ·
+                         reader-profile (audience contract + reader jobs) · reader-energy
+                         (goal-5 surface doctrine) · deliverable-voice-rules ·
                          anti-ai-writing · caption-roles · working-dialogue-voice
-    scripts/             13 deterministic gates (stdlib) + strip_publication.py +
+    scripts/             14 deterministic gates (stdlib) + strip_publication.py +
                          check_run.py + banned_terms.txt + tests
     vendor/              humanizer + ai-check — REFERENCE ONLY, absorbed into anti-ai-writing
 handoff/          01-design 02-compose 03-edit    runtime stage artifacts (gitignored)
@@ -115,7 +119,8 @@ instructions: the reviewer physically cannot see the composer's reasoning, only 
   dropped finding_ids, double-clean or CAP HIT, self-audit evidence). If it fails, do the
   missing work; never edit artifacts to satisfy it.
 - **Self-audit (auto, post-acceptance):** ≥2 `adversarial-reader` agents (personas, blind,
-  parallel) + 1 `grounding-verifier`; multi-vote; over-hedge findings are first-class
+  parallel) + 1 `grounding-verifier` + 1 checklist-free **cold reader** (casual scroller;
+  stop-point / feelings / repeat-to-a-friend → goal-5 findings); multi-vote; over-hedge findings are first-class
   (symmetric with overreach); fixes via composer revision mode; `## delta` blocks in
   revision-notes.md; loop until dry (cap 3); normalized to the ledger as
   `origin: self-post-accept`.
@@ -126,14 +131,16 @@ instructions: the reviewer physically cannot see the composer's reasoning, only 
 
 ## Deterministic gates
 
-`_shared/scripts/run_gates.py` runs thirteen mechanical checks (pass `--patent` for the
+`_shared/scripts/run_gates.py` runs fourteen mechanical checks (pass `--patent` for the
 quote gate): `gate_emdash`, `gate_anchors` (incl. panel-letter figure tokens), **`gate_quotes`**
 (every invention-summary Quotable span / Quote anchor row verbatim-present in patent.md — the
 mechanical half of the grounding chain), `gate_sources`, `gate_banned`, `gate_structure`
 (STRUCT-001 warns at ≥8 sentences, aligned to Pass 2C), `gate_figure_use`, `gate_meta`,
-`gate_stub`, `gate_cashtag`, `gate_dupe`, `gate_typography`, and **`gate_hedge`** (verdict-section
+`gate_stub`, `gate_cashtag`, `gate_dupe`, `gate_typography`, **`gate_hedge`** (verdict-section
 safe-harbor boilerplate / qualifier-led verdict / hedge density; hard-fails under the draft's
-`closing_posture: firm`). Utilities: `strip_publication.py` (publication.md with one line per
+`closing_posture: firm`), and **`gate_surface`** (warn-only goal-5 feed checks: SURF-001 title
+> 70 chars, SURF-002 qualifier-led first body sentence, SURF-003 cover-caption numeral
+density > 6, SURF-004 defensive-open). Utilities: `strip_publication.py` (publication.md with one line per
 paragraph) and `check_run.py` (loop shape). Run
 `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
 `python meta/regression.py` for tests + fixtures.

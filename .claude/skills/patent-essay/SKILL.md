@@ -16,7 +16,7 @@ allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, Skill, WebFetch, WebSe
 You own the LOOP POLICY and arbitration; every phase's domain work runs in its own forked
 agent context. Keep the main thread lean: parameters, gate outputs, loop state, and the
 one-line reports each agent returns. All content travels through handoff files on disk. The
-four north-star goals and the goal→check matrix live in `_shared/references/scoring-rubric.md`.
+five north-star goals and the goal→check matrix live in `_shared/references/scoring-rubric.md`.
 
 ## Inputs (per run)
 
@@ -59,11 +59,15 @@ are already clean, skip.
 
 Invoke `thesis-architect`. It writes the `handoff/01-design/` bundle (invention-summary with
 Quotable spans + Claim scope map, thesis-spine with `closing_posture`, thesis-candidates,
-figure-selection with cover candidate, figure-rationale, fact-check-log, search-log,
-phase2-handoff-notes) and auto-selects the recommended single-spine candidate. Also ensure
+title-lead-candidates (5 energy-register pairs + `recommended:`), figure-selection with cover
+candidate, figure-rationale, fact-check-log, search-log, phase2-handoff-notes) and
+auto-selects the recommended single-spine candidate. Also ensure
 `handoff/01-design/figures-index.txt` exists (from the manifest or `input/figures/`).
 
-On return: surface the candidate list in one line (human can override), then run the
+On return: surface the candidate list in one line (human can override), AND surface the five
+title-lead candidates (register + title each) alongside — the human may override the pick;
+default = Phase 1's `recommended:` pick. Record the selected register/pair in one line; it
+travels to Phase 2 with the compose invocation. Then run the
 early grounding gate — a Phase-1 quote fabrication must die here, not in round 3:
 
 ```
@@ -75,9 +79,11 @@ Any QUOTE-001 → send Phase 1 back once with the failing quotes named.
 
 ### Phase 2 — Compose (skill: `essay-en-composer`, agent: essay-composer, voice-on)
 
-Invoke `essay-en-composer`. It reads `handoff/01-design/` (never the raw patent) and writes
+Invoke `essay-en-composer`, passing the selected title-lead pair (register) from Phase 1. It
+reads `handoff/01-design/` (never the raw patent) and writes
 `handoff/02-compose/` (essay-draft with `closing_posture` frontmatter, publication via
-`strip_publication.py`, figures-rationale, thesis-trace).
+`strip_publication.py`, figures-rationale, thesis-trace with the ≤ 3 declared signature
+lines).
 
 ### Phase 3 — Edit loop (skill: `editorial-review`, agent: editorial-reviewer, voice-fenced)
 
@@ -94,7 +100,10 @@ Per round N (starting N=1):
      --patent input/patent.md --mode <essay|wire> --json
    ```
 
-   Save the JSON to `handoff/03-edit/gate-result.round-N.json`.
+   Save the JSON to `handoff/03-edit/gate-result.round-N.json`. `gate_surface`
+   (SURF-001..004, goal 5) runs inside `run_gates.py` like the rest — it is warn-only, so no
+   loop-policy change: read its warns and surface them to the reviewer/revision prompts as
+   goal-5 signals.
 2. **Review**: invoke `editorial-review` — every invocation forks a FRESH
    editorial-reviewer with no memory of prior rounds. Tell it the round number and (N>1)
    point it at the prior edit-log + revision-response. It writes
@@ -136,12 +145,21 @@ On acceptance, promote the accepted draft to `handoff/03-edit/essay-final.md` an
 Fresh eyes on the accepted essay, per round (up to `--max-selfaudit-iter`):
 
 1. Spawn IN PARALLEL via Task: **2× adversarial-reader** (one per persona: impatient
-   investor, skeptical pro-subject reader; separate output files, blind to each other) and
-   **1× grounding-verifier** (full anchor-by-anchor fidelity table on essay-final.md).
+   investor, skeptical pro-subject reader; separate output files, blind to each other),
+   **1× grounding-verifier** (full anchor-by-anchor fidelity table on essay-final.md), and
+   **1× cold reader** (adversarial-reader agent type, checklist-FREE prompt: a casual
+   scroller persona — do NOT hand it the pass-7 checklist or any rubric; it reads
+   essay-final.md once and reports ONLY (a) where it stopped reading, (b) what it felt,
+   (c) the one thing it would repeat to a friend; separate output file, blind like the
+   others).
 2. **Multi-vote**: apply a finding when readers agree (majority), OR when a grounding
    finding is verified against the source, OR when it is a 6G over-hedge finding verified
    against the body's evidence — over-hedge is first-class here, symmetric with overreach.
-   Log split / taste-only findings to `revision-notes.md` as considered-not-applied.
+   Cold-reader input maps to goal-5 findings: a cold-reader stop-point corroborated by ANY
+   rubric reader's finding (same location or same cause) = apply; its repeat-to-a-friend
+   sentence is checked against the `reader_sentence` (a miss is a goal-5 signal, not an
+   auto-finding). Log split / taste-only findings and uncorroborated stop-points to
+   `revision-notes.md` as considered-not-applied.
 3. **Apply** accepted findings via `essay-en-composer` in revision mode against
    `essay-final.md` (grounding fix priority binds; fix upstream Phase-1 artifacts too when a
    finding traces there). Log every applied edit as a `## delta` block in

@@ -3,7 +3,7 @@ name: adversarial-reader
 description: >
   Post-acceptance self-audit reviewer for the patent-essay pipeline. Reads the
   accepted essay-final.md + the raw patent with fresh eyes and hunts for what
-  survived a pass: the pass-7 checklist (BLUF, header-as-claim, steelman,
+  survived a pass: the pass-7 checklist (lead hook, header-as-claim, steelman,
   meta, jargon depth, stubs, restatement) plus grounding spot-checks. The
   orchestrator spawns >= 2 of these in parallel with different personas and
   multi-votes their findings. Evidence-forced: every verdict carries a quoted

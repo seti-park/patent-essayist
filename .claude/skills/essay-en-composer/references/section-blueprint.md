@@ -16,10 +16,16 @@ For analytical or diligence essays (investor / technical-moat reads), three stru
 defaults — learned from run 045's hand-revision (see
 `meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`):
 
-- **Lead altitude (BLUF / 두괄식).** Paragraph 1 states the verdict as a declarative sentence,
-  NOT a deferred question. Claim-then-proof: the body substantiates a verdict already on the
-  table. (A narrative-magazine piece may defer; pick per mode.) *(checked: editorial pass-6
-  lead-altitude + pass-7; the "rest of this essay" framing is gated by `META-001`.)*
+- **Lead altitude (hook-first).** Paragraph 1 delivers the selected energy register's hook
+  beat — the discovery fact, collision, inversion, privileged view, or stakes number from the
+  chosen `title-lead-candidates.md` pair — as declarative prose, NOT a deferred question.
+  Verdict-insurance facts (status labels, liens, rejections) never precede the beat; they
+  price it afterwards. The full two-sided call still lands by the END of the lead section —
+  hook-first reorders the lead, it does not defer the call past it. Claim-then-proof holds:
+  the body substantiates a call already on the table by lead's end. See
+  `_shared/references/reader-energy.md`. (A narrative-magazine piece may defer; pick per
+  mode.) *(checked: editorial pass-6 6A/6H + pass-7 hook check; the "rest of this essay"
+  framing is gated by `META-001`; mechanical warns: `SURF-002/004`.)*
 - **Section headers are claims.** Each `##` header is an assertion, so a header-only skim
   reconstructs the argument (run 045: *workflow-not-robot → disclaims-the-hard-parts →
   territory-is-not-the-moat → moat-is-filed-elsewhere*). Avoid bare-label / "What X does"
@@ -30,7 +36,14 @@ defaults — learned from run 045's hand-revision (see
 - **No stub sections.** Keep `word_target`s balanced; a section far shorter than its siblings
   should be merged or expanded. *(gate: `STUB-001` warn.)*
 
-## Per-section fields (composer's internal plan)
+## Signature lines (≤ 3, declared)
+
+Plan up to 3 **signature lines** — the aphoristic, repeatable sentences the reader carries
+out (usually the `reader_sentence` or a close sibling; often one in the lead, one at the
+closing landing). Declare their EXACT strings in `handoff/02-compose/thesis-trace.md` under
+`## Signature lines` (write `none` if zero). Declared lines are protected surface per
+`_shared/references/reader-energy.md`: echo/count rules exempt them; factual review (pass-3/4)
+still applies in full.
 
 Each section the composer plans has:
 
