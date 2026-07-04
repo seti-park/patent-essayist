@@ -1,7 +1,7 @@
 # etched-us20240378175-r2 — "Etched Put Its No-Switch Memory Idea in Writing in May 2023"
 
 **Reader-first architecture re-run** of the US 2024/0378175 A1 essay (same patent, same
-edition contract as `essays/etched-us20240378175/`, new architecture) — the validation run
+edition contract as `essays/_superseded/etched-us20240378175/`, new architecture) — the validation run
 for the 2026-07-04 overhaul (`docs/architecture/reader-first-overhaul.md`). Discovery
 register, human-selected from Phase 1's five title-lead candidates.
 
@@ -38,5 +38,5 @@ register, human-selected from Phase 1's five title-lead candidates.
 
 Same inputs as the v7 run (USPTO full text, user-supplied 7 sheets, WIPS/DOCDB +
 user-verified lien facts). Companion pieces: `essays/etched-us12361091/` (granted wiring
-half), `essays/etched-us20240378175/` (pre-overhaul v7 of this essay — kept for the
+half), `essays/_superseded/etched-us20240378175/` (pre-overhaul v7 of this essay — kept for the
 architecture comparison).

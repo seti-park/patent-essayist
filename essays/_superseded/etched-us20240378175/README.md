@@ -1,5 +1,10 @@
 # etched-us20240378175 — "Etched Filed the Memory Half of Its Story in 2023."
 
+> **SUPERSEDED (2026-07-04)** by `essays/etched-us20240378175-r2/` (the reader-first
+> re-run of the same patent; see `docs/architecture/comparison-v7-vs-r2.md`). Kept as
+> the pre-overhaul baseline for the architecture comparison. Do not publish or cite as
+> current; do not use as a grounding source for new runs.
+
 English long-form analysis (X Articles) of **US 2024/0378175 A1 — "Multi-chip systolic
 arrays"** (Etched.ai; application 18/195,769, filed 2023-05-10 — the company's earliest
 filing; inventors: co-founders Gavin Uberti and Christopher Zhu; **PENDING, not granted**),

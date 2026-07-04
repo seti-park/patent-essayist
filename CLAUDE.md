@@ -94,6 +94,8 @@ essays/<essay-id>/  the TRACKED deliverable: essay-final.md · owner-briefing.md
                     (the run's input snapshot; anchors resolve offline) · figures/ ·
                     gate-result.json · score-history.md · edit-log.md · README.md ·
                     promo/promo-pack.md (P4) · full handoff/ phase tree
+essays/_superseded/   replaced editions, moved on supersede (baseline/evidence; never a
+                      grounding source)
 runs/    <essay-id>/  per-run archive (round logs, gate results, dispositions)
 meta/    findings-ledger.jsonl · attribution-table.md · improvement-proposals/ ·
          fixtures/ + regression.py  (the system's persistent memory — tracked)

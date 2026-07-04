@@ -3,7 +3,7 @@
 Both essays analyze US 2024/0378175 A1 under the identical edition contract (pending
 application; one prosecution label sentence; portfolio-scope collateral; firm closing).
 What changed between them is the ARCHITECTURE that produced them. Full texts:
-`essays/etched-us20240378175/` (v7) · `essays/etched-us20240378175-r2/` (r2).
+`essays/_superseded/etched-us20240378175/` (v7) · `essays/etched-us20240378175-r2/` (r2).
 
 ## The surface, side by side
 

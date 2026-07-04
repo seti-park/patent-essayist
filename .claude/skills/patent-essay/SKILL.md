@@ -210,7 +210,10 @@ report.
    `owner-briefing.md` (copied from `handoff/01-design/`), `patent.md` (the run's exact
    `input/patent.md` snapshot, so every `[dddd]` anchor in the archive resolves without
    re-fetching), and the full `handoff/` phase tree — the canonical layout, per the
-   2026-06-26 retro L7.
+   2026-06-26 retro L7. If this archive supersedes an earlier `essays/<id>/` for the same
+   patent, move the superseded dir to `essays/_superseded/` in the same commit and banner
+   its README — the essays/ root holds only current deliverables (index:
+   `essays/README.md`).
 3. **Phase 4 promo (skill: `promo-composer`, agent: promo-composer; default-on for essay
    mode, skippable on request)**: spawn it (fork, `model: inherit`) against the fresh
    `essays/<essay-id>/` archive. Output contract: `essays/<essay-id>/promo/promo-pack.md`
