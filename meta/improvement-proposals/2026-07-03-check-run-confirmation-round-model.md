@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-03-check-run-confirmation-round-model
 created: 2026-07-03T00:20:00Z
-status: recommended apply  # deterministic checker-vs-spec conflict; reproduces on every spec-compliant double-clean run
+status: applied  # 2026-07-04 reader-first overhaul; regression PASS
 lever: gate-strengthen
 goal: "all"
 root_cause_artifact: _shared/scripts/check_run.py (round-transition model + RUN-004 id harvest)

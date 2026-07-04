@@ -20,14 +20,18 @@ Artifact contract (written by the orchestrator each round N = 1..K):
 
 Checks:
   RUN-001 (fail): round artifacts missing or non-contiguous (edit-log/gate-result
-                  for rounds 1..K; revision-response for rounds 1..K-1).
+                  for rounds 1..K; revision-response for rounds 1..K-1) -- UNLESS
+                  round N -> N+1 is a confirmation transition (see below), which
+                  by spec takes no revision and so has no response to trace.
   RUN-002 (fail): an edit-log has no parsable overall_assessment, or a gate
                   result JSON is unreadable.
   RUN-003 (fail): a medium/high/critical finding in round N has no disposition
                   block in revision-response.round-N.md, or a failing gate
-                  check_id has none (rounds followed by another round only).
+                  check_id has none (rounds followed by another round only;
+                  skipped entirely across a confirmation transition).
   RUN-004 (fail): a medium+ finding_id from round N-1 is never mentioned in
                   round N's edit-log (silently dropped instead of ruled on).
+                  Runs across every transition, confirmation or not.
   RUN-005 (fail): essay-final.md exists but the acceptance rule is not met:
                   the LAST TWO rounds must both be clean (assessment acceptable
                   per --threshold AND gates passed) — a round-1 pass is a
@@ -38,7 +42,26 @@ Checks:
   RUN-007 (fail): --self-audit on and essay-final.md exists, but
                   revision-notes.md is missing or has neither a "## delta"
                   block nor an explicit no-findings statement.
-  RUN-000 (warn): informational skips.
+  RUN-000 (warn): informational skips (incl. a confirmation transition, below).
+
+Confirmation-transition model (2026-07-03-check-run-confirmation-round-model
+proposal + its 2026-07-04 amendment): the loop spec runs a confirmation round
+N+1 with no revision in between on the first CLEAN(N). Round N -> N+1 is a
+confirmation transition when edit-log.round-(N+1).md declares
+`round_type: confirmation` (anywhere in the file) or contains the phrase
+"confirmation round" in its first 40 lines, or score-history.md's row for
+round N+1 labels it "confirmation". Across such a transition, RUN-001/RUN-003
+never require a revision-response.round-N.md (there was no revision); RUN-004
+id-continuity still runs against round N+1's log regardless.
+
+Severity harvesting (`_findings_with_severity`) only counts a finding_id as
+THIS round's own finding when a plain `severity:` line follows it within a
+few lines. The re-review protocol's carried/verification ruling blocks use
+`prior_severity:` notation to re-affirm an OLDER id's severity while ruling on
+it -- that notation is a citation, not a new finding, and must not manufacture
+a phantom RUN-003/RUN-004 obligation for the round that merely re-verified it
+(second, compounding manifestation of the same proposal, 2026-07-04 amendment,
+etched-us20240378175).
 
 Usage:
   check_run.py [--handoff handoff] [--threshold pass|revise-recommended]
@@ -60,6 +83,11 @@ CAP_HIT_RE = re.compile(r"\bCAP\s+HIT\b", re.I)
 DELTA_RE = re.compile(r"^##\s+delta\b", re.M | re.I)
 NO_FINDINGS_RE = re.compile(r"self-audit[^\n]*no[^\n]*finding", re.I)
 
+# Confirmation-transition signals (2026-07-03-check-run-confirmation-round-model).
+ROUND_TYPE_CONFIRMATION_RE = re.compile(r"^\s*round_type:\s*confirmation", re.M | re.I)
+CONFIRMATION_PHRASE_RE = re.compile(r"confirmation\s+round", re.I)
+FINDING_BLOCK_LOOKAHEAD = 6  # lines searched after `finding_id:` for a plain `severity:`
+
 ACCEPTABLE = {
     "pass": {"pass"},
     "revise-recommended": {"pass", "revise-recommended"},
@@ -72,34 +100,74 @@ def _read(path):
 
 
 def _findings_with_severity(edit_log_text):
-    """Return list of (finding_id, severity) from an edit-log.
+    """Return list of (finding_id, severity) DECLARED by this round's log.
 
-    Tolerant block parser: a finding_id line opens a block; the first severity
-    line before the next finding_id (or EOF) is its severity.
+    A `finding_id:` block counts as this round's own finding only when a
+    plain `severity:` line follows it within FINDING_BLOCK_LOOKAHEAD lines
+    (or before the next `finding_id:` block, whichever comes first). This
+    deliberately does NOT match `prior_severity:` -- the re-review protocol's
+    carried/verification-ruling notation, used when a round re-affirms an
+    OLDER id's severity while ruling on it. A block that only ever carries
+    `prior_severity:` is a citation of a previous round's finding, not a new
+    finding of this round, and is excluded entirely here (not even counted as
+    "unspecified") so it cannot manufacture a phantom RUN-003/RUN-004
+    obligation for the round that merely re-verified it.
     """
+    lines = edit_log_text.splitlines()
     out = []
-    pending = None
-    for line in edit_log_text.splitlines():
-        m = re.match(r"^\s*-\s*finding_id:\s*(r\d+-F\d+)", line)
-        if m:
-            if pending is not None:
-                out.append((pending, "unspecified"))
-            pending = m.group(1)
+    i = 0
+    while i < len(lines):
+        m = re.match(r"^\s*-\s*finding_id:\s*(r\d+-F\d+)", lines[i])
+        if not m:
+            i += 1
             continue
-        if pending is not None:
-            s = re.match(r"^\s*severity:\s*(\S+)", line)
+        fid = m.group(1)
+        limit = min(i + 1 + FINDING_BLOCK_LOOKAHEAD, len(lines))
+        for j in range(i + 1, limit):
+            if re.match(r"^\s*-\s*finding_id:\s*(r\d+-F\d+)", lines[j]):
+                break  # next block opened first -- no plain severity: for this id
+            s = re.match(r"^\s*severity:\s*(\S+)", lines[j])
             if s:
-                out.append((pending, s.group(1).strip()))
-                pending = None
-    if pending is not None:
-        out.append((pending, "unspecified"))
+                out.append((fid, s.group(1).strip()))
+                break
+        i += 1
     return out
+
+
+def _is_confirmation_transition(edit_dir, score_path, next_round):
+    """True when round `next_round` is a confirmation round for its predecessor.
+
+    Per the loop spec, the first CLEAN(N) is followed by a confirmation round
+    N+1 that reviews the SAME draft with no revision in between -- so the N ->
+    N+1 transition has no revision-response to trace and no dispositions to
+    require. Detected (any one signal suffices):
+      1. edit-log.round-<next_round>.md declares `round_type: confirmation`
+         anywhere in the file.
+      2. That file's first 40 lines contain the phrase "confirmation round"
+         (case-insensitive).
+      3. score-history.md's row for round `next_round` labels it "confirmation".
+    """
+    log_path = os.path.join(edit_dir, "edit-log.round-%d.md" % next_round)
+    if os.path.exists(log_path):
+        text = _read(log_path)
+        if ROUND_TYPE_CONFIRMATION_RE.search(text):
+            return True
+        first_40 = "\n".join(text.splitlines()[:40])
+        if CONFIRMATION_PHRASE_RE.search(first_40):
+            return True
+    if os.path.exists(score_path):
+        for line in _read(score_path).splitlines():
+            if re.search(r"\|\s*%d\s*\|" % next_round, line) and re.search(
+                    r"confirmation", line, re.I):
+                return True
+    return False
 
 
 def check(handoff_dir, threshold="pass", self_audit="on"):
     findings = []
     edit_dir = os.path.join(handoff_dir, "03-edit")
     compose_dir = os.path.join(handoff_dir, "02-compose")
+    score_path = os.path.join(edit_dir, "score-history.md")
 
     def add(check_id, severity, message, location):
         findings.append({"check_id": check_id, "severity": severity,
@@ -147,35 +215,44 @@ def check(handoff_dir, threshold="pass", self_audit="on"):
                 add("RUN-002", "fail",
                     "gate-result.round-%d.json unreadable: %s" % (n, e), gate_path)
 
-        # response required for every round followed by another round
+        # response required for every round followed by another round --
+        # UNLESS round n -> n+1 is a confirmation transition (spec: the
+        # confirmation round takes no revision, so there is nothing to
+        # disposition or trace at this transition).
         if n < K:
-            resp_path = os.path.join(compose_dir, "revision-response.round-%d.md" % n)
-            if not os.path.exists(resp_path):
-                add("RUN-001", "fail",
-                    "revision-response.round-%d.md missing (round %d was revised "
-                    "without a disposition trace)" % (n, n), compose_dir)
+            if _is_confirmation_transition(edit_dir, score_path, n + 1):
+                add("RUN-000", "warn",
+                    "round %d -> %d is a confirmation transition (no revision "
+                    "in between); revision-response/disposition requirements "
+                    "skipped for this transition" % (n, n + 1), edit_dir)
             else:
-                resp = _read(resp_path)
-                for fid, sev in round_findings.get(n, []):
-                    if sev in ("medium", "high", "critical", "unspecified") and fid not in resp:
-                        add("RUN-003", "fail",
-                            "finding %s (%s) has no disposition in "
-                            "revision-response.round-%d.md" % (fid, sev, n), resp_path)
-                gate_json = gates_passed.get(n)
-                if gate_json is False:
-                    try:
-                        gate_data = json.loads(_read(os.path.join(
-                            edit_dir, "gate-result.round-%d.json" % n)))
-                        failing = {f["check_id"] for g in gate_data.get("gates", [])
-                                   for f in g.get("findings", [])
-                                   if f.get("severity") == "fail"}
-                    except (ValueError, OSError):
-                        failing = set()
-                    for cid in sorted(failing):
-                        if cid not in resp:
+                resp_path = os.path.join(compose_dir, "revision-response.round-%d.md" % n)
+                if not os.path.exists(resp_path):
+                    add("RUN-001", "fail",
+                        "revision-response.round-%d.md missing (round %d was revised "
+                        "without a disposition trace)" % (n, n), compose_dir)
+                else:
+                    resp = _read(resp_path)
+                    for fid, sev in round_findings.get(n, []):
+                        if sev in ("medium", "high", "critical", "unspecified") and fid not in resp:
                             add("RUN-003", "fail",
-                                "failing gate %s has no disposition in "
-                                "revision-response.round-%d.md" % (cid, n), resp_path)
+                                "finding %s (%s) has no disposition in "
+                                "revision-response.round-%d.md" % (fid, sev, n), resp_path)
+                    gate_json = gates_passed.get(n)
+                    if gate_json is False:
+                        try:
+                            gate_data = json.loads(_read(os.path.join(
+                                edit_dir, "gate-result.round-%d.json" % n)))
+                            failing = {f["check_id"] for g in gate_data.get("gates", [])
+                                       for f in g.get("findings", [])
+                                       if f.get("severity") == "fail"}
+                        except (ValueError, OSError):
+                            failing = set()
+                        for cid in sorted(failing):
+                            if cid not in resp:
+                                add("RUN-003", "fail",
+                                    "failing gate %s has no disposition in "
+                                    "revision-response.round-%d.md" % (cid, n), resp_path)
 
         # carried-id rule: every medium+ id from round n-1 must appear in round n's log
         if n > 1:
@@ -195,7 +272,6 @@ def check(handoff_dir, threshold="pass", self_audit="on"):
             return assessments.get(n) in ok and gates_passed.get(n) is True
 
         double_clean = K >= 2 and clean(K) and clean(K - 1)
-        score_path = os.path.join(edit_dir, "score-history.md")
         cap_hit = os.path.exists(score_path) and bool(CAP_HIT_RE.search(_read(score_path)))
         if not double_clean and not cap_hit:
             add("RUN-005", "fail",

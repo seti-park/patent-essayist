@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-03-longsent-boundary-merge
 created: 2026-07-03T00:20:00Z
-status: recommended apply  # recurrence >= 3 across ledger (prior runs + 6/6 gate executions this run)
+status: applied  # 2026-07-04 reader-first overhaul; regression PASS
 lever: gate-strengthen
 goal: "3"
 root_cause_artifact: _shared/scripts/gate_typography.py sentence splitter
