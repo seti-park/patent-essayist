@@ -14,6 +14,10 @@
     - external_facts_used (fact-check-log.md Fact IDs; [] if purely patent-anchored)
     - word_target / word_actual (composer writes within ±20% of target)
 
+  Plus the selected title-lead register (from title-lead-candidates.md) and a
+  `## Signature lines` section: 0-3 EXACT strings (`none` if zero) — protected surface
+  per _shared/references/reader-energy.md (echo/count-exempt; factual review applies).
+
   Example content: Tesla RCM / 70ms patent (matches essay-draft.md).
 -->
 
@@ -24,6 +28,7 @@
 - **Spine**: handoff/01-design/thesis-spine.md
 - **One-line spine**: Tesla's RCM patent reveals an architectural decision made months before the public announcement that retroactively explains the 70-millisecond claim.
 - **Q7 hook**: corporate-narrative-friction
+- **Title-lead register**: discovery (handoff/01-design/title-lead-candidates.md, recommended pick)
 
 ## Section → spine mapping
 
@@ -61,6 +66,14 @@
 - **paragraph_anchors_used**: []
 - **external_facts_used**: []
 - **word_target / word_actual**: 70 / 66
+
+## Signature lines
+
+<!-- 0-3 EXACT strings ("none" if zero). Protected surface per
+     _shared/references/reader-energy.md: pass-2 / pass-7 echo and count rules exempt
+     them; pass-3/4 factual review still applies in full. -->
+1. "The number the presentation celebrated had already been written down."
+2. "The filing decides before the crash; the baseline decides during it."
 
 ## Coverage check
 

@@ -2,7 +2,7 @@
 
 Deterministic, mechanical checks that a finished English essay draft must pass.
 Pure Python 3 standard library — **no pip installs**. Every gate is runnable
-standalone and importable; `run_gates.py` aggregates all thirteen. Two pipeline
+standalone and importable; `run_gates.py` aggregates all fourteen. Two pipeline
 utilities live here too: `strip_publication.py` (draft → publication.md, incl.
 paragraph rejoin) and `check_run.py` (loop run-completeness checker).
 

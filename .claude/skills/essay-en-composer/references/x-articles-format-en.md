@@ -99,6 +99,8 @@ descriptive content 가 필요하면 본문의 figure caption 또는 footnote �
 
 **Length**. 9-14 words. 짧은 title (9-10 words) 은 declarative single-clause, 긴 title (13-14 words) 은 multi-clause 또는 subtitle-bearing.
 
+**Character budget (feed)**. Title ≤ 70 chars (spaces 포함) — X card truncation budget, `_shared/references/reader-energy.md` 의 feed-context rule. 9-14 word convention 과 conflict 시 character budget 이 우선 (아래 BP 관찰 예시 중 70 chars 초과분은 pre-budget 시대의 기록). Phase 1 의 `title-lead-candidates.md` 가 이미 budget 안에서 title 을 제안 — composer 는 선택된 pair 를 따름. *(gate: `SURF-001` warn.)*
+
 **Em-dash 금지**. Title 에서도 em-dash 사용 안 함 (deliverable voice 의 em-dash 금지 rule 이 title 까지 적용).
 
 **Three observed patterns (BP 6건 분석 기반)**.

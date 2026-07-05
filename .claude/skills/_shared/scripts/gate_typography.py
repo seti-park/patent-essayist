@@ -29,6 +29,21 @@ Checks:
                      editorial target is ~15-25 words (deliverable-voice-rules);
                      this gate only flags egregious run-ons to keep the signal
                      high.
+
+LONGSENT-001 splitter (2026-07-03-longsent-boundary-merge proposal): sentences
+are never joined across a structural boundary. The draft is first partitioned
+into units at: a leading YAML frontmatter block (skipped entirely, mirroring
+strip_publication.py's strip_frontmatter), blank lines, ATX headings
+(`^#{1,6}\s`), standalone bold lines (`^\*\*[^*]+\*\*\s*$`), image lines
+(`^!\[`), table rows (`^\|`), and bullet/numbered list lines (mirroring
+strip_publication.py's `_is_structural`, which already treats all of the above
+as non-prose). A standalone italic caption line (`^\*[^*].*\*\s*$`) is also a
+boundary, but -- unlike the others -- becomes a unit of its own rather than
+being discarded, since a caption is prose worth measuring on its own merits.
+Sentence-splitting then runs WITHIN each unit only, so a heading's title, a
+Sources bullet, or a footnote definition can never absorb (or be absorbed by)
+a neighboring sentence. A genuinely long sentence inside a unit -- including a
+caption's own sentence -- still warns.
 """
 
 import argparse
@@ -72,6 +87,15 @@ ANCHOR_RE = re.compile(r"\[\d{4}\]")
 SENTENCE_SPLIT_RE = re.compile(r'(?<=[.!?])\s+(?=[A-Z0-9"\'])')
 WORD_RE = re.compile(r"[\w$%]+")
 
+# --- LONGSENT-001 structural-boundary units (never merge across these) -----
+ATX_HEADING_RE = re.compile(r"^#{1,6}\s")
+BOLD_LINE_RE = re.compile(r"^\*\*[^*]+\*\*\s*$")
+IMAGE_LINE_RE = re.compile(r"^!\[")
+TABLE_ROW_RE = re.compile(r"^\|")
+BULLET_LINE_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+")
+# Standalone italic caption: single leading '*' (not '**bold**'), closing '*'.
+CAPTION_LINE_RE = re.compile(r"^\*(?!\*).*\*\s*$")
+
 
 def _mask_quoted_spans(line: str) -> str:
     """Blank out the contents of double-quoted spans (keep the quote chars).
@@ -98,10 +122,76 @@ def _strip_for_count(sentence: str) -> str:
     return s
 
 
+def _strip_frontmatter_lines(draft_text: str):
+    """Return the draft's lines with a leading YAML frontmatter block removed.
+
+    Same tolerant rule as strip_publication.py's strip_frontmatter: only a
+    frontmatter block that is actually closed is stripped.
+    """
+    lines = draft_text.splitlines()
+    if lines and lines[0].strip() == "---":
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                return lines[i + 1:]
+    return lines
+
+
+def _longsent_units(draft_text: str):
+    """Partition the draft into structurally-isolated units for LONGSENT-001.
+
+    A unit never absorbs text across a structural boundary: blank lines, ATX
+    headings, standalone bold lines, image lines, table rows, and bullet/
+    numbered list lines all flush the current unit and are themselves
+    excluded (mirroring strip_publication.py's `_is_structural`, which
+    already treats every one of these as non-prose). A standalone italic
+    caption line is also a boundary, but becomes a unit of its own instead of
+    being discarded, since a caption is prose worth measuring on its own
+    merits. Fenced code and blockquote lines are excluded entirely, same as
+    the rest of this gate. Quoted spans are masked per line, same as the
+    per-line checks above.
+    """
+    units = []
+    buf = []
+    in_fence = False
+
+    def flush():
+        if buf:
+            units.append(" ".join(buf))
+            del buf[:]
+
+    for raw in _strip_frontmatter_lines(draft_text):
+        if FENCE_RE.match(raw):
+            flush()
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if raw.lstrip().startswith(">"):
+            flush()
+            continue
+
+        line = raw.strip()
+        if not line:
+            flush()
+            continue
+        if (ATX_HEADING_RE.match(line) or BOLD_LINE_RE.match(line)
+                or IMAGE_LINE_RE.match(line) or TABLE_ROW_RE.match(line)
+                or BULLET_LINE_RE.match(raw)):
+            flush()
+            continue
+        if CAPTION_LINE_RE.match(line):
+            flush()
+            units.append(_mask_quoted_spans(line))
+            continue
+
+        buf.append(_mask_quoted_spans(line))
+    flush()
+    return units
+
+
 def check(draft_text: str, context: dict) -> dict:
     findings = []
     in_fence = False
-    prose_lines = []
 
     for lineno, raw in enumerate(draft_text.splitlines(), start=1):
         if FENCE_RE.match(raw):
@@ -114,7 +204,6 @@ def check(draft_text: str, context: dict) -> dict:
             continue
 
         scan = _mask_quoted_spans(raw)
-        prose_lines.append(scan)
 
         # LATIN-001 (fail)
         for pat, msg in LATIN_PATTERNS:
@@ -159,16 +248,17 @@ def check(draft_text: str, context: dict) -> dict:
                 "location": "line %d, col %d" % (lineno, m.start() + 1),
             })
 
-    # LONGSENT-001 (warn) — over the joined prose, sentence by sentence.
-    prose = " ".join(prose_lines)
-    for sent in SENTENCE_SPLIT_RE.split(prose):
-        nwords = len(WORD_RE.findall(_strip_for_count(sent)))
-        if nwords > LONG_SENTENCE_WORDS:
-            findings.append({
-                "check_id": "LONGSENT-001", "severity": "warn",
-                "message": "sentence runs %d words (target ~15-25)" % nwords,
-                "location": "sentence: %s..." % sent.strip()[:50],
-            })
+    # LONGSENT-001 (warn) — structural units never merge into each other;
+    # sentences are split, and counted, WITHIN each unit only.
+    for unit in _longsent_units(draft_text):
+        for sent in SENTENCE_SPLIT_RE.split(unit):
+            nwords = len(WORD_RE.findall(_strip_for_count(sent)))
+            if nwords > LONG_SENTENCE_WORDS:
+                findings.append({
+                    "check_id": "LONGSENT-001", "severity": "warn",
+                    "message": "sentence runs %d words (target ~15-25)" % nwords,
+                    "location": "sentence: %s..." % sent.strip()[:50],
+                })
 
     passed = not any(f["severity"] == "fail" for f in findings)
     return {"gate": GATE_ID, "passed": passed, "findings": findings}

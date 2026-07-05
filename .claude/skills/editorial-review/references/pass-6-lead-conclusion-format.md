@@ -9,7 +9,7 @@ Lead's first 3 sentences must anchor the thesis. Test: extract the lead, ask "wh
 Specific requirements (per `references/posture-lens.md`):
 - First sentence sets up a tension (news event, reader experience, industry norm reversal, corporate event, or visual anomaly — one of the 5 opening voice canon categories).
 - By sentence 3, the patent or evidence is on the table.
-- Thesis spine appears (explicit or implicit) by lead's end.
+- Thesis spine appears (explicit or implicit) by lead's end — the full two-sided call lands by the lead section's end (order inside the lead is 6H's jurisdiction: hook beat first, insurance after).
 
 Failures:
 - Lead is throat-clearing for 4+ sentences.
@@ -122,6 +122,34 @@ evidence-confidence mismatch).
 Severity: medium under measured posture; high when `thesis-spine.md` declares a firm-closing
 posture and the draft violates it.
 
+## 6H — Defensive-open guard (insurance before discovery)
+
+6G's mirror at the TOP of the essay. Check that no verdict-insurance fact — status labels
+("pending application", "not yet granted"), liens / collateral, examiner rejections, "still
+not an asset" framings — precedes the lead's discovery beat (the energy register's payoff
+declared in Phase 1's chosen title-lead pair; doctrine in
+`_shared/references/reader-energy.md`).
+
+Flag (defensive-open):
+- one or more insurance facts stacked ahead of the discovery beat in ¶1;
+- a lead ¶1 that opens on a qualifier or disclaimer instead of the register's beat;
+- gap-framed headers or a cover caption that bury the discovery under inventory;
+- the first two lines (what an X card shows) spent on throat-clearing or insurance.
+
+The insurance facts themselves are NOT findings — the two-sided call, which must still land
+by the lead section's END, requires them. The finding is their POSITION ahead of the beat.
+Fix: reverse the polarity (discovery first, priced second) — never delete the insurance, and
+never trade 6H against 6G (both guards hold simultaneously; they constrain order, not
+content).
+
+Mechanical pre-filter: `gate_surface` SURF-002 (qualifier-led first body sentence) and
+SURF-004 (defensive-open lexicon before any discovery beat) — both warn. 6H is the judgment
+backstop for what the lexicons miss.
+
+Severity: symmetric with 6G — medium under measured posture; high when the draft declares
+`closing_posture: firm` (a verdict edition that opens defensively contradicts its own
+posture).
+
 ## Severity calibration per posture
 
 | Sub-check | aggressive | measured | conservative |
@@ -134,6 +162,7 @@ posture and the draft violates it.
 | 6E other mechanical fails | high | high | high |
 | 6F title em-dash | high | high | high |
 | 6G over-hedged verdict | medium | medium (high under declared firm-closing) | medium (high under declared firm-closing) |
+| 6H defensive-open lead | medium | medium (high under declared firm-closing) | medium (high under declared firm-closing) |
 
 ## Output finding template
 

@@ -28,6 +28,7 @@ import gate_dupe
 import gate_typography
 import gate_quotes
 import gate_hedge
+import gate_surface
 import run_gates
 import strip_publication
 import check_run
@@ -426,6 +427,41 @@ class TestTypography(unittest.TestCase):
         r = gate_typography.check("```\nx = 1  # e.g. this!\n```\n", {})
         self.assertTrue(r["passed"], r["findings"])
 
+    def test_frontmatter_and_heading_no_longer_merge(self):
+        # Before the boundary-merge fix, frontmatter + title + heading text
+        # (none of which end in terminal punctuation) glued straight into the
+        # first real sentence, inflating it well past the word limit.
+        draft = (
+            "---\nessay_id: some-long-test-identifier-string\n"
+            "mode_used: strict-execution\nposture_used: measured\n---\n"
+            "# A Reasonably Short Title For This Test Draft Today\n\n"
+            "## Section One Heading Text Goes Here For This Draft\n\n"
+            "This is a short clean sentence that stays under the target length.\n"
+        )
+        r = gate_typography.check(draft, {})
+        self.assertFalse(_has(r, "LONGSENT-001"), r["findings"])
+
+    def test_bold_line_boundary_no_longer_merges(self):
+        # A standalone **bold** line has no terminal punctuation the old
+        # splitter's lookahead recognizes ('*' is not [A-Z0-9"']), so it used
+        # to glue onto its neighbor instead of standing as its own boundary.
+        draft = (
+            "Intro sentence stays reasonably short and quite clean right "
+            "here in this test paragraph today, plainly.\n\n"
+            "**A standalone bold thesis line that stands entirely alone on "
+            "its own separate paragraph here today.**\n\n"
+            "Another short clean sentence follows immediately right after "
+            "it today, without any further delay at all.\n"
+        )
+        r = gate_typography.check(draft, {})
+        self.assertFalse(_has(r, "LONGSENT-001"), r["findings"])
+
+    def test_genuine_long_sentence_still_warns(self):
+        draft = "The rotor " + "and the shaft and the pump and the gear " * 6 + "spin together today.\n"
+        r = gate_typography.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "LONGSENT-001"))
+
 
 class TestRunGatesEndToEnd(unittest.TestCase):
     CLEAN = (
@@ -587,6 +623,62 @@ class TestHedge(unittest.TestCase):
         self.assertTrue(_has(r, "HEDGE-003"))
 
 
+class TestSurface(unittest.TestCase):
+    def test_title_too_long_warns(self):
+        draft = (
+            "# " + ("A" * 75) + ".\n\n"
+            "## Section\n\n"
+            "The rotor spins fast today. It drives the pump reliably.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-001"))
+
+    def test_qualifier_led_first_sentence_warns(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## Section\n\n"
+            "The verdict here is a qualified yes, with real limits attached. "
+            "The rest of the paragraph explains why.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-002"))
+
+    def test_clean_draft_passes(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## Section\n\n"
+            "The rotor spins fast today. It drives the pump reliably.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertEqual(r["findings"], [])
+
+    def test_defensive_open_lexicon_warns(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## Section\n\n"
+            "This is a pending application from a small startup. "
+            "It is not a patent yet.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-004"))
+
+    def test_numeral_dense_cover_caption_warns(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "![alt](fig-01.png)\n\n"
+            "*FIG. 1: parts 100, 200, 300, 400, 500, 600, and 700 shown.*\n\n"
+            "## Section\n\n"
+            "The rotor spins fast today. It drives the pump reliably.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-003"))
+
+
 class TestCheckRun(unittest.TestCase):
     CLEAN_LOG = "overall_assessment: pass\n\nfindings:\n  - pass: pass-1\n    finding: \"no findings\"\n"
     FAIL_LOG = (
@@ -608,7 +700,16 @@ class TestCheckRun(unittest.TestCase):
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(text)
 
-    def _accepted_double_clean(self):
+    def _write_owner_briefing(self, text=None):
+        os.makedirs(os.path.join(self.root, "01-design"), exist_ok=True)
+        self._w("01-design/owner-briefing.md", text if text is not None else (
+            "## 이 특허가 다루는 문제\n\n"
+            "기존 기술은 성능과 비용 사이의 절충으로 어려움을 겪었다.\n\n"
+            "**근거 (verbatim):**\n"
+            '- `[0001]`: "sample verbatim line for fixture"\n'
+        ))
+
+    def _accepted_double_clean(self, with_briefing=True):
         self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
         self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
         self._w("02-compose/revision-response.round-1.md",
@@ -622,6 +723,8 @@ class TestCheckRun(unittest.TestCase):
         self._w("02-compose/revision-response.round-2.md", "# Revision response\n(no medium+ findings)\n")
         self._w("03-edit/essay-final.md", "# Final\n")
         self._w("03-edit/revision-notes.md", "## delta\n- self-audit fix\n")
+        if with_briefing:
+            self._write_owner_briefing()
 
     def test_double_clean_acceptance_passes(self):
         self._accepted_double_clean()
@@ -669,6 +772,7 @@ class TestCheckRun(unittest.TestCase):
         self._w("03-edit/essay-final.md", "# Final\n")
         self._w("03-edit/score-history.md", "| 2 | ... |\nCAP HIT at max-iter; best round shipped.\n")
         self._w("03-edit/revision-notes.md", "self-audit: no unresolved findings\n")
+        self._write_owner_briefing()
         r = check_run.check(self.root)
         self.assertTrue(r["passed"], r["findings"])
         self.assertTrue(_has(r, "RUN-006"))
@@ -679,6 +783,106 @@ class TestCheckRun(unittest.TestCase):
         r = check_run.check(self.root)
         self.assertFalse(r["passed"])
         self.assertTrue(_has(r, "RUN-007"))
+
+    def test_owner_briefing_present_and_nonempty_no_finding(self):
+        self._accepted_double_clean()
+        r = check_run.check(self.root)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "RUN-008"))
+
+    def test_owner_briefing_missing_fails(self):
+        self._accepted_double_clean(with_briefing=False)
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-008"))
+
+    def test_owner_briefing_whitespace_only_fails(self):
+        self._accepted_double_clean(with_briefing=False)
+        self._write_owner_briefing(text="   \n\t\n  \n")
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-008"))
+
+    def test_confirmation_transition_without_response_passes(self):
+        # Round 1 clean; round 2 is a confirmation round (round_type marker)
+        # reviewing the SAME draft with no revision in between -- per spec
+        # there is nothing to disposition or trace, so no
+        # revision-response.round-1.md should be required at all.
+        self._w("03-edit/edit-log.round-1.md", self.CLEAN_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("03-edit/edit-log.round-2.md",
+                "# Edit Log - Round 2 (confirmation round: no revision since round 1)\n\n"
+                "```yaml\noverall_assessment: pass\nround_type: confirmation\n\n"
+                "findings:\n  - pass: carried\n    finding: \"no findings\"\n```\n")
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        self._w("03-edit/essay-final.md", "# Final\n")
+        self._w("03-edit/revision-notes.md", "self-audit: no unresolved findings\n")
+        self._write_owner_briefing()
+        r = check_run.check(self.root)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "RUN-001"))
+        self.assertFalse(_has(r, "RUN-003"))
+        self.assertTrue(_has(r, "RUN-000"))  # informational confirmation-skip note
+
+    def test_prior_severity_notation_excluded_from_run003_and_run004(self):
+        # Round 1: fresh high finding r1-F1, dispositioned normally.
+        self._w("03-edit/edit-log.round-1.md", self.FAIL_LOG)
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-1.md",
+                "# Revision response\n\n## r1-F1\n\n- disposition: applied\n")
+        # Round 2 RULES on r1-F1 using prior_severity: notation only (a
+        # carried verification block) and raises nothing new of its own --
+        # this must NOT be treated as a new round-2 finding.
+        self._w("03-edit/edit-log.round-2.md",
+                "overall_assessment: pass\n\ncarried_finding_rulings:\n\n"
+                "  - finding_id: r1-F1\n"
+                "    prior_severity: high\n"
+                "    disposition_claimed: applied\n"
+                "    ruling: verified-landed\n"
+                "    evidence: |\n"
+                "      the fix is present in the current draft text\n\n"
+                "findings:\n"
+                "  - pass: pass-1\n    finding: \"no further findings\"\n")
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-2.md",
+                "# Revision response\n(no new medium+ findings this round)\n")
+        # Round 3: a normal fresh clean round (no confirmation marker), so
+        # this test exercises the prior_severity fix on its own, independent
+        # of the confirmation-transition detection.
+        self._w("03-edit/edit-log.round-3.md", self.CLEAN_LOG)
+        self._w("03-edit/gate-result.round-3.json", self.GATE_PASS)
+        r = check_run.check(self.root)
+        self.assertTrue(r["passed"], r["findings"])
+        self.assertFalse(_has(r, "RUN-003"))
+        self.assertFalse(_has(r, "RUN-004"))
+
+    def test_genuinely_dropped_medium_still_fails(self):
+        # Regression guard: prior_severity exclusion must not become a
+        # blanket exemption. Round 1 declares two medium+ findings.
+        self._w("03-edit/edit-log.round-1.md",
+                "overall_assessment: revise-required\n\nfindings:\n"
+                "  - finding_id: r1-F1\n    pass: pass-3\n    severity: high\n"
+                "    finding: \"drift one\"\n"
+                "  - finding_id: r1-F2\n    pass: pass-4\n    severity: medium\n"
+                "    finding: \"drift two\"\n")
+        self._w("03-edit/gate-result.round-1.json", self.GATE_PASS)
+        self._w("02-compose/revision-response.round-1.md",
+                "# Revision response\n\n## r1-F1\n- disposition: applied\n\n"
+                "## r1-F2\n- disposition: applied\n")
+        # Round 2 properly carries/rules r1-F1 (prior_severity notation) but
+        # never mentions r1-F2 anywhere -- a genuine silent drop.
+        self._w("03-edit/edit-log.round-2.md",
+                "overall_assessment: pass\n\ncarried_finding_rulings:\n\n"
+                "  - finding_id: r1-F1\n"
+                "    prior_severity: high\n"
+                "    ruling: verified-landed\n"
+                "    evidence: |\n"
+                "      present in the current draft\n\n"
+                "findings:\n  - pass: pass-1\n    finding: \"no further findings\"\n")
+        self._w("03-edit/gate-result.round-2.json", self.GATE_PASS)
+        r = check_run.check(self.root)
+        self.assertFalse(r["passed"])
+        self.assertTrue(_has(r, "RUN-004"))
 
 
 class TestStripPublication(unittest.TestCase):

@@ -30,6 +30,13 @@ review would wave it through.
    finding — find a stronger anchor → narrow the claim to the anchor → reframe as
    explicitly-labeled analysis → cut the claim. Adding a hedge or disclaimer to the verdict is
    NOT a grounding fix (6G / `gate_hedge` will flag it).
+
+   **Surface fence** (mirrors editorial-review's surface jurisdiction): a finding that asks to
+   reword, compress, or de-duplicate a signature line declared in `thesis-trace.md`, or to sand
+   title/header/lead-¶1 style on count grounds, is correctly dispositioned `rejected` citing
+   `_shared/references/reader-energy.md` — UNLESS the finding is factual (grounding, scope,
+   causality), which is applied like any other. Never fix a defensive-open (6H) finding by
+   deleting the insurance facts; reverse their order (discovery first, priced second).
 4. **Apply the edits** to `handoff/02-compose/essay-draft.md` in place, re-emit
    `publication.md` via the strip pipeline, and update `figures-rationale.md` /
    `thesis-trace.md` if placement or the spine→section trace moved.

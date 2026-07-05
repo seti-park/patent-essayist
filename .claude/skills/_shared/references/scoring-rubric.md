@@ -11,7 +11,7 @@ by design:
 
 ## North-star goals → checks (acceptance traceability matrix)
 
-The system exists to satisfy four goals. They are first-class acceptance criteria, and every
+The system exists to satisfy five goals. They are first-class acceptance criteria, and every
 gate/pass below is here because it defends one of them. The meta-loop (`pipeline-retro`) uses
 the **owner** column to attribute a recurring finding back to the stage/artifact that should
 have prevented it.
@@ -21,8 +21,16 @@ have prevented it.
 | **1. Catch the patent's core accurately** | `gate_anchors` (ANCHOR-001/002 anchor-chain + format) + **`gate_quotes`** (QUOTE-001 invention-summary ↔ patent verbatim) | pass-3 claim-adequacy / paraphrase, pass-4 logic | invention-summary 4-layer + Quotable spans + Claim scope map, 4-axis grounding, thesis-spine |
 | **2. Use figures + spec sufficiently** | **`gate_figure_use`** (FIGUSE-001 orphan) + `gate_anchors` (FIGREF-001) | **pass-3 coverage sub-check** (core-mechanism layer / Quotable span left uncovered) | figure-selection / figure-rationale (+ cover candidate, phase map), invention-summary Quotable spans |
 | **3. Easy for the reader to understand** | `gate_structure`, `gate_stub`, `gate_meta` (warn-only smells) | pass-5 reader-perspective (against `reader-profile.md`) + **pass-7 adversarial reader** | reader-profile + mode/posture calibration, section-blueprint lead-altitude |
-| **4a. Well-structured (incl. verdict strength)** | `gate_structure`, `gate_stub`, `gate_cashtag`, **`gate_hedge`** (HEDGE-001/002 verdict boilerplate / qualifier-led; fail under `closing_posture: firm`) | pass-6 lead/conclusion + format (BLUF + header-as-claim + **6G over-hedge guard**) | section-blueprint closing directive, thesis-spine closing_posture, x-articles-format-en, thesis arc |
+| **4a. Well-structured (incl. verdict strength)** | `gate_structure`, `gate_stub`, `gate_cashtag`, **`gate_hedge`** (HEDGE-001/002 verdict boilerplate / qualifier-led; fail under `closing_posture: firm`) | pass-6 lead/conclusion + format (hook-first lead with the call by lead's end + header-as-claim + **6G over-hedge guard**) | section-blueprint closing directive, thesis-spine closing_posture, x-articles-format-en, thesis arc |
 | **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash`, `gate_meta`, `gate_dupe`, `gate_typography` | pass-1 voice + anti-ai + govuk hygiene | voice-on drafting + anti-ai canon + strip-pipeline |
+| **5. Reader energy** | **`gate_surface`** (SURF-001 title length / SURF-002 qualifier-led open / SURF-003 caption numeral density / SURF-004 defensive-open — all warn) | pass-6 **6H defensive-open guard** + **pass-7 hook check** (item 1) + **cold-reader self-audit** (Layer 3) | title-lead-candidates + `reader_sentence` (essay-context), thesis-trace signature lines, `_shared/references/reader-energy.md` |
+
+**Goal 5 — reader energy.** The reader leans in at the lead, keeps momentum through the
+middle, and leaves armed with a repeatable sentence. Goal 5 governs the **SURFACE** — title,
+cover caption, section headers, the lead's ¶1, declared signature lines — and never relaxes
+goals 1-4 on the body. Conflicts resolve **accuracy-first for factual defects, energy-first
+for style/count on the surface** (the jurisdiction rule; full doctrine in
+`_shared/references/reader-energy.md`).
 
 When `pipeline-retro` records a finding, it tags it with the goal it threatens and the owner
 artifact, so improvement proposals target the true root cause rather than the symptom.
@@ -49,8 +57,9 @@ the editorial passes and the revision actions.
 | `dupe`       | (none — all warn) | `DUPE-001` (verbatim repeat) | 4b, 3 |
 | `typography` | `LATIN-001`, `EXCLAIM-001` | `EMOJI-001`, `CAPS-001`, `LINK-001`, `LONGSENT-001` | 4b, 4a |
 | `hedge`      | `HEDGE-001`, `HEDGE-002` (when draft declares `closing_posture: firm`) | `HEDGE-000`, `HEDGE-003` (+ 001/002 when posture not firm) | 4a |
+| `surface`    | (none — all warn) | `SURF-001` (title > 70 chars), `SURF-002` (qualifier-led first body sentence), `SURF-003` (cover-caption numeral density > 6), `SURF-004` (defensive-open) | 5 |
 
-The last four are the **run-045 self-check gates** — the mechanical half of the editorial
+`meta` / `stub` / `cashtag` / `dupe` are the **run-045 self-check gates** — the mechanical half of the editorial
 blind-spots a human used to catch by hand in post-acceptance revision (see
 `meta/improvement-proposals/2026-06-26-human-revision-blindspots.md`). `gate_meta` hard-fails;
 the rest warn. Their judgment complement is **pass-7** (below).
@@ -91,12 +100,13 @@ or a spine-critical Quotable span left entirely uncovered is a `high` finding ("
 under-use"). This is the qualitative complement to the mechanical `gate_figure_use`: gates
 catch unused *figures*, the coverage sub-check catches unused *specification*.
 
-### Adversarial reader-pass (pass-7, goal 3/4a)
+### Adversarial reader-pass (pass-7, goal 3/4a/5)
 
 A fresh-context pass that does NOT trust the draft (the judgment complement of the self-check
 gates). It simulates the target reader (the impatient investor) and a skeptical pro-subject
 reader, and hunts — decomposed yes/no with a quoted span per check, multi-vote for fuzzy items
-— for: BLUF lead-altitude (does para 1 state the verdict?), header-as-claim, an unrebutted
+— for: the hook check (does ¶1 land the declared energy register's beat, AND does the full
+call land by the lead section's end?), header-as-claim, an unrebutted
 strongest counter (steelman absent), reader-instruction / self-reference meta, jargon deep-dive
 past the insight, stub-section rhythm, and the core verdict restated in > 3 sections. See
 `editorial-review/references/pass-7-adversarial-reader.md`. Findings feed the severity model
@@ -107,9 +117,10 @@ like any other pass.
 `/goal` can drive the loop to self-enforce more than "gates pass + assessment == pass": pass it
 the acceptance criteria as falsifiable, evidence-forced checks and the orchestrator self-audits
 each iteration. Example: `/goal the final passes all gates AND a fresh-eyes adversarial
-reader-pass returns no unresolved high findings (para-1 states the verdict; headers are claims;
-the strongest counter is rebutted; no reader-instruction meta; jargon as signposts; no stub
-section)`. As criteria get mechanized into gates, reliance on the judge shrinks.
+reader-pass returns no unresolved high findings (para-1 lands the hook and the call lands by
+the lead's end; headers are claims; the strongest counter is rebutted; no reader-instruction
+meta; jargon as signposts; no stub section)`. As criteria get mechanized into gates, reliance
+on the judge shrinks.
 
 ## PASS / FAIL (orchestrator loop policy)
 
@@ -156,6 +167,10 @@ fresh reader catches. Layer 3 is a **post-acceptance** stage the orchestrator ru
 loop passes (`--self-audit on`, default): ≥2 reviewers in **separate forked contexts** run the
 `editorial-review/references/pass-7-adversarial-reader.md` checklist + grounding spot-checks, and
 their multi-voted findings are applied autonomously and logged via the revision-delta channel.
+A third reader runs checklist-FREE: the **cold reader** (casual scroller persona) reports only
+where it stopped, what it felt, and what it would repeat to a friend; its input maps to goal-5
+findings in the multi-vote (a cold-reader stop-point corroborated by any rubric reader's finding
+is applied).
 
 Reliability comes from HOW, not just WHAT — the mechanisms the inner loop cannot apply to itself:
 fresh context (no commitment to the draft), decomposed evidence-forced checks (quoted span or

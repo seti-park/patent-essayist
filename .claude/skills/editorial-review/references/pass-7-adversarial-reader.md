@@ -33,13 +33,13 @@ is what converts an unreliable holistic judgment into a reliable atomic one.
 
 | # | Check | Pass condition | Finding class |
 |---|---|---|---|
-| 1 | **BLUF lead-altitude** | para 1 has a declarative verdict sentence, not a deferred question | `lead-thesis-deferral` |
+| 1 | **Hook check (lead energy)** | ¶1 lands the declared energy register's beat (declarative, not a deferred question, no verdict-insurance fact ahead of it) AND the full two-sided call lands by the lead section's end — replaces the run-045 bare BLUF-in-¶1 rule; see `_shared/references/reader-energy.md` | `lead-thesis-deferral` |
 | 2 | **Header-as-claim** | every `##` header is an assertion; header-only skim reconstructs the argument | `nonclaim-section-header` |
 | 3 | **Steelman present** | the single strongest pro-subject counter is conceded at full strength, then refined | `steelman-absent` |
 | 4 | **No meta posturing** | no reader-instruction / essay-self-reference (functional scope disclaimers exempt) | `meta-reader-instruction` |
 | 5 | **Jargon as signpost** | domain term-of-art kept short, not deep-dived past the insight | `jargon-overdepth` |
 | 6 | **No stub / rhythm break** | no section markedly shorter than its siblings | `section-stub-imbalance` |
-| 7 | **Thesis not over-restated** | the core verdict is asserted in <= 3 sections | `thesis-restatement-redundancy` |
+| 7 | **Thesis not over-restated** | the core verdict is asserted in <= 3 sections; the ≤ 3 signature lines declared in `thesis-trace.md` are exempt from the count (protected surface — factual review still applies) | `thesis-restatement-redundancy` |
 
 Checks 2, 4, 6 (and duplication) have mechanical pre-filters (`gate_meta`, `gate_stub`,
 `gate_dupe`); pass-7 is the judgment backstop for what the gates' resolution misses — a subtle
@@ -55,4 +55,5 @@ unresolved high findings" as part of the acceptance set (see `scoring-rubric.md`
 ## Voice fence
 
 Pass-7 stays inside the Phase-3 fence: `deliverable-voice-rules.md` + `anti-ai-writing.md`
-only, never `voice-profile.md`.
++ `_shared/references/reader-energy.md` (the goal-5 surface contract check 1 rules on),
+never `voice-profile.md`.

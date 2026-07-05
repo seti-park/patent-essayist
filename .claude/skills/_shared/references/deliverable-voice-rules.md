@@ -27,9 +27,11 @@
 
 ## Composition base (govuk-style) — soft rules + warn-gates + Phase-3 judgment
 
-- **Front-load everything (BLUF).** The single most important point first — in the piece, the
-  section, the paragraph, and the sentence. In analytical/diligence mode paragraph 1 states the
-  verdict, not a deferred question. *(editorial pass-6/7.)*
+- **Front-load everything.** The single most important point first — in the section, the
+  paragraph, and the sentence. At the piece level the front-loaded thing is the lead's HOOK
+  beat, not the insurance: ¶1 delivers the chosen energy register's beat (never a deferred
+  question, never a disclaimer stack), and the full two-sided call lands by the lead
+  section's end — see `reader-energy.md`. *(editorial pass-6 6A/6H + pass-7 hook check.)*
 - **One idea per sentence; active voice; everyday words.** Say who does what. Prefer the plain
   word (use not utilise, help not facilitate, start not commence) — see the plain-word swaps in
   `anti-ai-writing.md`.
