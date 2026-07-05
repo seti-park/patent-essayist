@@ -9,6 +9,45 @@ this file is where the reasoning survives in full sentences.
 
 ---
 
+## 2026-07-05 (3) — 윤문: no stage ever held the pen for plain language (v6 → v7, new Phase 3.7)
+
+### The observation (owner comment)
+
+The accepted essay's sentence structure and word choice still read a notch above the
+general reader — accurate, well-structured, energetic, and slightly hard. Examples:
+"the compute" as a noun, "an exchange" for a switch, "assignees", "the structure being
+multiplied here", "operational homework", "the applicant electing to call it",
+"no-switch limitation".
+
+### Root cause
+
+Every reviewer reviews; nobody smooths. Pass-5 checks comprehension against
+reader-profile but only files findings; the composer optimizes for the argument; by the
+time the text is accepted, no stage has the JOB of final plain-language polish, and any
+ad-hoc smoothing would risk grounding drift with no safety net.
+
+### Decisions taken
+
+- New **Phase 3.7 prose-polish (윤문)** stage: after self-audit DRY, before archive.
+  Surface-only jurisdiction (split, simplify, gloss; never re-state facts, never
+  re-hedge); signature lines byte-protected; every edit logged (`## polish` blocks);
+  gates re-run zero-new; drift verification old-vs-new by a cheap grounding-verifier
+  instrument; pen = session's strongest model (same owner rule as composer/promo).
+- First run on etched-r2: 17 edits attempted, 15 applied, 2 reverted by the drift
+  check (an un-hedged caveat and a term-of-art swap) — the safety net earned its keep
+  on round one. v7, gates clean.
+- Deliberately NOT in the inner loop: polishing mid-loop would churn against fresh
+  reviewers; polishing after acceptance, with mechanical tripwires, converges.
+
+### What the next run should do differently
+
+1. Polish is a stage, not a virtue sprinkled everywhere: let compose argue, let edit
+   verify, and let 3.7 smooth — with the drift check as the license to touch prose.
+2. Watch the polish-notes classes: a register mistake that recurs across runs should be
+   promoted upstream into the composer's voice stack so the text is born plainer.
+
+---
+
 ## 2026-07-05 (2) — promo pack: safe-harbor overweight + format/channel mismatch (promo v1 → v2, contract v3)
 
 ### The observation (owner comments)

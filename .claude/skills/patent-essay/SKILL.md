@@ -192,6 +192,21 @@ python meta/normalize_revision_notes.py --notes handoff/03-edit/revision-notes.m
   --essay-id <essay-id> --origin self-post-accept --append meta/findings-ledger.jsonl
 ```
 
+## Phase 3.7 Polish — 윤문 (after self-audit DRY, before check_run/archive)
+
+Spawn the `prose-polish` agent (fork, `model: inherit` — LOAD-BEARING, owner pen rule
+2026-07-05: the polish is written by the session's strongest model) on the accepted,
+self-audit-DRY essay. It is the final plain-language pass for the general reader:
+sentence splitting, plain word choice, grounded glosses — with every fact, number,
+`[dddd]` anchor, quote, verb of certainty, and declared signature line preserved
+(signature lines byte-identical). Contract (`prose-polish/SKILL.md`): every edit logged
+in `handoff/03-edit/polish-notes.md`; gates re-run with zero NEW findings (warns
+included) or the edit reverts; changed sentences drift-verified by a
+grounding-verifier-class instrument (pinned cheap; verdicts MEANING-CHANGED /
+PROTECTED-TOUCHED force reverts); `draft_version` bumped; publication re-stripped.
+Polish never reopens the loop — a factual defect it notices routes to the
+human-post-accept channel, and the sentence stays unpolished.
+
 ## Run-completeness check (mandatory before archive)
 
 ```

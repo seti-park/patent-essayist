@@ -39,7 +39,8 @@ rubric goal: it is how the owner judges the essay, answers readers, and briefs a
 Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (cleaned) **or**
 `figures-raw/` (zip / TIFF drop — Phase 0 cleans it), and optional `essay-context.md`
 (per-run audience/edition overrides). The orchestrator runs Phase 0-3 plus the loop, the
-post-acceptance self-audit, `check_run.py`, archives to `runs/<essay-id>/` +
+post-acceptance self-audit, the Phase 3.7 윤문 polish (`prose-polish`), `check_run.py`,
+archives to `runs/<essay-id>/` +
 `essays/<essay-id>/`, then runs Phase 4 promo (default-on in essay mode) and the meta-loop,
 and returns the final essay + owner briefing + promo pack + score history + check_run verdict.
 
@@ -54,8 +55,8 @@ one) is deliberately NOT used: prose and integration quality are bounded by the 
 holds the pen, not the one giving advice.
 
 Individual phases can be run standalone: `/patent-figures-clean`, `/thesis-architect`,
-`/essay-en-composer`, `/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an
-internal Phase-2 helper).
+`/essay-en-composer`, `/editorial-review`, `/prose-polish`, `/pipeline-retro`
+(`/voice-canon-lookup` is an internal Phase-2 helper).
 
 ## Architecture
 
@@ -78,6 +79,9 @@ internal Phase-2 helper).
   editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge + 6I
                          attention-budget guards; finding_id lifecycle; re-review protocol
                                                             [fork: editorial-reviewer]
+  prose-polish/          P3.7 Polish (윤문) — post-self-audit plain-language pass for the
+                         general reader; surface-only jurisdiction, every edit logged +
+                         drift-verified, gates re-run zero-new   [fork: prose-polish]
   promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR 장문
                          400-800자 + EN thread 3-5 tweets; bold-selection rule: promo leads
                          bold, the article hedges), grounded in essay-final/publication
@@ -143,6 +147,10 @@ instructions: the reviewer physically cannot see the composer's reasoning, only 
   (symmetric with overreach); fixes via composer revision mode; `## delta` blocks in
   revision-notes.md; loop until dry (cap 3); normalized to the ledger as
   `origin: self-post-accept`.
+- **Polish (auto, post-self-audit, 윤문):** one `prose-polish` pass before archiving —
+  plain-language surface smoothing for the general reader; meaning/facts/anchors/quotes/
+  signature lines preserved (drift-verified by a cheap instrument, gates re-run zero-new);
+  every edit logged in `polish-notes.md` (`origin: polish`).
 - **Meta-loop (`pipeline-retro`, propose-only):** normalizes inner-loop + self-audit +
   human-post-accept findings into `meta/findings-ledger.jsonl` (attribution-table keys),
   writes evidence-backed proposals. It never edits a skill — a human applies after

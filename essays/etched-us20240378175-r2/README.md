@@ -17,10 +17,12 @@ register, human-selected from Phase 1's five title-lead candidates.
 - **reader_sentence delivered:** "Etched wrote the no-switch memory idea into its first
   patent filing in May 2023, three years before the hype thread — the patent office just
   hasn't said yes yet." Cold readers reproduced it unaided in 3/3 blind rounds.
-- **Deliverable:** `essay-final.md` (draft_version 6 after the human post-accept
-  revision) · publication strip `publication-package/publication.md` (2,903 words; the
-  phase artifact `handoff/02-compose/publication.md` remains the v5-era record) · cover
-  FIG. 5 (caption within the 6-numeral feed budget) · 3 declared signature lines.
+- **Deliverable:** `essay-final.md` (draft_version 7: v6 human post-accept revision +
+  v7 Phase 3.7 윤문 polish, 15 surface-only edits applied + 2 drift-reverted, logged in
+  `handoff/03-edit/polish-notes.md`) · publication strip
+  `publication-package/publication.md` (2,913 words; the phase artifact
+  `handoff/02-compose/publication.md` remains the v5-era record) · cover FIG. 5
+  (caption within the 6-numeral feed budget) · 3 declared signature lines.
 - **Owner artifacts (2026-07-04 owner-comprehension overhaul, retroactive):**
   `owner-briefing.md` (한국어 발행자 브리핑, ①-⑦ + 한 줄 요약, gate_quotes PASS against the
   archived `patent.md` snapshot) · `promo/promo-pack.md` (promo_version 2, v3 contract

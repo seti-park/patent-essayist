@@ -29,7 +29,7 @@ May 2023 discovery beat follows inside the same paragraph.
    stages back-to-back, with a single stall marked at Time B."
 
 ## Paste source
-- `publication.md` (2,903 words incl. Sources) — one line per paragraph, captions italic.
+- `publication.md` (2,913 words incl. Sources) — one line per paragraph, captions italic.
 - Keep the Sources section (patents + news lines) at the end.
 
 ## Post-publication

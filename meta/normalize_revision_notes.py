@@ -54,6 +54,7 @@ CLASS_MAP = {
     # --- human-post-accept channel additions ---
     "procedure-overweight-lead": ("5", "design + compose", "thesis-spine arc + spine->section trace / section-blueprint lead block + reader-energy.md"),
     "promo-safe-harbor-overweight": ("5", "promo", "promo-composer promo-format.md bold-selection rule + briefing-vocabulary-only reuse"),
+    "plain-language-gap": ("3", "edit + architecture", "pass-5 reader-perspective calibration + (new) prose-polish stage"),
 }
 _KEYS = ("class", "round", "before", "after", "rationale", "goal")
 _KV_RE = re.compile(r"\s*([A-Za-z_]+)\s*:\s*(.*)$")

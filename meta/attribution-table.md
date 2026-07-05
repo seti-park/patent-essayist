@@ -49,6 +49,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
 | `procedure-overweight-lead` | gate SURF-005/006 / pass-6 6I / cold-reader early-drag auto-escalation / human-revision | 5 | design + compose | thesis-spine payload tags + spine→section trace / section-blueprint attention budget + reader-energy.md §6 | reference-edit + gate-strengthen (done 2026-07-05) |
 | `promo-safe-harbor-overweight` | human-revision (promo v1→v2 owner read; self-check: promo-format Final Checklist bold_selection line) | 5 | promo | promo-composer promo-format.md bold-selection rule + briefing-vocabulary-only reuse | reference-edit (done 2026-07-05, v3 contract) |
+| `plain-language-gap` | human-revision (v6→v7 owner read; owned going forward by the Phase 3.7 prose-polish stage) | 3 | edit + architecture | pass-5 reader-perspective calibration + prose-polish SKILL (surface-only 윤문, drift-verified) | new-stage (done 2026-07-05) + rubric-tuning candidate for pass-5 |
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 
