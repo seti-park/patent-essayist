@@ -39,13 +39,15 @@ rubric goal: it is how the owner judges the essay, answers readers, and briefs a
 Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (cleaned) **or**
 `figures-raw/` (zip / TIFF drop — Phase 0 cleans it), and optional `essay-context.md`
 (per-run audience/edition overrides). The orchestrator runs Phase 0-3 plus the loop, the
-post-acceptance self-audit, `check_run.py`, archives to `runs/<essay-id>/` +
+post-acceptance self-audit, the Phase 3.7 윤문 polish (`prose-polish`), `check_run.py`,
+archives to `runs/<essay-id>/` +
 `essays/<essay-id>/`, then runs Phase 4 promo (default-on in essay mode) and the meta-loop,
 and returns the final essay + owner briefing + promo pack + score history + check_run verdict.
 
 **Model allocation** (the recommended setup): run the SESSION on the strongest model
 available (Fable 5) — the main thread holds loop policy, arbitration, and acceptance calls,
-and `model: inherit` agents (design / compose / review / self-audit readers) get that model
+and `model: inherit` agents (design / compose / review / self-audit readers / promo copy —
+the promo posting copy is inherit BY OWNER DECISION, never pinned down) get that model
 in clean contexts, which is where writing and editorial judgment quality comes from.
 Mechanical agents pin cheaper models in their frontmatter (`grounding-verifier`,
 `figures-prep`: `model: sonnet`). An "advisor" pattern (weak main model consulting a strong
@@ -53,8 +55,8 @@ one) is deliberately NOT used: prose and integration quality are bounded by the 
 holds the pen, not the one giving advice.
 
 Individual phases can be run standalone: `/patent-figures-clean`, `/thesis-architect`,
-`/essay-en-composer`, `/editorial-review`, `/pipeline-retro` (`/voice-canon-lookup` is an
-internal Phase-2 helper).
+`/essay-en-composer`, `/editorial-review`, `/prose-polish`, `/pipeline-retro`
+(`/voice-canon-lookup` is an internal Phase-2 helper).
 
 ## Architecture
 
@@ -74,10 +76,15 @@ internal Phase-2 helper).
   essay-en-composer/     P2 Compose — blueprint → draft (+ revision mode w/ dispositions)
                                                                     [fork: essay-composer]
   voice-canon-lookup/    P2 internal helper — voice-canon corpus (runs inline in the composer)
-  editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge guard;
-                         finding_id lifecycle; re-review protocol   [fork: editorial-reviewer]
-  promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR post
-                         ≤280자 + EN digest + 3-tweet sketch), grounded in essay-final/publication
+  editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge + 6I
+                         attention-budget guards; finding_id lifecycle; re-review protocol
+                                                            [fork: editorial-reviewer]
+  prose-polish/          P3.7 Polish (윤문) — post-self-audit plain-language pass for the
+                         general reader; surface-only jurisdiction, every edit logged +
+                         drift-verified, gates re-run zero-new   [fork: prose-polish]
+  promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR 장문
+                         400-800자 + EN thread 3-5 tweets; bold-selection rule: promo leads
+                         bold, the article hedges), grounded in essay-final/publication
                          + owner-briefing; never edits the essay   [fork: promo-composer]
   pipeline-retro/        meta-loop  — findings → ledger → propose-only proposals   [fork]
   _shared/
@@ -140,6 +147,10 @@ instructions: the reviewer physically cannot see the composer's reasoning, only 
   (symmetric with overreach); fixes via composer revision mode; `## delta` blocks in
   revision-notes.md; loop until dry (cap 3); normalized to the ledger as
   `origin: self-post-accept`.
+- **Polish (auto, post-self-audit, 윤문):** one `prose-polish` pass before archiving —
+  plain-language surface smoothing for the general reader; meaning/facts/anchors/quotes/
+  signature lines preserved (drift-verified by a cheap instrument, gates re-run zero-new);
+  every edit logged in `polish-notes.md` (`origin: polish`).
 - **Meta-loop (`pipeline-retro`, propose-only):** normalizes inner-loop + self-audit +
   human-post-accept findings into `meta/findings-ledger.jsonl` (attribution-table keys),
   writes evidence-backed proposals. It never edits a skill — a human applies after
@@ -156,7 +167,9 @@ mechanical half of the grounding chain), `gate_sources`, `gate_banned`, `gate_st
 safe-harbor boilerplate / qualifier-led verdict / hedge density; hard-fails under the draft's
 `closing_posture: firm`), and **`gate_surface`** (warn-only goal-5 feed checks: SURF-001 title
 > 70 chars, SURF-002 qualifier-led first body sentence, SURF-003 cover-caption numeral
-density > 6, SURF-004 defensive-open). Utilities: `strip_publication.py` (publication.md with one line per
+density > 6, SURF-004 defensive-open, SURF-005 lead procedure-narration sentences > 1,
+SURF-006 spend-motif > 4 in prose — the attention-budget pair, doctrine in
+`reader-energy.md` §6). Utilities: `strip_publication.py` (publication.md with one line per
 paragraph) and `check_run.py` (loop shape). Run
 `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
 `python meta/regression.py` for tests + fixtures.

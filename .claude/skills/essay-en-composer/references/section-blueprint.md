@@ -35,6 +35,18 @@ defaults — learned from run 045's hand-revision (see
   workflow claim is a strong fence, and a fence is not an engine"). *(checked: pass-4 / pass-7.)*
 - **No stub sections.** Keep `word_target`s balanced; a section far shorter than its siblings
   should be merged or expanded. *(gate: `STUB-001` warn.)*
+- **Attention budget (payload-first, procedure priced once).** Learned from
+  etched-us20240378175-r2 v5 (class `procedure-overweight-lead`; doctrine:
+  `_shared/references/reader-energy.md` §6). After the hook, the lead answers *what the
+  invention does and what that changes* BEFORE *what it costs / where it stands*; status
+  LABELS belong to the two-sided call and are fine, but process NARRATION (fee mechanics,
+  RCE explainers, who-paid-when, lien walks) is not lead material — it lives in the single
+  section the spine tags `payload: pricing`, plus at most one lead clause and the closing
+  recap. **Motif budget:** when the edition brief budgets a topic ("exactly ONE label
+  sentence"), paraphrase echoes of the same motif (keeps-paying / expensive-to-keep-alive
+  variants) draw on the SAME budget; in revision mode, re-scan the whole draft for the
+  motif before declaring a budget honored. Declared signature lines are exempt.
+  *(checked: pass-6 6I; mechanical warns: `SURF-005/006`.)*
 
 ## Signature lines (≤ 3, declared)
 

@@ -95,12 +95,47 @@ Nothing was cut and nothing was softened; the discovery leads, the insurance pri
   causality defect is a normal pass-3/4 finding. Protection covers style and count, never
   accuracy.
 
-## 6. Jurisdiction (recap)
+## 6. Attention budget (procedure is pricing, not plot)
+
+The named failure this section defends against (first seen: etched-us20240378175-r2 v5,
+class `procedure-overweight-lead`): the lead opened on the discovery beat — so §3
+defensive-open passed — and then process narration (examiner fights, fees, RCE mechanics,
+spend-to-keep-alive riffs, liens) piled up in ¶2–3 and again in a mid-essay section and the
+closing. Every sentence was individually grounded, every ORDER check passed, and the reader
+still left before the technology arrived. Defensive-open constrains order; this section
+constrains VOLUME and PLACEMENT.
+
+- **Reader-payload-first lead.** The lead answers *what the invention does and what that
+  changes* before *what it costs and where it stands*. Status/insurance content inside the
+  lead is capped at the two-sided call itself — status LABELS ("still pending", "the office
+  hasn't said yes") are call material and always allowed; process NARRATION (fee amounts,
+  RCE mechanics, who-paid-when, lien walks) is not lead material at all.
+- **One structural home for procedure.** Prosecution/finance material lives in exactly one
+  pricing section, plus at most one lead clause and the closing's verdict recap. It never
+  distributes across lead + body + closing — when the same money/process beat appears in
+  three places, the essay's plot has become the paperwork.
+- **Motif budget, not sentence budget.** When the edition brief budgets a topic ("exactly
+  ONE label sentence"), paraphrase echoes of the same motif (keeps-paying / expensive-to-
+  keep-alive / fee-paid-to-argue variants) draw on the SAME budget. Declared signature
+  lines (§5) are exempt from the count, as everywhere.
+- **Verdict frame ≠ narrative frame.** An edition contract may define the VERDICT by the
+  document's treatment (collateral, continued prosecution) — that never licenses treatment
+  as the STORY structure. The spine's subject stays the invention; treatment is predicate.
+- **Control-group heuristic.** When the fixed-schema artifacts (owner briefing, promo pack)
+  read better than the essay, suspect attention allocation, not facts — long-form is the
+  only artifact where allocation is unconstrained.
+
+Instruments: `gate_surface` SURF-005 (procedure-narration sentences in the lead section)
+and SURF-006 (essay-wide spend-motif count), both warn; pass-6 **6I attention-budget
+guard** is the judgment backstop; Phase 1 declares per-section `payload` tags in the
+spine → section trace (thesis-spine template).
+
+## 7. Jurisdiction (recap)
 
 The **accuracy contract** (unchanged) binds the body: anchors, quotes, claim scope,
 attribution, evidence levels, hedge symmetry; grounding fix priority anchor → narrow → label
 → cut. The **energy contract** binds the surface, owned by the leaving-sentence
 (`reader_sentence` in `input/essay-context.md`, see `reader-profile.md`) plus the declared
 register. Review flags energy violations (defensive-open, gap-framed headers that bury the
-discovery) and factual errors on the surface — it does not sand surface style or count
-protected lines.
+discovery, attention-budget breaches) and factual errors on the surface — it does not sand
+surface style or count protected lines.

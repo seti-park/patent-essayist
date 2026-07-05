@@ -23,7 +23,7 @@ have prevented it.
 | **3. Easy for the reader to understand** | `gate_structure`, `gate_stub`, `gate_meta` (warn-only smells) | pass-5 reader-perspective (against `reader-profile.md`) + **pass-7 adversarial reader** | reader-profile + mode/posture calibration, section-blueprint lead-altitude |
 | **4a. Well-structured (incl. verdict strength)** | `gate_structure`, `gate_stub`, `gate_cashtag`, **`gate_hedge`** (HEDGE-001/002 verdict boilerplate / qualifier-led; fail under `closing_posture: firm`) | pass-6 lead/conclusion + format (hook-first lead with the call by lead's end + header-as-claim + **6G over-hedge guard**) | section-blueprint closing directive, thesis-spine closing_posture, x-articles-format-en, thesis arc |
 | **4b. Natural (not AI-tell)** | `gate_banned`, `gate_emdash`, `gate_meta`, `gate_dupe`, `gate_typography` | pass-1 voice + anti-ai + govuk hygiene | voice-on drafting + anti-ai canon + strip-pipeline |
-| **5. Reader energy** | **`gate_surface`** (SURF-001 title length / SURF-002 qualifier-led open / SURF-003 caption numeral density / SURF-004 defensive-open — all warn) | pass-6 **6H defensive-open guard** + **pass-7 hook check** (item 1) + **cold-reader self-audit** (Layer 3) | title-lead-candidates + `reader_sentence` (essay-context), thesis-trace signature lines, `_shared/references/reader-energy.md` |
+| **5. Reader energy** | **`gate_surface`** (SURF-001 title length / SURF-002 qualifier-led open / SURF-003 caption numeral density / SURF-004 defensive-open / SURF-005 lead procedure-narration density / SURF-006 spend-motif count — all warn) | pass-6 **6H defensive-open guard** + **6I attention-budget guard** + **pass-7 hook check** (item 1) + **cold-reader self-audit** (Layer 3) | title-lead-candidates + `reader_sentence` (essay-context), thesis-spine `payload` tags (spine→section trace), thesis-trace signature lines, `_shared/references/reader-energy.md` (§6 attention budget) |
 
 **Goal 5 — reader energy.** The reader leans in at the lead, keeps momentum through the
 middle, and leaves armed with a repeatable sentence. Goal 5 governs the **SURFACE** — title,
@@ -57,7 +57,7 @@ the editorial passes and the revision actions.
 | `dupe`       | (none — all warn) | `DUPE-001` (verbatim repeat) | 4b, 3 |
 | `typography` | `LATIN-001`, `EXCLAIM-001` | `EMOJI-001`, `CAPS-001`, `LINK-001`, `LONGSENT-001` | 4b, 4a |
 | `hedge`      | `HEDGE-001`, `HEDGE-002` (when draft declares `closing_posture: firm`) | `HEDGE-000`, `HEDGE-003` (+ 001/002 when posture not firm) | 4a |
-| `surface`    | (none — all warn) | `SURF-001` (title > 70 chars), `SURF-002` (qualifier-led first body sentence), `SURF-003` (cover-caption numeral density > 6), `SURF-004` (defensive-open) | 5 |
+| `surface`    | (none — all warn) | `SURF-001` (title > 70 chars), `SURF-002` (qualifier-led first body sentence), `SURF-003` (cover-caption numeral density > 6), `SURF-004` (defensive-open), `SURF-005` (lead procedure-narration sentences > 1), `SURF-006` (spend-motif > 4 in prose) | 5 |
 
 `meta` / `stub` / `cashtag` / `dupe` are the **run-045 self-check gates** — the mechanical half of the editorial
 blind-spots a human used to catch by hand in post-acceptance revision (see

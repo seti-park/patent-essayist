@@ -1,6 +1,6 @@
 # Voice shift from essay to promo
 
-Essay register 는 analytical restraint, digest register 는 editor-curated 압축. Shift 는
+Essay register 는 analytical restraint, promo register 는 editor-curated 압축에 bold selection 을 더한 것 (promo-format.md bold-selection rule). Shift 는
 cadence, attribution 밀도, markdown 무게에서 일어난다. 밑에 깔린 목소리는 그대로다.
 
 Promo 의 voice stack (v2): `_shared/references/deliverable-voice-rules.md` (hygiene 층) +
@@ -17,14 +17,13 @@ voice-profile.md 는 promo stack 에 없다: persona 가 필요한 두 지점 (o
 - Em dash 0 (title, body, KR post 모두).
 - Hedge calibration 양방향: universal claims 0, "significantly" 류 modifier 0, safe-harbor
   boilerplate 0 (`closing-posture.md` 회피 목록).
-- Emoji 규율: 팩 전체 <=1, 슬롯은 digest closing 🤔 하나.
+- Emoji 규율: 팩 전체 <=1, 슬롯은 KR long post 마지막 문단 하나 (0 이 자연스러우면 0).
 
-## What shifts (EN digest + thread)
+## What shifts (KR long post + EN thread)
 
 ### Cadence
 
-Essay: 단락 3-7 sentences, 문장 20-25 words 대. Digest: 단락 1-3 sentences, 문장
-15-25 words 대 (cap 35). Closing 은 15-25 words. Thread 는 tweet 당 1-3 문장. 같은
+Essay: 단락 3-7 sentences, 문장 20-25 words 대. KR long post: 단락 1-3 문장. Closing 은 15-25 words. Thread 는 tweet 당 1-3 문장. 같은
 목소리가 더 빠르고 단어당 더 밀도 있게 간다.
 
 ### Attribution density
@@ -84,13 +83,13 @@ KR post 는 essay 목소리를 아예 쓰지 않는다. 발행자의 working-dia
 
 - 한국어 평서문, em dash 없음, plain / direct / peer-to-peer.
 - 포스트 전체 2-5 문장 (dialogue 규칙의 단락 규칙을 포스트 단위로 적용).
-- 과장 배제: digest 와 같은 honesty discipline 의 한국어 판. "충격적인", "반드시
+- 과장 배제: EN deliverable 과 같은 honesty discipline 의 한국어 판. "충격적인", "반드시
   보세요", "드디어 밝혀진" 급 금지.
 - 건조한 소개 동사: "정리했습니다", "읽어봤습니다", "따라가 봤습니다" 급.
 - Protected terms (skill/파일명이 아니라 여기서는 특허번호, 회사명, 영어 인용구) 는
   원문 유지.
 
-Leak 규칙은 양방향이다 (working-dialogue-voice.md 와 동일): dialogue voice 가 EN digest
+Leak 규칙은 양방향이다 (working-dialogue-voice.md 와 동일): dialogue voice 가 EN thread
 로 새지 않고, essay 의 English deliverable voice 가 KR post 로 새지 않는다.
 
 ## Voice consistency anchor
@@ -98,6 +97,6 @@ Leak 규칙은 양방향이다 (working-dialogue-voice.md 와 동일): dialogue 
 Digest 와 essay 는 같은 필자가 쓴 것으로 읽혀야 한다. "다른 필자가 이 essay 를 압축한
 것" 으로 읽히면 shift 가 과했다.
 
-Test: digest 에서 문장 하나를 무작위로 뽑아 (1) essay 의 declared signature line,
+Test: promo 에서 문장 하나를 무작위로 뽑아 (1) essay 의 declared signature line,
 (2) `voice-canon-lookup` 이 돌려준 `opening-news-event` example 문장과 나란히 놓는다.
 문장 단위 cadence 와 단어 선택이 형제 관계여야 한다.

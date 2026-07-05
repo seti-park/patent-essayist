@@ -1,21 +1,21 @@
-# Closing posture: the digest closing's 4 taxonomy
+# Closing posture: the promo closing's 4 taxonomy (KR long post + EN thread final tweet)
 
-Digest 마지막 단락 (§N Closing) 의 4 가지 posture 중 하나를 선택한다. 모두 defensive
+Promo deliverable 의 closing (KR long post 마지막 단락, thread 의 final tweet) 4 가지 posture 중 하나를 선택한다. 모두 defensive
 hedge (이 파이프라인의 over-hedge class: `gate_hedge` boilerplate, editorial 6G 가
 essay 에서 걷어내는 격) 회피가 공통이다.
 
 ## The agreement rule (v2 addition)
 
-`essay-final.md` frontmatter 의 `closing_posture` 를 읽고 digest 의 closing 이 그것과
-합치해야 한다. 선택한 posture 는 pack frontmatter 의 `digest_posture` 와 Verification
+`essay-final.md` frontmatter 의 `closing_posture` 를 읽고 promo 의 closing 이 그것과
+합치해야 한다. 선택한 posture 는 pack frontmatter 의 `promo_posture` 와 Verification
 Status header 에 기록한다.
 
-- **Essay `closing_posture: firm`** → digest closing 도 call 또는 관찰 가능한 pointer 로
+- **Essay `closing_posture: firm`** → promo closing 도 call 또는 관찰 가능한 pointer 로
   끝난다. Open-question 격, "remains to be seen" 격 금지. Essay 가 loop 네 겹 (spine
   선언, composer closing directive, 6G, gate_hedge) 으로 지킨 firm 결론을 promo 가
   마지막 순간에 무르게 하는 것이 이 규칙이 막는 실패다.
-- **Essay 가 firm 이 아닌 경우** → digest 는 essay 의 call 보다 세게 단정하지 않는다.
-  양방향 대칭: no overreach, no over-hedge (scoring-rubric 의 verdict hard-gate 와 같은
+- **Essay 가 firm 이 아닌 경우** → promo 는 essay 의 call 보다 세게 단정하지 않는다.
+  단 v3 부터 상속은 one-way: no overreach 는 불변이지만 essay 본문의 hedge 를 promo 가 수입하지도 않는다 (bold-selection rule, promo-format.md) (scoring-rubric 의 verdict hard-gate 와 같은
   원칙, promo 표면에 적용).
 - Posture D (essay closing 직접 carry-over) 는 정의상 항상 합치한다. 의심되면 D.
 
@@ -61,7 +61,7 @@ action) 만 쓴다. 새 관찰 지점을 promo 가 발명하면 그것이 new cl
 - Quote 회수 (essay closing 과 같은 quote) optional
 - *"make visible" / "describe" / "signal" / "appear"* 같은 관찰 동사
 - 🤔 는 optional: 팩 전체 emoji 예산 <=1, 슬롯은 여기뿐. Essay 가 🤔 없이 끝났으면
-  digest 도 없이 끝나는 쪽이 정합적이다.
+  promo 도 없이 끝나는 쪽이 정합적이다.
 
 예시 (canon):
 

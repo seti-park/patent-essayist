@@ -1,7 +1,7 @@
 # X Articles posting checklist — etched-us20240378175-r2
 
-## Title (59 chars, ≤70 budget)
-Etched Put Its No-Switch Memory Idea in Writing in May 2023
+## Title (61 chars, ≤70 budget)
+Etched's First Patent Filing Asks to Delete the Memory Switch
 
 ## Cover
 - Use `cover-5x2.png` (1527x610, 5:2) — FIG. 5's memory-to-column band: chips 505A/B,
@@ -11,9 +11,9 @@ Etched Put Its No-Switch Memory Idea in Writing in May 2023
   chip, four independent channels, no switch between them."
 
 ## First-two-lines feed preview (verify after paste)
-"Three years before Etched pitched 'the best layer is no layer' as its memory philosophy,
-both of its co-fou..." — the discovery beat lands inside the preview window.
-(NOTE: body text begins with the corrected "two of its co-founders" phrasing.)
+"Between an AI accelerator's math units and the memory that feeds them, chip designers
+typically place a switch..." — the technology beat lands inside the preview window; the
+May 2023 discovery beat follows inside the same paragraph.
 
 ## Body figure order + alt texts (paste inline where publication.md places them)
 1. fig-05.png (§ cover already; if the platform repeats it in-body, keep the essay caption)
@@ -29,7 +29,7 @@ both of its co-fou..." — the discovery beat lands inside the preview window.
    stages back-to-back, with a single stall marked at Time B."
 
 ## Paste source
-- `publication.md` (2,991 words incl. Sources) — one line per paragraph, captions italic.
+- `publication.md` (2,913 words incl. Sources) — one line per paragraph, captions italic.
 - Keep the Sources section (patents + news lines) at the end.
 
 ## Post-publication

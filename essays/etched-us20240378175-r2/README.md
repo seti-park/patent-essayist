@@ -1,4 +1,13 @@
-# etched-us20240378175-r2 — "Etched Put Its No-Switch Memory Idea in Writing in May 2023"
+# etched-us20240378175-r2 — "Etched's First Patent Filing Asks to Delete the Memory Switch"
+
+> **2026-07-05 human post-accept revision (v5 → v6):** publisher read found v5
+> overweighted prosecution process (3-year examination, RCE mechanics, spend narrative)
+> in the lead and §5, burying the technology readers came for. Fixed tech-first: new
+> title + lead ("A Wire Where the Industry Puts a Switch"); §5 compressed to the
+> mandated label sentence + steelman + one lien paragraph. Gates 14/14, zero findings;
+> signature lines intact. Deltas: `revision-notes.md` (origin: human-post-accept, class
+> `procedure-overweight-lead`); decision log: `meta/implementation-notes.md`. Original
+> title: "Etched Put Its No-Switch Memory Idea in Writing in May 2023".
 
 **Reader-first architecture re-run** of the US 2024/0378175 A1 essay (same patent, same
 edition contract as `essays/_superseded/etched-us20240378175/`, new architecture) — the validation run
@@ -8,14 +17,18 @@ register, human-selected from Phase 1's five title-lead candidates.
 - **reader_sentence delivered:** "Etched wrote the no-switch memory idea into its first
   patent filing in May 2023, three years before the hype thread — the patent office just
   hasn't said yes yet." Cold readers reproduced it unaided in 3/3 blind rounds.
-- **Deliverable:** `essay-final.md` (draft_version 5) · publication strip
-  `handoff/02-compose/publication.md` (2,991 words) · cover FIG. 5 (caption within the
-  6-numeral feed budget) · 3 declared signature lines.
+- **Deliverable:** `essay-final.md` (draft_version 7: v6 human post-accept revision +
+  v7 Phase 3.7 윤문 polish, 15 surface-only edits applied + 2 drift-reverted, logged in
+  `handoff/03-edit/polish-notes.md`) · publication strip
+  `publication-package/publication.md` (2,913 words; the phase artifact
+  `handoff/02-compose/publication.md` remains the v5-era record) · cover FIG. 5
+  (caption within the 6-numeral feed budget) · 3 declared signature lines.
 - **Owner artifacts (2026-07-04 owner-comprehension overhaul, retroactive):**
   `owner-briefing.md` (한국어 발행자 브리핑, ①-⑦ + 한 줄 요약, gate_quotes PASS against the
-  archived `patent.md` snapshot) · `promo/promo-pack.md` (KR post 265자 + EN digest 295w +
-  3-tweet sketch, every factual phrase traced to essay/briefing) · `patent.md` (the run's
-  exact input snapshot; all [dddd] anchors resolve offline).
+  archived `patent.md` snapshot) · `promo/promo-pack.md` (promo_version 2, v3 contract
+  2026-07-05: KR 장문 626자 + EN thread 4 tweets, bold-selection rule, every factual
+  phrase traced to essay v6/briefing; v1's KR 단문 + EN digest superseded) · `patent.md`
+  (the run's exact input snapshot; all [dddd] anchors resolve offline).
 - **Figures placed:** FIG. 5 (cover), FIG. 1 + FIG. 2 (§2), FIG. 3 (§3), FIG. 6 + FIG. 7
   (§4). FIG. 4 not placed (grounded prose clause instead).
 

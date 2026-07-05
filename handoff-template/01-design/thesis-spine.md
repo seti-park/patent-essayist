@@ -83,14 +83,21 @@ closing_posture: firm
 
 <!-- The contract Phase 2 follows: every supporting point lands in exactly one
      section; no section advances claims outside the spine. Section ids are
-     planned by the composer (section-blueprint.md). -->
-| Section | Spine element carried | Primary anchors |
-|---|---|---|
-| 1-lead | Hook — corporate-narrative-friction (announcement vs filing) | (framing; no patent claim) |
-| 2-architecture | Axis 1 claims anchor + mechanism | `[0016]`, `[0017]` |
-| 3-baseline | Axis 4 baseline-difference + adversarial mitigation | `[0014]`, `[0024]` |
-| 4-implication | Axis 3 effect anchor → strategic reframe | `[0024]`, `[0029]` |
-| 5-closing | Thesis recap + forward pointer | (framing) |
+     planned by the composer (section-blueprint.md).
+     payload tags (attention budget, reader-energy.md §6 / SKILL Step 8):
+       tech    = the invention and its effects (the reader's payload)
+       pricing = prosecution / finance / registry treatment (at most ONE section;
+                 elsewhere only one lead clause + the closing recap)
+       frame   = hook, verdict, recap framing
+     Verdict frame ≠ narrative frame: even when the edition contract prices the
+     document by its treatment, the spine's subject stays the invention. -->
+| Section | payload | Spine element carried | Primary anchors |
+|---|---|---|---|
+| 1-lead | frame | Hook — corporate-narrative-friction (announcement vs filing); tech beat before status beat | (framing; no patent claim) |
+| 2-architecture | tech | Axis 1 claims anchor + mechanism | `[0016]`, `[0017]` |
+| 3-baseline | tech | Axis 4 baseline-difference + adversarial mitigation | `[0014]`, `[0024]` |
+| 4-implication | tech | Axis 3 effect anchor → strategic reframe | `[0024]`, `[0029]` |
+| 5-closing | frame | Thesis recap + forward pointer | (framing) |
 
 <!--
   > Revision note — triggered by [step N] [date]: [what changed and why]

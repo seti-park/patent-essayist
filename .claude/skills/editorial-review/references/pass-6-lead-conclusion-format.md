@@ -150,6 +150,42 @@ Severity: symmetric with 6G — medium under measured posture; high when the dra
 `closing_posture: firm` (a verdict edition that opens defensively contradicts its own
 posture).
 
+## 6I — Attention-budget guard (insurance volume and placement)
+
+6H's volume counterpart. 6H constrains the ORDER of insurance at the top of ¶1; 6I
+constrains how MUCH procedure/insurance material the essay carries and WHERE it lives
+(doctrine: `_shared/references/reader-energy.md` §6, class `procedure-overweight-lead`).
+The named escape route 6I closes: a lead that opens on the discovery beat (6H satisfied)
+and then piles process narration — examiner fights, fees, RCE mechanics, spend riffs,
+lien walks — into ¶2–3 and again mid-essay and in the closing, so the technology the
+reader came for gets crowded into a skimmed middle.
+
+Check, against the spine's declared section `payload` tags (spine → section trace):
+
+- **Lead payload order**: after the hook, the lead answers *what the invention does /
+  changes* before *what it costs / where it stands*. Status LABELS are call material and
+  fine; process NARRATION in the lead (beyond one clause) is a finding.
+- **Single home**: prosecution/finance narration appears in the one section the spine tags
+  `payload: pricing` (plus at most one lead clause and the closing recap). The same
+  money/process beat surfacing in three or more sections is a finding.
+- **Motif budget**: when the edition brief budgets a topic ("exactly ONE label sentence"),
+  count paraphrase echoes of the motif (keeps-paying / expensive-to-keep-alive /
+  fee-paid-to-argue variants) against that budget across the WHOLE essay. Declared
+  signature lines are exempt, per reader-energy §5.
+
+The insurance facts themselves are NOT findings — both-or-neither evidence selection and
+the two-sided call stand (6G/6H logic applies unchanged). The finding is VOLUME or
+PLACEMENT; the fix is relocate and compress, never delete the insurance, and never trade
+6I against 6G (the call stays firm and two-sided).
+
+Mechanical pre-filter: `gate_surface` SURF-005 (procedure-narration sentence count in the
+lead section) and SURF-006 (essay-wide spend-motif count) — both warn. 6I is the judgment
+backstop for what the lexicons miss (a procedural plot built from clean vocabulary, a
+motif echoed in fresh words).
+
+Severity: symmetric with 6G/6H — medium under measured posture; high when the draft
+declares `closing_posture: firm` and the lead's procedure share crowds the tech beat.
+
 ## Severity calibration per posture
 
 | Sub-check | aggressive | measured | conservative |
@@ -163,6 +199,7 @@ posture).
 | 6F title em-dash | high | high | high |
 | 6G over-hedged verdict | medium | medium (high under declared firm-closing) | medium (high under declared firm-closing) |
 | 6H defensive-open lead | medium | medium (high under declared firm-closing) | medium (high under declared firm-closing) |
+| 6I attention-budget breach | medium | medium (high under declared firm-closing when the lead is crowded) | medium (high under declared firm-closing when the lead is crowded) |
 
 ## Output finding template
 

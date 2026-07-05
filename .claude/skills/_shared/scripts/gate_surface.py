@@ -33,6 +33,17 @@ Checks (all warn):
             before insurance; stacking disclaimers ahead of the hook is the
             report-genre failure (verdict-insurance-first) this overhaul
             targets.
+  SURF-005: the lead section (the prose between the first and second `##`
+            section headings) carries more than SURF005_MAX_PROC_SENTENCES
+            sentence(s) naming prosecution/finance procedure (examiner, RCE,
+            fee, docket, paying, ...). The lead's attention budget is for the
+            invention, not a blow-by-blow of the patent office's paperwork or
+            the applicant's ledger; that narration belongs later, priced once.
+  SURF-006: the spend-motif lexicon (pay/paid/paying/payment/spend/spending/
+            spent/fee) appears more than SURF006_MAX_SPEND_MOTIF times across
+            the whole essay's body prose -- a paying/fee refrain repeated
+            through the piece re-litigates the same pricing beat instead of
+            stating it once and moving on.
 """
 
 import argparse
@@ -52,6 +63,8 @@ GATE_ID = "surface"
 
 TITLE_MAX_CHARS = 70        # SURF-001
 SURF003_MAX_NUMERALS = 6    # SURF-003
+SURF005_MAX_PROC_SENTENCES = 1   # SURF-005
+SURF006_MAX_SPEND_MOTIF = 4      # SURF-006
 
 HEADING_RE = re.compile(r"^#{1,6}\s+")
 H1_RE = re.compile(r"^#\s+(.*)$")
@@ -79,6 +92,26 @@ DEFENSIVE_OPEN_TERMS = [
     "not a patent",
     "abandoned",
 ]
+
+# SURF-005: prosecution / finance procedure-narration lexicon. Deliberately
+# EXCLUDES status words ("pending", "granted", "patent office") -- the status
+# label is required content; it is the blow-by-blow PROCESS of getting there
+# (and paying for it) that is budgeted. Also excludes borrow/borrowing/secured
+# (the lending story is a separate, legitimate beat, not prosecution
+# narration). "RCE" is matched case-sensitively in its own regex so lowercase
+# words like "force" never match.
+PROCEDURE_TERM_RE = re.compile(
+    r"\b(rejections?|rejected|request for continued examination|examiners?|"
+    r"examinations?|fees?|filing fee|liens?|security interests?|collateral|"
+    r"dockets?|docketed|prosecution|paid|paying|pay to|spends?|spending|spent)\b",
+    re.I,
+)
+RCE_TERM_RE = re.compile(r"\bRCE\b")  # case-sensitive: only the all-caps acronym
+
+# SURF-006: spend-motif lexicon (whole-essay prose count).
+SPEND_MOTIF_RE = re.compile(
+    r"\b(pay|pays|paid|paying|payments?|spends?|spending|spent|fees?)\b", re.I
+)
 
 
 def _mask_quoted_spans(text):
@@ -140,6 +173,38 @@ def _body_paragraphs(draft_text):
     paragraphs = []
     buf = []
     for raw in _strip_frontmatter(draft_text):
+        line = raw.strip()
+        structural = (not line or HEADING_RE.match(line) or IMAGE_RE.match(line)
+                      or CAPTION_RE.match(line) or BLOCKQUOTE_RE.match(line))
+        if structural:
+            if buf:
+                paragraphs.append(" ".join(buf))
+                buf = []
+            continue
+        buf.append(line)
+    if buf:
+        paragraphs.append(" ".join(buf))
+    return paragraphs
+
+
+def _lead_section_paragraphs(draft_text):
+    """Body prose paragraphs strictly between the first and second `## ` headings.
+
+    Same structural-line exclusion as _body_paragraphs (blank lines, headings,
+    images, standalone-italic captions, blockquotes are skipped). If the draft
+    has no `## ` section heading at all, returns []. If it has exactly one,
+    the lead section runs to the end of the document.
+    """
+    lines = _strip_frontmatter(draft_text)
+    h2_indices = [i for i, raw in enumerate(lines) if SECTION_H2_RE.match(raw.strip())]
+    if not h2_indices:
+        return []
+    start = h2_indices[0] + 1
+    end = h2_indices[1] if len(h2_indices) > 1 else len(lines)
+
+    paragraphs = []
+    buf = []
+    for raw in lines[start:end]:
         line = raw.strip()
         structural = (not line or HEADING_RE.match(line) or IMAGE_RE.match(line)
                       or CAPTION_RE.match(line) or BLOCKQUOTE_RE.match(line))
@@ -227,6 +292,44 @@ def check(draft_text: str, context: dict) -> dict:
                            % ", ".join(hits),
                 "location": "first two body sentences",
             })
+
+    # SURF-005: procedure-narration density in the lead section.
+    lead_paragraphs = _lead_section_paragraphs(draft_text)
+    if lead_paragraphs:
+        proc_sentence_count = 0
+        for para in lead_paragraphs:
+            masked = _mask_quoted_spans(para)
+            for s in SENTENCE_SPLIT_RE.split(masked):
+                s = s.strip()
+                if not s:
+                    continue
+                if PROCEDURE_TERM_RE.search(s) or RCE_TERM_RE.search(s):
+                    proc_sentence_count += 1
+        if proc_sentence_count > SURF005_MAX_PROC_SENTENCES:
+            findings.append({
+                "check_id": "SURF-005",
+                "severity": "warn",
+                "message": "lead section carries %d procedure-narration sentences (max %d): "
+                           "prosecution/finance process is pricing context, not the plot "
+                           "(reader-energy.md attention budget)"
+                           % (proc_sentence_count, SURF005_MAX_PROC_SENTENCES),
+                "location": "lead section",
+            })
+
+    # SURF-006: spend-motif count across the whole essay's body prose.
+    spend_count = 0
+    for para in _body_paragraphs(draft_text):
+        masked = _mask_quoted_spans(para)
+        spend_count += len(SPEND_MOTIF_RE.findall(masked))
+    if spend_count > SURF006_MAX_SPEND_MOTIF:
+        findings.append({
+            "check_id": "SURF-006",
+            "severity": "warn",
+            "message": "spend-motif appears %d times in prose (max %d): repeated paying/fee "
+                       "language re-litigates the pricing beat (reader-energy.md attention "
+                       "budget)" % (spend_count, SURF006_MAX_SPEND_MOTIF),
+            "location": "(document)",
+        })
 
     passed = not any(f["severity"] == "fail" for f in findings)
     return {"gate": GATE_ID, "passed": passed, "findings": findings}

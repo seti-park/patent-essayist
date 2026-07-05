@@ -169,8 +169,13 @@ Fresh eyes on the accepted essay, per round (up to `--max-selfaudit-iter`):
    Cold-reader input maps to goal-5 findings: a cold-reader stop-point corroborated by ANY
    rubric reader's finding (same location or same cause) = apply; its repeat-to-a-friend
    sentence is checked against the `reader_sentence` (a miss is a goal-5 signal, not an
-   auto-finding). Log split / taste-only findings and uncorroborated stop-points to
-   `revision-notes.md` as considered-not-applied.
+   auto-finding). **Exception — early drag auto-escalates:** a cold-reader stop-point or
+   drag report located in the lead or before the first `payload: tech` section (thesis-spine
+   trace tags) is a medium goal-5 finding on its own, no corroboration needed — the class
+   `procedure-overweight-lead` shipped precisely because early-position drag was treated
+   as taste (doctrine: `_shared/references/reader-energy.md` §6). Log other split /
+   taste-only findings and uncorroborated stop-points to `revision-notes.md` as
+   considered-not-applied.
 3. **Apply** accepted findings via `essay-en-composer` in revision mode against
    `essay-final.md` (grounding fix priority binds; fix upstream Phase-1 artifacts too when a
    finding traces there). Log every applied edit as a `## delta` block in
@@ -186,6 +191,21 @@ Normalize the deltas afterwards:
 python meta/normalize_revision_notes.py --notes handoff/03-edit/revision-notes.md \
   --essay-id <essay-id> --origin self-post-accept --append meta/findings-ledger.jsonl
 ```
+
+## Phase 3.7 Polish — 윤문 (after self-audit DRY, before check_run/archive)
+
+Spawn the `prose-polish` agent (fork, `model: inherit` — LOAD-BEARING, owner pen rule
+2026-07-05: the polish is written by the session's strongest model) on the accepted,
+self-audit-DRY essay. It is the final plain-language pass for the general reader:
+sentence splitting, plain word choice, grounded glosses — with every fact, number,
+`[dddd]` anchor, quote, verb of certainty, and declared signature line preserved
+(signature lines byte-identical). Contract (`prose-polish/SKILL.md`): every edit logged
+in `handoff/03-edit/polish-notes.md`; gates re-run with zero NEW findings (warns
+included) or the edit reverts; changed sentences drift-verified by a
+grounding-verifier-class instrument (pinned cheap; verdicts MEANING-CHANGED /
+PROTECTED-TOUCHED force reverts); `draft_version` bumped; publication re-stripped.
+Polish never reopens the loop — a factual defect it notices routes to the
+human-post-accept channel, and the sentence stays unpolished.
 
 ## Run-completeness check (mandatory before archive)
 
@@ -215,12 +235,15 @@ report.
    its README — the essays/ root holds only current deliverables (index:
    `essays/README.md`).
 3. **Phase 4 promo (skill: `promo-composer`, agent: promo-composer; default-on for essay
-   mode, skippable on request)**: spawn it (fork, `model: inherit`) against the fresh
-   `essays/<essay-id>/` archive. Output contract: `essays/<essay-id>/promo/promo-pack.md`
-   (Korean post ≤ 280자 + English digest 280-340 words + 3-tweet thread sketch). Grounding
-   rule: every factual phrase traces to `essay-final.md`/`publication.md` or
-   `owner-briefing.md`; no new factual claims. Promo never edits the essay; promo findings
-   never reopen the loop.
+   mode, skippable on request)**: spawn it (fork, `model: inherit` — LOAD-BEARING, owner
+   decision 2026-07-05: the posting copy must be composed by the session's strongest
+   model, never a pinned-cheap one) against the fresh `essays/<essay-id>/` archive.
+   Output contract: `essays/<essay-id>/promo/promo-pack.md` (Korean long-form post
+   400-800자 + English thread 3-5 tweets; bold-selection rule: promo leads with the
+   boldest supportable claim, insurance ≤1 status clause per deliverable, process
+   narration 0 — the article hedges, the promo points). Grounding rule: every factual
+   phrase traces to `essay-final.md`/`publication.md` or `owner-briefing.md`; no new
+   factual claims. Promo never edits the essay; promo findings never reopen the loop.
 4. **Meta-loop**: invoke `pipeline-retro` (forked) with the run's artifacts. Propose-only;
    surface the top proposal in one line.
 

@@ -4,7 +4,7 @@ Essay → promo 의 독자 이동. Essay 독자는 curious retail investor
 (`_shared/references/reader-profile.md`: advanced high school 에서 early undergraduate
 사이의 기술 이해도, 회사/주식 때문에 열어본 사람). Promo 독자는 두 층이다:
 
-- **EN digest + thread**: X general public. 피드를 스크롤하다 마주친 사람. 팬, tech
+- **EN thread**: X general public. 피드를 스크롤하다 마주친 사람. 팬, tech
   enthusiast, casual scroller 혼재.
 - **KR post**: 발행자 자신의 한국어 팔로워 (아래 별도 절).
 

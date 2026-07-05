@@ -216,3 +216,28 @@ DRY within the 3-round cap. Residual lows (sa3A-F1/F2 gloss gaps, sa3B-F1..F5) l
 considered-not-applied with reasons. Non-essay observations for the meta-loop: thesis-spine
 one-liner retains a two/three-years slip (erratum'd, never propagated); fact-check-log
 `lvi-absent-here` uses a non-canonical evidence_level string.
+
+---
+
+> Human post-accept revision (2026-07-05). All blocks below: **origin:
+> human-post-accept** (normalize with `meta/normalize_revision_notes.py --origin
+> human-post-accept`). Trigger: publisher (SETI) read of the shipped v5 — the essay's
+> attention budget was judged mis-allocated: prosecution process (3-year examination, RCE
+> mechanics, spend narrative) dominated the lead and §5, crowding out the technology and
+> its effects, the content the reader actually came for. Owner-briefing and promo-pack
+> were judged well-balanced; the defect was essay-body-specific. Produced draft_version 6.
+> Decision log: `meta/implementation-notes.md` (2026-07-05 entry).
+
+## delta
+class: procedure-overweight-lead
+round: human-post-accept-1
+before: title "Etched Put Its No-Switch Memory Idea in Writing in May 2023" + lead section "The Pitch Has a Paper Trail" opened on dates/filing/prosecution ("still being argued with an examiner, and expensive to keep alive"; "Etched has paid at every step since, from the filing fee through the examination it is still in"), deferring the technology to §2
+after: title "Etched's First Patent Filing Asks to Delete the Memory Switch" + lead section "A Wire Where the Industry Puts a Switch" opens on the technical idea and its stated effect (switch deleted, space and power saved [0043]/[0016]/[0044]/[0045]), then the May-2023 discovery beat (signature line 1 intact), then a compact two-sided call; spending/argued-with-examiner riffs cut from the lead
+rationale: publisher finding — readers were predicted to disengage during the prosecution-first opening and skim the tech sections; the reader-profile's jobs are the invention and its consequences, with prosecution as pricing context, not the hook. The essay-context rule "prosecution status: exactly ONE label sentence, no battle narrative" was honored by the letter (one full-detail sentence) but violated in spirit by distributed echoes. NEW CLASS — flag for attribution-table row (owner: design/thesis-spine + compose; goal 5).
+
+## delta
+class: procedure-overweight-lead
+round: human-post-accept-1
+before: §5 "Etched Keeps Paying to Own It" carried an RCE explainer paragraph ("an RCE is, in substance, a fee paid to keep arguing after the examiner has said no with finality"), a repeated-spending motif, a two-paragraph lien walk plus the three-day grant-to-lien timing-inference paragraph
+after: §5 "The Examiner's Bear Case, and What Survives It" — the mandated single label sentence, the full-strength steelman (unchanged), the record-of-behavior paragraph with the spending riff compressed to one clause, the two liens merged into one paragraph, timing-inference paragraph and compiler-applications aside cut; §6 "repeated spending" softened
+rationale: same publisher finding, §5 leg. The steelman and both-or-neither collateral discipline are contract-required and kept at full strength; what was cut is procedure narration beyond the label-sentence budget. Gates re-run after edit: 14/14 PASS, zero findings (warns included), signature lines 1-3 byte-intact, publication.md re-stripped (2,903 words; 2,913 after the HPA-2 윤문 polish).
