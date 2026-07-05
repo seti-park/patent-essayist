@@ -48,6 +48,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `revision-induced-duplication` | gate DUPE-001 / pass-2 | 4b | compose | essay-en-composer revision-mode re-scan | rubric-tuning |
 | `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
 | `procedure-overweight-lead` | gate SURF-005/006 / pass-6 6I / cold-reader early-drag auto-escalation / human-revision | 5 | design + compose | thesis-spine payload tags + spine→section trace / section-blueprint attention budget + reader-energy.md §6 | reference-edit + gate-strengthen (done 2026-07-05) |
+| `promo-safe-harbor-overweight` | human-revision (promo v1→v2 owner read; self-check: promo-format Final Checklist bold_selection line) | 5 | promo | promo-composer promo-format.md bold-selection rule + briefing-vocabulary-only reuse | reference-edit (done 2026-07-05, v3 contract) |
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 

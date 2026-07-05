@@ -9,6 +9,53 @@ this file is where the reasoning survives in full sentences.
 
 ---
 
+## 2026-07-05 (2) — promo pack: safe-harbor overweight + format/channel mismatch (promo v1 → v2, contract v3)
+
+### The observation (owner comments)
+
+(1) The promo overweighted examination process and safe-harbor hedging — the KR post's
+"다만 최종거절 후 RCE로 심사가 계속 중이라 ..." sentence and the digest's prosecution
+paragraph. Readers want the bold claim in the promo; the article is where it gets priced.
+(2) Format mix was KR short + EN digest + EN thread; the publisher's primary channel is
+Korean, so the right mix is KR LONG + EN thread. (3) The posting copy should be written
+by the strongest model (Fable 5), since prose quality is bounded by the pen-holder.
+
+### Root causes
+
+- The v2 KR rule "owner-briefing 문장 표현을 우선 재사용" imported the briefing's
+  insurance-laden stance sentences into promo copy — the briefing hedges BY DESIGN
+  (owner-comprehension artifact), so sentence-level reuse is a hedge pipeline.
+- The v2 digest rule "hedge 강도는 essay 와 동일" made the promo inherit essay v5's
+  procedure overweight wholesale.
+- Nothing stated who holds the pen for promo copy.
+
+### Decisions taken
+
+- v3 promo contract (promo-format.md rewrite): **bold-selection rule** — lead with the
+  boldest supportable protected line; insurance <=1 status clause per deliverable, after
+  the beat; process narration 0; hedge inheritance one-way (no overreach, no import);
+  briefing reuse vocabulary-only. Deliverables: KR long post 400-800자 + EN thread 3-5
+  tweets; EN digest dropped. `promo_posture` replaces `digest_posture`.
+- **model: inherit declared load-bearing** for promo-composer (agent frontmatter +
+  SKILL + CLAUDE.md): posting copy by the session's strongest model; only verification
+  may be delegated.
+- Regenerated the etched-r2 pack (promo_version 2) against essay v6: copy authored in
+  the main session, verified by a pinned-cheap instrument (counts / hygiene / per-phrase
+  fact-trace / sub-rules).
+- Grounding rules unchanged: bold ≠ ungrounded — boldness comes from SELECTION.
+
+### What the next run should do differently
+
+1. Promo altitude has a stricter attention budget than the essay: 100% payload + one
+   status clause. Point at the pricing, never narrate it.
+2. Treat fixed-schema reuse sources as REGISTER-specific: a briefing sentence is owner
+   language, not reader language; reuse its nouns, never its stance.
+3. The pen rule generalizes: any deliverable a human will actually publish (essay,
+   promo copy) is composed on the strongest model; pinned-cheap models are for
+   retrieval-shaped verification only.
+
+---
+
 ## 2026-07-05 — etched-us20240378175-r2: procedure hijacked the reader's attention (v5 → v6)
 
 ### The observation (publisher read, post-publication)

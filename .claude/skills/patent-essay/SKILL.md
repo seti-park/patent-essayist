@@ -220,12 +220,15 @@ report.
    its README — the essays/ root holds only current deliverables (index:
    `essays/README.md`).
 3. **Phase 4 promo (skill: `promo-composer`, agent: promo-composer; default-on for essay
-   mode, skippable on request)**: spawn it (fork, `model: inherit`) against the fresh
-   `essays/<essay-id>/` archive. Output contract: `essays/<essay-id>/promo/promo-pack.md`
-   (Korean post ≤ 280자 + English digest 280-340 words + 3-tweet thread sketch). Grounding
-   rule: every factual phrase traces to `essay-final.md`/`publication.md` or
-   `owner-briefing.md`; no new factual claims. Promo never edits the essay; promo findings
-   never reopen the loop.
+   mode, skippable on request)**: spawn it (fork, `model: inherit` — LOAD-BEARING, owner
+   decision 2026-07-05: the posting copy must be composed by the session's strongest
+   model, never a pinned-cheap one) against the fresh `essays/<essay-id>/` archive.
+   Output contract: `essays/<essay-id>/promo/promo-pack.md` (Korean long-form post
+   400-800자 + English thread 3-5 tweets; bold-selection rule: promo leads with the
+   boldest supportable claim, insurance ≤1 status clause per deliverable, process
+   narration 0 — the article hedges, the promo points). Grounding rule: every factual
+   phrase traces to `essay-final.md`/`publication.md` or `owner-briefing.md`; no new
+   factual claims. Promo never edits the essay; promo findings never reopen the loop.
 4. **Meta-loop**: invoke `pipeline-retro` (forked) with the run's artifacts. Propose-only;
    surface the top proposal in one line.
 

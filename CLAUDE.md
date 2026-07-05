@@ -45,7 +45,8 @@ and returns the final essay + owner briefing + promo pack + score history + chec
 
 **Model allocation** (the recommended setup): run the SESSION on the strongest model
 available (Fable 5) — the main thread holds loop policy, arbitration, and acceptance calls,
-and `model: inherit` agents (design / compose / review / self-audit readers) get that model
+and `model: inherit` agents (design / compose / review / self-audit readers / promo copy —
+the promo posting copy is inherit BY OWNER DECISION, never pinned down) get that model
 in clean contexts, which is where writing and editorial judgment quality comes from.
 Mechanical agents pin cheaper models in their frontmatter (`grounding-verifier`,
 `figures-prep`: `model: sonnet`). An "advisor" pattern (weak main model consulting a strong
@@ -77,8 +78,9 @@ internal Phase-2 helper).
   editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge + 6I
                          attention-budget guards; finding_id lifecycle; re-review protocol
                                                             [fork: editorial-reviewer]
-  promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR post
-                         ≤280자 + EN digest + 3-tweet sketch), grounded in essay-final/publication
+  promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR 장문
+                         400-800자 + EN thread 3-5 tweets; bold-selection rule: promo leads
+                         bold, the article hedges), grounded in essay-final/publication
                          + owner-briefing; never edits the essay   [fork: promo-composer]
   pipeline-retro/        meta-loop  — findings → ledger → propose-only proposals   [fork]
   _shared/
