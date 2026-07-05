@@ -678,6 +678,95 @@ class TestSurface(unittest.TestCase):
         self.assertTrue(r["passed"])  # warn only
         self.assertTrue(_has(r, "SURF-003"))
 
+    def test_lead_procedure_narration_warns(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## The Lead\n\n"
+            "The rotor spins fast today. The examiner rejected the first claim set. "
+            "The company keeps paying to argue the case, and the last RCE was filed "
+            "in April. It drives the pump reliably regardless.\n\n"
+            "## Section Two\n\n"
+            "Nothing procedural happens here at all.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-005"))
+
+    def test_lead_single_procedure_sentence_does_not_warn(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## The Lead\n\n"
+            "The rotor spins fast today. The examiner rejected the first claim set. "
+            "It drives the pump reliably regardless.\n\n"
+            "## Section Two\n\n"
+            "Nothing procedural happens here at all.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "SURF-005"))
+
+    def test_lead_procedure_terms_in_quotes_and_blockquotes_exempt(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## The Lead\n\n"
+            'The filing says "the examiner rejected the claim after the RCE fee '
+            'was paid." The rotor spins fast today.\n\n'
+            "> The examiner rejected it and the fee was paid during examination.\n\n"
+            "It drives the pump reliably regardless.\n\n"
+            "## Section Two\n\n"
+            "Nothing procedural happens here at all.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "SURF-005"))
+
+    def test_lead_status_language_alone_does_not_warn(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## The Lead\n\n"
+            "The rotor spins fast today. This application is still pending, and the "
+            "patent office has not said yes. It drives the pump reliably regardless.\n\n"
+            "## Section Two\n\n"
+            "Nothing procedural happens here at all.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "SURF-005"))
+
+    def test_spend_motif_warns_above_threshold(self):
+        # 5 lexicon hits: paid, fee, paid, fee, paying.
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## Section\n\n"
+            "The company paid the first fee. It paid a second fee too. "
+            "Then it kept paying a third time.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-006"))
+
+    def test_spend_motif_at_threshold_does_not_warn(self):
+        # 4 lexicon hits: paid, fee, paid, fee -- at the max, should not fire.
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## Section\n\n"
+            "The company paid the first fee. It paid a second fee too.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "SURF-006"))
+
+    def test_spend_motif_quoted_spans_exempt(self):
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## Section\n\n"
+            'The filing states "the fee was paid, the payment was made, the company '
+            'kept paying and spending on the fee." The rotor spins fast today.\n'
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "SURF-006"))
+
 
 class TestCheckRun(unittest.TestCase):
     CLEAN_LOG = "overall_assessment: pass\n\nfindings:\n  - pass: pass-1\n    finding: \"no findings\"\n"

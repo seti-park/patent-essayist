@@ -29,6 +29,12 @@ Thesis 의 entry point 가 도메인 사전지식 없는 청자에게도 작동�
 
 **판정 기준**: narrative event 가 specific (M&A, executive statement, product launch claim — 추상적 industry trend 아님), friction 이 binary (둘 중 하나가 부정확) 또는 measurable (수치 차이).
 
+**Payload 조건 (attention budget)**: friction 의 **기술적 대상** — 그 아이디어가 무엇을 하고
+무엇을 바꾸는지 — 가 lead ¶1 안에서 설명 가능해야 한다. Friction 이 registry 상태
+(심사·거절·RCE·담보) 에만 걸려 있고 기술 내용이 ¶1 에 들어갈 수 없다면, 이 anchor 는 절차를
+plot 으로 만드는 결함 훅이다 (class `procedure-overweight-lead`; doctrine
+`_shared/references/reader-energy.md` §6 — status 는 술어, 발명이 주어).
+
 ## Pattern 2 — `technical-impossibility`
 
 청자의 "이건 안 될 텐데" 의문이 entry point 가 되는 기술적 anomaly 또는 constraint.

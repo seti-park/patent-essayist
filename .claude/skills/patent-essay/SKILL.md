@@ -169,8 +169,13 @@ Fresh eyes on the accepted essay, per round (up to `--max-selfaudit-iter`):
    Cold-reader input maps to goal-5 findings: a cold-reader stop-point corroborated by ANY
    rubric reader's finding (same location or same cause) = apply; its repeat-to-a-friend
    sentence is checked against the `reader_sentence` (a miss is a goal-5 signal, not an
-   auto-finding). Log split / taste-only findings and uncorroborated stop-points to
-   `revision-notes.md` as considered-not-applied.
+   auto-finding). **Exception — early drag auto-escalates:** a cold-reader stop-point or
+   drag report located in the lead or before the first `payload: tech` section (thesis-spine
+   trace tags) is a medium goal-5 finding on its own, no corroboration needed — the class
+   `procedure-overweight-lead` shipped precisely because early-position drag was treated
+   as taste (doctrine: `_shared/references/reader-energy.md` §6). Log other split /
+   taste-only findings and uncorroborated stop-points to `revision-notes.md` as
+   considered-not-applied.
 3. **Apply** accepted findings via `essay-en-composer` in revision mode against
    `essay-final.md` (grounding fix priority binds; fix upstream Phase-1 artifacts too when a
    finding traces there). Log every applied edit as a `## delta` block in

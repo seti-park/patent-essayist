@@ -1,8 +1,8 @@
 ---
 proposal_id: 2026-07-05-procedure-attention-budget
 created: 2026-07-05T00:00:00Z
-status: proposed
-lever: multi (reference-edit + rubric-tuning + candidate gate-strengthen)
+status: applied (2026-07-05, user-authorized, regression-gated: test_gates 109/109 + fixtures 5/5 incl. new procedure-overweight)
+lever: multi (reference-edit + rubric-tuning + gate-strengthen)
 goal: "5"
 root_cause_stage: design + compose
 root_cause_artifact: thesis-spine arc / spine→section trace + section-blueprint lead block + reader-energy.md (no attention-budget doctrine); gate_surface (no procedural-share check)
@@ -39,7 +39,29 @@ were fine. Full reasoning: `meta/implementation-notes.md` (2026-07-05 entry).
   verdict frame become the NARRATIVE frame (spine one-liner, Q7 hook, and section trace
   all prosecution-anchored), so procedure became the plot.
 
-## Proposal (propose-only; human applies after meta/regression.py)
+## Applied (2026-07-05, user-authorized + regression-gated)
+
+All four layers below were implemented this session (SETI authorized direct application;
+`meta/regression.py` passes with the new `procedure-overweight` fixture):
+
+- **Layer 1 Design**: thesis-architect SKILL Step 8 (`payload: tech|pricing|frame` tags in
+  the spine→section trace, ≤1 pricing section, verdict-frame ≠ narrative-frame rule) +
+  Step 11(d) attention-budget trap (motif budgets); `hook-patterns.md` Pattern 1 payload
+  condition; `handoff-template/01-design/thesis-spine.md` trace table gains the payload
+  column.
+- **Layer 2 Compose**: `section-blueprint.md` attention-budget default (payload-first lead,
+  procedure priced once, motif budget with revision-mode re-scan).
+- **Layer 3 Edit**: pass-6 **6I attention-budget guard** (volume/placement counterpart to
+  6H, severity table row added); patent-essay SKILL cold-reader **early-drag
+  auto-escalation** (lead-area drag = medium, no corroboration needed).
+- **Layer 4 Gate**: `gate_surface.py` **SURF-005** (lead procedure-narration sentences > 1)
+  + **SURF-006** (spend-motif > 4 in prose), warn-only; 7 new test_gates cases (109/109);
+  fixture `meta/fixtures/procedure-overweight/` (full v5 essay: SURF-005 fires at 3
+  sentences, SURF-006 at 10 hits; v6 stays zero-findings across all gates).
+- **Doctrine + registration**: `reader-energy.md` new **§6 Attention budget**;
+  scoring-rubric goal-5 matrix + gate table rows; CLAUDE.md gate/editorial lines.
+
+## Proposal (as originally drafted)
 
 1. **reader-energy.md (reference-edit):** add an "attention budget" doctrine section:
    for verdict editions, the lead answers *what the invention does and changes* before

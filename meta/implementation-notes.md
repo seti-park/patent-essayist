@@ -80,9 +80,11 @@ So the defect was essay-body-specific, not a facts problem.
    motif across the whole essay.
 3. **Structural home for procedure:** prosecution/finance material lives in ONE pricing
    section (plus the closing's verdict), never distributed across lead + body + closing.
-4. **Candidate instrument (proposed, not built):** a warn-only surface check for the
-   procedural share of the lead (lexicon: rejection, RCE, examiner, fee, lien, security
-   interest, docket...) and/or a time-to-first-tech-anchor measure. See
+4. **Instrument (BUILT 2026-07-05, user-authorized):** `gate_surface` SURF-005 (lead
+   procedure-narration sentences > 1) + SURF-006 (spend-motif > 4 in prose), both
+   warn-only, with the v5 essay preserved as the `procedure-overweight` regression
+   fixture; plus pass-6 6I, spine `payload` tags, and cold-reader early-drag
+   auto-escalation. Full application record:
    `meta/improvement-proposals/2026-07-05-procedure-attention-budget.md`.
 5. **Schema-envy heuristic:** when the briefing/promo read better than the essay, suspect
    attention allocation, not facts — the fixed-schema artifacts are the control group.

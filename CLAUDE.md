@@ -74,8 +74,9 @@ internal Phase-2 helper).
   essay-en-composer/     P2 Compose — blueprint → draft (+ revision mode w/ dispositions)
                                                                     [fork: essay-composer]
   voice-canon-lookup/    P2 internal helper — voice-canon corpus (runs inline in the composer)
-  editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge guard;
-                         finding_id lifecycle; re-review protocol   [fork: editorial-reviewer]
+  editorial-review/      P3 Edit    — 7-pass severity review incl. 6G over-hedge + 6I
+                         attention-budget guards; finding_id lifecycle; re-review protocol
+                                                            [fork: editorial-reviewer]
   promo-composer/        P4 Promote (post-archive): essays/<id>/ → promo/promo-pack.md (KR post
                          ≤280자 + EN digest + 3-tweet sketch), grounded in essay-final/publication
                          + owner-briefing; never edits the essay   [fork: promo-composer]
@@ -156,7 +157,9 @@ mechanical half of the grounding chain), `gate_sources`, `gate_banned`, `gate_st
 safe-harbor boilerplate / qualifier-led verdict / hedge density; hard-fails under the draft's
 `closing_posture: firm`), and **`gate_surface`** (warn-only goal-5 feed checks: SURF-001 title
 > 70 chars, SURF-002 qualifier-led first body sentence, SURF-003 cover-caption numeral
-density > 6, SURF-004 defensive-open). Utilities: `strip_publication.py` (publication.md with one line per
+density > 6, SURF-004 defensive-open, SURF-005 lead procedure-narration sentences > 1,
+SURF-006 spend-motif > 4 in prose — the attention-budget pair, doctrine in
+`reader-energy.md` §6). Utilities: `strip_publication.py` (publication.md with one line per
 paragraph) and `check_run.py` (loop shape). Run
 `python .claude/skills/_shared/scripts/test_gates.py` for the suite, or
 `python meta/regression.py` for tests + fixtures.
