@@ -47,6 +47,7 @@ to re-exposing `voice-profile.md` in Phase 3.
 | `thesis-restatement-redundancy` | pass-2 / pass-7 | 3 | compose | section-blueprint (sub-mechanism of redundancy-bloat) | rubric-tuning |
 | `revision-induced-duplication` | gate DUPE-001 / pass-2 | 4b | compose | essay-en-composer revision-mode re-scan | rubric-tuning |
 | `venue-ticker-convention` | gate CASH-001 / pass-6 | 4a | compose | x-articles-format-en.md | reference-edit (done run 045) |
+| `procedure-overweight-lead` | human-revision / cold-reader stop-point (candidate: pass-6 6H + new attention-budget check) | 5 | design + compose | thesis-spine arc + spine→section trace / section-blueprint lead block + reader-energy.md | reference-edit |
 
 ## Recurrence ledger summary (auto-maintained by pipeline-retro)
 

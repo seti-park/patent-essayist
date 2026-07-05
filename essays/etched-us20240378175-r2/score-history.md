@@ -24,3 +24,9 @@ Architecture: 2026-07-04 reader-first overhaul (goal 5, gate_surface, 6H, hook c
 | SA-3 | A: 0 med; B: 0 med | 0 findings (70 rows, dry) | repeat-test PASS (3rd) | 0 at medium+ | **DRY within cap** |
 
 **Self-audit closure: DRY (round 3 applied nothing at medium+). The venue overclaim (stage vs thread) and the exhaustive founder-count — both classes v7 shipped with — were caught and fixed by the new loop.**
+
+## Human post-accept revision (2026-07-05)
+
+| round | type | assessment | gates | note |
+|-------|------|------------|-------|------|
+| HPA-1 | human post-accept (publisher read) | attention-budget defect: prosecution process overweighted in lead + §5, tech buried | 14/14 pass, zero findings after fix | v5 -> v6. New title + tech-first lead; §5 compressed to label sentence + steelman + merged lien paragraph; RCE explainer, spending motif, timing-inference ¶ cut. Signature lines 1-3 intact. Deltas in revision-notes.md (origin: human-post-accept); class: procedure-overweight-lead. |
