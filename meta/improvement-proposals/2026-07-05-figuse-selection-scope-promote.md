@@ -6,13 +6,14 @@ lever: gate-strengthen
 goal: "2"
 root_cause_stage: gate
 root_cause_artifact: _shared/scripts/gate_figure_use.py (selected set parsed from the WHOLE figure-selection.md, incl. NOT-selected / acknowledged-pair rows)
-recurrence_count: 4
+recurrence_count: 5
 confidence: high
 triggering_findings:
   - essay_id: 045-agility-638-last-mile-moat, pattern_tag: figuse-selection-scope-overread (proposal 2026-06-24, status proposed)
   - essay_id: etched-us12361091, pattern_tag: figure-selection-parse-overreach (proposal 2026-07-03, status watch; false FIGUSE orphans on figs 2/3/8/10/13, composer round-1 self-check)
   - essay_id: etched-us20240378175-r2, pattern_tag: figure-selection-parse-overreach (composer-cited prior workaround: FIG. 4 prose mention to satisfy the gate)
-  - essay_id: intel-us20250266395, pattern_tag: figure-selection-parse-overreach (this run; figures-rationale.md family-break note + FIG. 9/10 prose pointers on [0057]/[0058])
+  - essay_id: intel-us20250266395, pattern_tag: figure-selection-parse-overreach (figures-rationale.md family-break note + FIG. 9/10 prose pointers on [0057]/[0058])
+  - essay_id: intel-us20260191095-backend-hbm, pattern_tag: figure-selection-parse-overreach (5th essay; gate FIGUSE-001-failed non-selected packaging-variant figs 2-7, orchestrator reworded them to word form at the Phase-1 artifact; routed here by score-history)
 supersedes: [2026-06-24-figuse-selection-scope, 2026-07-03-figure-use-selection-scope]
 ---
 
@@ -128,3 +129,23 @@ Run `python meta/regression.py` before applying. Expected after:
 - Observable next-run criterion: a `figure-selection.md` that drops a figure can omit it from prose
   without a spurious `FIGUSE-001`; a genuine orphan **inside** `## Selected figures` still fails; and
   no composer needs a "prose covers the dropped figure" pointer to satisfy the gate.
+
+## Amendment (2026-07-06, intel-us20260191095-backend-hbm) — 5th corroboration, still unapplied
+
+The class recurred a **fifth** time. `gate_figure_use` FIGUSE-001-failed the non-selected
+packaging-variant figures **2-7** as orphans (they are named in token form in the run's
+`figure-selection.md`); the draft correctly uses only the 4 selected FIG-1 panels. The
+orchestrator's workaround this run was a **new variant** — rewording the non-selected figure
+mentions in the Phase-1 artifact to **word form** ("figures two through six", "figures three and
+four", "figures five and six") so the gate's regex selected-set reads `{1}`. `score-history.md`
+routes it here explicitly: *"Systemic gate limitation (scope selected-set to the explicit
+selection table) routed to pipeline-retro (propose-only)."*
+
+Across the five essays the composer/orchestrator has now used **three different** mitigation
+forms for the same gate defect — a throwaway prose pointer (etched-us20240378175-r2,
+intel-us20250266395), a Footnotes not-placed audit (etched-us12361091), and word-form rewording
+(this run). That the workaround keeps mutating is itself evidence the fix belongs in the gate,
+not in per-run authoring discipline. The diff above (section-scope the selected set to
+`## Selected figures`, whole-text fallback) is unchanged and still the right fix; this run adds
+no new requirement, only weight. **The gate script remains unpatched** — recommendation stands
+at `recommended-apply`.

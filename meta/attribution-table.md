@@ -159,3 +159,26 @@ human). Their rows live with the run-045 dataset. See
 | `caption-anchor-clause-drift` | multi-clause figure captions riding one anchor across clause boundaries | 1 | compose | essay-en-composer figure-rendering caption-anchor discipline | reference-edit |
 | `vocabulary-import-from-news` | present-day news vocabulary stated inside the filing's own reasoning | 1 | compose | citation-format.md source-era vocabulary discipline | reference-edit |
 | `steelman-overweight` | pass-7 check 3 (two-sided, symmetric with `steelman-absent`) / gate_surface SURF-007 / human-post-accept | 4b | design + edit | adversarial-defense.md steelman-beat concede-and-return spec + pass-7 two-sided check + reader-energy.md §6 + gate_surface SURF-007 | multi (reference-edit + rubric-tuning + gate-strengthen) |
+
+## Run intel-us20260191095-backend-hbm classes (added 2026-07-06)
+
+New/adjacent classes surfaced by this run (routed here so the ledger records resolve). This
+run accepted double-clean at round 3 (2 medium + 7 low inner-loop, both mediums fixed by
+round 2) and closed a 2-round self-audit; no hard-gate breach. `claim-scope-misattribution`
+remained the dominant class (4 this run; 15 across the ledger).
+
+| Finding class (pattern_tag) | Source signal | Goal | Owner stage | Owner artifact | Default lever |
+|---|---|---|---|---|---|
+| `affirmative-core-contrastive-term-imprecision` | pass-4 (pivotal inference) / pass-2 restatement / self-audit — a `claim-scope-misattribution` sub-mechanism: the spine's affirmative core states the contrastive term ("X can carry it, where Y cannot") as a generic superset of the claim-supported narrow term ("front-end" vs "DRAM front-end"), and Compose inherits it | 1 | design | thesis-architect/references/adversarial-defense.md affirmative-core spec + thesis-spine Mitigation field (**proposal 2026-07-06-affirmative-core-contrastive-precision**, watch; residual of applied claim-scope-lock-map) | reference-edit |
+| `term-collision-coherence` | self-audit round-2 medium — a settled-sense headline word ("direction") reused in a being-tested sense in the same high-stakes section; **introduced by a prior revision fix** (extends `revision-added-text-drift` from grounding to coherence) | 4a / 3 | compose | essay-en-composer/references/revision-mode.md new-sentence self-check (broaden to: a headline/load-bearing term keeps its established referent in added text) | reference-edit |
+| `caveat-restatement-redundancy` | self-audit round-2 cold-reader last-section drag — a caveat/appositive distinction doubled inside one section; sub-mechanism of `redundancy-bloat` / `thesis-restatement-redundancy` | 3 | compose | essay-en-composer section-blueprint attention budget (reader-energy §6) | rubric-tuning (held at watch with redundancy-bloat) |
+| `pending-application-status-precision` | pass-3 / title — "Patent" on a published application (highest-read surface) vs the body's scrupulous pending-vs-granted precision | 1 | design + compose | title-lead-candidates / x-articles-format-en (**proposal 2026-07-04-pending-application-edition**) | reference-edit |
+
+Recurrence note (this run): `figure-selection-parse-overreach` reached its **5th** essay
+(gate false-orphaned non-selected figs 2-7; orchestrator reworded to word form) — corroborates
+the standing `recommended-apply` proposal `2026-07-05-figuse-selection-scope-promote` (now
+recurrence 5, still unapplied; `gate_figure_use.py` remains unpatched). `redundancy-bloat` /
+`thesis-restatement-redundancy` again absorbed a large share of self-audit effort (4 deltas) —
+still held at `watch` by design (heterogeneous sub-mechanisms, never cost a loop iteration).
+`evidence-scope-overreach` paired across origins this run (inner-loop r1-F1 + self-post-accept
+SA-delta-9, the same §6 proof-point seam caught twice).
