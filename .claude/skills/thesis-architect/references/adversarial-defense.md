@@ -104,14 +104,36 @@ override 참조). 3 옵션:
 ### D. Steelman beat — carry into Compose
 
 The strongest objection + its mitigation is not just a thesis-survival check; it is a **beat
-the essay must draft.** Carry it into `phase2-handoff-notes` as a concede-then-refine
-instruction so Compose allocates a section beat that states the objection at full strength,
-then refines — never leaving the strongest pro-subject counter for the reader to raise.
+the essay must draft.** Carry it into `phase2-handoff-notes` as a **concede-and-return**
+instruction so Compose allocates a section beat that concedes the objection **once, compactly,
+and specifically**, then **returns to the affirmative core** — never leaving the strongest
+pro-subject counter for the reader to raise.
+
+**Concede is not elaborate (the two-sided steelman rule).** The beat must be specific — but
+specific is not the same as long. Two failure modes are symmetric:
+
+- `steelman-absent` — the concession is missing or a generic truism (below).
+- `steelman-overweight` — the concession is present, specific, and correct but **over-spends
+  the reader's attention on the objection**: it elaborates the counter past the point of
+  conceding it, restates a caveat an earlier section already made, or narrates spend/procedure
+  inside the beat. The cost is cognitive: **elaborating an objection primes the objection**
+  (the negation / framing effect — "don't think of an elephant"), so the reader leaves carrying
+  the counter, not the invention the concession exists to defend.
+
+So the carried spec sets a **ratio, not a length**: the affirmative core (what survives the
+concession) carries **at least as much attention** as the concession, and the concession is
+**net-new** — it may not re-spend a caveat the spine already places in an earlier section
+(those are spent once, where they first land). "Lean" here means *specific-but-bounded-and-
+net-new*, never brief-and-vague. A long beat is fine if the core out-weighs the counter.
 
 The steelman beat inherits the **generic-truism ban**: it concedes the strongest
 THIS-patent objection (claim scope, baseline, causal structure), never the generic
 "patents don't guarantee products" truism. Editorial pass-7 check 3 judges the steelman by
-the same rule — a truism steelman is `steelman-absent`, not a pass.
+both rules — a truism steelman is `steelman-absent`; a counter that out-weighs its own
+rebuttal (or re-spends a prior caveat, or carries a spend/procedure motif) is
+`steelman-overweight`. Symmetric with the 6G over-hedge ↔ overreach verdict defense, and with
+the attention-budget doctrine (`_shared/references/reader-energy.md` §6). Mechanical warn:
+`gate_surface` SURF-007.
 
 Run 045 gap: the strongest counter — "isn't claiming the broad workflow the smart, strong
 move?" — was a Category-1/4 objection (the patent's breadth read as a strength, not a weakness)
@@ -130,7 +152,7 @@ pass-4 / pass-7; allocated by `section-blueprint.md`'s steelman beat.
 
 **Residual risk**: none | Acknowledged: <what gets noted> | Acceptance: <falsifier event>
 
-**Steelman beat**: <the section that concedes the strongest counter at full strength, then refines — carried into phase2-handoff-notes>
+**Steelman beat**: <the section that concedes the strongest counter compactly and specifically, then returns to the affirmative core which carries >= the concession's attention; net-new (no re-spent prior caveat), no spend/procedure motif in the beat — carried into phase2-handoff-notes as a concede-and-return ratio, not a length>
 ```
 
 ## 실패 사례

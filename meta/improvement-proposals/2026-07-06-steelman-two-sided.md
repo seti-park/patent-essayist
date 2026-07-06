@@ -1,7 +1,7 @@
 ---
 proposal_id: 2026-07-06-steelman-two-sided
 created: 2026-07-06T00:00:00Z
-status: watch
+status: applied (2026-07-06, user-authorized, regression-gated: test_gates 111/111 + fixtures incl. new steelman-overweight; all 4 layers landed)
 lever: multi (reference-edit + rubric-tuning + gate-strengthen)
 goal: "4b"
 root_cause_stage: design + edit

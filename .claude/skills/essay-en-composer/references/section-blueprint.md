@@ -30,9 +30,16 @@ defaults — learned from run 045's hand-revision (see
   reconstructs the argument (run 045: *workflow-not-robot → disclaims-the-hard-parts →
   territory-is-not-the-moat → moat-is-filed-elsewhere*). Avoid bare-label / "What X does"
   headers. *(checked: editorial pass-6 / pass-7 header-as-claim.)*
-- **Steelman beat.** When `thesis-spine.md` adversarial defense names a strong pro-subject
-  counter, allocate a beat that concedes it at full strength, then refines (run 045: "the
-  workflow claim is a strong fence, and a fence is not an engine"). *(checked: pass-4 / pass-7.)*
+- **Steelman beat (concede-and-return, not elaborate).** When `thesis-spine.md` adversarial
+  defense names a strong pro-subject counter, allocate a beat that concedes it **compactly and
+  specifically, then returns to the affirmative core** (run 045: "the workflow claim is a strong
+  fence, and a fence is not an engine"). Draft the concession once and the return-to-core with
+  **at least as much weight** as the concession; do **not** re-spend a caveat an earlier section
+  already made, and keep the spend/procedure lexicon **out** of the beat — elaborating the
+  counter primes it (the "don't think of an elephant" effect) and reads as safe-harbor. Ratio,
+  not length: a long beat is fine if the core out-weighs the counter. *(checked: pass-4 / pass-7
+  `steelman-absent` ↔ `steelman-overweight`; mechanical warn `SURF-007`; doctrine
+  `_shared/references/reader-energy.md` §6.)*
 - **No stub sections.** Keep `word_target`s balanced; a section far shorter than its siblings
   should be merged or expanded. *(gate: `STUB-001` warn.)*
 - **Attention budget (payload-first, procedure priced once).** Learned from

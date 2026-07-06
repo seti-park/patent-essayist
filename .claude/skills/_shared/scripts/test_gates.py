@@ -767,6 +767,46 @@ class TestSurface(unittest.TestCase):
         self.assertTrue(r["passed"])
         self.assertFalse(_has(r, "SURF-006"))
 
+    def test_steelman_overweight_warns(self):
+        # The non-lead 'The Objection, Read Cold' section carries 2+
+        # CONCESSION_MARKER hits ("concedes", "strongest objection", "read
+        # cold", "no single claim") and a spend-motif hit ("fee", "spend") --
+        # the steelman-overweight shape SURF-007 targets.
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## The Lead\n\n"
+            "The rotor spins fast today. It drives the pump reliably.\n\n"
+            "## The Objection, Read Cold\n\n"
+            "This section concedes the strongest objection directly: no single "
+            "claim here has issued yet. Read cold, the filing's overseas "
+            "counterparts are fee money a company does not usually spend on "
+            "ideas it considers dead.\n\n"
+            "## The Core Holds Anyway\n\n"
+            "Nothing above touches the core sequence directly.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])  # warn only
+        self.assertTrue(_has(r, "SURF-007"))
+
+    def test_compact_concession_without_spend_motif_does_not_warn(self):
+        # Same concede beat, still >= SURF007_MIN_MARKERS, but compact and
+        # carrying no spend/procedure motif -- a lean, specific steelman is
+        # not what SURF-007 targets.
+        draft = (
+            "# A Short Clean Title\n\n"
+            "## The Lead\n\n"
+            "The rotor spins fast today. It drives the pump reliably.\n\n"
+            "## The Objection, Read Cold\n\n"
+            "This section concedes the strongest objection directly: no single "
+            "claim here has issued yet. Nothing else in the record changes "
+            "that.\n\n"
+            "## The Core Holds Anyway\n\n"
+            "Nothing above touches the core sequence directly.\n"
+        )
+        r = gate_surface.check(draft, {})
+        self.assertTrue(r["passed"])
+        self.assertFalse(_has(r, "SURF-007"))
+
 
 class TestCheckRun(unittest.TestCase):
     CLEAN_LOG = "overall_assessment: pass\n\nfindings:\n  - pass: pass-1\n    finding: \"no findings\"\n"
