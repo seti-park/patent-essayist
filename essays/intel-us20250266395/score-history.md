@@ -12,3 +12,18 @@
 **Acceptance: DOUBLE-CLEAN** (rounds 3 + 4, independent reviewers, no revision between).
 Revision rounds used: 2 of 4 (max-iter). No CAP HIT.
 Accepted draft promoted to handoff/03-edit/essay-final.md (draft_version 3, closing_posture: firm).
+
+## v6 — human-post-accept revision (2026-07-06)
+
+Owner read found §5 "One Filing Among Hundreds, Except for One Claim" overly defensive /
+safe-harbor and low on net-new information. Compressed in place (draft_version 5 → 6):
+- CUT the prosecution/spend passage (18-months framing, JP/KR/CN/DE counterpart list,
+  fee-money inference) → one clause "a pending application with no granted claim yet"
+  (class `procedure-overweight`).
+- CUT caveat restatements already made in §2 (pitch-is-description-only) and §4
+  (EMIB-is-our-synthesis) (class `redundant-caveat-restatement`).
+- KEPT the steelman at full strength (claim-17-hangs-off-claim-16 + no-single-claim),
+  the locked order-of-operations payoff [0142]/[0144], and Mahajan/mainline provenance.
+- §5: 6 → 4 paragraphs. Gates 14/14 PASS (gate_hedge PASS under firm; gate_dupe improved).
+  Drift-checked clean; 3 signature lines + EMIB fence + Sources byte-intact. check_run PASS.
+Deltas: revision-notes.md (origin human-post-accept, HPA-01/HPA-02).

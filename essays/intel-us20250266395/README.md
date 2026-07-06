@@ -1,5 +1,16 @@
 # intel-us20250266395 — "Intel Filed the Packaging Flow That Comes After EMIB-T"
 
+> **2026-07-06 human post-accept revision (v5 → v6):** owner read found §5 "One Filing
+> Among Hundreds, Except for One Claim" overly defensive / safe-harbor and low on net-new
+> information. Compressed in place: cut the prosecution/spend passage (18-months framing,
+> JP/KR/CN/DE counterpart list, fee-money inference → one clause "a pending application
+> with no granted claim yet") and the caveat restatements already made in §2/§4; kept the
+> steelman at full strength (claim-17-off-claim-16 + no-single-claim), the locked
+> order-of-operations payoff, and Mahajan/mainline provenance. §5: 6 → 4 paragraphs.
+> Gates 14/14, drift clean, signature lines + EMIB fence intact; check_run PASS. Deltas:
+> `revision-notes.md` (origin human-post-accept, classes `procedure-overweight` +
+> `redundant-caveat-restatement`).
+
 Run of US 2025/0266395 A1 (Intel Corporation, "Multi-Die Bridge Assemblies and Methods
 for Three-Dimensional Packaging"; filed 2024-02-20, published 2025-08-21 — a **pending
 application**, not a granted patent). Edition framed by the reader's live question: with
@@ -15,9 +26,9 @@ Discovery register, selected from Phase 1's five title-lead candidates.
   the whole multi-die cluster before any substrate is committed, then seat the bridge in a
   cavity and power it from the floor through TSVs/TGVs. The claim that carries it is an
   **order of operations**, not a material or a pitch number.
-- **Deliverable:** `essay-final.md` (draft_version 5: double-clean accepted, self-audit-dry,
-  then Phase 3.7 윤문 polish — 3 surface-only §4 edits, logged in
-  `handoff/03-edit/polish-notes.md`) · publication strip
+- **Deliverable:** `essay-final.md` (draft_version 6: double-clean accepted → self-audit-dry
+  → Phase 3.7 윤문 polish (3 surface-only §4 edits, `handoff/03-edit/polish-notes.md`) → v6
+  human-post-accept §5 compression, see banner) · publication strip
   `publication-package/publication.md` · 3 declared signature lines.
 - **Owner artifacts:** `owner-briefing.md` (한국어 발행자 브리핑, gate_quotes PASS against the
   archived `patent.md` snapshot) · `promo/promo-pack.md` (promo_version 1: KR 장문 777자 +

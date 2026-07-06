@@ -58,6 +58,24 @@ before: "impatient reader requested an added stock-price / stock-impact clause."
 after: "REJECTED — not applied."
 rationale: A stock-impact clause would overreach the filed-not-roadmap discipline the essay holds throughout (pending application, no granted claim, no scheduled product). The essay's IP-signal altitude is deliberate; adding market-move language would introduce a fact beyond the Quotable spans and fact-check-log and re-inflate the exact overreach the firm-but-not-hype verdict guards against. Verdict left firm, no re-hedge.
 
+## delta
+class: procedure-overweight
+round: human-post-accept-1
+origin: human-post-accept
+finding_id: HPA-01
+before: "Price it accordingly. Every \"locks\" above is a lock Intel is asking for: this is a pending application, published in August 2025, eighteen months after its February 2024 filing, with no granted claim yet (Google Patents). Intel has also filed counterparts in Japan, Korea, China and Germany, which is fee money a company does not usually spend on ideas it considers dead (Google Patents)."
+after: "Price it accordingly: every \"locks\" above is a lock Intel is asking for, a pending application with no granted claim yet (Google Patents)."
+rationale: owner-directed compression (applied). §5 read as safe-harbor because the prosecution/SPEND passage overweighted process narration. Compressed to the one essential filed-not-granted fact in a single lean clause; dropped the 18-months framing (dates already carried in §1), the four-country counterpart list, and the fee-money-not-spent-on-dead-ideas inference (spend motif → zero). The trailing provenance summary "mainline provenance, international upkeep, no grant, no product" loses "international upkeep" (its only source, the dropped counterpart fact) and the Price clause is merged into the provenance paragraph → "mainline provenance, no grant, no product." No fact relied on downstream lost: filing/publication dates live in §1; counterparts are load-bearing nowhere else.
+
+## delta
+class: redundant-caveat-restatement
+round: human-post-accept-1
+origin: human-post-accept
+finding_id: HPA-02
+before: "The 1-to-10-micron pitch lives in the description's examples, and no claim carries it [0034]. The hybrid-bonding language sits in the apparatus claim, which requires the \"directly bonded\" stack but attaches no pitch to it [0122]. The through-via claim never says power, TSV, or cavity; it locks in only \"at least one contact on the second surface that provides an electrical pathway to the first surface\" [0123], and the power-from-the-floor purpose is the description talking [0035]. [...] No single claim contains the full architecture narrated above. And the document never mentions EMIB. The after-EMIB-T reading is this essay's synthesis of a filing date, an unveiling date, and a shared power-delivery idea. Intel has not connected the two documents."
+after: "The micron pitch is description-only [0034], and the hybrid-bonding [0122] and through-via [0123] claims lock structure without ever attaching the pitch or naming the power [0035]. [...] No single claim contains the full architecture narrated above. [EMIB-synthesis restatement dropped from §5.]"
+rationale: owner-directed compression (applied). The pitch-is-description-only caveat is already made at full length in §2; the EMIB-is-this-essay's-synthesis caveat is already made at full length in §4 (line ~61: "The document never uses the word EMIB, and every link this essay draws to it rests on timeline and mechanism..."). Re-litigating both here made §5 re-read its own disclaimers. Compressed the three-caveat pitch/hybrid/through-via enumeration (three sentences, two embedded verbatim quotes) into one compact reference clause — anchors [0034]/[0122]/[0123]/[0035] retained so grounding stays verifiable, duplicate verbatim quotes removed (gate_dupe improves). Dropped the EMIB-synthesis sentences entirely; §4 carries the fence explicitly, so the EMIB-fence constraint (no [dddd] on any EMIB sentence; the synthesis stated at least once) still holds. "No single claim contains the full architecture" pulled up to close the claim-scope reckoning paragraph — the steelman's strongest specific objection, kept at full strength. NOTE: thesis-trace.md coverage-check line ("§4 and §5 state explicitly") is now slightly stale — the explicit synthesis statement lives in §4 only; flagged for the orchestrator, not edited (out of this task's scope). STEELMAN preserved and answered: objection (claim 17 hangs off claim 16 / no single claim contains the architecture) → payoff (the method claim locks the order of operations) intact; closing_posture firm, no re-hedge.
+
 ## delta — self-audit round 2 (confirmation)
 
 self-audit: no unresolved findings
