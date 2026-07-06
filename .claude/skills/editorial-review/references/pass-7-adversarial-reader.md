@@ -23,7 +23,12 @@ is what converts an unreliable holistic judgment into a reliable atomic one.
      "where did I want the answer sooner / get bored / hit un-glossed jargon or filler?"
    - the **skeptical pro-subject reader** — "what is the strongest objection to the thesis, and
      is it rebutted?" The steelman must be a THIS-patent objection; a generic patent truism
-     ("patents don't guarantee products") counts as `steelman-absent`.
+     ("patents don't guarantee products") counts as `steelman-absent`. The check is **two-sided**:
+     a concession that is present and specific but out-weighs its own rebuttal — elaborates the
+     counter past conceding it, re-spends a caveat an earlier section already made, or narrates
+     spend/procedure inside the beat — counts as `steelman-overweight` (elaborating an objection
+     primes it; the reader leaves carrying the counter, not the invention). De-elaborate / return
+     to the core, never add a hedge.
 3. **Decompose + force evidence.** Every check is a yes/no with a quoted span (or `ABSENT`),
    never a holistic rating.
 4. **Multi-vote the fuzzy ones.** For taste-level checks (jargon depth, redundancy feel), N
@@ -35,7 +40,7 @@ is what converts an unreliable holistic judgment into a reliable atomic one.
 |---|---|---|---|
 | 1 | **Hook check (lead energy)** | ¶1 lands the declared energy register's beat (declarative, not a deferred question, no verdict-insurance fact ahead of it) AND the full two-sided call lands by the lead section's end — replaces the run-045 bare BLUF-in-¶1 rule; see `_shared/references/reader-energy.md` | `lead-thesis-deferral` |
 | 2 | **Header-as-claim** | every `##` header is an assertion; header-only skim reconstructs the argument | `nonclaim-section-header` |
-| 3 | **Steelman present** | the single strongest pro-subject counter is conceded at full strength, then refined | `steelman-absent` |
+| 3 | **Steelman present + not overweight** | the single strongest pro-subject counter is conceded compactly and specifically, then the affirmative core carries >= the concession's attention; the beat is net-new (no re-spent prior caveat) and carries no spend/procedure motif | `steelman-absent` / `steelman-overweight` |
 | 4 | **No meta posturing** | no reader-instruction / essay-self-reference (functional scope disclaimers exempt) | `meta-reader-instruction` |
 | 5 | **Jargon as signpost** | domain term-of-art kept short, not deep-dived past the insight | `jargon-overdepth` |
 | 6 | **No stub / rhythm break** | no section markedly shorter than its siblings | `section-stub-imbalance` |

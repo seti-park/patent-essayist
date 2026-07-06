@@ -106,8 +106,11 @@ A fresh-context pass that does NOT trust the draft (the judgment complement of t
 gates). It simulates the target reader (the impatient investor) and a skeptical pro-subject
 reader, and hunts — decomposed yes/no with a quoted span per check, multi-vote for fuzzy items
 — for: the hook check (does ¶1 land the declared energy register's beat, AND does the full
-call land by the lead section's end?), header-as-claim, an unrebutted
-strongest counter (steelman absent), reader-instruction / self-reference meta, jargon deep-dive
+call land by the lead section's end?), header-as-claim, the steelman **two-sided** (an
+unrebutted strongest counter is `steelman-absent`; a present, specific counter that out-weighs
+its own rebuttal — over-elaborated, re-spending a prior caveat, or carrying a spend/procedure
+motif — is `steelman-overweight`, symmetric with 6G over-hedge ↔ overreach), reader-instruction
+/ self-reference meta, jargon deep-dive
 past the insight, stub-section rhythm, and the core verdict restated in > 3 sections. See
 `editorial-review/references/pass-7-adversarial-reader.md`. Findings feed the severity model
 like any other pass.

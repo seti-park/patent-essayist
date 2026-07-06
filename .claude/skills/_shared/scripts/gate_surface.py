@@ -44,6 +44,14 @@ Checks (all warn):
             the whole essay's body prose -- a paying/fee refrain repeated
             through the piece re-litigates the same pricing beat instead of
             stating it once and moving on.
+  SURF-007: the concession/steelman section (the non-lead `##` section with
+            the most CONCESSION_MARKER hits, if any section clears
+            SURF007_MIN_MARKERS) carries a spend/procedure motif (the same
+            SURF-006 lexicon) at or above SURF007_MIN_SPEND -- the
+            "steelman-overweight" mechanical half (reader-energy.md #6 /
+            meta/improvement-proposals/2026-07-06-steelman-two-sided.md): a
+            concede beat that rides on paying/fee narration reads as
+            safe-harbor instead of a specific, bounded objection.
 """
 
 import argparse
@@ -65,6 +73,8 @@ TITLE_MAX_CHARS = 70        # SURF-001
 SURF003_MAX_NUMERALS = 6    # SURF-003
 SURF005_MAX_PROC_SENTENCES = 1   # SURF-005
 SURF006_MAX_SPEND_MOTIF = 4      # SURF-006
+SURF007_MIN_MARKERS = 2          # SURF-007: min CONCESSION_MARKER hits to identify the beat
+SURF007_MIN_SPEND = 1            # SURF-007: min spend-motif hits inside the beat to warn
 
 HEADING_RE = re.compile(r"^#{1,6}\s+")
 H1_RE = re.compile(r"^#\s+(.*)$")
@@ -111,6 +121,16 @@ RCE_TERM_RE = re.compile(r"\bRCE\b")  # case-sensitive: only the all-caps acrony
 # SURF-006: spend-motif lexicon (whole-essay prose count).
 SPEND_MOTIF_RE = re.compile(
     r"\b(pay|pays|paid|paying|payments?|spends?|spending|spent|fees?)\b", re.I
+)
+
+# SURF-007: concession/steelman-beat marker lexicon, used to LOCATE the
+# concede-the-strongest-objection section (not to judge it) -- the section
+# with the most hits is the candidate concession beat.
+CONCESSION_MARKER_RE = re.compile(
+    r"\b(concede[sd]?|conceding|objection|read cold|the dissection|"
+    r"no single claim|strongest (objection|counter)|cuts deeper|boilerplate|"
+    r"one filing among|bear case|for all that|granting that)\b",
+    re.I,
 )
 
 
@@ -217,6 +237,40 @@ def _lead_section_paragraphs(draft_text):
     if buf:
         paragraphs.append(" ".join(buf))
     return paragraphs
+
+
+def _non_lead_sections(draft_text):
+    """List of (header_text, paragraphs) for every `## ` section AFTER the lead.
+
+    Mirrors _lead_section_paragraphs's own h2-boundary logic, but returns each
+    subsequent section instead of only the first. If the draft has fewer than
+    two `## ` headings, there is no non-lead section and [] is returned.
+    """
+    lines = _strip_frontmatter(draft_text)
+    h2_indices = [i for i, raw in enumerate(lines) if SECTION_H2_RE.match(raw.strip())]
+    if len(h2_indices) < 2:
+        return []
+
+    sections = []
+    for idx, start_i in enumerate(h2_indices[1:], start=1):
+        header = lines[start_i].strip().lstrip("#").strip()
+        end_i = h2_indices[idx + 1] if idx + 1 < len(h2_indices) else len(lines)
+        paragraphs = []
+        buf = []
+        for raw in lines[start_i + 1:end_i]:
+            line = raw.strip()
+            structural = (not line or HEADING_RE.match(line) or IMAGE_RE.match(line)
+                          or CAPTION_RE.match(line) or BLOCKQUOTE_RE.match(line))
+            if structural:
+                if buf:
+                    paragraphs.append(" ".join(buf))
+                    buf = []
+                continue
+            buf.append(line)
+        if buf:
+            paragraphs.append(" ".join(buf))
+        sections.append((header, paragraphs))
+    return sections
 
 
 def _first_body_sentences(draft_text, n):
@@ -330,6 +384,31 @@ def check(draft_text: str, context: dict) -> dict:
                        "budget)" % (spend_count, SURF006_MAX_SPEND_MOTIF),
             "location": "(document)",
         })
+
+    # SURF-007: spend/procedure motif inside the concession/steelman beat.
+    best_header, best_marker_count, best_spend_count = None, 0, 0
+    for header, paragraphs in _non_lead_sections(draft_text):
+        marker_count = 0
+        spend_count_section = 0
+        for para in paragraphs:
+            masked = _mask_quoted_spans(para)
+            marker_count += len(CONCESSION_MARKER_RE.findall(masked))
+            spend_count_section += len(SPEND_MOTIF_RE.findall(masked))
+        if marker_count > best_marker_count:
+            best_header = header
+            best_marker_count = marker_count
+            best_spend_count = spend_count_section
+    if best_header is not None and best_marker_count >= SURF007_MIN_MARKERS:
+        if best_spend_count >= SURF007_MIN_SPEND:
+            findings.append({
+                "check_id": "SURF-007",
+                "severity": "warn",
+                "message": "concession/steelman section '%s' carries a spend/procedure "
+                           "motif (%d hit(s)) -- steelman-overweight mechanical half; the "
+                           "concede beat reads as safe-harbor. See reader-energy.md #6."
+                           % (best_header, best_spend_count),
+                "location": "concession section: %s" % best_header,
+            })
 
     passed = not any(f["severity"] == "fail" for f in findings)
     return {"gate": GATE_ID, "passed": passed, "findings": findings}

@@ -121,14 +121,30 @@ constrains VOLUME and PLACEMENT.
 - **Verdict frame ≠ narrative frame.** An edition contract may define the VERDICT by the
   document's treatment (collateral, continued prosecution) — that never licenses treatment
   as the STORY structure. The spine's subject stays the invention; treatment is predicate.
+- **The concession beat spends attention too (steelman-overweight).** The steelman is a
+  concession, and elaborating a concession **primes the objection** ("don't think of an
+  elephant" — the negation/framing effect), so a concede beat that out-spends its own rebuttal
+  leaves the reader carrying the counter, not the invention. The steelman is therefore
+  **two-sided**, symmetric with 6G over-hedge ↔ overreach: `steelman-absent` (missing/truism)
+  AND `steelman-overweight` (present and specific but over-elaborated — the concession
+  out-weighs the affirmative core, re-spends a caveat an earlier section already made, or
+  narrates spend/procedure inside the beat). The budget is a **ratio, not a length**: the
+  affirmative core carries ≥ the concession; the beat is net-new; the spend/procedure lexicon
+  stays out of it. Distinct from `procedure-overweight-lead`, which binds the lead and the
+  essay-wide motif — a steelman can be overweight with zero spend motif and outside the lead
+  (a long claim-scope dissection that never returns to the core), which SURF-005/006 do not
+  reach. First seen: intel-us20250266395 v5 §5 + etched-us20240378175-r2 v5 §5, both
+  human-caught post-accept (proposal `2026-07-06-steelman-two-sided`).
 - **Control-group heuristic.** When the fixed-schema artifacts (owner briefing, promo pack)
   read better than the essay, suspect attention allocation, not facts — long-form is the
   only artifact where allocation is unconstrained.
 
-Instruments: `gate_surface` SURF-005 (procedure-narration sentences in the lead section)
-and SURF-006 (essay-wide spend-motif count), both warn; pass-6 **6I attention-budget
-guard** is the judgment backstop; Phase 1 declares per-section `payload` tags in the
-spine → section trace (thesis-spine template).
+Instruments: `gate_surface` SURF-005 (procedure-narration sentences in the lead section),
+SURF-006 (essay-wide spend-motif count), and **SURF-007** (spend/procedure motif inside the
+concession/steelman section — the `steelman-overweight` mechanical half), all warn; pass-6
+**6I attention-budget guard** and pass-7 check 3 (`steelman-overweight`) are the judgment
+backstops; Phase 1 declares per-section `payload` tags in the spine → section trace
+(thesis-spine template).
 
 ## 7. Jurisdiction (recap)
 

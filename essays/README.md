@@ -11,4 +11,5 @@ material come from the root dirs only; never from `_superseded/`.
 | `agility-us12560948/` | US 12,560,948 B2 (granted) | current | "Agility Robotics' Moat Is The Safe Stop, Not The Walk" |
 | `etched-us12361091/` | US 12,361,091 B1 (granted) | current | "Etched Patented the Wiring Half of Its Memory Story, Not the Memory" |
 | `etched-us20240378175-r2/` | US 2024/0378175 A1 (pending) | current · publication-ready | "Etched Put Its No-Switch Memory Idea in Writing in May 2023" |
+| `intel-us20250266395/` | US 2025/0266395 A1 (pending) | current · publication-ready | "Intel Filed the Packaging Flow That Comes After EMIB-T" |
 | `_superseded/etched-us20240378175/` | US 2024/0378175 A1 (pending) | superseded by `-r2` (pre-overhaul baseline) | "Etched Filed the Memory Half of Its Story in 2023." |
