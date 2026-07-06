@@ -12,4 +12,5 @@ material come from the root dirs only; never from `_superseded/`.
 | `etched-us12361091/` | US 12,361,091 B1 (granted) | current | "Etched Patented the Wiring Half of Its Memory Story, Not the Memory" |
 | `etched-us20240378175-r2/` | US 2024/0378175 A1 (pending) | current · publication-ready | "Etched Put Its No-Switch Memory Idea in Writing in May 2023" |
 | `intel-us20250266395/` | US 2025/0266395 A1 (pending) | current · publication-ready | "Intel Filed the Packaging Flow That Comes After EMIB-T" |
+| `intel-us20260191095-backend-hbm/` | US 2026/0191095 A1 (pending) | current · publication-ready | "Intel's Filing Moves the DRAM Cell Into the Back-End" |
 | `_superseded/etched-us20240378175/` | US 2024/0378175 A1 (pending) | superseded by `-r2` (pre-overhaul baseline) | "Etched Filed the Memory Half of Its Story in 2023." |
