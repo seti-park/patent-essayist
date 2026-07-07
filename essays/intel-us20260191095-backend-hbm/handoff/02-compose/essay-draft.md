@@ -2,13 +2,15 @@
 essay_id: intel-us20260191095-backend-hbm
 patent_reference: US 2026/0191095 A1
 spine_source: handoff/01-design/thesis-spine.md
-draft_version: 5
+draft_version: 6
 mode_used: strict-execution
 posture_used: conservative
 closing_posture: measured
 ---
 
 # Intel's Filing Moves the DRAM Cell Into the Back-End
+
+*This essay was prompted by a thread from @Underfox3, which flagged this Intel filing, its Cross-Batch Memory (XBM) design, and the move to a backend DRAM cell fed over UCIe links.*
 
 ![FIG. 1B: the claimed eight-high memory stack on its base die.](figures/fig-01B.png)
 

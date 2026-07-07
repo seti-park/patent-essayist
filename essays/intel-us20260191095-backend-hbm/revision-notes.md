@@ -153,3 +153,17 @@ exactly twice (§4 introduction + §6 verdict), no conflation reintroduced. Grou
 double-clean across self-audit rounds 1-3 (grounding-verifier ALL SUPPORTED each pass); §6
 remains evidence-proportionate under the measured posture (neither overreach nor over-hedge).
 Self-audit loop: round 1 applied 10 findings, round 2 applied 2, round 3 dry.
+
+## Human-post-accept revision (v5 -> v6)
+
+- **origin: human-post-accept.** Owner-directed credit line added near the top of the essay
+  (immediately under the H1, before the cover figure): an italic one-sentence acknowledgment
+  that the piece was prompted by a thread from @Underfox3, which flagged this Intel filing, its
+  Cross-Batch Memory (XBM) design, and the move to a backend DRAM cell fed over UCIe links.
+- Scope: additive standfirst note only. No argument prose, no [dddd] anchor, no verbatim patent
+  quote, and no signature line touched. The credit stays at the design facts shared with the
+  patent (XBM is the patent's own term at [0034]; backend 1T1C DRAM at [0020]; UCIe at [0034]);
+  it deliberately does NOT adopt the source thread's bolder framing ("direct HBM4 competitor",
+  "reduces production cost") into the essay's measured voice.
+- Gates re-run: 14/14 PASS, 0 warns. publication.md re-stripped; draft_version 5 -> 6;
+  essay-draft.md synced.

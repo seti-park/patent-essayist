@@ -1,5 +1,15 @@
 # intel-us20260191095-backend-hbm — "Intel's Filing Moves the DRAM Cell Into the Back-End"
 
+> **2026-07-07 human post-accept revision (v5 → v6):** owner-directed credit added — a
+> one-sentence italic standfirst under the title acknowledging that this essay was prompted by a
+> thread from @Underfox3, which flagged the filing, its Cross-Batch Memory (XBM) design, and the
+> backend-DRAM-over-UCIe move. Additive note only: no argument prose, no `[dddd]` anchor, no
+> signature line touched; the credit holds to the design facts shared with the patent (XBM = the
+> patent's `[0034]` term; backend 1T1C DRAM `[0020]`; UCIe `[0034]`) and does not adopt the
+> source thread's bolder "HBM4 competitor / lower cost" framing into the essay's measured voice.
+> Gates 14/14 PASS (0 warns); publication re-stripped; check_run PASS. Deltas: `revision-notes.md`
+> (origin human-post-accept). The Phase 4 promo pack is unchanged (article-only credit).
+
 Run of US 2026/0191095 A1 (Intel Corporation, "Ultra High Bandwidth Memory with Backend
 Transistors"; filed 2024-12-26, published 2026-07-02 — a **pending application**, not a
 granted patent). Edition framed by the reader's live question: with Intel back in the memory

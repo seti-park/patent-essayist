@@ -1,5 +1,7 @@
 # Intel's Filing Moves the DRAM Cell Into the Back-End
 
+*This essay was prompted by a thread from @Underfox3, which flagged this Intel filing, its Cross-Batch Memory (XBM) design, and the move to a backend DRAM cell fed over UCIe links.*
+
 ![FIG. 1B: the claimed eight-high memory stack on its base die.](figures/fig-01B.png)
 
 *FIG. 1B: the claimed memory tower. Identical memory dies stack eight-high and beyond as one die stack (111), stitched by vertical through-silicon vias (114) and seated on a base die (115) that routes every signal in and out.*
