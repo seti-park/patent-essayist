@@ -1,14 +1,14 @@
 # Patent Essay System (Claude Code / web)
 
 A skill-based pipeline that turns an **English patent** (+ figures, raw or cleaned) into a
-finished **English essay** for X Articles, written for a **curious retail investor** (technical
-comprehension between advanced high school and early undergraduate — see
-`_shared/references/reader-profile.md`). Four phases — **Figures → Design → Compose → Edit** —
-pass data through on-disk hand-off directories. Every phase runs in an **isolated agent
-context** (`context: fork` + `.claude/agents/`), and an orchestrator runs the Compose↔Edit
-quality loop to a **double-clean acceptance** verified by a mechanical run-completeness check.
-After each essay a slower **meta-loop** (`pipeline-retro`) proposes improvements to the system
-itself.
+finished **English essay** for X Articles, written for a **curious retail investor**
+(technical comprehension between advanced high school and early undergraduate — see
+`_shared/references/reader-profile.md`). Four phases — **Figures → Design → Compose → Edit**
+— pass artifacts through on-disk hand-off directories. Every phase runs in an **isolated
+agent context** (`context: fork` + `.claude/agents/`), and an orchestrator drives the
+Compose↔Edit quality loop to a **double-clean acceptance** verified by a mechanical
+run-completeness check. After each essay a slower **meta-loop** (`pipeline-retro`) proposes
+improvements to the system itself.
 
 ## North-star goals (acceptance criteria)
 
@@ -38,25 +38,74 @@ rubric goal: it is how the owner judges the essay, answers readers, and briefs a
 
 Inputs live under `input/`: `patent.md`, `figures/fig-NN.png` (cleaned) **or**
 `figures-raw/` (zip / TIFF drop — Phase 0 cleans it), and optional `essay-context.md`
-(per-run audience/edition overrides). The orchestrator runs Phase 0-3 plus the loop, the
+(per-run audience/edition overrides). The orchestrator runs Phase 0–3 plus the loop, the
 post-acceptance self-audit, the Phase 3.7 윤문 polish (`prose-polish`), `check_run.py`,
-archives to `runs/<essay-id>/` +
-`essays/<essay-id>/`, then runs Phase 4 promo (default-on in essay mode) and the meta-loop,
-and returns the final essay + owner briefing + promo pack + score history + check_run verdict.
-
-**Model allocation** (the recommended setup): run the SESSION on the strongest model
-available (Fable 5) — the main thread holds loop policy, arbitration, and acceptance calls,
-and `model: inherit` agents (design / compose / review / self-audit readers / promo copy —
-the promo posting copy is inherit BY OWNER DECISION, never pinned down) get that model
-in clean contexts, which is where writing and editorial judgment quality comes from.
-Mechanical agents pin cheaper models in their frontmatter (`grounding-verifier`,
-`figures-prep`: `model: sonnet`). An "advisor" pattern (weak main model consulting a strong
-one) is deliberately NOT used: prose and integration quality are bounded by the model that
-holds the pen, not the one giving advice.
+archives to `runs/<essay-id>/` + `essays/<essay-id>/`, then runs Phase 4 promo (default-on
+in essay mode) and the meta-loop, and returns the final essay + owner briefing + promo pack
++ score history + check_run verdict.
 
 Individual phases can be run standalone: `/patent-figures-clean`, `/thesis-architect`,
 `/essay-en-composer`, `/editorial-review`, `/prose-polish`, `/pipeline-retro`
 (`/voice-canon-lookup` is an internal Phase-2 helper).
+
+## Picking the right models for workflows and subagents
+
+Rankings, higher = better. Cost reflects what the owner actually pays (OpenAI has really
+generous limits), not list price. Intelligence is how hard a problem you can hand the model
+unsupervised. Taste covers UI/UX, code quality, API design, and copy.
+
+| model      | cost | intelligence | taste |
+|------------|------|--------------|-------|
+| gpt-5.5    | 9    | 8            | 5     |
+| sonnet-5   | 5    | 5            | 7     |
+| opus-4.8   | 4    | 7            | 8     |
+| fable-5    | 2    | 9            | 9     |
+
+How to apply:
+
+- These are defaults, not limits. You have standing permission to override them: if a
+  cheaper model's output doesn't meet the bar, rerun or redo the work with a smarter model
+  without asking. Judge the output, not the price tag. Escalating costs less than shipping
+  mediocre work.
+- Cost is a tie-breaker only; when axes conflict for anything that ships,
+  intelligence > taste > cost.
+- Bulk/mechanical work (clear-spec implementation, data analysis, migrations): gpt-5.5 —
+  it's effectively free.
+- Anything user-facing (UI, copy, API design) needs taste ≥ 7.
+- Reviews of plans/implementations: fable-5 or opus-4.8, optionally gpt-5.5 as an extra
+  independent perspective.
+- Never use Haiku.
+- **Scope**: this table governs development and tooling work ON the repo (gates, scripts,
+  header builders, refactors, data analysis). The essay pipeline itself runs on the
+  allocation below, which overrides the table — essay prose is user-facing (taste ≥ 7), so
+  gpt-5.5 never holds the pen.
+
+Mechanics:
+
+- **gpt-5.5 is only reachable through the Codex CLI, which exists on the local dev machine
+  only** — cloud (Claude Code web) sessions have no Codex and run Claude models exclusively.
+- Non-interactive runs: `codex exec` (defaults to gpt-5.5). The default reasoning effort is
+  none — add `-c model_reasoning_effort="high"` for judgment-heavy work, `-s read-only` for
+  investigation/analysis, `codex exec review` for repo reviews.
+- Inside Claude Code, delegate through the openai-codex plugin (`codex:rescue` skill,
+  `codex-rescue` agent); for work it doesn't cover, run `codex exec -s read-only` directly
+  with a self-contained prompt.
+- Claude models (sonnet-5, opus-4.8, fable-5) run via the Agent/Workflow model parameter.
+- Using gpt-5.5 inside workflows and subagents (the model parameter only takes Claude
+  models, so use a wrapper): spawn a thin Claude wrapper agent (`model: sonnet`, low effort)
+  whose prompt instructs it to write a self-contained codex prompt, run `codex exec` via
+  Bash, and return the output verbatim.
+
+### Pipeline allocation (overrides the table above)
+
+Run the SESSION on the strongest model available (**Fable 5**) — the main thread holds loop
+policy, arbitration, and acceptance calls, and `model: inherit` agents (design / compose /
+review / self-audit readers / prose-polish / promo copy — the promo posting copy is inherit
+BY OWNER DECISION, never pinned down) get that model in clean contexts, which is where
+writing and editorial judgment quality comes from. Mechanical agents pin cheaper models in
+their frontmatter (`grounding-verifier`, `figures-prep`: `model: sonnet`). An "advisor"
+pattern (weak main model consulting a strong one) is deliberately NOT used: prose and
+integration quality are bounded by the model that holds the pen, not the one giving advice.
 
 ## Architecture
 
@@ -65,7 +114,7 @@ Individual phases can be run standalone: `/patent-figures-clean`, `/thesis-archi
   design-architect       P1 worker (inherit)    essay-composer     P2 worker (inherit)
   editorial-reviewer     P3 worker, fresh per round (inherit)
   adversarial-reader     self-audit personas, >=2 in parallel (inherit)
-  promo-composer         P4 worker, post-archive (inherit)
+  prose-polish           P3.7 worker (inherit)  promo-composer     P4 worker (inherit)
   grounding-verifier     fidelity instrument (sonnet)   figures-prep  P0 worker (sonnet)
 .claude/skills/
   patent-essay/          orchestrator: loop policy + arbitration ONLY (entry point; main context)
@@ -90,11 +139,14 @@ Individual phases can be run standalone: `/patent-figures-clean`, `/thesis-archi
   _shared/
     references/          scoring-rubric (severity + matrix + double-clean acceptance) ·
                          reader-profile (audience contract + reader jobs) · reader-energy
-                         (goal-5 surface doctrine) · deliverable-voice-rules ·
-                         anti-ai-writing · caption-roles · working-dialogue-voice
+                         (goal-5 surface doctrine) · owner-briefing-schema ·
+                         deliverable-voice-rules · anti-ai-writing · caption-roles ·
+                         working-dialogue-voice
     scripts/             14 deterministic gates (stdlib) + strip_publication.py +
                          check_run.py + banned_terms.txt + tests
     vendor/              humanizer + ai-check — REFERENCE ONLY, absorbed into anti-ai-writing
+tools/            branded X Articles cover builders (make_header*.py + header-style.md
+                  tokens + assets/) — used with the P0 cover candidate
 handoff/          01-design 02-compose 03-edit    runtime stage artifacts (gitignored)
 handoff-template/ full-schema templates incl. revision-response.md + revision-notes.md
 essays/<essay-id>/  the TRACKED deliverable: essay-final.md · owner-briefing.md · patent.md
@@ -125,9 +177,9 @@ instructions: the reviewer physically cannot see the composer's reasoning, only 
 - **Self-audit (adversarial-reader / grounding-verifier):** blind to each other; can only ADD
   findings; grounding recommendations are anchor/narrow/label/cut — never "add a hedge".
 
-## Loop control (three tiers)
+## Loop control (five tiers)
 
-- **Inner loop (auto):** per round — gates (`run_gates.py`, now incl. `gate_quotes`
+- **Inner loop (auto):** per round — gates (`run_gates.py`, incl. `gate_quotes`
   invention-summary↔patent verbatim and `gate_hedge` verdict over-hedge) + a FRESH
   `editorial-review` (severity model, finding_ids). **Acceptance = double-clean**: two
   consecutive clean rounds from independent reviewers (a round-1 "pass" is a hypothesis, not
@@ -143,10 +195,10 @@ instructions: the reviewer physically cannot see the composer's reasoning, only 
   missing work; never edit artifacts to satisfy it.
 - **Self-audit (auto, post-acceptance):** ≥2 `adversarial-reader` agents (personas, blind,
   parallel) + 1 `grounding-verifier` + 1 checklist-free **cold reader** (casual scroller;
-  stop-point / feelings / repeat-to-a-friend → goal-5 findings); multi-vote; over-hedge findings are first-class
-  (symmetric with overreach); fixes via composer revision mode; `## delta` blocks in
-  revision-notes.md; loop until dry (cap 3); normalized to the ledger as
-  `origin: self-post-accept`.
+  stop-point / feelings / repeat-to-a-friend → goal-5 findings); multi-vote; over-hedge
+  findings are first-class (symmetric with overreach); fixes via composer revision mode;
+  `## delta` blocks in revision-notes.md; loop until dry (cap 3); normalized to the ledger
+  as `origin: self-post-accept`.
 - **Polish (auto, post-self-audit, 윤문):** one `prose-polish` pass before archiving —
   plain-language surface smoothing for the general reader; meaning/facts/anchors/quotes/
   signature lines preserved (drift-verified by a cheap instrument, gates re-run zero-new);
